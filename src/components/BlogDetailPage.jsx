@@ -1,0 +1,538 @@
+import { createPortal } from 'react-dom';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import BlogCard from './blog/BlogCard';
+import ShareIcons from './blog/ShareIcons';
+import { blogPosts, formatDisplayDate, getBlogBySlug, getNextBlogPost, getPrevBlogPost } from './blogData';
+
+function getCurrentSlug() {
+  const pieces = window.location.pathname.split('/').filter(Boolean);
+  return pieces[1] || '';
+}
+
+function useReveal(dep) {
+  useEffect(() => {
+    const els = document.querySelectorAll('[data-reveal]');
+    if (!els.length) return;
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('is-revealed'); io.unobserve(e.target); }
+      }),
+      { threshold: 0.08 }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [dep]);
+}
+
+function HeroCarousel({ images }) {
+  const [current, setCurrent] = useState(0);
+  const [out, setOut] = useState(false);
+  useEffect(() => {
+    const id = setInterval(() => {
+      setOut(true);
+      setTimeout(() => { setCurrent((c) => (c + 1) % images.length); setOut(false); }, 500);
+    }, 4200);
+    return () => clearInterval(id);
+  }, [images.length]);
+  return (
+    <div className="relative h-[300px] w-full overflow-hidden rounded-2xl md:h-[500px] lg:h-[560px]">
+      {images.map((src, i) => (
+        <img key={src + i} src={src} alt="" loading={i === 0 ? 'eager' : 'lazy'}
+          className="absolute inset-0 h-full w-full object-cover"
+          style={{
+            opacity: i === current ? (out ? 0 : 1) : 0,
+            transform: i === current ? (out ? 'scale(1.04)' : 'scale(1)') : 'scale(1.04)',
+            transition: 'opacity 0.55s ease, transform 0.55s ease',
+          }}
+        />
+      ))}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+      <div className="absolute bottom-5 left-1/2 flex -translate-x-1/2 gap-2">
+        {images.map((_, i) => (
+          <button key={i} type="button" onClick={() => setCurrent(i)}
+            className={`h-1.5 rounded-full transition-all duration-300 ${i === current ? 'w-7 bg-white' : 'w-1.5 bg-white/40'}`}
+            aria-label={`Slide ${i + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── Counting animation stat card ── */
+function StatCard({ value, label }) {
+  const ref = useRef(null);
+  const numRef = useRef(null);
+  const hasAnimated = useRef(false);
+
+  // Extract numeric part for counting animation
+  const numMatch = value.match(/[\d.]+/);
+  const numericVal = numMatch ? parseFloat(numMatch[0]) : null;
+  const prefix = numMatch ? value.slice(0, numMatch.index) : '';
+  const suffix = numMatch ? value.slice(numMatch.index + numMatch[0].length) : value;
+
+  useEffect(() => {
+    if (!numRef.current || numericVal === null) return;
+    const el = numRef.current;
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !hasAnimated.current) {
+        hasAnimated.current = true;
+        const duration = 1400;
+        const start = performance.now();
+        const isInt = Number.isInteger(numericVal);
+        const animate = (now) => {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = eased * numericVal;
+          el.textContent = prefix + (isInt ? Math.round(current) : current.toFixed(1)) + suffix;
+          if (progress < 1) requestAnimationFrame(animate);
+        };
+        requestAnimationFrame(animate);
+        io.disconnect();
+      }
+    }, { threshold: 0.5 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [numericVal, prefix, suffix]);
+
+  const onMove = (e) => {
+    const el = ref.current; if (!el) return;
+    const { left, top, width, height } = el.getBoundingClientRect();
+    el.style.transform = `perspective(500px) rotateX(${((e.clientY - top) / height - 0.5) * -14}deg) rotateY(${((e.clientX - left) / width - 0.5) * 14}deg) scale(1.05)`;
+  };
+  const onLeave = () => { if (ref.current) ref.current.style.transform = ''; };
+
+  return (
+    <div ref={ref} onMouseMove={onMove} onMouseLeave={onLeave}
+      className="rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm"
+      style={{ transition: 'transform 0.18s ease', willChange: 'transform' }}>
+      <p ref={numRef} className="text-3xl font-extrabold text-slate-900">{value}</p>
+      <p className="mt-1 text-sm text-slate-500">{label}</p>
+    </div>
+  );
+}
+
+/* ── Double image pair — side by side ── */
+function DoubleSectionImage({ src1, src2, alt }) {
+  return (
+    <div data-reveal className="my-10 grid grid-cols-2 gap-4">
+      <div className="overflow-hidden rounded-2xl shadow-[0_12px_40px_rgba(15,23,42,0.10)]">
+        <img src={src1} alt={alt} loading="lazy"
+          className="h-[220px] w-full object-cover transition-transform duration-700 hover:scale-[1.04] md:h-[300px]" />
+      </div>
+      <div className="overflow-hidden rounded-2xl shadow-[0_12px_40px_rgba(15,23,42,0.10)]">
+        <img src={src2} alt={alt} loading="lazy"
+          className="h-[220px] w-full object-cover transition-transform duration-700 hover:scale-[1.04] md:h-[300px]" />
+      </div>
+    </div>
+  );
+}
+
+function ArticleSection({ section, index }) {
+  return (
+    <div data-reveal style={{ '--reveal-delay': `${index * 50}ms` }}>
+      <h2 id={section.id} className="scroll-mt-28 text-2xl font-bold leading-tight text-slate-900 md:text-3xl">
+        {section.heading}
+      </h2>
+      <div className="mt-5 space-y-5">
+        {section.body.map((p, pi) => (
+          <p key={pi} className="text-[16.5px] leading-[1.9] text-slate-700">{p}</p>
+        ))}
+        {section.points && (
+          <ul className="mt-4 space-y-3">
+            {section.points.map((pt) => (
+              <li key={pt} className="flex items-start gap-3 text-[16px] leading-relaxed text-slate-700">
+                <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-indigo-500" />
+                {pt}
+              </li>
+            ))}
+          </ul>
+        )}
+        {section.insight && (
+          <div className="my-6 rounded-xl border-l-4 border-indigo-500 bg-indigo-50/60 p-5">
+            <p className="text-[15.5px] font-medium leading-relaxed text-indigo-900">{section.insight}</p>
+          </div>
+        )}
+        {section.quote && (
+          <blockquote className="my-6 rounded-2xl border border-violet-200/70 bg-violet-50 px-6 py-5 text-[18px] italic leading-relaxed text-slate-800">
+            &ldquo;{section.quote}&rdquo;
+          </blockquote>
+        )}
+        {section.stats && (
+          <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
+            {section.stats.map((s) => <StatCard key={s.label} value={s.value} label={s.label} />)}
+          </div>
+        )}
+      </div>
+      {section.sectionImage && (
+        <DoubleSectionImage
+          src1={section.sectionImage}
+          src2={section.sectionImage2 || 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=900&q=80'}
+          alt={section.heading}
+        />
+      )}
+    </div>
+  );
+}
+
+function OverviewDropdown({ headings, onHeadingClick }) {
+  const [open, setOpen] = useState(false);
+  const [highlighted, setHighlighted] = useState(null);
+
+  useEffect(() => {
+    if (!headings.length) return;
+    let i = 0;
+    const id = setInterval(() => {
+      setHighlighted(headings[i]?.id ?? null);
+      i++;
+      if (i >= headings.length) { clearInterval(id); setTimeout(() => setHighlighted(null), 400); }
+    }, 120);
+    return () => clearInterval(id);
+  }, [headings]);
+
+  return (
+    <div className="mb-10 w-full">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="group flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white px-6 py-4 shadow-sm transition hover:shadow-md"
+      >
+        <div className="flex items-center gap-3">
+          <span className="relative flex h-3 w-3">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-indigo-400 opacity-60" />
+            <span className="relative inline-flex h-3 w-3 rounded-full bg-indigo-500" />
+          </span>
+          <span className="text-base font-bold text-slate-900">Overview</span>
+          <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-500">{headings.length} sections</span>
+        </div>
+        <svg className={`h-5 w-5 text-slate-400 transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
+          fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      <div className="overflow-hidden transition-all duration-300 ease-in-out"
+        style={{ maxHeight: open ? `${headings.length * 52 + 24}px` : '0px', opacity: open ? 1 : 0 }}>
+        <div className="mt-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
+          <div className="grid grid-cols-1 gap-1 sm:grid-cols-2 lg:grid-cols-3">
+            {headings.map((h, i) => (
+              <button key={h.id} type="button"
+                onClick={() => { onHeadingClick(h.id); setOpen(false); }}
+                className={`flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition-all duration-200 ${
+                  highlighted === h.id ? 'bg-indigo-500 text-white scale-[1.02]' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                }`}>
+                <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-slate-100 text-[10px] font-bold text-slate-500">
+                  {i + 1}
+                </span>
+                {h.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AuthorModal({ author, onClose }) {
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+    return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = ''; };
+  }, [onClose]);
+
+  const highlights = [
+    '10+ years in investment strategy and portfolio management',
+    'Advised 200+ founders on wealth-building frameworks',
+    'Published in Forbes, Bloomberg, and Financial Times',
+    'Speaker at Global Investment Summit 2024 & 2025',
+    'Built and exited two fintech startups',
+  ];
+
+  return createPortal(
+    <div style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', overflowY: 'auto' }}
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(6px)' }} onClick={onClose} />
+      <div style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '480px', borderRadius: '24px', background: '#fff', overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.35)', animation: 'modalIn 0.35s cubic-bezier(0.22,1,0.36,1) both', margin: 'auto' }}>
+        <div style={{ background: 'linear-gradient(135deg,#1e293b 0%,#312e81 50%,#0f172a 100%)', padding: '24px 24px 32px', position: 'relative' }}>
+          <button type="button" onClick={onClose}
+            style={{ position: 'absolute', right: 16, top: 16, width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', cursor: 'pointer', fontSize: 16, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            aria-label="Close">&#x2715;</button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16, paddingTop: 8 }}>
+            <img src={author.avatar} alt={author.name}
+              style={{ width: 80, height: 80, borderRadius: 16, objectFit: 'cover', border: '3px solid rgba(255,255,255,0.3)', boxShadow: '0 8px 24px rgba(0,0,0,0.4)', flexShrink: 0 }} />
+            <div>
+              <p style={{ margin: 0, fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(255,255,255,0.5)', marginBottom: 4 }}>About The Author</p>
+              <h3 style={{ margin: 0, fontSize: 22, fontWeight: 800, color: '#fff', lineHeight: 1.2 }}>{author.name}</h3>
+              <p style={{ margin: '4px 0 0', fontSize: 13, fontWeight: 600, color: '#a5b4fc' }}>{author.role}</p>
+            </div>
+          </div>
+        </div>
+        <div style={{ padding: 24 }}>
+          <p style={{ fontSize: 14.5, lineHeight: 1.75, color: '#475569', margin: '0 0 20px' }}>{author.bio}</p>
+          <p style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#94a3b8', marginBottom: 12 }}>Highlights</p>
+          <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {highlights.map((item) => (
+              <li key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 14, color: '#334155', lineHeight: 1.5 }}>
+                <span style={{ marginTop: 5, width: 7, height: 7, borderRadius: '50%', background: '#6366f1', flexShrink: 0 }} />{item}
+              </li>
+            ))}
+          </ul>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10, marginBottom: 24 }}>
+            {[{ v: '200+', l: 'Clients advised' }, { v: '10yr', l: 'Experience' }, { v: '3M+', l: 'Readers reached' }].map((s) => (
+              <div key={s.l} style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 14, padding: '14px 8px', textAlign: 'center' }}>
+                <p style={{ margin: 0, fontSize: 20, fontWeight: 800, color: '#0f172a' }}>{s.v}</p>
+                <p style={{ margin: '3px 0 0', fontSize: 11, color: '#94a3b8' }}>{s.l}</p>
+              </div>
+            ))}
+          </div>
+          <button type="button" onClick={onClose}
+            style={{ width: '100%', padding: 14, borderRadius: 14, background: '#0f172a', border: 'none', color: '#fff', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = '#1e293b'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = '#0f172a'; }}>
+            Close
+          </button>
+        </div>
+      </div>
+    </div>,
+    document.body
+  );
+}
+
+function BlogDetailPage() {
+  const [slug, setSlug] = useState(getCurrentSlug);
+  const [headings, setHeadings] = useState([]);
+  const [showAuthorModal, setShowAuthorModal] = useState(false);
+
+  useReveal(slug);
+
+  useEffect(() => {
+    const onChange = () => { setSlug(getCurrentSlug()); window.scrollTo({ top: 0, behavior: 'auto' }); };
+    window.addEventListener('popstate', onChange);
+    return () => window.removeEventListener('popstate', onChange);
+  }, []);
+
+  const article = useMemo(() => getBlogBySlug(slug) || blogPosts[0] || null, [slug]);
+  const sections = article?.sections ?? [];
+  const author = article?.author ?? null;
+  const nextPost = useMemo(() => getNextBlogPost(article?.slug), [article?.slug]);
+  const prevPost = useMemo(() => getPrevBlogPost(article?.slug), [article?.slug]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const allH2 = Array.from(document.querySelectorAll('h2[id]')).map((h) => ({
+        id: h.id, label: h.textContent || '',
+      }));
+      setHeadings(allH2);
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [article?.slug]);
+
+  const relatedPosts = useMemo(
+    () => blogPosts.filter((p) => p?.slug && p.slug !== article?.slug).slice(0, 3),
+    [article?.slug]
+  );
+
+  const handleHeadingClick = (id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const offset = (document.querySelector('header')?.offsetHeight || 80) + 20;
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
+  };
+
+  if (!article) {
+    return (
+      <main className="mx-auto w-full max-w-[1240px] px-4 pb-24 pt-8 sm:px-6 lg:px-8">
+        <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center">
+          <h1 className="text-2xl font-semibold text-slate-900">Blog post unavailable</h1>
+        </div>
+      </main>
+    );
+  }
+
+  const articleUrl = `${window.location.origin}/blog/${article.slug}`;
+  const heroImages = article.heroImages || [article.image];
+
+  return (
+    <main className="w-full">
+
+      <div className="mx-auto max-w-[1240px] px-4 pt-8 sm:px-6 lg:px-8">
+        <div data-reveal className="mb-8 border-b border-slate-200 pb-8">
+          <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
+            <span className="rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">{article.category}</span>
+            <span>&#183;</span><span>{article.readTime}</span>
+            <span>&#183;</span><span>{formatDisplayDate(article.date)}</span>
+          </div>
+          <h1 className="mt-4 text-4xl font-extrabold leading-tight tracking-tight text-slate-900 md:text-5xl lg:text-6xl">{article.title}</h1>
+          <p className="mt-5 max-w-3xl text-lg leading-relaxed text-slate-600">{article.excerpt}</p>
+
+          {/* Author / Read time / Date — 3 columns like reference */}
+          <div className="mt-8 grid grid-cols-3 gap-4 border-t border-slate-100 pt-6">
+            <div className="flex items-center gap-3">
+              <img src={author?.avatar} alt={author?.name} className="h-10 w-10 flex-shrink-0 rounded-full object-cover ring-2 ring-slate-200" />
+              <div>
+                <p className="text-[11px] text-slate-400">Written by</p>
+                <p className="text-sm font-semibold text-slate-900">{author?.name}</p>
+              </div>
+            </div>
+            <div className="flex flex-col justify-center">
+              <p className="text-[11px] text-slate-400">Read Time</p>
+              <p className="text-sm font-semibold text-slate-900">{article.readTime}</p>
+            </div>
+            <div className="flex flex-col justify-center">
+              <p className="text-[11px] text-slate-400">Posted on</p>
+              <p className="text-sm font-semibold text-slate-900">{formatDisplayDate(article.date)}</p>
+            </div>
+          </div>
+
+          {/* Share this post — centered on its own line */}
+          <div className="mt-6 flex items-center justify-center gap-4 border-t border-slate-100 pt-6">
+            <span className="text-sm font-semibold text-slate-600">Share this post</span>
+            <ShareIcons url={articleUrl} title={article.title} />
+          </div>
+        </div>
+        <div data-reveal><HeroCarousel images={heroImages} /></div>
+      </div>
+
+      <div className="mx-auto max-w-[1240px] px-4 sm:px-6 lg:px-8">
+        <div className="mt-12 space-y-14">
+          {headings.length > 0 && (
+            <OverviewDropdown headings={headings} onHeadingClick={handleHeadingClick} />
+          )}
+          {sections.map((section, i) => (
+            <ArticleSection key={section.id} section={section} index={i} />
+          ))}
+          <blockquote data-reveal className="rounded-2xl border border-violet-200/70 bg-gradient-to-br from-violet-50 to-indigo-50 px-8 py-7 text-[19px] italic leading-relaxed text-slate-800 shadow-sm">
+            &ldquo;{article.quote}&rdquo;
+          </blockquote>
+        </div>
+      </div>
+
+      <div className="mt-16 border-t border-slate-200 bg-white">
+        <div className="mx-auto max-w-[1240px] px-4 py-12 sm:px-6 lg:px-8">
+          {author && (
+            <div data-reveal className="flex flex-col gap-6 sm:flex-row sm:items-center">
+              <img src={author.avatar} alt={author.name}
+                className="h-20 w-20 flex-shrink-0 rounded-2xl object-cover shadow-lg ring-4 ring-slate-100" />
+              <div className="min-w-0 flex-1">
+                <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400">About The Author</p>
+                <h3 className="mt-1 text-2xl font-extrabold text-slate-900">{author.name}</h3>
+                <p className="text-sm font-medium text-indigo-600">{author.role}</p>
+                <p className="mt-2 text-[15px] leading-relaxed text-slate-600">{author.bio}</p>
+              </div>
+              <button type="button" onClick={() => setShowAuthorModal(true)}
+                className="flex-shrink-0 self-start rounded-xl border border-slate-200 bg-slate-50 px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 sm:self-center">
+                More about {author.name.split(' ')[0]}
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* ══ PREV / NEXT — animated attention cards ══ */}
+      <div className="border-t border-slate-100 bg-slate-50">
+        <div className="mx-auto max-w-[1240px] px-4 py-10 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {prevPost ? (
+              <a href={`/blog/${prevPost.slug}`}
+                onClick={(e) => { e.preventDefault(); window.history.pushState({}, '', `/blog/${prevPost.slug}`); window.dispatchEvent(new PopStateEvent('popstate')); }}
+                className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 transition-all duration-300 hover:-translate-y-1.5 hover:border-indigo-200 hover:shadow-[0_20px_50px_rgba(99,102,241,0.15)]"
+              >
+                {/* Animated shimmer bar on hover */}
+                <div className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-gradient-to-r from-indigo-500 to-violet-500 transition-transform duration-500 group-hover:scale-x-100" />
+                <div className="flex items-center gap-4">
+                  <div className="relative flex-shrink-0">
+                    <img src={prevPost.thumbnail} alt={prevPost.title}
+                      className="h-16 w-16 rounded-xl object-cover transition-transform duration-300 group-hover:scale-105" />
+                    {/* Pulse ring on hover */}
+                    <div className="absolute inset-0 rounded-xl ring-2 ring-indigo-400 ring-offset-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="flex items-center gap-1 text-xs font-semibold text-slate-400 transition-colors group-hover:text-indigo-500">
+                      <span className="transition-transform duration-200 group-hover:-translate-x-1">&#8592;</span> Previous Post
+                    </p>
+                    <p className="mt-1 line-clamp-2 text-sm font-bold leading-snug text-slate-800 transition-colors group-hover:text-indigo-700">{prevPost.title}</p>
+                  </div>
+                </div>
+              </a>
+            ) : <div />}
+            {nextPost ? (
+              <a href={`/blog/${nextPost.slug}`}
+                onClick={(e) => { e.preventDefault(); window.history.pushState({}, '', `/blog/${nextPost.slug}`); window.dispatchEvent(new PopStateEvent('popstate')); }}
+                className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 text-right transition-all duration-300 hover:-translate-y-1.5 hover:border-indigo-200 hover:shadow-[0_20px_50px_rgba(99,102,241,0.15)]"
+              >
+                <div className="absolute inset-x-0 top-0 h-0.5 origin-right scale-x-0 bg-gradient-to-l from-indigo-500 to-violet-500 transition-transform duration-500 group-hover:scale-x-100" />
+                <div className="flex items-center justify-end gap-4">
+                  <div className="min-w-0">
+                    <p className="flex items-center justify-end gap-1 text-xs font-semibold text-slate-400 transition-colors group-hover:text-indigo-500">
+                      Next Post <span className="transition-transform duration-200 group-hover:translate-x-1">&#8594;</span>
+                    </p>
+                    <p className="mt-1 line-clamp-2 text-sm font-bold leading-snug text-slate-800 transition-colors group-hover:text-indigo-700">{nextPost.title}</p>
+                  </div>
+                  <div className="relative flex-shrink-0">
+                    <img src={nextPost.thumbnail} alt={nextPost.title}
+                      className="h-16 w-16 rounded-xl object-cover transition-transform duration-300 group-hover:scale-105" />
+                    <div className="absolute inset-0 rounded-xl ring-2 ring-indigo-400 ring-offset-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  </div>
+                </div>
+              </a>
+            ) : <div />}
+          </div>
+        </div>
+      </div>
+
+      <div className="relative h-[280px] w-full overflow-hidden md:h-[400px]">
+        <img src={article.subImage || article.image} alt="" loading="lazy" className="h-full w-full object-cover" />
+        <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+          <div className="text-center">
+            <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/60">Keep Reading</p>
+            <p className="mt-3 text-3xl font-extrabold text-white md:text-5xl">Explore More Insights</p>
+          </div>
+        </div>
+      </div>
+
+      {relatedPosts.length > 0 && (
+        <div className="bg-slate-50">
+          <div className="mx-auto max-w-[1240px] px-4 py-16 sm:px-6 lg:px-8">
+            <div data-reveal>
+              <p className="text-sm font-medium text-slate-500">You may also like these</p>
+              <h2 className="mt-1 text-4xl font-extrabold tracking-tight text-slate-900">Related Post</h2>
+            </div>
+            <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {relatedPosts.map((post, i) => (
+                <div key={post.slug} data-reveal style={{ '--reveal-delay': `${i * 80}ms` }}>
+                  <BlogCard post={post} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="bg-[#0b1f3b]">
+        <div className="mx-auto max-w-[1240px] px-4 py-16 sm:px-6 lg:px-8">
+          <div data-reveal className="flex flex-col items-center gap-6 text-center md:flex-row md:text-left">
+            <div className="flex-1">
+              <h3 className="text-2xl font-extrabold text-white md:text-3xl">Never miss an insight</h3>
+              <p className="mt-2 text-slate-400">Join 1,000,000+ subscribers getting expert tips every week.</p>
+            </div>
+            <form className="flex w-full max-w-md gap-2" onSubmit={(e) => e.preventDefault()}>
+              <input type="email" required placeholder="name@email.com"
+                className="h-12 min-w-0 flex-1 rounded-xl border border-slate-600 bg-slate-800 px-4 text-sm text-white placeholder-slate-400 outline-none transition focus:border-indigo-400" />
+              <button type="submit" className="h-12 flex-shrink-0 rounded-xl bg-indigo-500 px-6 text-sm font-bold text-white transition hover:bg-indigo-400">
+                Subscribe
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      {showAuthorModal && author && (
+        <AuthorModal author={author} onClose={() => setShowAuthorModal(false)} />
+      )}
+
+    </main>
+  );
+}
+
+export default BlogDetailPage;
