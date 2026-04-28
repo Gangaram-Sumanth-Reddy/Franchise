@@ -1,29 +1,6 @@
 import { useState, useEffect } from 'react';
 
 function Footer() {
-  const [showBackToTop, setShowBackToTop] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollHeight = document.documentElement.scrollHeight;
-      const scrollTop = window.scrollY;
-      const clientHeight = window.innerHeight;
-      
-      // Show button when user scrolls past 80% of the page
-      const scrollPercentage = (scrollTop + clientHeight) / scrollHeight;
-      setShowBackToTop(scrollPercentage > 0.8);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Check initial state
-    
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   const navigateTo = (path) => {
     window.history.pushState({}, '', path);
     window.dispatchEvent(new PopStateEvent('popstate'));
@@ -279,31 +256,6 @@ function Footer() {
           </div>
         </div>
       </div>
-
-      {/* Back to Top Button */}
-      <button
-        onClick={scrollToTop}
-        className={`fixed bottom-8 right-8 z-50 flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-blue-700 px-4 py-2.5 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-600/25 sm:bottom-12 sm:right-12 ${
-          showBackToTop 
-            ? 'translate-y-0 opacity-100' 
-            : 'translate-y-4 opacity-0 pointer-events-none'
-        }`}
-      >
-        Back to Top
-        <svg
-          className="h-4 w-4 transition-transform group-hover:-translate-y-0.5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M5 10l7-7m0 0l7 7m-7-7v18"
-          />
-        </svg>
-      </button>
     </footer>
   );
 }

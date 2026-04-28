@@ -2301,13 +2301,6 @@ function FranchiseDetailsPage() {
     city: '',
     message: '',
   });
-  const [finalCtaForm, setFinalCtaForm] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    stateCity: '',
-    investmentRange: '',
-  });
 
   const selectedFranchise = useMemo(() => {
     return franchiseDetailsData[selectedFranchiseId] || franchiseDetailsData[1];
@@ -2377,10 +2370,6 @@ function FranchiseDetailsPage() {
   const handleSubmit = (event) => {
     event.preventDefault();
   };
-  const handleFinalCtaChange = (event) => {
-    const { name, value } = event.target;
-    setFinalCtaForm((prev) => ({ ...prev, [name]: value }));
-  };
 
   const handleRelatedDetails = (id) => {
     window.history.pushState({}, '', `/franchise-details?id=${id}`);
@@ -2446,38 +2435,41 @@ function FranchiseDetailsPage() {
   };
 
   return (
-    <main className="mx-auto w-full max-w-[1280px] px-4 py-12 sm:px-6 lg:px-8">
-      <div className="grid gap-8 lg:grid-cols-[1.65fr_0.85fr]">
+    <main className="mx-auto w-full max-w-[1600px] px-4 py-12 sm:px-6 lg:px-8 xl:px-12">
+      <div className="space-y-8">
         <section className="space-y-6">
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_22px_rgba(15,23,42,0.06)]">
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_22px_rgba(15,23,42,0.06)] lg:p-8">
             <div className="flex flex-wrap items-center gap-3">
-              <h1 className="text-4xl font-extrabold tracking-tight text-[#0b0f19] sm:text-5xl">{selectedFranchise.name}</h1>
-              <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">{selectedFranchise.status}</span>
-              <span className="rounded-full bg-violet-100 px-3 py-1 text-xs font-semibold text-violet-700">{selectedFranchise.badge}</span>
+              <h1 className="text-4xl font-extrabold tracking-tight text-[#0b0f19] sm:text-5xl lg:text-6xl">{selectedFranchise.name}</h1>
+              <span className="rounded-full bg-emerald-100 px-4 py-1.5 text-sm font-semibold text-emerald-700">{selectedFranchise.status}</span>
+              <span className="rounded-full bg-violet-100 px-4 py-1.5 text-sm font-semibold text-violet-700">{selectedFranchise.badge}</span>
             </div>
-            <p className="mt-3 text-base text-slate-600">{selectedFranchise.tagline}</p>
+            <p className="mt-4 text-lg text-slate-600 lg:text-xl">{selectedFranchise.tagline}</p>
           </div>
 
-          <div className="grid gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_8px_20px_rgba(15,23,42,0.05)] sm:grid-cols-2 xl:grid-cols-5">
-            <article className="rounded-xl bg-slate-50 p-3"><p className="text-xs text-slate-500">Investment</p><p className="text-sm font-semibold text-[#0b0f19]">{selectedFranchise.keyInfo.investment}</p></article>
-            <article className="rounded-xl bg-slate-50 p-3"><p className="text-xs text-slate-500">Space</p><p className="text-sm font-semibold text-[#0b0f19]">{selectedFranchise.keyInfo.space}</p></article>
-            <article className="rounded-xl bg-slate-50 p-3"><p className="text-xs text-slate-500">ROI</p><p className="text-sm font-semibold text-[#0b0f19]">{selectedFranchise.keyInfo.roi}</p></article>
-            <article className="rounded-xl bg-slate-50 p-3"><p className="text-xs text-slate-500">Payback</p><p className="text-sm font-semibold text-[#0b0f19]">{selectedFranchise.keyInfo.payback}</p></article>
-            <article className="rounded-xl bg-slate-50 p-3"><p className="text-xs text-slate-500">Outlets</p><p className="text-sm font-semibold text-[#0b0f19]">{selectedFranchise.keyInfo.outlets}</p></article>
+          <div className="grid gap-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.05)] sm:grid-cols-2 lg:grid-cols-5 lg:p-8">
+            <article className="rounded-xl bg-slate-50 p-4"><p className="text-sm text-slate-500">Investment</p><p className="mt-1 text-lg font-semibold text-[#0b0f19]">{selectedFranchise.keyInfo.investment}</p></article>
+            <article className="rounded-xl bg-slate-50 p-4"><p className="text-sm text-slate-500">Space</p><p className="mt-1 text-lg font-semibold text-[#0b0f19]">{selectedFranchise.keyInfo.space}</p></article>
+            <article className="rounded-xl bg-slate-50 p-4"><p className="text-sm text-slate-500">ROI</p><p className="mt-1 text-lg font-semibold text-[#0b0f19]">{selectedFranchise.keyInfo.roi}</p></article>
+            <article className="rounded-xl bg-slate-50 p-4"><p className="text-sm text-slate-500">Payback</p><p className="mt-1 text-lg font-semibold text-[#0b0f19]">{selectedFranchise.keyInfo.payback}</p></article>
+            <article className="rounded-xl bg-slate-50 p-4"><p className="text-sm text-slate-500">Outlets</p><p className="mt-1 text-lg font-semibold text-[#0b0f19]">{selectedFranchise.keyInfo.outlets}</p></article>
           </div>
 
-          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_8px_20px_rgba(15,23,42,0.05)]">
-            <ImageCarousel images={galleryImages} alt={selectedFranchise.name} />
-          </div>
+          <ImageCarousel 
+            images={galleryImages} 
+            alt={selectedFranchise.name}
+            category="food"
+            showThumbnails={false}
+          />
 
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_8px_20px_rgba(15,23,42,0.05)]">
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.05)] lg:p-8">
             <div className="flex flex-wrap gap-2">
               {tabs.map((tab) => (
                 <button
                   key={tab}
                   type="button"
                   onClick={() => setActiveTab(tab)}
-                  className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
+                  className={`rounded-full px-5 py-2.5 text-sm font-semibold transition ${
                     activeTab === tab ? 'bg-[#0B1220] text-white' : 'border border-slate-300 bg-white text-slate-700 hover:bg-slate-100'
                   }`}
                 >
@@ -2485,12 +2477,12 @@ function FranchiseDetailsPage() {
                 </button>
               ))}
             </div>
-            <div className="mt-4">{renderTabContent()}</div>
+            <div className="mt-6">{renderTabContent()}</div>
           </div>
 
-          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.05)]">
-            <h3 className="text-2xl font-bold tracking-tight text-[#0b0f19]">About {selectedFranchise.name}</h3>
-            <div className="mt-4 space-y-3">
+          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.05)] lg:p-8">
+            <h3 className="text-2xl font-bold tracking-tight text-[#0b0f19] lg:text-3xl">About {selectedFranchise.name}</h3>
+            <div className="mt-6 grid gap-4 lg:grid-cols-2">
               <p className="text-base leading-relaxed text-slate-600">
                 {selectedFranchise.name} is a <strong>premium franchise brand</strong> designed for investors who want
                 predictable demand and a differentiated market position.
@@ -2510,23 +2502,23 @@ function FranchiseDetailsPage() {
             </div>
           </section>
 
-          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.05)]">
-            <h3 className="text-2xl font-bold tracking-tight text-[#0b0f19]">Investment & Financials</h3>
-            <div className="mt-4 grid gap-3 sm:grid-cols-3">
-              <article className="rounded-xl bg-slate-50 p-4"><p className="text-sm text-slate-500">Investment Range</p><p className="text-base font-semibold text-[#0b0f19]">{selectedFranchise.financialHighlights.investmentRange}</p></article>
-              <article className="rounded-xl bg-slate-50 p-4"><p className="text-sm text-slate-500">Area Required</p><p className="text-base font-semibold text-[#0b0f19]">{selectedFranchise.financialHighlights.areaRequired}</p></article>
-              <article className="rounded-xl bg-slate-50 p-4"><p className="text-sm text-slate-500">Franchise Fee</p><p className="text-base font-semibold text-[#0b0f19]">{selectedFranchise.financialHighlights.franchiseFee}</p></article>
+          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.05)] lg:p-8">
+            <h3 className="text-2xl font-bold tracking-tight text-[#0b0f19] lg:text-3xl">Investment & Financials</h3>
+            <div className="mt-6 grid gap-4 sm:grid-cols-3">
+              <article className="rounded-xl bg-slate-50 p-5"><p className="text-sm text-slate-500">Investment Range</p><p className="mt-2 text-lg font-semibold text-[#0b0f19]">{selectedFranchise.financialHighlights.investmentRange}</p></article>
+              <article className="rounded-xl bg-slate-50 p-5"><p className="text-sm text-slate-500">Area Required</p><p className="mt-2 text-lg font-semibold text-[#0b0f19]">{selectedFranchise.financialHighlights.areaRequired}</p></article>
+              <article className="rounded-xl bg-slate-50 p-5"><p className="text-sm text-slate-500">Franchise Fee</p><p className="mt-2 text-lg font-semibold text-[#0b0f19]">{selectedFranchise.financialHighlights.franchiseFee}</p></article>
             </div>
-            <div className="mt-5 rounded-xl border border-slate-200">
+            <div className="mt-6 overflow-hidden rounded-xl border border-slate-200">
               <div className="grid grid-cols-1 gap-px bg-slate-200 md:grid-cols-4">
                 {['Store Size', 'Investment Cost', 'Royalty Fees', 'Franchise Fees'].map((header) => (
-                  <div key={header} className="bg-slate-100 px-4 py-3 text-sm font-semibold text-slate-700">{header}</div>
+                  <div key={header} className="bg-slate-100 px-5 py-4 text-sm font-semibold text-slate-700">{header}</div>
                 ))}
               </div>
               <div className="divide-y divide-slate-200">
                 {selectedFranchise.financialTable.map((row) => (
-                  <div key={row.storeSize} className="grid grid-cols-1 gap-2 px-4 py-3 text-sm text-slate-600 md:grid-cols-4 md:gap-4">
-                    <p>{row.storeSize}</p>
+                  <div key={row.storeSize} className="grid grid-cols-1 gap-2 px-5 py-4 text-sm text-slate-600 md:grid-cols-4 md:gap-4">
+                    <p className="font-medium">{row.storeSize}</p>
                     <p>{row.investmentCost}</p>
                     <p>{row.royaltyFees}</p>
                     <p>{row.franchiseFees}</p>
@@ -2536,11 +2528,11 @@ function FranchiseDetailsPage() {
             </div>
           </section>
 
-          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.05)]">
-            <h3 className="text-2xl font-bold tracking-tight text-[#0b0f19]">Franchise Models</h3>
-            <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.05)] lg:p-8">
+            <h3 className="text-2xl font-bold tracking-tight text-[#0b0f19] lg:text-3xl">Franchise Models</h3>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {selectedFranchise.franchiseModels.map((model) => (
-                <article key={model.name} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <article key={model.name} className="rounded-xl border border-slate-200 bg-slate-50 p-5">
                   <p className="text-lg font-bold text-[#0b0f19]">{model.name}</p>
                   <p className="mt-2 text-sm leading-relaxed text-slate-600">{model.description}</p>
                 </article>
@@ -2548,62 +2540,66 @@ function FranchiseDetailsPage() {
             </div>
           </section>
 
-          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.05)]">
-            <h3 className="text-2xl font-bold tracking-tight text-[#0b0f19]">Why Choose This Franchise</h3>
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.05)] lg:p-8">
+            <h3 className="text-2xl font-bold tracking-tight text-[#0b0f19] lg:text-3xl">Why Choose This Franchise</h3>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
               {selectedFranchise.whyChoose.map((item) => (
-                <article key={item.title} className="flex gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4">
-                  <span className="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-violet-100 text-violet-700">✓</span>
+                <article key={item.title} className="flex gap-4 rounded-xl border border-slate-200 bg-slate-50 p-5">
+                  <span className="mt-0.5 inline-flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-violet-100 text-lg text-violet-700">✓</span>
                   <div>
                     <p className="text-base font-semibold text-[#0b0f19]">{item.title}</p>
-                    <p className="mt-1 text-sm leading-relaxed text-slate-600">{item.description}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-slate-600">{item.description}</p>
                   </div>
                 </article>
               ))}
             </div>
           </section>
 
-          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.05)]">
-            <h3 className="text-2xl font-bold tracking-tight text-[#0b0f19]">Franchise Structure</h3>
-            <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.05)] lg:p-8">
+            <h3 className="text-2xl font-bold tracking-tight text-[#0b0f19] lg:text-3xl">Franchise Structure</h3>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {selectedFranchise.franchiseStructure.map((item) => (
-                <article key={item} className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-center">
+                <article key={item} className="rounded-xl border border-slate-200 bg-slate-50 p-5 text-center">
                   <p className="text-base font-semibold text-[#0b0f19]">{item}</p>
                 </article>
               ))}
             </div>
           </section>
 
-          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.05)]">
-            <h3 className="text-2xl font-bold tracking-tight text-[#0b0f19]">Operations & Returns</h3>
-            <div className="mt-4 grid gap-4 md:grid-cols-2">
-              <div className="space-y-3 rounded-xl bg-slate-50 p-4">
-                <article><p className="text-sm text-slate-500">ROI</p><p className="text-base font-semibold text-[#0b0f19]">{selectedFranchise.operationsReturns.roi}</p></article>
-                <article><p className="text-sm text-slate-500">Payback Period</p><p className="text-base font-semibold text-[#0b0f19]">{selectedFranchise.operationsReturns.payback}</p></article>
+          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.05)] lg:p-8">
+            <h3 className="text-2xl font-bold tracking-tight text-[#0b0f19] lg:text-3xl">Operations & Returns</h3>
+            <div className="mt-6 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+              <div className="space-y-4 rounded-xl bg-slate-50 p-5">
+                <article><p className="text-sm text-slate-500">ROI</p><p className="mt-1 text-lg font-semibold text-[#0b0f19]">{selectedFranchise.operationsReturns.roi}</p></article>
               </div>
-              <div className="space-y-3 rounded-xl bg-slate-50 p-4">
-                <article><p className="text-sm text-slate-500">Hours Required</p><p className="text-base font-semibold text-[#0b0f19]">{selectedFranchise.operationsReturns.hours}</p></article>
-                <article><p className="text-sm text-slate-500">Staff Requirement</p><p className="text-base font-semibold text-[#0b0f19]">{selectedFranchise.operationsReturns.staff}</p></article>
+              <div className="space-y-4 rounded-xl bg-slate-50 p-5">
+                <article><p className="text-sm text-slate-500">Payback Period</p><p className="mt-1 text-lg font-semibold text-[#0b0f19]">{selectedFranchise.operationsReturns.payback}</p></article>
+              </div>
+              <div className="space-y-4 rounded-xl bg-slate-50 p-5">
+                <article><p className="text-sm text-slate-500">Hours Required</p><p className="mt-1 text-lg font-semibold text-[#0b0f19]">{selectedFranchise.operationsReturns.hours}</p></article>
+              </div>
+              <div className="space-y-4 rounded-xl bg-slate-50 p-5">
+                <article><p className="text-sm text-slate-500">Staff Requirement</p><p className="mt-1 text-lg font-semibold text-[#0b0f19]">{selectedFranchise.operationsReturns.staff}</p></article>
               </div>
             </div>
           </section>
 
-          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.05)]">
-            <h3 className="text-2xl font-bold tracking-tight text-[#0b0f19]">Expansion Plans</h3>
-            <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.05)] lg:p-8">
+            <h3 className="text-2xl font-bold tracking-tight text-[#0b0f19] lg:text-3xl">Expansion Plans</h3>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
               {selectedFranchise.expansionPlans.map((plan) => (
-                <article key={plan} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <article key={plan} className="rounded-xl border border-slate-200 bg-slate-50 p-5 text-center">
                   <p className="text-base font-semibold text-[#0b0f19]">{plan}</p>
                 </article>
               ))}
             </div>
           </section>
 
-          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.05)]">
-            <h3 className="text-2xl font-bold tracking-tight text-[#0b0f19]">Requirements</h3>
-            <div className="mt-4 space-y-3">
+          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.05)] lg:p-8">
+            <h3 className="text-2xl font-bold tracking-tight text-[#0b0f19] lg:text-3xl">Requirements</h3>
+            <div className="mt-6 space-y-4">
               {selectedFranchise.requirements.map((item) => (
-                <article key={item.label} className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+                <article key={item.label} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 px-5 py-4">
                   <p className="text-sm font-semibold text-slate-700">{item.label}</p>
                   <p className="text-sm text-slate-600">{item.value}</p>
                 </article>
@@ -2611,77 +2607,56 @@ function FranchiseDetailsPage() {
             </div>
           </section>
 
-          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.05)]">
-            <h3 className="text-2xl font-bold tracking-tight text-[#0b0f19]">Training & Support</h3>
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.05)] lg:p-8">
+            <h3 className="text-2xl font-bold tracking-tight text-[#0b0f19] lg:text-3xl">Training & Support</h3>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {selectedFranchise.trainingSupport.map((item) => (
-                <article key={item} className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4">
-                  <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">✓</span>
+                <article key={item} className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 p-5">
+                  <span className="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">✓</span>
                   <p className="text-sm font-medium text-slate-700">{item}</p>
                 </article>
               ))}
             </div>
           </section>
 
-          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.05)]">
-            <h3 className="text-2xl font-bold tracking-tight text-[#0b0f19]">Agreement Details</h3>
-            <div className="mt-4 space-y-3">
+          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.05)] lg:p-8">
+            <h3 className="text-2xl font-bold tracking-tight text-[#0b0f19] lg:text-3xl">Agreement Details</h3>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {selectedFranchise.agreementDetails.map((item) => (
-                <article key={item.label} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <article key={item.label} className="rounded-xl border border-slate-200 bg-slate-50 p-5">
                   <p className="text-sm text-slate-500">{item.label}</p>
-                  <p className="mt-1 text-sm font-medium text-slate-700">{item.value}</p>
+                  <p className="mt-2 text-sm font-medium text-slate-700">{item.value}</p>
                 </article>
               ))}
             </div>
-            <p className="mt-4 text-xs leading-relaxed text-slate-400">{selectedFranchise.disclaimer}</p>
+            <p className="mt-6 text-xs leading-relaxed text-slate-400">{selectedFranchise.disclaimer}</p>
           </section>
 
-          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.05)]">
-            <h3 className="text-2xl font-bold tracking-tight text-[#0b0f19]">How to Get Started</h3>
-            <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.05)] lg:p-8">
+            <h3 className="text-2xl font-bold tracking-tight text-[#0b0f19] lg:text-3xl">How to Get Started</h3>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {['Apply', 'Evaluation', 'Approval', 'Launch'].map((step, idx) => (
-                <article key={step} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <article key={step} className="rounded-xl border border-slate-200 bg-slate-50 p-5">
                   <p className="text-xs font-semibold uppercase tracking-[0.1em] text-slate-500">Step {idx + 1}</p>
-                  <p className="mt-2 text-base font-semibold text-[#0b0f19]">{step}</p>
+                  <p className="mt-3 text-lg font-semibold text-[#0b0f19]">{step}</p>
                 </article>
               ))}
             </div>
           </section>
 
-          <section className="rounded-2xl border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-6 text-center shadow-[0_12px_30px_rgba(15,23,42,0.08)]">
-            <h3 className="text-3xl font-extrabold tracking-tight text-[#0b0f19]">Interested in this franchise?</h3>
-            <p className="mt-2 text-sm text-slate-500">Share your details and our team will connect with next steps.</p>
-            <form onSubmit={handleSubmit} className="mt-6 grid gap-3 text-left sm:grid-cols-2">
-              <input name="name" value={finalCtaForm.name} onChange={handleFinalCtaChange} placeholder="Name" className="rounded-xl border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-violet-400" />
-              <input name="email" value={finalCtaForm.email} onChange={handleFinalCtaChange} type="email" placeholder="Email" className="rounded-xl border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-violet-400" />
-              <input name="phone" value={finalCtaForm.phone} onChange={handleFinalCtaChange} placeholder="Phone" className="rounded-xl border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-violet-400" />
-              <input name="stateCity" value={finalCtaForm.stateCity} onChange={handleFinalCtaChange} placeholder="State / City" className="rounded-xl border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-violet-400" />
-              <select name="investmentRange" value={finalCtaForm.investmentRange} onChange={handleFinalCtaChange} className="rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm outline-none focus:border-violet-400 sm:col-span-2">
-                <option value="">Investment Range</option>
-                <option value="30k-80k">$30K - $80K</option>
-                <option value="80k-150k">$80K - $150K</option>
-                <option value="150k-300k">$150K - $300K</option>
-                <option value="300k+">$300K+</option>
-              </select>
-              <button type="submit" className="mt-1 rounded-full bg-[#0B1220] px-6 py-3 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#0B1220]/25 sm:col-span-2">
-                Submit Request
-              </button>
-            </form>
-          </section>
-
-          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.05)]">
+          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_20px_rgba(15,23,42,0.05)] lg:p-8">
             <div className="flex items-center justify-between gap-3">
-              <h3 className="text-2xl font-bold tracking-tight text-[#0b0f19]">Explore Similar Opportunities</h3>
+              <h3 className="text-2xl font-bold tracking-tight text-[#0b0f19] lg:text-3xl">Explore Similar Opportunities</h3>
               <span className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Featured</span>
             </div>
-            <div className="mt-5 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {relatedFranchises.map((franchise) => (
                 <article
                   key={franchise.id}
                   onClick={() => handleRelatedDetails(franchise.id)}
                   className="group cursor-pointer overflow-hidden rounded-2xl border border-slate-200 bg-white transition duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(15,23,42,0.14)]"
                 >
-                  <div className="relative h-44 overflow-hidden">
+                  <div className="relative h-48 overflow-hidden">
                     <img
                       src={franchise.banner}
                       alt={franchise.name}
@@ -2692,7 +2667,7 @@ function FranchiseDetailsPage() {
                       {franchise.status.toUpperCase()}
                     </span>
                   </div>
-                  <div className="p-4">
+                  <div className="p-5">
                     <h4 className="text-xl font-bold tracking-tight text-[#0b0f19]">{franchise.name}</h4>
                     <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-slate-600">{franchise.tagline}</p>
                     <div className="mt-3 flex flex-wrap gap-2">
@@ -2729,34 +2704,6 @@ function FranchiseDetailsPage() {
             </div>
           </section>
         </section>
-
-        <aside className="lg:sticky lg:top-[100px] lg:self-start">
-          <form onSubmit={handleSubmit} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_10px_26px_rgba(15,23,42,0.08)]">
-            <h3 className="text-xl font-bold tracking-tight text-[#0b0f19]">Talk to Franchise Advisor</h3>
-            <p className="mt-1 text-sm text-slate-500">Get personalized guidance and next steps.</p>
-
-            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-              <input name="firstName" value={formData.firstName} onChange={handleInputChange} placeholder="First Name" className="rounded-xl border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-violet-400" />
-              <input name="lastName" value={formData.lastName} onChange={handleInputChange} placeholder="Last Name" className="rounded-xl border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-violet-400" />
-              <input name="phone" value={formData.phone} onChange={handleInputChange} placeholder="+91 Phone Number" className="rounded-xl border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-violet-400" />
-              <input name="email" value={formData.email} onChange={handleInputChange} placeholder="Email Address" type="email" className="rounded-xl border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-violet-400" />
-              <select name="investmentRange" value={formData.investmentRange} onChange={handleInputChange} className="rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm outline-none focus:border-violet-400">
-                <option value="">Investment Range</option>
-                <option value="30k-80k">$30K - $80K</option>
-                <option value="80k-150k">$80K - $150K</option>
-                <option value="150k-300k">$150K - $300K</option>
-                <option value="300k+">$300K+</option>
-              </select>
-              <input name="state" value={formData.state} onChange={handleInputChange} placeholder="State" className="rounded-xl border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-violet-400" />
-              <input name="city" value={formData.city} onChange={handleInputChange} placeholder="City" className="rounded-xl border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-violet-400" />
-              <textarea name="message" value={formData.message} onChange={handleInputChange} rows={4} placeholder="Message" className="rounded-xl border border-slate-300 px-3 py-2.5 text-sm outline-none focus:border-violet-400" />
-            </div>
-
-            <button type="submit" className="mt-4 w-full rounded-full bg-[#0B1220] px-6 py-3 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#0B1220]/25">
-              Apply Now
-            </button>
-          </form>
-        </aside>
       </div>
     </main>
   );

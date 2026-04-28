@@ -743,79 +743,79 @@ function ContactIcon({ type }) {
 
 function ContactSection() {
   return (
-    <section className="relative mx-auto w-full max-w-[1200px] px-4 pb-28 pt-2 sm:px-6 lg:px-8">
-      <div className="relative overflow-hidden rounded-[32px] border border-emerald-300/20 bg-[radial-gradient(circle_at_50%_30%,rgba(16,185,129,0.16),transparent_50%),linear-gradient(130deg,#020506_0%,#051414_48%,#020506_100%)] px-5 py-10 shadow-[0_20px_60px_rgba(0,0,0,0.4)] sm:px-8 lg:px-10 lg:py-12">
+    <section className="relative mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8 pb-20 sm:pb-24 md:pb-28 pt-2">
+      <div className="relative overflow-hidden rounded-2xl sm:rounded-[28px] md:rounded-[32px] border border-emerald-300/20 bg-[radial-gradient(circle_at_50%_30%,rgba(16,185,129,0.16),transparent_50%),linear-gradient(130deg,#020506_0%,#051414_48%,#020506_100%)] px-4 sm:px-6 md:px-8 lg:px-10 py-8 sm:py-10 lg:py-12 shadow-[0_20px_60px_rgba(0,0,0,0.4)]">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(52,211,153,0.18),transparent_42%)]" />
-        <div className="pointer-events-none absolute -left-12 top-16 h-[1px] w-52 bg-gradient-to-r from-transparent via-emerald-200/35 to-transparent" />
+        <div className="pointer-events-none absolute -left-12 top-16 h-[1px] w-52 bg-gradient-to-r from-transparent via-emerald-200/35 to-transparent hidden sm:block" />
         <div className="pointer-events-none absolute right-6 top-10 h-36 w-36 rounded-full bg-emerald-300/10 blur-3xl" />
-        <div className="pointer-events-none absolute bottom-10 right-16 h-24 w-[260px] bg-[linear-gradient(90deg,transparent,rgba(167,243,208,0.18),transparent)] blur-sm" />
-        <p className="pointer-events-none absolute left-1/2 top-7 -translate-x-1/2 text-[54px] font-black tracking-[0.2em] text-emerald-100/5 blur-[1px] sm:text-[82px]">
+        <div className="pointer-events-none absolute bottom-10 right-16 h-24 w-[260px] bg-[linear-gradient(90deg,transparent,rgba(167,243,208,0.18),transparent)] blur-sm hidden sm:block" />
+        <p className="pointer-events-none absolute left-1/2 top-7 -translate-x-1/2 text-[clamp(2rem,10vw,5.125rem)] font-black tracking-[0.2em] text-emerald-100/5 blur-[1px]">
           CONTACT
         </p>
 
-        <div className="relative grid gap-8 lg:grid-cols-[0.92fr_1.08fr]">
-          <div className="space-y-5">
-            <span className="inline-flex w-fit items-center rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-emerald-50 backdrop-blur-md">
+        <div className="relative grid gap-6 sm:gap-8 lg:grid-cols-[0.92fr_1.08fr]">
+          <div className="space-y-4 sm:space-y-5">
+            <span className="inline-flex w-fit items-center rounded-full border border-white/20 bg-white/10 px-2.5 sm:px-3 py-1 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.12em] text-emerald-50 backdrop-blur-md">
               Contact
             </span>
-            <h2 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">Get in touch</h2>
-            <p className="max-w-[440px] text-base font-medium leading-relaxed text-emerald-50/75">
+            <h2 className="text-[clamp(1.75rem,8vw,3rem)] font-extrabold tracking-tight text-white leading-tight">Get in touch</h2>
+            <p className="max-w-[440px] text-sm sm:text-base font-medium leading-relaxed text-emerald-50/75">
               Have questions or ready to transform your business with our franchise solutions?
             </p>
 
-            <div className="space-y-4 pt-2">
+            <div className="space-y-3 sm:space-y-4 pt-2">
               {contactItems.map((item) => (
                 <article
                   key={item.title}
-                  className="group flex items-center justify-between rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-emerald-200/35 hover:bg-white/15 hover:shadow-[0_10px_28px_rgba(16,185,129,0.14)]"
+                  className="group flex items-center justify-between rounded-xl sm:rounded-2xl border border-white/15 bg-white/10 p-3 sm:p-4 backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-emerald-200/35 hover:bg-white/15 hover:shadow-[0_10px_28px_rgba(16,185,129,0.14)]"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-black/20">
+                  <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+                    <span className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-xl bg-white/10">
                       <ContactIcon type={item.icon} />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-white">{item.title}</p>
-                      <p className="text-sm text-emerald-50/70">{item.value}</p>
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-xs sm:text-sm font-medium text-emerald-100/70">{item.title}</p>
+                      <p className="mt-0.5 text-sm sm:text-base font-semibold text-white truncate">{item.value}</p>
                     </div>
                   </div>
-                  <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/20 bg-black/30 text-white/80 transition duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white">
-                    ↗
+                  <span className="ml-2 text-emerald-200/60 opacity-0 transition duration-200 group-hover:opacity-100 shrink-0">
+                    →
                   </span>
                 </article>
               ))}
             </div>
           </div>
 
-          <div className="rounded-3xl border border-white/15 bg-white/10 p-5 backdrop-blur-xl sm:p-6">
-            <form className="space-y-4">
+          <div className="rounded-xl sm:rounded-2xl border border-white/15 bg-white/5 p-4 sm:p-5 md:p-6 backdrop-blur-md">
+            <form className="space-y-3 sm:space-y-4">
               <input
                 type="text"
-                placeholder="Name"
-                className="w-full rounded-xl border border-white/15 bg-black/25 px-4 py-3 text-sm text-white placeholder:text-slate-300/70 outline-none transition duration-200 focus:border-emerald-200/40 focus:shadow-[0_0_0_3px_rgba(16,185,129,0.14)]"
+                placeholder="Full Name"
+                className="w-full rounded-lg sm:rounded-xl border border-white/15 bg-black/25 px-3 sm:px-4 py-2.5 sm:py-3 text-sm text-white placeholder:text-slate-300/70 outline-none transition duration-200 focus:border-emerald-200/40 focus:shadow-[0_0_0_3px_rgba(16,185,129,0.14)]"
               />
               <input
                 type="email"
-                placeholder="Email"
-                className="w-full rounded-xl border border-white/15 bg-black/25 px-4 py-3 text-sm text-white placeholder:text-slate-300/70 outline-none transition duration-200 focus:border-emerald-200/40 focus:shadow-[0_0_0_3px_rgba(16,185,129,0.14)]"
+                placeholder="Email Address"
+                className="w-full rounded-lg sm:rounded-xl border border-white/15 bg-black/25 px-3 sm:px-4 py-2.5 sm:py-3 text-sm text-white placeholder:text-slate-300/70 outline-none transition duration-200 focus:border-emerald-200/40 focus:shadow-[0_0_0_3px_rgba(16,185,129,0.14)]"
               />
               <input
                 type="url"
                 placeholder="Website"
-                className="w-full rounded-xl border border-white/15 bg-black/25 px-4 py-3 text-sm text-white placeholder:text-slate-300/70 outline-none transition duration-200 focus:border-emerald-200/40 focus:shadow-[0_0_0_3px_rgba(16,185,129,0.14)]"
+                className="w-full rounded-lg sm:rounded-xl border border-white/15 bg-black/25 px-3 sm:px-4 py-2.5 sm:py-3 text-sm text-white placeholder:text-slate-300/70 outline-none transition duration-200 focus:border-emerald-200/40 focus:shadow-[0_0_0_3px_rgba(16,185,129,0.14)]"
               />
               <input
                 type="tel"
                 placeholder="Contact Number"
-                className="w-full rounded-xl border border-white/15 bg-black/25 px-4 py-3 text-sm text-white placeholder:text-slate-300/70 outline-none transition duration-200 focus:border-emerald-200/40 focus:shadow-[0_0_0_3px_rgba(16,185,129,0.14)]"
+                className="w-full rounded-lg sm:rounded-xl border border-white/15 bg-black/25 px-3 sm:px-4 py-2.5 sm:py-3 text-sm text-white placeholder:text-slate-300/70 outline-none transition duration-200 focus:border-emerald-200/40 focus:shadow-[0_0_0_3px_rgba(16,185,129,0.14)]"
               />
               <textarea
                 placeholder="Message"
-                rows={6}
-                className="w-full resize-none rounded-xl border border-white/15 bg-black/25 px-4 py-3 text-sm text-white placeholder:text-slate-300/70 outline-none transition duration-200 focus:border-emerald-200/40 focus:shadow-[0_0_0_3px_rgba(16,185,129,0.14)]"
+                rows={5}
+                className="w-full resize-none rounded-lg sm:rounded-xl border border-white/15 bg-black/25 px-3 sm:px-4 py-2.5 sm:py-3 text-sm text-white placeholder:text-slate-300/70 outline-none transition duration-200 focus:border-emerald-200/40 focus:shadow-[0_0_0_3px_rgba(16,185,129,0.14)]"
               />
               <button
                 type="submit"
-                className="w-full rounded-xl bg-white px-5 py-3 text-sm font-bold text-[#091115] transition duration-300 hover:-translate-y-0.5 hover:bg-emerald-50 hover:shadow-[0_12px_25px_rgba(255,255,255,0.2)]"
+                className="w-full rounded-lg sm:rounded-xl bg-white px-4 sm:px-5 py-2.5 sm:py-3 text-sm font-bold text-[#091115] transition duration-300 hover:-translate-y-0.5 hover:bg-emerald-50 hover:shadow-[0_12px_25px_rgba(255,255,255,0.2)]"
               >
                 Submit
               </button>
@@ -996,7 +996,7 @@ function Hero() {
 
   return (
     <main className="relative isolate overflow-hidden">
-      <section className="relative mx-auto flex min-h-[calc(100vh-80px)] w-full max-w-[1200px] items-center justify-center px-4 pb-14 pt-24 sm:px-6 lg:px-8">
+      <section className="relative mx-auto flex min-h-[calc(100vh-80px)] w-full max-w-[1200px] items-center justify-center px-4 pb-14 pt-16 sm:pt-20 md:pt-24 sm:px-6 lg:px-8">
         <div className="absolute left-4 top-24 hidden h-[460px] w-56 overflow-hidden xl:block">
           <div className="animate-scroll-up space-y-5">
             {leftLoopItems.map((item, idx) => (
@@ -1023,24 +1023,28 @@ function Hero() {
           </div>
         </div>
 
-        <div className="relative z-10 flex max-w-[720px] flex-col items-center text-center mx-auto">
-          <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50/80 px-4 py-2 text-xs font-medium text-emerald-800 shadow-soft">
-            <span className="animate-dot-pulse h-2 w-2 rounded-full bg-emerald-500" />
+        <div className="relative z-10 flex w-full max-w-[720px] flex-col items-center text-center mx-auto">
+          <span className="mb-4 sm:mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50/80 px-3 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-xs font-medium text-emerald-800 shadow-soft">
+            <span className="animate-dot-pulse h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-emerald-500" />
             10K+ Growing Franchise Networks
           </span>
 
-          <h1 className="mb-6 text-4xl font-extrabold leading-tight tracking-tight text-[#0b0f19] sm:text-5xl lg:text-6xl">
+          <h1 className="mb-4 sm:mb-6 text-[clamp(1.75rem,8vw,3.75rem)] font-extrabold leading-[1.15] tracking-tight text-[#0b0f19] px-2">
             Discover &amp; Scale Franchise Brands
-            <br />
-            For Ambitious Investors
+            <br className="hidden xs:block" />
+            <span className="xs:inline"> </span>For Ambitious Investors
           </h1>
 
-          <p className="max-w-[600px] text-base leading-relaxed text-slate-500 sm:text-lg">
+          <p className="max-w-[600px] px-4 text-sm sm:text-base md:text-lg leading-relaxed text-slate-500">
             Explore verified franchise opportunities and make smarter investment decisions with real-time insights and growth analytics.
           </p>
 
-          <div className="mt-10 flex justify-center gap-4">
-            <Button variant="primary" icon className="h-[56px] px-7 py-[14px] text-[15px] font-semibold transition-all duration-300 hover:scale-[1.03] hover:bg-[#0c1a2] hover:shadow-[0_8px_20px_rgba(12,18,41,0.12)] hover:-translate-y-2">
+          <div className="mt-8 sm:mt-10 flex flex-col xs:flex-row justify-center gap-3 sm:gap-4 w-full px-4 xs:w-auto">
+            <Button 
+              variant="primary" 
+              icon 
+              className="h-12 sm:h-[56px] w-full xs:w-auto px-6 sm:px-7 py-3 sm:py-[14px] text-sm sm:text-[15px] font-semibold transition-all duration-300 hover:scale-[1.03] hover:bg-[#0c1a2] hover:shadow-[0_8px_20px_rgba(12,18,41,0.12)] hover:-translate-y-1 sm:hover:-translate-y-2"
+            >
               Explore Brands
             </Button>
             <button
@@ -1049,21 +1053,21 @@ function Hero() {
                 window.history.pushState({}, '', '/opportunities');
                 window.dispatchEvent(new PopStateEvent('popstate'));
               }}
-              className="group inline-flex items-center justify-center rounded-full border-2 border-[#0B1220] bg-white px-7 py-[14px] text-[15px] font-semibold transition-all duration-300 hover:bg-[#0B1220] hover:text-white hover:scale-[1.03] hover:shadow-[0_4px_12px_rgba(12,18,41,0.08)] hover:-translate-y-2 h-[56px]"
+              className="group inline-flex items-center justify-center rounded-full border-2 border-[#0B1220] bg-white w-full xs:w-auto px-6 sm:px-7 py-3 sm:py-[14px] text-sm sm:text-[15px] font-semibold transition-all duration-300 hover:bg-[#0B1220] hover:text-white hover:scale-[1.03] hover:shadow-[0_4px_12px_rgba(12,18,41,0.08)] hover:-translate-y-1 sm:hover:-translate-y-2 h-12 sm:h-[56px]"
             >
               View Opportunities
             </button>
           </div>
 
-          <div className="mt-6 flex items-center gap-4">
-            <div className="flex items-center">
+          <div className="mt-6 flex flex-col xs:flex-row items-center justify-center gap-3 xs:gap-4 px-4">
+            <div className="flex items-center -space-x-2">
               <Avatar src="https://i.pravatar.cc/40?img=12" alt="Reviewer 1" />
               <Avatar src="https://i.pravatar.cc/40?img=22" alt="Reviewer 2" />
               <Avatar src="https://i.pravatar.cc/40?img=32" alt="Reviewer 3" />
               <Avatar src="https://i.pravatar.cc/40?img=18" alt="Reviewer 4" />
             </div>
-            <div className="text-left">
-              <p className="flex items-center gap-1">
+            <div className="text-center xs:text-left">
+              <p className="flex items-center justify-center xs:justify-start gap-0.5">
                 <StarIcon />
                 <StarIcon />
                 <StarIcon />
@@ -1073,8 +1077,7 @@ function Hero() {
               <p className="text-xs text-slate-500">From {reviewCount}+ reviews</p>
             </div>
           </div>
-
-                  </div>
+        </div>
       </section>
 
       <div
@@ -1084,25 +1087,25 @@ function Hero() {
 
       <div
         ref={growthRef}
-        className={`mx-auto w-full max-w-[1200px] px-4 pb-24 pt-20 transition duration-700 ease-out sm:px-6 lg:px-8 ${
+        className={`mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8 pb-16 sm:pb-20 md:pb-24 pt-12 sm:pt-16 md:pt-20 transition duration-700 ease-out ${
           growthVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
         }`}
       >
         {/* Trust Text - Moved from Hero */}
-        <div className="mb-16 text-center">
-          <p className="text-[15px] font-medium text-slate-700">
+        <div className="mb-12 sm:mb-16 text-center">
+          <p className="text-sm sm:text-[15px] font-medium text-slate-700 px-4">
             Trusted by 5000+ franchise investors & brands
           </p>
           
           {/* Logo Strip - Restored with left-to-right scrolling */}
-          <div className="mt-8 overflow-hidden rounded-2xl py-2">
-            <div className="animate-marquee-right flex w-max items-center gap-16 will-change-transform sm:gap-20">
+          <div className="mt-6 sm:mt-8 overflow-hidden rounded-2xl py-2">
+            <div className="animate-marquee-right flex w-max items-center gap-12 sm:gap-16 md:gap-20 will-change-transform">
               {['FranchiseIndia', 'FranchiseBazar', 'FranchiseMart', 'BizFranchise', 'IndiaFranchise', 'FranchiseHub', 'TopFranchise', 'FranchiseIndia', 'FranchiseBazar', 'FranchiseMart', 'BizFranchise', 'IndiaFranchise', 'FranchiseHub', 'TopFranchise'].map((brand, idx) => (
                 <div
                   key={`${brand}-${idx}`}
-                  className="inline-flex items-center gap-2 whitespace-nowrap text-3xl font-semibold tracking-tight text-slate-800"
+                  className="inline-flex items-center gap-2 whitespace-nowrap text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight text-slate-800"
                 >
-                  <span className="text-2xl leading-none">*</span>
+                  <span className="text-lg sm:text-xl md:text-2xl leading-none">*</span>
                   <span>{brand}</span>
                 </div>
               ))}
@@ -1110,39 +1113,39 @@ function Hero() {
           </div>
         </div>
 
-        <div className="mx-auto max-w-[640px] text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
+        <div className="mx-auto max-w-[640px] text-center px-4">
+          <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
             CHOOSE YOUR PATH
           </p>
-          <h2 className="mt-3 text-4xl font-extrabold tracking-tight text-[#0b0f19] sm:text-5xl">
+          <h2 className="mt-3 text-[clamp(1.75rem,7vw,3rem)] font-extrabold tracking-tight text-[#0b0f19] leading-tight">
             Two ways to grow
           </h2>
-          <p className="mt-4 text-base leading-relaxed text-slate-500">
+          <p className="mt-3 sm:mt-4 text-sm sm:text-base leading-relaxed text-slate-500">
             Select the path that aligns with your goals and scale faster with the right strategy.
           </p>
         </div>
 
-        <div className="mt-12 grid gap-6 lg:grid-cols-2">
+        <div className="mt-8 sm:mt-10 md:mt-12 grid gap-5 sm:gap-6 lg:grid-cols-2">
           <GrowthCard card={growthCards[0]} />
           <GrowthCard card={growthCards[1]} reverse />
         </div>
       </div>
 
-      <div id="services" ref={modelsRef} className="mx-auto w-full max-w-[1200px] px-4 pb-28 pt-2 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-[640px] text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
+      <div id="services" ref={modelsRef} className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8 pb-20 sm:pb-24 md:pb-28 pt-2">
+        <div className="mx-auto max-w-[640px] text-center px-4">
+          <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
             FRANCHISE MODELS
           </p>
-          <h2 className="mt-3 text-4xl font-extrabold tracking-tight text-[#0b0f19] sm:text-5xl">
+          <h2 className="mt-3 text-[clamp(1.75rem,7vw,3rem)] font-extrabold tracking-tight text-[#0b0f19] leading-tight">
             Choose the right franchise model
           </h2>
-          <p className="mt-4 text-base leading-relaxed text-slate-500">
+          <p className="mt-3 sm:mt-4 text-sm sm:text-base leading-relaxed text-slate-500">
             Compare operating structures and select the model that best fits your ownership,
             execution, and investment goals.
           </p>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div className="mt-8 sm:mt-10 md:mt-12 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6">
           {franchiseModels.map((model, idx) => (
             <FranchiseModelCard
               key={model.code}
@@ -1154,27 +1157,27 @@ function Hero() {
         </div>
       </div>
 
-      <div id="about" ref={processRef} className="mx-auto w-full max-w-[1200px] px-4 pb-28 pt-2 sm:px-6 lg:px-8">
-        <div className="grid items-start gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
-          <div className="flex flex-col gap-8 lg:sticky lg:top-[120px]">
-            <div>
-              <p className="inline-flex items-center gap-2 text-sm font-medium text-slate-600">
+      <div id="about" ref={processRef} className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8 pb-20 sm:pb-24 md:pb-28 pt-2">
+        <div className="grid items-start gap-8 sm:gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
+          <div className="flex flex-col gap-6 sm:gap-8 lg:sticky lg:top-[120px]">
+            <div className="px-2 sm:px-0">
+              <p className="inline-flex items-center gap-2 text-xs sm:text-sm font-medium text-slate-600">
                 <span className="h-2 w-2 rounded-sm bg-rose-500" />
                 Process
               </p>
-              <h2 className="mt-3 text-4xl font-extrabold leading-tight tracking-tight text-[#0b0f19] sm:text-5xl">
+              <h2 className="mt-3 text-[clamp(1.75rem,7vw,3rem)] font-extrabold leading-tight tracking-tight text-[#0b0f19]">
                 Proven &amp; effective process.
                 <br />
                 <span className="text-slate-600">That delivers results.</span>
               </h2>
-              <p className="mt-5 max-w-[520px] text-base leading-relaxed text-slate-500">
+              <p className="mt-4 sm:mt-5 max-w-[520px] text-sm sm:text-base leading-relaxed text-slate-500">
                 We dive deep into your goals, audience, and challenges to craft a strategy that drives
                 clear direction and impact.
               </p>
             </div>
 
             {/* Video Card - Fills remaining vertical space below text */}
-            <div className="relative flex-grow rounded-3xl overflow-hidden bg-slate-900 shadow-soft min-h-[300px]">
+            <div className="relative flex-grow rounded-2xl sm:rounded-3xl overflow-hidden bg-slate-900 shadow-soft min-h-[240px] sm:min-h-[300px]">
               <video
                 className="absolute inset-0 h-full w-full object-cover block"
                 style={{ transform: 'scale(1.05)' }}
@@ -1200,7 +1203,7 @@ function Hero() {
               style={{ transform: `scaleY(${processLineProgress})` }}
             />
 
-            <div className="space-y-9">
+            <div className="space-y-6 sm:space-y-9">
               {processSteps.map((step, idx) => {
                 const isActive = visibleProcessSteps[idx];
                 return (
@@ -1210,12 +1213,12 @@ function Hero() {
                       stepRefs.current[idx] = el;
                     }}
                     data-step-index={idx}
-                    className={`relative rounded-3xl border border-slate-200/90 bg-white p-6 transition duration-500 ${
+                    className={`relative rounded-2xl sm:rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-6 transition duration-500 ${
                       isActive ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
                     } sm:ml-12`}
                   >
                     <span
-                      className={`mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full border bg-white text-sm font-semibold transition duration-300 sm:absolute sm:-left-[58px] sm:top-5 ${
+                      className={`mb-3 sm:mb-4 inline-flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full border bg-white text-xs sm:text-sm font-semibold transition duration-300 sm:absolute sm:-left-[58px] sm:top-5 ${
                         isActive
                           ? 'border-rose-400 text-slate-900 shadow-[0_8px_18px_rgba(244,63,94,0.18)]'
                           : 'border-slate-300 text-slate-500'
@@ -1223,8 +1226,8 @@ function Hero() {
                     >
                       {step.number}
                     </span>
-                    <h3 className="text-xl font-bold tracking-tight text-[#0b0f19]">{step.title}</h3>
-                    <p className="mt-3 text-sm leading-relaxed text-slate-500">{step.description}</p>
+                    <h3 className="text-lg sm:text-xl font-bold tracking-tight text-[#0b0f19]">{step.title}</h3>
+                    <p className="mt-2 sm:mt-3 text-xs sm:text-sm leading-relaxed text-slate-500">{step.description}</p>
                   </div>
                 );
               })}
@@ -1233,17 +1236,17 @@ function Hero() {
         </div>
       </div>
 
-      <div className="mx-auto w-full max-w-[1200px] px-4 py-[100px] sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-[680px] text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">Testimonials</p>
-          <h2 className="mt-3 text-4xl font-extrabold leading-tight tracking-tight text-[#0b0f19] sm:text-5xl">
+      <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-[100px]">
+        <div className="mx-auto max-w-[680px] text-center px-4">
+          <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">Testimonials</p>
+          <h2 className="mt-3 text-[clamp(1.75rem,7vw,3rem)] font-extrabold leading-tight tracking-tight text-[#0b0f19]">
             We&apos;re loved.
             <br />
             Just success stories.
           </h2>
         </div>
 
-        <div className="mt-12 hidden gap-9 md:grid md:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-10 sm:mt-12 hidden gap-6 sm:gap-9 md:grid md:grid-cols-2 xl:grid-cols-3">
           <div
             className="testi-column relative h-[500px] overflow-hidden"
             style={{ maskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)' }}
@@ -1276,38 +1279,38 @@ function Hero() {
           </div>
         </div>
 
-        <div className="mt-10 space-y-5 md:hidden">
+        <div className="mt-8 sm:mt-10 space-y-4 sm:space-y-5 md:hidden">
           {testimonialsFlowCards.map((item) => (
             <TestimonialStatCard key={item.name} item={item} />
           ))}
         </div>
       </div>
 
-      <section id="featured-franchises" className="mx-auto w-full max-w-[1200px] scroll-mt-28 px-4 pb-28 pt-2 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-[680px] text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-blue-600">OPPORTUNITIES</p>
-          <h2 className="mt-3 text-4xl font-extrabold leading-tight tracking-tight text-[#0b0f19] sm:text-5xl">
+      <section id="featured-franchises" className="mx-auto w-full max-w-[1200px] scroll-mt-28 px-4 sm:px-6 lg:px-8 pb-20 sm:pb-24 md:pb-28 pt-2">
+        <div className="mx-auto max-w-[680px] text-center px-4">
+          <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.14em] text-blue-600">OPPORTUNITIES</p>
+          <h2 className="mt-3 text-[clamp(1.75rem,7vw,3rem)] font-extrabold leading-tight tracking-tight text-[#0b0f19]">
             Featured Franchises
           </h2>
-          <p className="mt-4 text-base leading-relaxed text-slate-500">
+          <p className="mt-3 sm:mt-4 text-sm sm:text-base leading-relaxed text-slate-500">
             Curated, high-performing brands ready for expansion and investment
           </p>
         </div>
 
-        <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 sm:mt-10 md:mt-12 grid gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {featuredFranchises.slice(0, 3).map((franchise) => (
             <FranchiseCard key={franchise.id} franchise={franchise} />
           ))}
         </div>
 
-        <div className="mt-16 text-center">
+        <div className="mt-12 sm:mt-14 md:mt-16 text-center">
           <button
             type="button"
             onClick={() => {
               window.history.pushState({}, '', '/opportunities');
               window.dispatchEvent(new PopStateEvent('popstate'));
             }}
-            className="inline-flex items-center gap-3 rounded-full bg-[#0B1220] px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#0B1220]/25"
+            className="inline-flex items-center gap-2 sm:gap-3 rounded-full bg-[#0B1220] px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#0B1220]/25"
           >
             View More
             <span className="transition duration-200 group-hover:translate-x-1">{"\u2192"}</span>
@@ -1315,24 +1318,24 @@ function Hero() {
         </div>
       </section>
 
-      <div ref={statsRef} className="mx-auto w-full max-w-[1200px] px-4 pb-28 pt-2 sm:px-6 lg:px-8">
-        <div className="grid items-start gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-12">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
+      <div ref={statsRef} className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8 pb-20 sm:pb-24 md:pb-28 pt-2">
+        <div className="grid items-start gap-8 sm:gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-12">
+          <div className="px-2 sm:px-0">
+            <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
               PROVEN TRACK RECORD
             </p>
-            <h2 className="mt-3 text-4xl font-extrabold tracking-tight text-[#0b0f19] sm:text-5xl">
+            <h2 className="mt-3 text-[clamp(1.75rem,7vw,3rem)] font-extrabold tracking-tight text-[#0b0f19] leading-tight">
               Numbers that speak
             </h2>
-            <p className="mt-4 max-w-[500px] text-base leading-relaxed text-slate-500">
+            <p className="mt-3 sm:mt-4 max-w-[500px] text-sm sm:text-base leading-relaxed text-slate-500">
               Clear metrics from real projects, reflecting consistent growth outcomes across
               branding, acquisition, and conversion performance.
             </p>
-            <div className="mt-8 flex flex-wrap items-center gap-4">
-              <Button variant="primary">Learn More</Button>
+            <div className="mt-6 sm:mt-8 flex flex-col xs:flex-row flex-wrap items-start xs:items-center gap-3 sm:gap-4">
+              <Button variant="primary" className="w-full xs:w-auto">Learn More</Button>
               <a
                 href="#"
-                className="group inline-flex items-center gap-2 text-sm font-semibold text-slate-600 transition duration-200 hover:text-[#0b0f19]"
+                className="group inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-600 transition duration-200 hover:text-[#0b0f19]"
               >
                 View All
                 <span className="transition duration-200 group-hover:translate-x-1">→</span>
@@ -1340,7 +1343,7 @@ function Hero() {
             </div>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-3 sm:gap-4 grid-cols-1 xs:grid-cols-2">
             {statsCards.map((stat) => (
               <StatCard key={stat.title} stat={stat} active={statsInView} />
             ))}
@@ -1350,33 +1353,33 @@ function Hero() {
 
       <ContactSection />
 
-      <div className="relative z-10 mx-auto -mt-12 w-full max-w-[1200px] px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto -mt-8 sm:-mt-12 w-full max-w-[1200px] px-4 sm:px-6 lg:px-8">
         <div
-          className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-slate-50 to-white px-6 py-16 text-center shadow-xl shadow-slate-900/10 ring-1 ring-slate-100 sm:px-16"
+          className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-b from-slate-50 to-white px-5 sm:px-8 md:px-16 py-12 sm:py-14 md:py-16 text-center shadow-xl shadow-slate-900/10 ring-1 ring-slate-100"
         >
-          <h2 className="font-display text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-slate-900 px-4">
             Trusted by 1,200+ founders.
             <br />
             <span className="text-slate-400">Turning ideas into bold brands.</span>
           </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-base text-slate-600">
+          <p className="mx-auto mt-4 sm:mt-6 max-w-2xl text-sm sm:text-base text-slate-600 px-4">
             Book a free discovery call to discuss strategy, set goals, and see how we can help you grow.
           </p>
-          <div className="mt-10 flex justify-center">
+          <div className="mt-8 sm:mt-10 flex justify-center px-4">
             <button
               type="button"
               onClick={() => {
                 window.history.pushState({}, '', '/contact');
                 window.dispatchEvent(new PopStateEvent('popstate'));
               }}
-              className="group inline-flex items-center justify-center rounded-full bg-[#0B1220] px-6 py-3 font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#0B1220]/25"
+              className="group inline-flex items-center justify-center rounded-full bg-[#0B1220] px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#0B1220]/25 w-full xs:w-auto"
             >
               Book A Call
               <span
-                className="ml-3 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#1a2332] transition group-hover:translate-x-1"
+                className="ml-2 sm:ml-3 inline-flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded-full bg-[#1a2332] transition group-hover:translate-x-1"
               >
                 <svg
-                  className="h-3 w-3"
+                  className="h-2.5 w-2.5 sm:h-3 sm:w-3"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -1393,25 +1396,25 @@ function Hero() {
           </div>
 
           {/* Pill Button - Moved under CTA buttons */}
-          <div className="mt-8 flex items-center justify-center gap-3">
+          <div className="mt-6 sm:mt-8 flex flex-col xs:flex-row items-center justify-center gap-2 sm:gap-3 px-4">
             <div className="flex items-center gap-2">
               <span
                 className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75"
               ></span>
-              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-blue-500"></span>
+              <span className="relative inline-flex h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-blue-500"></span>
             </div>
-            <p className="text-sm text-slate-600">Trusted by 1,000,000+ Professionals</p>
+            <p className="text-xs sm:text-sm text-slate-600">Trusted by 1,000,000+ Professionals</p>
           </div>
 
           {/* Logo Marquee */}
-          <div className="mt-12 overflow-hidden">
-            <div className="animate-marquee-right flex items-center gap-16 will-change-transform">
+          <div className="mt-10 sm:mt-12 overflow-hidden">
+            <div className="animate-marquee-right flex items-center gap-12 sm:gap-16 will-change-transform">
               {['Google', 'Amazon', 'Stripe', 'Shopify', 'Tata', 'Reliance', 'Infosys', 'Microsoft', 'Apple', 'Meta', 'Google', 'Amazon', 'Stripe', 'Shopify', 'Tata', 'Reliance', 'Infosys', 'Microsoft', 'Apple', 'Meta'].map((brand, idx) => (
                 <div
                   key={`${brand}-${idx}`}
-                  className="flex items-center gap-2 whitespace-nowrap text-2xl font-bold tracking-tight text-slate-400 transition-opacity hover:opacity-100"
+                  className="flex items-center gap-2 whitespace-nowrap text-lg sm:text-xl md:text-2xl font-bold tracking-tight text-slate-400 transition-opacity hover:opacity-100"
                 >
-                  <span className="text-2xl leading-none opacity-50">*</span>
+                  <span className="text-lg sm:text-xl md:text-2xl leading-none opacity-50">*</span>
                   <span>{brand}</span>
                 </div>
               ))}
@@ -1421,7 +1424,7 @@ function Hero() {
       </div>
 
       {/* Smooth transition to footer */}
-      <div className="h-20 bg-gradient-to-b from-slate-50 to-slate-100"></div>
+      <div className="h-16 sm:h-20 bg-gradient-to-b from-slate-50 to-slate-100"></div>
     </main>
   );
 }

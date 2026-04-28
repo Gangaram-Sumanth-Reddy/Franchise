@@ -13,6 +13,7 @@ import ContactPage from './components/ContactPage';
 import BlogPage from './components/BlogPage';
 import BlogDetailPage from './components/BlogDetailPage';
 import ServicesPage from './components/ServicesPage';
+import FloatingContactCTA from './components/FloatingContactCTA';
 
 const scrollToHashSection = () => {
   const hash = window.location.hash;
@@ -211,6 +212,11 @@ function App() {
         )}
       </div>
       <Footer />
+      
+      {/* Global Floating Contact CTA - Always visible on Franchise Details and Opportunities pages */}
+      {(isFranchiseDetailsPage || isOpportunitiesPage) && (
+        <FloatingContactCTA franchiseName="franchise opportunities" />
+      )}
     </div>
   );
 }

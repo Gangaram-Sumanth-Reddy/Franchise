@@ -1,4 +1,25 @@
 import { useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+// Menu Icon Component
+function MenuIcon({ isOpen }) {
+  return (
+    <div className="relative h-5 w-5 flex flex-col justify-center gap-1">
+      <motion.span
+        animate={isOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
+        className="block h-0.5 w-5 bg-current origin-center"
+      />
+      <motion.span
+        animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
+        className="block h-0.5 w-5 bg-current"
+      />
+      <motion.span
+        animate={isOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
+        className="block h-0.5 w-5 bg-current origin-center"
+      />
+    </div>
+  );
+}
 
 function FolderIcon() {
   return (
@@ -179,28 +200,31 @@ function Navbar() {
             : 'h-full'
         }`}
       >
+        {/* Logo - Responsive Sizing */}
         <div className="flex flex-col">
-          <a href="/" onClick={handleHomeClick} className="inline-flex items-center gap-3">
+          <a href="/" onClick={handleHomeClick} className="inline-flex items-center gap-2 sm:gap-3">
             <img 
               src="/logo.png" 
               alt="iFranchise" 
-              className="h-10 w-auto"
+              className="h-8 w-auto sm:h-10"
               onError={(e) => {
-                e.target.onerror = null; // Prevent infinite loop
+                e.target.onerror = null;
                 e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iOCIgZmlsbD0iIzBiMTIyMCIvPgo8dGV4dCB4PSIyMCIgeT0iMjQiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5pPC90ZXh0Pgo8L3N2Zz4K';
               }}
             />
             <div className="flex flex-col">
-              <span className={`text-2xl font-extrabold tracking-tight ${isContactPage ? 'text-white' : 'text-[#0b0f19]'}`}>
+              <span className={`text-lg sm:text-2xl font-extrabold tracking-tight leading-tight ${isContactPage ? 'text-white' : 'text-[#0b0f19]'}`}>
                 iFranchise
               </span>
-              <p className={`text-xs ${isContactPage ? 'text-slate-300' : 'text-slate-500'}`}>India's Trusted Franchise Growth Platform</p>
+              <p className={`text-[10px] sm:text-xs leading-tight ${isContactPage ? 'text-slate-300' : 'text-slate-500'} hidden xs:block`}>
+                India's Trusted Franchise Growth Platform
+              </p>
             </div>
           </a>
         </div>
 
         {isContactPage ? (
-          <ul className="hidden items-center gap-6 text-sm font-medium text-slate-100 md:flex">
+          <ul className="hidden items-center gap-6 text-sm font-medium text-slate-100 lg:flex">
             <li>
               <a href="/" onClick={handleHomeClick} className="transition duration-200 hover:text-white">
                 Home
@@ -235,7 +259,7 @@ function Navbar() {
             </li>
           </ul>
         ) : (
-        <ul className="hidden items-center gap-8 text-sm font-medium text-slate-700 md:flex">
+        <ul className="hidden items-center gap-8 text-sm font-medium text-slate-700 lg:flex">
           <li>
             <a
               href="/"
@@ -335,6 +359,7 @@ function Navbar() {
                     {/* CTA Button */}
                     <button
                       type="button"
+                      onClick={() => navigateTo('/contact')}
                       className="group w-full flex items-center justify-center gap-2 rounded-xl bg-[#0B1220] px-4 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-[#1a2332] hover:shadow-lg hover:-translate-y-0.5"
                     >
                       Book A Call
@@ -434,24 +459,27 @@ function Navbar() {
         </ul>
         )}
 
+        {/* Mobile Menu Button - Premium Design with Icon Animation */}
         <button
           type="button"
           onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-          className={`inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold transition duration-200 md:hidden ${
+          className={`inline-flex items-center justify-center gap-2.5 rounded-full px-4 py-2.5 text-sm font-semibold transition-all duration-200 lg:hidden min-h-[48px] min-w-[100px] ${
             isContactPage
-              ? 'border border-white/30 text-slate-100 hover:text-white'
-              : 'border border-slate-300 text-slate-700 hover:text-[#0b0f19]'
+              ? 'border border-white/30 text-slate-100 hover:bg-white/10 active:scale-95'
+              : 'border border-slate-300 text-slate-700 hover:bg-slate-50 active:scale-95'
           }`}
           aria-expanded={isMobileMenuOpen}
           aria-label="Toggle navigation menu"
         >
-          Menu
+          <MenuIcon isOpen={isMobileMenuOpen} />
+          <span className="font-medium">Menu</span>
         </button>
 
+        {/* Desktop CTA Button - Hidden on Mobile/Tablet */}
         <button
           type="button"
           onClick={() => navigateTo('/contact')}
-          className={`hidden items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 md:inline-flex ${
+          className={`hidden items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 lg:inline-flex ${
             isContactPage
               ? 'border border-white/30 bg-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.28)]'
               : 'bg-[#0B1220] hover:shadow-lg hover:shadow-[#0B1220]/25'
@@ -462,86 +490,203 @@ function Navbar() {
         </button>
       </nav>
 
-      {isMobileMenuOpen ? (
-        <div className={`px-4 py-4 text-sm font-medium md:hidden sm:px-6 ${isContactPage ? 'mt-3 border border-white/15 bg-[#061117]/95 text-slate-100 backdrop-blur-xl' : 'border-t border-slate-200/70 bg-white/95 text-slate-700'}`}>
-          <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-4">
-            {isContactPage ? (
-              <>
-                <a href="/" onClick={handleHomeClick}>
-                  Home
-                </a>
-                <a href="#integrations" onClick={() => setIsMobileMenuOpen(false)}>
-                  Integrations
-                </a>
-                <a href="#pricing" onClick={() => setIsMobileMenuOpen(false)}>
-                  Pricing
-                </a>
-                <a
-                  href="/blog"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    navigateTo('/blog');
-                  }}
+      {/* Premium Clean White Mobile Menu */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[9998] bg-black/20 backdrop-blur-[2px] lg:hidden"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+              className="fixed right-0 top-0 bottom-0 w-full max-w-[min(420px,85vw)] overflow-y-auto bg-white shadow-2xl"
+              style={{
+                paddingTop: 'env(safe-area-inset-top)',
+                paddingBottom: 'env(safe-area-inset-bottom)',
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Clean White Header with Logo and Close */}
+              <div className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-200 bg-white px-5 py-4 shadow-sm">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#0b0f19] shadow-md">
+                    <span className="text-lg font-bold text-white">i</span>
+                  </div>
+                  <span className="text-xl font-bold text-[#0b0f19]">Menu</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-700 transition-all duration-200 hover:bg-slate-200 active:scale-90"
+                  aria-label="Close menu"
                 >
-                  Blog
-                </a>
-                <a
-                  href="/contact"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    navigateTo('/contact');
-                  }}
-                  className="text-emerald-200"
-                >
-                  Contact
-                </a>
-              </>
-            ) : (
-              <>
-                <a href="/" onClick={handleHomeClick} className={isHomeActive ? 'text-[#0b0f19]' : ''}>
-                  Home
-                </a>
-                <a href="/company" onClick={() => setIsMobileMenuOpen(false)}>
-                  Company
-                </a>
-                <a href="/services" onClick={handleServicesClick}>
-                  Services
-                </a>
-                <a
-                  href="/about"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    navigateTo('/about');
-                  }}
-                  className={isAboutActive ? 'text-[#0b0f19]' : ''}
-                >
-                  About Us
-                </a>
-                <a
-                  href="/blog"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    navigateTo('/blog');
-                  }}
-                  className={isBlogActive ? 'text-[#0b0f19]' : ''}
-                >
-                  Blog
-                </a>
-                <a
-                  href="/contact"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    navigateTo('/contact');
-                  }}
-                  className={isContactActive ? 'text-[#0b0f19]' : ''}
-                >
-                  Contact Us
-                </a>
-              </>
-            )}
-          </div>
-        </div>
-      ) : null}
+                  <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Clean White Menu Content */}
+              <div className="bg-white px-5 py-6 space-y-6">
+                <nav className="space-y-2">
+                  <a
+                    href="/"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleHomeClick(e);
+                    }}
+                    className={`block rounded-xl px-4 py-4 text-base font-semibold transition-all duration-200 active:scale-98 ${
+                      isHomeActive
+                        ? 'bg-[#0b0f19] text-white shadow-md'
+                        : 'text-slate-800 hover:bg-slate-100'
+                    }`}
+                  >
+                    Home
+                  </a>
+
+                  {/* Company Accordion - Clean and Visible */}
+                  <div className="space-y-1">
+                    <button
+                      type="button"
+                      onClick={() => setIsCompanyOpen((prev) => !prev)}
+                      className="flex w-full items-center justify-between rounded-xl px-4 py-4 text-base font-semibold text-slate-800 transition-all duration-200 hover:bg-slate-100 active:scale-98"
+                    >
+                      <span>Company</span>
+                      <svg
+                        className={`h-5 w-5 text-slate-600 transition-transform duration-300 ${
+                          isCompanyOpen ? 'rotate-180' : ''
+                        }`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+
+                    <AnimatePresence>
+                      {isCompanyOpen && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                          className="overflow-hidden bg-slate-50 rounded-xl"
+                        >
+                          <div className="space-y-1 p-2">
+                            {LEFT_ITEMS.map((item) => (
+                              <a
+                                key={item.title}
+                                href="#"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  if (item.title === 'View Opportunities') {
+                                    navigateTo('/opportunities');
+                                  } else if (item.title === 'Services') {
+                                    navigateTo('/services');
+                                  } else if (item.title === 'Blog') {
+                                    navigateTo('/blog');
+                                  }
+                                }}
+                                className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-slate-700 transition-all duration-200 hover:bg-white hover:text-slate-900 hover:shadow-sm active:scale-98"
+                              >
+                                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-white shadow-sm">
+                                  <item.Icon />
+                                </span>
+                                <span className="flex-1">{item.title}</span>
+                              </a>
+                            ))}
+                            <a
+                              href="/career"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigateTo('/career');
+                              }}
+                              className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-slate-700 transition-all duration-200 hover:bg-white hover:text-slate-900 hover:shadow-sm active:scale-98"
+                            >
+                              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-white shadow-sm">
+                                <TeamIcon />
+                              </span>
+                              <span className="flex-1">Career</span>
+                              <span className="rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-bold text-red-600">
+                                4
+                              </span>
+                            </a>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
+                  <a
+                    href="/about"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      navigateTo('/about');
+                    }}
+                    className={`block rounded-xl px-4 py-4 text-base font-semibold transition-all duration-200 active:scale-98 ${
+                      isAboutActive
+                        ? 'bg-[#0b0f19] text-white shadow-md'
+                        : 'text-slate-800 hover:bg-slate-100'
+                    }`}
+                  >
+                    About Us
+                  </a>
+
+                  <a
+                    href="/blog"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      navigateTo('/blog');
+                    }}
+                    className={`block rounded-xl px-4 py-4 text-base font-semibold transition-all duration-200 active:scale-98 ${
+                      isBlogActive
+                        ? 'bg-[#0b0f19] text-white shadow-md'
+                        : 'text-slate-800 hover:bg-slate-100'
+                    }`}
+                  >
+                    Blog
+                  </a>
+
+                  <a
+                    href="/contact"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      navigateTo('/contact');
+                    }}
+                    className={`block rounded-xl px-4 py-4 text-base font-semibold transition-all duration-200 active:scale-98 ${
+                      isContactActive
+                        ? 'bg-[#0b0f19] text-white shadow-md'
+                        : 'text-slate-800 hover:bg-slate-100'
+                    }`}
+                  >
+                    Contact Us
+                  </a>
+                </nav>
+
+                {/* Premium CTA Button */}
+                <div className="pt-2 border-t border-slate-200">
+                  <button
+                    type="button"
+                    onClick={() => navigateTo('/contact')}
+                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#0B1220] px-6 py-4 text-base font-bold text-white shadow-lg transition-all duration-300 hover:bg-[#1a2332] hover:shadow-xl active:scale-98"
+                  >
+                    Book a Call
+                    <span className="text-lg leading-none">→</span>
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
