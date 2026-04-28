@@ -22,6 +22,7 @@ export default {
       },
       animation: {
         'marquee-right': 'marquee-right 40s linear infinite',
+        'marquee-left': 'marquee-left 40s linear infinite',
         'scroll-up': 'scroll-up 20s linear infinite',
         'scroll-down': 'scroll-down 20s linear infinite',
         'dot-pulse': 'dot-pulse 1.4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
@@ -30,6 +31,10 @@ export default {
         'marquee-right': {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-50%)' },
+        },
+        'marquee-left': {
+          '0%': { transform: 'translateX(-50%)' },
+          '100%': { transform: 'translateX(0)' },
         },
         'scroll-up': {
           '0%': { transform: 'translateY(0)' },
