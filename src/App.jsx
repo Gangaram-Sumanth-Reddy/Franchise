@@ -5,7 +5,7 @@ import Footer from './components/Footer';
 import AboutPage from './components/AboutPage';
 import TeamPage from './components/TeamPage';
 import FranchiseDetailsPage from './components/FranchiseDetailsPage';
-import OpportunitiesPage from './components/OpportunitiesPage';
+import FranchiseOpportunitiesPage from './components/FranchiseOpportunitiesPage';
 import PrivacyPolicyPage from './components/PrivacyPolicyPage';
 import TermsConditionsPage from './components/TermsConditionsPage';
 import NotFoundPage from './components/NotFoundPage';
@@ -13,6 +13,7 @@ import ContactPage from './components/ContactPage';
 import BlogPage from './components/BlogPage';
 import BlogDetailPage from './components/BlogDetailPage';
 import ServicesPage from './components/ServicesPage';
+import LicensesPage from './components/LicensesPage';
 import FloatingContactCTA from './components/FloatingContactCTA';
 
 const scrollToHashSection = () => {
@@ -49,14 +50,17 @@ const getPathname = () => {
   if (pathname === '/franchise') {
     return '/franchise-details';
   }
-  if (pathname === '/featured-opportunities' || pathname === '/opportunities') {
-    return '/opportunities';
+  if (pathname === '/featured-opportunities' || pathname === '/opportunities' || pathname === '/franchise-opportunities') {
+    return '/franchise-opportunities';
   }
   if (pathname === '/privacy-policy') {
     return '/privacy-policy';
   }
   if (pathname === '/terms-and-conditions' || pathname === '/terms') {
     return '/terms-and-conditions';
+  }
+  if (pathname === '/licenses') {
+    return '/licenses';
   }
   if (pathname === '/contact-us') {
     return '/contact';
@@ -79,9 +83,10 @@ const getPathname = () => {
     '/about',
     '/team',
     '/franchise-details',
-    '/opportunities',
+    '/franchise-opportunities',
     '/privacy-policy',
     '/terms-and-conditions',
+    '/licenses',
     '/contact',
     '/blog',
     '/services',
@@ -161,14 +166,15 @@ function App() {
   const isAboutPage = pathname === '/about';
   const isTeamPage = pathname === '/team';
   const isFranchiseDetailsPage = pathname === '/franchise-details';
-  const isOpportunitiesPage = pathname === '/opportunities';
+  const isFranchiseOpportunitiesPage = pathname === '/franchise-opportunities';
   const isPrivacyPolicyPage = pathname === '/privacy-policy';
   const isTermsPage = pathname === '/terms-and-conditions';
   const isContactPage = pathname === '/contact';
+  const isLicensesPage = pathname === '/licenses';
+  const isServicesPage = pathname === '/services';
   const isNotFoundPage = pathname === '/404';
   const isBlogPage = pathname === '/blog';
   const isBlogDetailPage = pathname === '/blog-detail';
-  const isServicesPage = pathname === '/services';
 
   if (isNotFoundPage) {
     return <NotFoundPage />;
@@ -189,12 +195,14 @@ function App() {
       >
         {isTermsPage ? (
           <TermsConditionsPage />
+        ) : isLicensesPage ? (
+          <LicensesPage />
         ) : isPrivacyPolicyPage ? (
           <PrivacyPolicyPage />
         ) : isServicesPage ? (
           <ServicesPage />
-        ) : isOpportunitiesPage ? (
-          <OpportunitiesPage />
+        ) : isFranchiseOpportunitiesPage ? (
+          <FranchiseOpportunitiesPage />
         ) : isFranchiseDetailsPage ? (
           <FranchiseDetailsPage />
         ) : isTeamPage ? (
@@ -213,8 +221,8 @@ function App() {
       </div>
       <Footer />
       
-      {/* Global Floating Contact CTA - Always visible on Franchise Details and Opportunities pages */}
-      {(isFranchiseDetailsPage || isOpportunitiesPage) && (
+      {/* Global Floating Contact CTA - Always visible on Franchise Details and Franchise Opportunities pages */}
+      {(isFranchiseDetailsPage || isFranchiseOpportunitiesPage) && (
         <FloatingContactCTA franchiseName="franchise opportunities" />
       )}
     </div>

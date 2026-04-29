@@ -1050,12 +1050,12 @@ function Hero() {
             <button
               type="button"
               onClick={() => {
-                window.history.pushState({}, '', '/opportunities');
+                window.history.pushState({}, '', '/franchise-opportunities');
                 window.dispatchEvent(new PopStateEvent('popstate'));
               }}
               className="group inline-flex items-center justify-center rounded-full border-2 border-[#0B1220] bg-white w-full xs:w-auto px-6 sm:px-7 py-3 sm:py-[14px] text-sm sm:text-[15px] font-semibold transition-all duration-300 hover:bg-[#0B1220] hover:text-white hover:scale-[1.03] hover:shadow-[0_4px_12px_rgba(12,18,41,0.08)] hover:-translate-y-1 sm:hover:-translate-y-2 h-12 sm:h-[56px]"
             >
-              View Opportunities
+              Franchise Opportunities
             </button>
           </div>
 
@@ -1307,7 +1307,7 @@ function Hero() {
           <button
             type="button"
             onClick={() => {
-              window.history.pushState({}, '', '/opportunities');
+              window.history.pushState({}, '', '/franchise-opportunities');
               window.dispatchEvent(new PopStateEvent('popstate'));
             }}
             className="inline-flex items-center gap-2 sm:gap-3 rounded-full bg-[#0B1220] px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#0B1220]/25"

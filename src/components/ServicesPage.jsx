@@ -359,7 +359,7 @@ export default function ServicesPage() {
                 className="rounded-full bg-[#0B1220] px-7 py-3 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(15,23,42,0.22)]">
                 Book a Call
               </button>
-              <button type="button" onClick={() => navigateTo('/opportunities')}
+              <button type="button" onClick={() => navigateTo('/franchise-opportunities')}
                 className="rounded-full border border-slate-200 bg-white px-7 py-3 text-sm font-semibold text-[#0b0f19] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_18px_rgba(15,23,42,0.10)]">
                 View More
               </button>
@@ -593,7 +593,7 @@ export default function ServicesPage() {
                   className="group relative overflow-hidden rounded-xl bg-indigo-600 px-9 py-4 text-sm font-bold text-white transition-all duration-300 hover:bg-indigo-500 hover:-translate-y-0.5">
                   Book Your Strategy Call
                 </button>
-                <button type="button" onClick={() => navigateTo('/opportunities')}
+                <button type="button" onClick={() => navigateTo('/franchise-opportunities')}
                   className="rounded-xl border border-white/20 bg-white/5 px-9 py-4 text-sm font-bold text-white transition-all duration-300 hover:border-white/35 hover:bg-white/8">
                   View Opportunities
                 </button>

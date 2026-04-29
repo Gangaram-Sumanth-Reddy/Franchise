@@ -141,10 +141,10 @@ function Footer() {
               <ul className="mt-6 space-y-3">
                 <li>
                   <a 
-                    href="/opportunities"
+                    href="/franchise-opportunities"
                     onClick={(e) => {
                       e.preventDefault();
-                      window.history.pushState({}, '', '/opportunities');
+                      window.history.pushState({}, '', '/franchise-opportunities');
                       window.dispatchEvent(new PopStateEvent('popstate'));
                     }}
                     className="text-slate-400 hover:text-white transition-colors duration-200"

@@ -74,15 +74,16 @@ function ArrowIcon({ className = '' }) {
 const LEFT_ITEMS = [
   { title: 'Services', description: 'Explore our franchise consulting services.', Icon: FolderIcon },
   { title: 'Blog', description: 'Design tips & insights from blogs.', Icon: BlogIcon },
-  { title: 'View Opportunities', description: 'Explore franchise opportunities.', Icon: TeamIcon },
+  { title: 'Explore Brands', description: 'Discover scalable franchise brands.', Icon: TeamIcon },
+  { title: 'Careers', description: 'Join the iFranchise growth team.', Icon: TeamIcon },
 ];
 
 const RIGHT_ITEMS = [
   { title: 'Contact us', path: '/contact' },
-  { title: 'Career', badge: '4', path: '/career' },
   { title: 'Privacy Policy', path: '/privacy-policy' },
   { title: 'Terms & Conditions', path: '/terms-and-conditions' },
-  { title: '404', path: '/404-preview' },
+  { title: 'Licenses', path: '/licenses' },
+  { title: '404 Page', path: '/404' },
 ];
 
 function Navbar() {
@@ -326,12 +327,14 @@ function Navbar() {
                             href="#"
                             onClick={(e) => {
                               e.preventDefault();
-                              if (item.title === 'View Opportunities') {
-                                navigateTo('/opportunities');
+                              if (item.title === 'Explore Brands') {
+                                navigateTo('/franchise-opportunities');
                               } else if (item.title === 'Services') {
                                 navigateTo('/services');
                               } else if (item.title === 'Blog') {
                                 navigateTo('/blog');
+                              } else if (item.title === 'Careers') {
+                                navigateTo('/careers');
                               }
                             }}
                             className="group flex items-center gap-3 rounded-xl px-3 py-3 transition-all duration-200 hover:bg-slate-50 hover:shadow-sm"
@@ -381,8 +384,8 @@ function Navbar() {
                         onClick={(event) => {
                           event.preventDefault();
                           if (!item.path) return;
-                          if (item.path === '/404-preview') {
-                            navigateTo('/missing-page');
+                          if (item.path === '/404') {
+                            navigateTo('/404');
                             return;
                           }
                           navigateTo(item.path);
@@ -406,8 +409,11 @@ function Navbar() {
             ) : null}
           </li>
           <li>
-            <a href="/#services" onClick={handleServicesClick} className="inline-flex items-center gap-2 transition duration-200 hover:text-[#0b0f19]">
-              Services
+            <a href="/franchise-opportunities" onClick={(event) => {
+              event.preventDefault();
+              navigateTo('/franchise-opportunities');
+            }} className="inline-flex items-center gap-2 transition duration-200 hover:text-[#0b0f19]">
+              Franchise Opportunities
             </a>
           </li>
           <li>
@@ -587,12 +593,14 @@ function Navbar() {
                                 href="#"
                                 onClick={(e) => {
                                   e.preventDefault();
-                                  if (item.title === 'View Opportunities') {
-                                    navigateTo('/opportunities');
+                                  if (item.title === 'Explore Brands') {
+                                    navigateTo('/franchise-opportunities');
                                   } else if (item.title === 'Services') {
                                     navigateTo('/services');
                                   } else if (item.title === 'Blog') {
                                     navigateTo('/blog');
+                                  } else if (item.title === 'Careers') {
+                                    navigateTo('/careers');
                                   }
                                 }}
                                 className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-slate-700 transition-all duration-200 hover:bg-white hover:text-slate-900 hover:shadow-sm active:scale-98"
@@ -603,27 +611,22 @@ function Navbar() {
                                 <span className="flex-1">{item.title}</span>
                               </a>
                             ))}
-                            <a
-                              href="/career"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                navigateTo('/career');
-                              }}
-                              className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-slate-700 transition-all duration-200 hover:bg-white hover:text-slate-900 hover:shadow-sm active:scale-98"
-                            >
-                              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-white shadow-sm">
-                                <TeamIcon />
-                              </span>
-                              <span className="flex-1">Career</span>
-                              <span className="rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-bold text-red-600">
-                                4
-                              </span>
-                            </a>
                           </div>
                         </motion.div>
                       )}
                     </AnimatePresence>
                   </div>
+
+                  <a
+                    href="/franchise-opportunities"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      navigateTo('/franchise-opportunities');
+                    }}
+                    className="block rounded-xl px-4 py-4 text-base font-semibold text-slate-800 hover:bg-slate-100 transition-all duration-200 active:scale-98"
+                  >
+                    Franchise Opportunities
+                  </a>
 
                   <a
                     href="/about"

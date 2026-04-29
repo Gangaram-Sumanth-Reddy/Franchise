@@ -561,7 +561,7 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
 }
 
 // Main Opportunities Page Component
-function OpportunitiesPage() {
+function FranchiseOpportunitiesPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('newest');
   const [currentPage, setCurrentPage] = useState(1);
@@ -1230,4 +1230,4 @@ function OpportunitiesPage() {
   );
 }
 
-export default OpportunitiesPage;
+export default FranchiseOpportunitiesPage;
