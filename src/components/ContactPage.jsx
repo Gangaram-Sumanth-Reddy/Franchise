@@ -1,357 +1,692 @@
 import { useState } from 'react';
-
-function MailIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5 text-slate-600">
-      <path d="M4 7.5A2.5 2.5 0 0 1 6.5 5h11A2.5 2.5 0 0 1 20 7.5v9A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5v-9z" fill="none" stroke="currentColor" strokeWidth="1.7" />
-      <path d="m5 8 7 5 7-5" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function PhoneIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5 text-slate-600">
-      <path d="M5.5 4.8a2 2 0 0 1 2.6-.2l2.4 1.9c.8.6 1 1.7.5 2.6l-1 1.8a14.2 14.2 0 0 0 3.6 3.6l1.8-1c.9-.5 2-.3 2.6.5l1.9 2.4a2 2 0 0 1-.2 2.6l-1.2 1.2c-.9.9-2.2 1.3-3.5 1-6.2-1.4-11.1-6.3-12.5-12.5-.3-1.3.1-2.6 1-3.5l1.2-1.2z" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function PinIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5 text-slate-600">
-      <path d="M12 20c3.7-3.5 6-6.5 6-9a6 6 0 1 0-12 0c0 2.5 2.3 5.5 6 9z" fill="none" stroke="currentColor" strokeWidth="1.7" />
-      <circle cx="12" cy="11" r="2.2" fill="none" stroke="currentColor" strokeWidth="1.7" />
-    </svg>
-  );
-}
-
-const CONTACT_ITEMS = [
-  {
-    title: 'Email',
-    value: 'partnerships@ifranchise.com',
-    Icon: MailIcon,
-    href: 'mailto:partnerships@ifranchise.com',
-  },
-  {
-    title: 'Phone',
-    value: '+1 (501) 123-4567',
-    Icon: PhoneIcon,
-    href: 'tel:+15011234567',
-  },
-  {
-    title: 'Location',
-    value: 'Crosby Street, New York, US',
-    Icon: PinIcon,
-    href: 'https://maps.google.com/?q=Crosby+Street,+New+York,+US',
-  },
-];
-
-const TEAM_MEMBERS = [
-  {
-    name: 'Aarav Mehta',
-    role: 'Franchise Growth Advisor',
-    image:
-      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    name: 'Mira Kapoor',
-    role: 'Investment Consultant',
-    image:
-      'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    name: 'Rohan Iyer',
-    role: 'Market Expansion Strategist',
-    image:
-      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    name: 'Neha Sethi',
-    role: 'Franchise Operations Manager',
-    image:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    name: 'Kabir Anand',
-    role: 'Brand Partnership Lead',
-    image:
-      'https://images.unsplash.com/photo-1463453091185-61582044d556?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    name: 'Sana Verma',
-    role: 'Business Analyst',
-    image:
-      'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=900&q=80',
-  },
-];
-
-const FAQ_ITEMS = [
-  {
-    question: 'How do I choose the right franchise?',
-    answer:
-      'We assess your budget, risk profile, location goals, and preferred industry to shortlist the most suitable models.',
-  },
-  {
-    question: 'What is the typical investment range?',
-    answer:
-      'Most opportunities on our platform start around $20K and can go beyond $250K depending on brand category and market potential.',
-  },
-  {
-    question: 'How long does it take to break even?',
-    answer:
-      'Break-even timelines vary by sector, but many franchise models we work with target 12 to 24 months with disciplined execution.',
-  },
-  {
-    question: 'Do I need prior business experience?',
-    answer:
-      'Not necessarily. Many successful partners are first-time operators and rely on structured onboarding, SOPs, and advisory support.',
-  },
-  {
-    question: 'What support does iFranchise provide?',
-    answer:
-      'We support brand matching, diligence, financial understanding, launch planning, and ongoing growth guidance after onboarding.',
-  },
-  {
-    question: 'Can I operate multiple franchise units?',
-    answer:
-      'Yes. Multi-unit expansion is available for many brands after performance milestones and market readiness checks are met.',
-  },
-  {
-    question: 'How are locations selected?',
-    answer:
-      'Our process combines demographic data, demand mapping, competition analysis, and brand-specific territory requirements.',
-  },
-  {
-    question: 'What are the ongoing fees or royalties?',
-    answer:
-      'Ongoing fees depend on the brand agreement and typically include royalty, marketing contributions, and technology platform charges.',
-  },
-  {
-    question: 'Do you assist with financing options?',
-    answer:
-      'Yes. We help you prepare investor-ready information and connect with relevant funding partners based on your profile.',
-  },
-  {
-    question: 'How do I get started with iFranchise?',
-    answer:
-      'Submit your details through the contact form, and our advisors will schedule a discovery call to map your next steps.',
-  },
-];
-
-function AnalyticsIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 text-slate-600">
-      <path d="M4 18h16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-      <rect x="6" y="10.5" width="2.6" height="5.5" rx="1" fill="currentColor" opacity="0.75" />
-      <rect x="10.7" y="8" width="2.6" height="8" rx="1" fill="currentColor" opacity="0.85" />
-      <rect x="15.4" y="6.2" width="2.6" height="9.8" rx="1" fill="currentColor" />
-    </svg>
-  );
-}
-
-function ChatIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 text-slate-600">
-      <path d="M5.5 6h13A1.5 1.5 0 0 1 20 7.5v7a1.5 1.5 0 0 1-1.5 1.5h-5.9l-3.6 2.7V16H5.5A1.5 1.5 0 0 1 4 14.5v-7A1.5 1.5 0 0 1 5.5 6z" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
+import { motion } from 'framer-motion';
+import contactImage from '../assets/contact.png';
+import contactImage2 from '../assets/contact2.png';
+import contactImage3 from '../assets/contact3.png';
 
 function ContactPage() {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    contactNumber: '',
+    email: '',
+    website: '',
+    company: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [openFaq, setOpenFaq] = useState(0);
-  const [hubTilt, setHubTilt] = useState({ x: 0, y: 0 });
 
-  const handleHubMove = (event) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const px = (event.clientX - rect.left) / rect.width;
-    const py = (event.clientY - rect.top) / rect.height;
-    const rotateY = (px - 0.5) * 7;
-    const rotateX = (0.5 - py) * 6;
-    setHubTilt({ x: rotateX, y: rotateY });
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleHubLeave = () => {
-    setHubTilt({ x: 0, y: 0 });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+      
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormData({
+          fullName: '',
+          contactNumber: '',
+          email: '',
+          website: '',
+          company: '',
+          message: ''
+        });
+      }, 3000);
+    }, 1500);
   };
+
+  const FAQ_ITEMS = [
+    {
+      question: 'How do I choose the right franchise?',
+      answer: 'We assess your budget, risk profile, location goals, and preferred industry to shortlist the most suitable models.'
+    },
+    {
+      question: 'What is the typical investment range?',
+      answer: 'Most opportunities on our platform start around $20K and can go beyond $250K depending on brand category and market potential.'
+    },
+    {
+      question: 'How long does it take to break even?',
+      answer: 'Break-even timelines vary by sector, but many franchise models we work with target 12 to 24 months with disciplined execution.'
+    },
+    {
+      question: 'Do I need prior business experience?',
+      answer: 'Not necessarily. Many successful partners are first-time operators and rely on structured onboarding, SOPs, and advisory support.'
+    },
+    {
+      question: 'What support does iFranchise provide?',
+      answer: 'We support brand matching, diligence, financial understanding, launch planning, and ongoing growth guidance after onboarding.'
+    },
+    {
+      question: 'Can I operate multiple franchise units?',
+      answer: 'Yes. Multi-unit expansion is available for many brands after performance milestones and market readiness checks are met.'
+    }
+  ];
 
   return (
-    <main className="relative overflow-hidden bg-white">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_10%,rgba(148,163,184,0.16),transparent_42%),radial-gradient(circle_at_85%_20%,rgba(191,219,254,0.24),transparent_40%),radial-gradient(circle_at_75%_80%,rgba(226,232,240,0.28),transparent_44%)]" />
-      <div className="pointer-events-none absolute left-8 top-24 h-32 w-32 animate-float-slow rounded-full bg-slate-200/40 blur-2xl" />
-      <div className="pointer-events-none absolute right-14 top-40 h-40 w-40 animate-float-slow rounded-full bg-blue-100/40 blur-2xl [animation-delay:1.8s]" />
-      <div className="pointer-events-none absolute bottom-20 left-1/2 h-[1px] w-[420px] -translate-x-1/2 bg-gradient-to-r from-transparent via-slate-300/70 to-transparent" />
-      <p className="pointer-events-none absolute left-1/2 top-32 -translate-x-1/2 select-none text-[100px] font-extrabold tracking-[0.2em] text-slate-200/35 blur-[2px] sm:text-[160px]">
-        CONTACT
-      </p>
-
-      <section className="relative mx-auto w-full max-w-[1200px] px-4 pb-20 pt-10 sm:px-6 lg:px-8" data-reveal>
-        <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
-          <div className="animate-mega-in space-y-6">
-            <h1 className="text-4xl font-extrabold tracking-tight text-[#0b0f19] sm:text-5xl">Get in Touch</h1>
-            <p className="max-w-[500px] text-base leading-relaxed text-slate-600">
-              We help brands scale with clarity and confidence. Share your goals and our team will get back with the right strategy.
-            </p>
-
-            <div className="space-y-4 pt-2">
-              {CONTACT_ITEMS.map((item) => (
-                <a
-                  key={item.title}
-                  href={item.href}
-                  target={item.title === 'Location' ? '_blank' : undefined}
-                  rel={item.title === 'Location' ? 'noreferrer' : undefined}
-                  className="interactive-card group flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_8px_30px_rgba(15,23,42,0.08)] hover:border-slate-300 hover:shadow-[0_16px_36px_rgba(15,23,42,0.12)]"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100">
-                      <item.Icon />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-slate-900">{item.title}</p>
-                      <p className="text-sm text-slate-600">{item.value}</p>
-                    </div>
-                  </div>
-                  <span className="text-slate-400 transition duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-slate-600">↗</span>
-                </a>
-              ))}
-            </div>
-
-            <div
-              className="group/comm relative mt-2 overflow-hidden rounded-3xl border border-slate-200 bg-[radial-gradient(circle_at_50%_0%,#ffffff_0%,#f2f5ff_46%,#edf2f8_100%)] p-6 shadow-[0_18px_50px_rgba(15,23,42,0.1)] transition duration-500 hover:shadow-[0_24px_62px_rgba(15,23,42,0.13)]"
-              onMouseMove={handleHubMove}
-              onMouseLeave={handleHubLeave}
-              style={{ perspective: '1000px' }}
+    <main className="relative bg-white">
+      {/* SECTION 1 - HERO CONTACT (FULL VIEWPORT CLEAN) */}
+      <section className="w-full bg-gradient-to-br from-white via-slate-50/20 to-purple-50/10 min-h-[calc(100vh-80px)] flex items-center overflow-hidden">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-8 w-full py-8">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* Left Side - Content */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="flex flex-col justify-center space-y-6 max-w-[540px]"
             >
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_82%_24%,rgba(191,219,254,0.42),transparent_40%),radial-gradient(circle_at_14%_86%,rgba(216,227,245,0.52),transparent_44%)]" />
-
-              <div className="pointer-events-none absolute inset-0 opacity-70">
-                <div className="absolute left-1/2 top-[28%] h-[2px] w-[45%] -translate-x-1/2 bg-gradient-to-r from-transparent via-slate-300/80 to-transparent" />
-                <div className="absolute left-1/2 top-[50%] h-[2px] w-[68%] -translate-x-1/2 bg-gradient-to-r from-transparent via-slate-300/70 to-transparent" />
-                <div className="absolute left-[24%] top-[34%] h-[34%] w-[2px] bg-gradient-to-b from-transparent via-slate-300/70 to-transparent" />
-                <div className="absolute right-[22%] top-[34%] h-[34%] w-[2px] bg-gradient-to-b from-transparent via-slate-300/70 to-transparent" />
+              <div className="space-y-4">
+                <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-slate-900 leading-tight">
+                  Let's grow your brand together!
+                </h1>
+                
+                <p className="text-lg lg:text-xl text-slate-600 leading-relaxed">
+                  Positioning for founders, franchise brands, and expansion leaders through strategy, intelligence, and scalable growth.
+                </p>
               </div>
-
-              <div className="pointer-events-none absolute left-[43%] top-[34%] h-[120px] w-[120px] -translate-x-1/2 rounded-full border border-blue-200/50 [animation:phone-pulse_3.5s_ease-out_infinite]" />
-              <div className="pointer-events-none absolute left-[43%] top-[34%] h-[140px] w-[140px] -translate-x-1/2 rounded-full border border-slate-300/60 [animation:phone-pulse_3.5s_ease-out_1.2s_infinite]" />
-
-              <div className="relative mx-auto flex min-h-[210px] max-w-[420px] items-center justify-center">
-                <div className="absolute left-0 top-4 rounded-2xl border border-slate-200 bg-white/95 px-3 py-2 shadow-[0_12px_26px_rgba(15,23,42,0.1)] [animation:float-soft_5.2s_ease-in-out_infinite]">
-                  <MailIcon />
-                </div>
-                <div className="absolute right-2 top-1 rounded-2xl border border-slate-200 bg-white/95 px-3 py-2 shadow-[0_12px_26px_rgba(15,23,42,0.1)] [animation:float-soft_5.9s_ease-in-out_0.7s_infinite]">
-                  <AnalyticsIcon />
-                </div>
-                <div className="absolute left-8 bottom-2 rounded-2xl border border-slate-200 bg-white/95 px-3 py-2 shadow-[0_12px_26px_rgba(15,23,42,0.1)] [animation:float-soft_5.5s_ease-in-out_1.1s_infinite]">
-                  <ChatIcon />
-                </div>
-                <div className="absolute right-8 bottom-4 rounded-2xl border border-slate-200 bg-white/95 px-3 py-2 shadow-[0_12px_26px_rgba(15,23,42,0.1)] [animation:float-soft_6.1s_ease-in-out_1.5s_infinite]">
-                  <PhoneIcon />
-                </div>
-
-                <div
-                  className="relative [transform-style:preserve-3d] transition-transform duration-500"
-                  style={{ transform: `rotateX(${hubTilt.x}deg) rotateY(${hubTilt.y}deg)` }}
+              
+              <div className="pt-2">
+                <motion.button
+                  whileHover={{ scale: 1.02, y: -1 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="inline-flex items-center gap-3 bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                  onClick={() => document.getElementById('contact-form').scrollIntoView({ behavior: 'smooth' })}
                 >
-                  <div className="absolute left-1/2 top-[140px] h-16 w-44 -translate-x-1/2 rounded-[50%] bg-slate-300/40 blur-xl" />
-                  <div className="relative h-16 w-52 rounded-[22px] bg-gradient-to-b from-[#f7f9ff] to-[#dbe6f8] shadow-[0_18px_30px_rgba(102,121,154,0.28)] ring-1 ring-blue-100/70 [transform:translateZ(-16px)]" />
-                  <div className="absolute left-1/2 top-7 h-20 w-44 -translate-x-1/2 rounded-[20px] bg-gradient-to-b from-[#ffffff] to-[#eef3ff] shadow-[0_20px_40px_rgba(125,145,178,0.25)] ring-1 ring-slate-200/90 [transform:translateZ(0)]" />
-
-                  <div className="absolute left-1/2 top-[-8px] flex h-40 w-36 -translate-x-1/2 items-end justify-center rounded-[30px] bg-gradient-to-b from-slate-100 via-white to-slate-100 shadow-[0_24px_44px_rgba(15,23,42,0.2)] ring-1 ring-slate-200 [animation:phone-ring_3.9s_ease-in-out_infinite] [transform:translateZ(22px)]">
-                    <div className="absolute top-3 h-1.5 w-16 rounded-full bg-slate-300" />
-                    <div className="absolute top-8 h-24 w-28 rounded-2xl border border-slate-200 bg-[linear-gradient(145deg,#ffffff,#eaf0ff)] shadow-inner" />
-                    <div className="mb-3 h-1.5 w-10 rounded-full bg-slate-300/90" />
-                  </div>
-                </div>
+                  Start Your Growth Journey
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </motion.button>
               </div>
-            </div>
-          </div>
+            </motion.div>
 
-          <div className="animate-mega-in rounded-3xl border border-slate-200/80 bg-slate-50 p-6 shadow-[0_12px_36px_rgba(15,23,42,0.08)] sm:p-8">
-            <div className="mb-6 space-y-3">
-              <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white">
-                <MailIcon />
+            {/* Right Side - Image */}
+            <motion.div
+              initial={{ opacity: 0, x: 30, scale: 0.95 }}
+              whileInView={{ opacity: 1, x: 0, scale: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+              className="relative flex items-center justify-center lg:justify-end"
+            >
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-[400px] h-[400px] lg:w-[500px] lg:h-[500px] bg-gradient-radial from-purple-100/20 via-transparent to-transparent rounded-full blur-2xl"></div>
               </div>
-              <h2 className="text-2xl font-bold tracking-tight text-[#0b0f19]">Contact us now</h2>
-              <p className="max-w-[500px] text-sm leading-relaxed text-slate-600">
-                Get in touch with us and enjoy high-quality services without the high costs!
-              </p>
-            </div>
-
-            <form className="space-y-4">
-              <input type="text" placeholder="Name" className="w-full rounded-xl border border-slate-200 bg-slate-100 px-4 py-3.5 text-sm text-slate-900 outline-none transition duration-300 placeholder:text-slate-500 focus:border-[#0B1220]/30 focus:bg-white focus:shadow-[0_0_0_3px_rgba(11,18,32,0.08)]" />
-              <input type="email" placeholder="Email" className="w-full rounded-xl border border-slate-200 bg-slate-100 px-4 py-3.5 text-sm text-slate-900 outline-none transition duration-300 placeholder:text-slate-500 focus:border-[#0B1220]/30 focus:bg-white focus:shadow-[0_0_0_3px_rgba(11,18,32,0.08)]" />
-              <input type="url" placeholder="Website" className="w-full rounded-xl border border-slate-200 bg-slate-100 px-4 py-3.5 text-sm text-slate-900 outline-none transition duration-300 placeholder:text-slate-500 focus:border-[#0B1220]/30 focus:bg-white focus:shadow-[0_0_0_3px_rgba(11,18,32,0.08)]" />
-              <input type="tel" placeholder="Contact Number" className="w-full rounded-xl border border-slate-200 bg-slate-100 px-4 py-3.5 text-sm text-slate-900 outline-none transition duration-300 placeholder:text-slate-500 focus:border-[#0B1220]/30 focus:bg-white focus:shadow-[0_0_0_3px_rgba(11,18,32,0.08)]" />
-              <textarea rows={6} placeholder="Message" className="w-full resize-none rounded-xl border border-slate-200 bg-slate-100 px-4 py-3.5 text-sm text-slate-900 outline-none transition duration-300 placeholder:text-slate-500 focus:border-[#0B1220]/30 focus:bg-white focus:shadow-[0_0_0_3px_rgba(11,18,32,0.08)]" />
-              <button type="submit" className="button-motion w-full rounded-xl bg-[#0B1220] px-5 py-3.5 text-sm font-semibold text-white hover:-translate-y-0.5 hover:bg-[#141d2d] hover:shadow-lg hover:shadow-[#0B1220]/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1220]/30 focus-visible:ring-offset-2">
-                Submit
-              </button>
-            </form>
-          </div>
-        </div>
-      </section>
-
-      <section className="relative mx-auto w-full max-w-[1200px] px-4 pb-20 sm:px-6 lg:px-8" data-reveal style={{ '--reveal-delay': '40ms' }}>
-        <div className="rounded-[32px] border border-slate-200 bg-slate-50/70 p-6 sm:p-8 lg:p-10">
-          <p className="inline-flex rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">
-            The Team
-          </p>
-          <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-[#0b0f19] sm:text-4xl">
-            The people behind iFranchise growth
-          </h2>
-
-          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {TEAM_MEMBERS.map((member) => (
-              <article key={member.name} className="interactive-card group relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_8px_24px_rgba(15,23,42,0.08)]">
-                <img
-                  src={member.image}
-                  alt={member.name}
-                  loading="lazy"
-                  className="image-hover-zoom h-80 w-full object-cover"
+              
+              <div className="relative z-10">
+                <motion.img
+                  initial={{ scale: 0.9 }}
+                  whileInView={{ scale: 1 }}
+                  transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
+                  src={contactImage}
+                  alt="Professional workspace"
+                  className="w-full max-w-md lg:max-w-lg xl:max-w-xl h-auto object-contain drop-shadow-lg"
                 />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-900/32 via-slate-900/8 to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
-                <div className="absolute inset-x-3 bottom-3 translate-y-6 rounded-xl bg-white/95 p-3 opacity-0 shadow-[0_10px_28px_rgba(15,23,42,0.16)] backdrop-blur-sm transition duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100">
-                  <p className="text-sm font-bold text-slate-900">{member.name}</p>
-                  <p className="text-xs text-slate-600">{member.role}</p>
-                </div>
-              </article>
-            ))}
+                <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 w-3/4 h-12 bg-slate-200/25 rounded-full blur-xl"></div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      <section className="relative mx-auto w-full max-w-[1200px] px-4 pb-24 sm:px-6 lg:px-8" data-reveal style={{ '--reveal-delay': '80ms' }}>
-        <div className="rounded-[32px] border border-slate-200 bg-white p-6 shadow-[0_10px_30px_rgba(15,23,42,0.06)] sm:p-8 lg:p-10">
-          <p className="inline-flex rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">
-            FAQ
-          </p>
-          <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-[#0b0f19] sm:text-4xl">Frequently asked questions</h2>
-          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-600">
-            Everything you need to know before starting your franchise journey.
-          </p>
+      {/* SECTION 2 - CONTACT FORM (FULL VIEWPORT FIT) */}
+      <section className="w-full bg-gradient-to-br from-slate-50/30 via-white to-purple-50/20 min-h-[calc(100vh-80px)] flex items-center overflow-hidden">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-8 w-full py-8">
+          <div id="contact-form" className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* Left Side - Large Image + Social Links */}
+            <motion.div
+              initial={{ opacity: 0, x: -30, scale: 0.95 }}
+              whileInView={{ opacity: 1, x: 0, scale: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="relative flex flex-col items-center justify-center order-last lg:order-first space-y-6"
+            >
+              {/* Image Container */}
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-[400px] h-[400px] lg:w-[480px] lg:h-[480px] bg-gradient-to-br from-slate-100/40 via-purple-50/30 to-slate-100/40 rounded-[40%_60%_70%_30%] blur-sm"></div>
+                </div>
+                
+                <div className="relative z-10">
+                  <motion.img
+                    initial={{ scale: 0.9 }}
+                    whileInView={{ scale: 1 }}
+                    transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
+                    src={contactImage2}
+                    alt="Contact support"
+                    className="w-full max-w-md lg:max-w-lg xl:max-w-xl h-auto object-contain drop-shadow-lg"
+                  />
+                  
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8, y: 10 }}
+                    whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                    transition={{ duration: 0.5, ease: "easeOut", delay: 0.8 }}
+                    className="absolute -top-8 left-1/2 transform -translate-x-1/2 lg:-top-12 lg:left-2/3 lg:-translate-x-1/2"
+                  >
+                    <div className="bg-white rounded-2xl px-5 py-3 shadow-xl border border-slate-200/50 relative">
+                      <p className="text-base font-medium text-slate-700">Let's Connect!</p>
+                      <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white"></div>
+                    </div>
+                  </motion.div>
+                  
+                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 w-3/4 h-12 bg-slate-200/30 rounded-full blur-xl"></div>
+                </div>
+              </div>
 
-          <div className="mt-8 grid gap-4 md:grid-cols-2">
+              {/* Premium Social Links */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut", delay: 0.5 }}
+                className="flex flex-col items-center space-y-4"
+              >
+                <p className="text-sm font-medium text-slate-600">Connect with iFranchise</p>
+                
+                <div className="flex items-center gap-4">
+                  {/* Instagram */}
+                  <motion.a
+                    href="#"
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="group flex items-center justify-center w-12 h-12 bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md hover:border-purple-300 transition-all duration-300"
+                  >
+                    <svg className="w-5 h-5 text-slate-600 group-hover:text-purple-600 transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                  </motion.a>
+
+                  {/* YouTube */}
+                  <motion.a
+                    href="#"
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="group flex items-center justify-center w-12 h-12 bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md hover:border-purple-300 transition-all duration-300"
+                  >
+                    <svg className="w-5 h-5 text-slate-600 group-hover:text-purple-600 transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                  </motion.a>
+
+                  {/* X (Twitter) */}
+                  <motion.a
+                    href="#"
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="group flex items-center justify-center w-12 h-12 bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md hover:border-purple-300 transition-all duration-300"
+                  >
+                    <svg className="w-4 h-4 text-slate-600 group-hover:text-purple-600 transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                  </motion.a>
+
+                  {/* LinkedIn */}
+                  <motion.a
+                    href="#"
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="group flex items-center justify-center w-12 h-12 bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md hover:border-purple-300 transition-all duration-300"
+                  >
+                    <svg className="w-5 h-5 text-slate-600 group-hover:text-purple-600 transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                  </motion.a>
+                </div>
+              </motion.div>
+            </motion.div>
+
+            {/* Right Side - Contact Form */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+              className="order-first lg:order-last"
+            >
+              <div className="bg-white/90 backdrop-blur-sm rounded-3xl border border-white/60 shadow-xl p-6 lg:p-8">
+                <div className="mb-6">
+                  <h2 className="text-2xl lg:text-3xl font-bold text-slate-900 mb-3">
+                    Send Message
+                  </h2>
+                  <p className="text-slate-600 leading-relaxed">
+                    Ready to scale your business? Fill out the form and we'll get back to you within 24 hours.
+                  </p>
+                </div>
+
+                {isSubmitted ? (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="text-center py-8"
+                  >
+                    <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-semibold text-slate-900 mb-1">Message Sent!</h3>
+                    <p className="text-slate-600 text-sm">Thank you for reaching out. We'll be in touch soon.</p>
+                  </motion.div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-medium text-slate-700 mb-1">Full Name *</label>
+                        <input
+                          type="text"
+                          required
+                          value={formData.fullName}
+                          onChange={(e) => handleInputChange('fullName', e.target.value)}
+                          className="w-full px-3 py-3 rounded-lg border border-slate-200 focus:border-purple-400 focus:ring-3 focus:ring-purple-100 transition-all duration-300 bg-white/80 text-slate-900 placeholder-slate-500 text-sm"
+                          placeholder="Enter your full name"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-slate-700 mb-1">Contact Number *</label>
+                        <input
+                          type="tel"
+                          required
+                          value={formData.contactNumber}
+                          onChange={(e) => handleInputChange('contactNumber', e.target.value)}
+                          className="w-full px-3 py-3 rounded-lg border border-slate-200 focus:border-purple-400 focus:ring-3 focus:ring-purple-100 transition-all duration-300 bg-white/80 text-slate-900 placeholder-slate-500 text-sm"
+                          placeholder="Enter your phone number"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-medium text-slate-700 mb-1">Email Address *</label>
+                        <input
+                          type="email"
+                          required
+                          value={formData.email}
+                          onChange={(e) => handleInputChange('email', e.target.value)}
+                          className="w-full px-3 py-3 rounded-lg border border-slate-200 focus:border-purple-400 focus:ring-3 focus:ring-purple-100 transition-all duration-300 bg-white/80 text-slate-900 placeholder-slate-500 text-sm"
+                          placeholder="Enter your email address"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-slate-700 mb-1">Website / Portfolio</label>
+                        <input
+                          type="url"
+                          value={formData.website}
+                          onChange={(e) => handleInputChange('website', e.target.value)}
+                          className="w-full px-3 py-3 rounded-lg border border-slate-200 focus:border-purple-400 focus:ring-3 focus:ring-purple-100 transition-all duration-300 bg-white/80 text-slate-900 placeholder-slate-500 text-sm"
+                          placeholder="https://yourwebsite.com"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-medium text-slate-700 mb-1">Company Name</label>
+                      <input
+                        type="text"
+                        value={formData.company}
+                        onChange={(e) => handleInputChange('company', e.target.value)}
+                        className="w-full px-3 py-3 rounded-lg border border-slate-200 focus:border-purple-400 focus:ring-3 focus:ring-purple-100 transition-all duration-300 bg-white/80 text-slate-900 placeholder-slate-500 text-sm"
+                        placeholder="Enter your company name"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-medium text-slate-700 mb-1">Message *</label>
+                      <textarea
+                        rows={4}
+                        required
+                        value={formData.message}
+                        onChange={(e) => handleInputChange('message', e.target.value)}
+                        className="w-full px-3 py-3 rounded-lg border border-slate-200 focus:border-purple-400 focus:ring-3 focus:ring-purple-100 transition-all duration-300 bg-white/80 text-slate-900 placeholder-slate-500 resize-none text-sm"
+                        placeholder="Tell us about your project and goals..."
+                      />
+                    </div>
+
+                    <motion.button
+                      type="submit"
+                      disabled={isSubmitting}
+                      whileHover={{ scale: 1.02, y: -1 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="w-full bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
+                    >
+                      {isSubmitting ? (
+                        <div className="flex items-center justify-center gap-2">
+                          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                          Sending...
+                        </div>
+                      ) : (
+                        'Send Message'
+                      )}
+                    </motion.button>
+                  </form>
+                )}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 3 - OUR LOCATION MAP (TIGHT SPACING) */}
+      <section className="w-full bg-white py-16">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="text-center mb-8"
+          >
+            <div className="inline-flex items-center px-4 py-2 bg-slate-100 rounded-full text-sm font-medium text-slate-600 mb-4">
+              OUR LOCATION
+            </div>
+            
+            <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-3">
+              Built in Bangalore. Scaling Across India.
+            </h2>
+            
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+              Strategically positioned in India's innovation capital to connect founders, investors, and franchise ecosystems.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+            className="relative group"
+          >
+            <div className="relative overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d248849.84916296526!2d77.49085452148437!3d12.953945614117967!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c9b44e6d%3A0xf8dfc3e8517e4aa0!2sBengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1703123456789!5m2!1sen!2sin"
+                width="100%"
+                height="500"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="w-full h-[500px] transition-all duration-300"
+                title="Bangalore Location Map"
+              ></iframe>
+              
+              <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-purple-200/30 transition-all duration-300 pointer-events-none"></div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* SECTION 4 - FAQ (CLEAN SPACING) */}
+      <section className="w-full bg-slate-50 py-16">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-3">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              Everything founders, investors, and franchise partners need to know.
+            </p>
+          </motion.div>
+
+          <div className="max-w-4xl mx-auto grid gap-4 md:grid-cols-2">
             {FAQ_ITEMS.map((item, index) => {
               const isOpen = openFaq === index;
               return (
-                <button
-                  type="button"
+                <motion.button
                   key={item.question}
-                  onClick={() => setOpenFaq((prev) => (prev === index ? -1 : index))}
-                  className="text-left rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 transition duration-300 hover:border-slate-300 hover:bg-white"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  onClick={() => setOpenFaq(prev => prev === index ? -1 : index)}
+                  className="text-left rounded-xl border border-slate-200 bg-white p-5 transition duration-300 hover:border-slate-300 hover:shadow-md"
                 >
                   <div className="flex items-start justify-between gap-4">
-                    <p className="pr-2 text-[15px] font-semibold text-slate-900">{item.question}</p>
-                    <span className="mt-0.5 text-lg font-semibold text-slate-500">{isOpen ? '−' : '+'}</span>
+                    <p className="font-semibold text-slate-900 pr-2">{item.question}</p>
+                    <span className="text-lg font-semibold text-purple-600 flex-shrink-0">
+                      {isOpen ? '−' : '+'}
+                    </span>
                   </div>
-                  <div className={`grid transition-all duration-300 ease-out ${isOpen ? 'mt-3 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+                  <div className={`grid transition-all duration-300 ease-out ${
+                    isOpen ? 'mt-3 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                  }`}>
                     <div className="overflow-hidden">
                       <p className="text-sm leading-relaxed text-slate-600">{item.answer}</p>
                     </div>
                   </div>
-                </button>
+                </motion.button>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 5 - PREMIUM "GET IN TOUCH" TRUST BLOCK (FULL SCREEN) */}
+      <section className="w-full bg-white min-h-screen flex items-center overflow-hidden">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-8 w-full py-16">
+          {/* Section Header - Tight Spacing */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="text-center mb-16"
+          >
+            <div className="inline-flex items-center px-4 py-2 bg-slate-100 rounded-full text-sm font-medium text-slate-600 mb-6">
+              CONFUSED ABOUT SCALING?
+            </div>
+            
+            <h2 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-slate-900 mb-4 leading-tight">
+              Confused about business growth, branding, or franchise expansion?
+            </h2>
+            
+            <p className="text-lg lg:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+              Let iFranchise guide your next move with strategic clarity, market intelligence, and founder-first execution.
+            </p>
+          </motion.div>
+
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* Left Side - Interactive Black Contact Card */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="order-last lg:order-first"
+            >
+              <div className="relative group">
+                <div className="relative bg-black rounded-3xl p-8 lg:p-10 shadow-2xl group-hover:shadow-3xl transition-all duration-500 border border-slate-800/50">
+                  <div className="space-y-6">
+                    {/* Email - Interactive */}
+                    <motion.a
+                      href="mailto:hello@ifranchise.in"
+                      whileHover={{ x: 4 }}
+                      className="group/item cursor-pointer block"
+                    >
+                      <div className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-900/50 transition-all duration-300 border border-transparent hover:border-slate-700">
+                        <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center border border-white/20">
+                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                          </svg>
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-sm text-slate-400 font-medium mb-1">Email:</p>
+                          <p className="text-white font-semibold group-hover/item:underline transition-all duration-300">hello@ifranchise.in</p>
+                        </div>
+                        <div className="opacity-0 group-hover/item:opacity-100 transition-opacity duration-300">
+                          <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </div>
+                      </div>
+                    </motion.a>
+
+                    {/* Phone - Interactive */}
+                    <motion.a
+                      href="tel:+919876543210"
+                      whileHover={{ x: 4 }}
+                      className="group/item cursor-pointer block"
+                    >
+                      <div className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-900/50 transition-all duration-300 border border-transparent hover:border-slate-700">
+                        <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center border border-white/20">
+                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                          </svg>
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-sm text-slate-400 font-medium mb-1">Phone:</p>
+                          <p className="text-white font-semibold group-hover/item:underline transition-all duration-300">+91 98765 43210</p>
+                        </div>
+                        <div className="opacity-0 group-hover/item:opacity-100 transition-opacity duration-300">
+                          <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </div>
+                      </div>
+                    </motion.a>
+
+                    {/* Address - Interactive */}
+                    <motion.a
+                      href="https://maps.google.com/?q=Bangalore,Karnataka,India"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ x: 4 }}
+                      className="group/item cursor-pointer block"
+                    >
+                      <div className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-900/50 transition-all duration-300 border border-transparent hover:border-slate-700">
+                        <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center border border-white/20">
+                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                          </svg>
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-sm text-slate-400 font-medium mb-1">Address:</p>
+                          <p className="text-white font-semibold group-hover/item:underline transition-all duration-300">Bangalore, Karnataka, India</p>
+                        </div>
+                        <div className="opacity-0 group-hover/item:opacity-100 transition-opacity duration-300">
+                          <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </div>
+                      </div>
+                    </motion.a>
+
+                    {/* Availability */}
+                    <motion.div
+                      whileHover={{ x: 4 }}
+                      className="group/item"
+                    >
+                      <div className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-900/50 transition-all duration-300 border border-transparent hover:border-slate-700">
+                        <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center border border-white/20">
+                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-sm text-slate-400 font-medium mb-1">Availability:</p>
+                          <p className="text-white font-semibold">Monday to Saturday, 9 AM – 7 PM IST</p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </div>
+
+                  {/* Premium CTA Button */}
+                  <div className="mt-8 pt-6 border-t border-slate-800">
+                    <motion.button
+                      whileHover={{ scale: 1.02, y: -2 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="w-full bg-white text-black px-6 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-slate-50"
+                    >
+                      Book Your Strategic Call
+                    </motion.button>
+                  </div>
+
+                  {/* Subtle glow effect */}
+                  <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-slate-800/20 to-slate-700/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Right Side - Animated Strategic Visual */}
+            <motion.div
+              initial={{ opacity: 0, x: 30, scale: 0.95 }}
+              whileInView={{ opacity: 1, x: 0, scale: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+              className="relative flex items-center justify-center lg:justify-end order-first lg:order-last"
+            >
+              <div className="relative">
+                {/* Background gradient */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-[400px] h-[400px] lg:w-[500px] lg:h-[500px] bg-gradient-radial from-slate-100/40 via-transparent to-transparent rounded-full blur-2xl"></div>
+                </div>
+
+                {/* Floating question marks animation */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  {[...Array(6)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="absolute text-slate-300 text-lg font-bold"
+                      initial={{ opacity: 0 }}
+                      animate={{
+                        opacity: [0, 0.6, 0],
+                        x: [0, Math.cos(i * 60 * Math.PI / 180) * 80, Math.cos(i * 60 * Math.PI / 180) * 120],
+                        y: [0, Math.sin(i * 60 * Math.PI / 180) * 80, Math.sin(i * 60 * Math.PI / 180) * 120],
+                        rotate: [0, 360]
+                      }}
+                      transition={{
+                        duration: 8,
+                        repeat: Infinity,
+                        delay: i * 1.3,
+                        ease: "easeInOut"
+                      }}
+                    >
+                      ?
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Pulse rings */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  {[...Array(3)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="absolute border border-slate-200 rounded-full"
+                      initial={{ scale: 0, opacity: 0.8 }}
+                      animate={{
+                        scale: [0, 1.5, 2],
+                        opacity: [0.8, 0.3, 0]
+                      }}
+                      transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        delay: i * 1.3,
+                        ease: "easeOut"
+                      }}
+                      style={{
+                        width: '200px',
+                        height: '200px'
+                      }}
+                    />
+                  ))}
+                </div>
+                
+                <div className="relative z-10">
+                  <motion.img
+                    initial={{ scale: 0.9 }}
+                    whileInView={{ scale: 1 }}
+                    transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
+                    src={contactImage3}
+                    alt="Strategic business clarity"
+                    className="w-full max-w-md lg:max-w-lg h-auto object-contain drop-shadow-xl"
+                  />
+                  
+                  {/* Subtle shadow */}
+                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 w-3/4 h-12 bg-slate-300/20 rounded-full blur-2xl"></div>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
