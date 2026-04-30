@@ -181,7 +181,7 @@ function App() {
   }
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden scroll-smooth bg-slate-50">
+    <div className="relative min-h-screen scroll-smooth bg-slate-50" style={{ overflowX: 'clip' }}>
       <div className="pointer-events-none absolute inset-0 bg-dot-grid opacity-[0.16]" />
       <Navbar />
       <div

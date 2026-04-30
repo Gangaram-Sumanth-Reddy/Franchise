@@ -675,10 +675,13 @@ function FranchiseOpportunitiesPage() {
 
       {/* Main Layout Container */}
       <div className="relative">
-        {/* Desktop Layout - Clean Marketplace */}
-        <div className="hidden lg:flex items-start max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 gap-6">
-          {/* Left Sidebar - Sticky, No Scroll */}
-          <div className="sticky top-28 w-[280px] flex-shrink-0 self-start">
+        {/* ── DESKTOP LAYOUT ── 2-column sticky marketplace grid */}
+        <div className="hidden lg:grid lg:grid-cols-[340px_minmax(0,1fr)] items-start max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 gap-8">
+
+          {/* ── LEFT COLUMN — Sticky filter sidebar ── */}
+          {/* sticky + self-start: sidebar stays pinned while right column scrolls.
+              No overflow, no max-height — filter expands naturally with content. */}
+          <div className="sticky top-24 self-start">
             <div className="bg-white rounded-2xl border border-slate-200 shadow-sm">
               {/* Header */}
               <div className="border-b border-slate-200 p-5">
@@ -814,36 +817,41 @@ function FranchiseOpportunitiesPage() {
             </div>
           </div>
 
-          {/* Right Content - Free Flowing */}
-          <div className="flex-1 py-0 min-w-0">
-            {/* Search and Sort Bar */}
-            <div className="sticky top-28 z-20 bg-slate-50/95 backdrop-blur pb-4 mb-2">
-              <div className="bg-white rounded-xl border border-slate-200 p-4">
-              <div className="flex gap-4">
-                {/* Search Bar */}
-                <div className="flex-1">
-                  <input
-                    type="text"
-                    placeholder="Search brands, industries..."
-                    value={searchTerm}
-                    onChange={handleSearch}
-                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  />
+          {/* ── RIGHT COLUMN — Sticky search/sort + scrollable grid ── */}
+          {/* min-w-0 prevents grid blowout. The column itself is NOT a scroll
+              container — the page scrolls naturally, which is what makes
+              position:sticky work correctly for the search bar inside it. */}
+          <div className="min-w-0">
+            {/* Search and Sort */}
+            <div className="pb-3 mb-1">
+              <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-4">
+                <div className="flex gap-3">
+                  {/* Search Bar */}
+                  <div className="flex-1 relative">
+                    <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <input
+                      type="text"
+                      placeholder="Search brands, industries..."
+                      value={searchTerm}
+                      onChange={handleSearch}
+                      className="w-full pl-9 pr-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                    />
+                  </div>
+                  {/* Sort Dropdown */}
+                  <div className="w-44 shrink-0">
+                    <select
+                      value={sortBy}
+                      onChange={handleSort}
+                      className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
+                    >
+                      <option value="newest">Newest Added</option>
+                      <option value="roi">High ROI</option>
+                      <option value="investment">Low Investment</option>
+                    </select>
+                  </div>
                 </div>
-
-                {/* Sort Dropdown */}
-                <div className="w-48">
-                  <select
-                    value={sortBy}
-                    onChange={handleSort}
-                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  >
-                    <option value="newest">Newest Added</option>
-                    <option value="roi">High ROI</option>
-                    <option value="investment">Low Investment</option>
-                  </select>
-                </div>
-              </div>
               </div>
             </div>
 
@@ -934,55 +942,62 @@ function FranchiseOpportunitiesPage() {
             />
           </div>
         </div>
+        {/* ── END DESKTOP LAYOUT ── */}
 
-        {/* Mobile Layout */}
-        <div className="lg:hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Mobile Filter Toggle */}
-          <button
-            onClick={() => setIsFilterDrawerOpen(true)}
-            className="flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 mb-4"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-            </svg>
-            Filters
-            {(filters.industries.length > 0 || filters.investment || filters.models.length > 0 || filters.location) && (
-              <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
-            )}
-          </button>
+        {/* ── MOBILE LAYOUT ── */}
+        <div className="lg:hidden max-w-7xl mx-auto px-4 sm:px-6 py-6">
+          {/* Mobile top bar — sticky: filter button + search + sort */}
+          <div className="sticky top-16 z-20 bg-slate-50/95 backdrop-blur-sm pb-3 -mx-4 px-4 sm:-mx-6 sm:px-6">
+            <div className="flex gap-2 pt-4">
+              {/* Filter toggle */}
+              <button
+                onClick={() => setIsFilterDrawerOpen(true)}
+                className="flex items-center gap-2 px-4 py-2.5 border border-slate-300 rounded-lg text-sm font-semibold text-slate-700 bg-white hover:bg-slate-50 transition-all shrink-0 min-h-[44px]"
+                aria-label="Open filters"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                </svg>
+                Filters
+                {(filters.industries.length > 0 || filters.investment || filters.models.length > 0 || filters.location) && (
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-[10px] font-bold text-white">
+                    {filters.industries.length + (filters.investment ? 1 : 0) + filters.models.length + (filters.location ? 1 : 0)}
+                  </span>
+                )}
+              </button>
 
-          {/* Search and Sort Bar */}
-          <div className="bg-white rounded-xl border border-slate-200 p-4 mb-6">
-            <div className="flex flex-col sm:flex-row gap-4">
-              {/* Search Bar */}
-              <div className="flex-1">
+              {/* Search */}
+              <div className="flex-1 relative">
+                <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
                 <input
                   type="text"
-                  placeholder="Search brands, industries..."
+                  placeholder="Search brands..."
                   value={searchTerm}
                   onChange={handleSearch}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full pl-9 pr-3 py-2.5 border border-slate-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all min-h-[44px]"
                 />
               </div>
 
-              {/* Sort Dropdown */}
-              <div className="w-full sm:w-48">
+              {/* Sort */}
+              <div className="shrink-0">
                 <select
                   value={sortBy}
                   onChange={handleSort}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="h-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all min-h-[44px]"
                 >
-                  <option value="newest">Newest Added</option>
+                  <option value="newest">Newest</option>
                   <option value="roi">High ROI</option>
-                  <option value="investment">Low Investment</option>
+                  <option value="investment">Low Inv.</option>
                 </select>
               </div>
             </div>
           </div>
 
-          {/* Active Filters Display */}
+          {/* Active Filters Display — mobile */}
           {(filters.industries.length > 0 || filters.investment || filters.models.length > 0 || filters.location) && (
-            <div className="mb-4 flex flex-wrap gap-2">
+            <div className="mt-3 mb-2 flex flex-wrap gap-2">
               {filters.industries.map(industry => (
                 <span key={industry} className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
                   {industry}
@@ -1036,16 +1051,16 @@ function FranchiseOpportunitiesPage() {
             </div>
           )}
 
-          {/* Results Count */}
-          <div className="mb-4">
+          {/* Results Count — mobile */}
+          <div className="mt-3 mb-4">
             <p className="text-sm text-slate-600">
               Showing <span className="font-semibold">{paginatedOpportunities.length}</span> of{' '}
-              <span className="font-semibold">{opportunities.length}</span> opportunities
+              <span className="font-semibold">{filteredAndSortedOpportunities.length}</span> opportunities
             </p>
           </div>
 
-          {/* Opportunities Grid */}
-          <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
+          {/* Opportunities Grid — mobile */}
+          <div className="grid gap-5 grid-cols-1 sm:grid-cols-2">
             {isLoading ? (
               // Show skeleton cards during loading
               Array.from({ length: itemsPerPage }).map((_, index) => (
