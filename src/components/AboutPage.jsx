@@ -38,7 +38,7 @@ function PremiumTeamCard({ member }) {
           ? `perspective(1000px) rotateX(${-mousePosition.y * 0.3}deg) rotateY(${mousePosition.x * 0.3}deg) scale(1.02)`
           : 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)',
       }}
-      className="group relative h-[580px] w-full overflow-hidden rounded-3xl border-2 border-slate-200 bg-white shadow-[0_8px_40px_rgba(15,23,42,0.08)] transition-all duration-500 hover:border-purple-300 hover:shadow-[0_16px_60px_rgba(124,58,237,0.2)]"
+      className="group relative h-[480px] w-full overflow-hidden rounded-3xl border-2 border-slate-200 bg-white shadow-[0_8px_40px_rgba(15,23,42,0.08)] transition-all duration-500 hover:border-purple-300 hover:shadow-[0_16px_60px_rgba(124,58,237,0.2)] sm:h-[540px] lg:h-[580px]"
     >
       {/* Animated Background Glow */}
       <motion.div
@@ -129,33 +129,69 @@ function PremiumTeamCard({ member }) {
         </motion.div>
       </div>
 
-      {/* Floating Plus Button with Rolling Social Reveal */}
+      {/* Floating Connect Button with Glassmorphism + Rolling Social Reveal */}
       <div className="absolute bottom-32 left-1/2 z-30 -translate-x-1/2">
         <AnimatePresence mode="wait">
           {!socialOpen ? (
-            <motion.button
-              key="plus-button"
+            <motion.div
+              key="connect-button-wrap"
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0, rotate: 45 }}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={toggleSocial}
-              className="flex h-14 w-14 items-center justify-center rounded-full border border-purple-200 bg-white text-purple-600 shadow-[0_8px_32px_rgba(124,58,237,0.2)] transition-all duration-300 hover:bg-purple-50 hover:shadow-[0_12px_40px_rgba(124,58,237,0.3)]"
-              aria-label="Show social links"
+              exit={{ scale: 0.8, opacity: 0 }}
+              className="group relative"
             >
-              <motion.svg
-                animate={{ rotate: isHovered ? 90 : 0 }}
-                transition={{ duration: 0.3 }}
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2.5}
+              {/* Animated border pulse ring */}
+              <motion.div
+                animate={{
+                  scale: [1, 1.25, 1],
+                  opacity: [0.5, 0, 0.5],
+                }}
+                transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+                className="absolute inset-0 rounded-full border border-purple-400/60"
+              />
+              <motion.div
+                animate={{
+                  scale: [1, 1.45, 1],
+                  opacity: [0.3, 0, 0.3],
+                }}
+                transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
+                className="absolute inset-0 rounded-full border border-indigo-400/40"
+              />
+
+              {/* Glassmorphism Connect Button */}
+              <motion.button
+                whileHover={{ scale: 1.12 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={toggleSocial}
+                className="relative flex h-16 w-16 items-center justify-center rounded-full border border-white/40 bg-white/90 shadow-[0_8px_32px_rgba(124,58,237,0.25),0_2px_8px_rgba(15,23,42,0.12)] backdrop-blur-xl transition-all duration-500 hover:bg-white hover:shadow-[0_12px_48px_rgba(124,58,237,0.4),0_0_0_1px_rgba(139,92,246,0.3)]"
+                aria-label="Connect — view profile and social links"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-              </motion.svg>
-            </motion.button>
+                {/* Inner glow on hover */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-500/0 to-indigo-500/0 opacity-0 transition-opacity duration-300 group-hover:from-purple-500/10 group-hover:to-indigo-500/10 group-hover:opacity-100" />
+
+                {/* ArrowUpRight Icon */}
+                <svg
+                  className="relative z-10 h-6 w-6 text-purple-600 transition-all duration-300 group-hover:text-indigo-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2.5}
+                  aria-hidden="true"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
+                </svg>
+              </motion.button>
+
+              {/* "Connect" tooltip */}
+              <motion.div
+                initial={{ opacity: 0, y: 4, scale: 0.9 }}
+                animate={{ opacity: isHovered ? 1 : 0, y: isHovered ? 0 : 4, scale: isHovered ? 1 : 0.9 }}
+                transition={{ duration: 0.25 }}
+                className="pointer-events-none absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-white/30 bg-slate-900/90 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-white shadow-lg backdrop-blur-sm"
+              >
+                Connect
+              </motion.div>
+            </motion.div>
           ) : (
             <motion.div
               key="social-icons"
@@ -427,6 +463,355 @@ const customerTestimonials = [
     icon: '◌',
   },
 ];
+
+// ─── Culture Section Data ────────────────────────────────────────────────────
+
+const cultureImages = [
+  'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80',
+  'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80',
+  'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80',
+  'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=80',
+  'https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=1200&q=80',
+  'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80',
+  'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1200&q=80',
+  'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80',
+];
+
+const cultureValues = [
+  {
+    icon: (
+      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+      </svg>
+    ),
+    title: 'Innovation First',
+    description: 'We challenge convention and build systems that didn\'t exist before.',
+  },
+  {
+    icon: (
+      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+      </svg>
+    ),
+    title: 'Founder Mindset',
+    description: 'Every decision is made with ownership, urgency, and long-term vision.',
+  },
+  {
+    icon: (
+      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+      </svg>
+    ),
+    title: 'Strategic Integrity',
+    description: 'Transparency and trust are non-negotiable in every partnership we build.',
+  },
+  {
+    icon: (
+      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+      </svg>
+    ),
+    title: 'Scalable Collaboration',
+    description: 'We grow together — across teams, brands, and geographies.',
+  },
+];
+
+const floatingBadges = [
+  { text: '100+ Brands Scaled', delay: 0 },
+  { text: 'Built in Bangalore', delay: 0.15 },
+  { text: 'Founder-first Ecosystem', delay: 0.3 },
+];
+
+// ─── Culture Section Component ───────────────────────────────────────────────
+
+function CultureSection() {
+  const [activeImage, setActiveImage] = useState(0);
+  const carouselImages = [...cultureImages, ...cultureImages];
+
+  // Auto-advance carousel on mobile
+  const [mobileIdx, setMobileIdx] = useState(0);
+  const totalImages = cultureImages.length;
+
+  return (
+    <section className="relative w-full overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50 py-24 md:py-32">
+      {/* ── Subtle Background Blobs ── */}
+      <div className="pointer-events-none absolute inset-0">
+        <motion.div
+          animate={{ scale: [1, 1.15, 1], opacity: [0.04, 0.09, 0.04] }}
+          transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute left-[5%] top-[10%] h-[500px] w-[500px] rounded-full bg-violet-500/20 blur-[120px]"
+        />
+        <motion.div
+          animate={{ scale: [1, 1.2, 1], opacity: [0.03, 0.07, 0.03] }}
+          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
+          className="absolute right-[5%] bottom-[10%] h-[600px] w-[600px] rounded-full bg-indigo-500/15 blur-[140px]"
+        />
+        {/* Subtle grid */}
+        <svg className="absolute inset-0 h-full w-full opacity-[0.025]" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="culture-grid" width="50" height="50" patternUnits="userSpaceOnUse">
+              <path d="M 50 0 L 0 0 0 50" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-slate-900" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#culture-grid)" />
+        </svg>
+      </div>
+
+      <div className="relative z-10 mx-auto w-full max-w-[1400px] px-6 md:px-12 lg:px-20">
+        {/* ── Desktop Layout: 55% image | 45% content ── */}
+        <div className="flex flex-col gap-12 lg:flex-row lg:items-center lg:gap-16">
+
+          {/* ── LEFT: Sticky Image Showcase (55%) ── */}
+          <div className="w-full lg:w-[55%]">
+            {/* Desktop: Auto-scroll sticky carousel */}
+            <div className="hidden lg:block">
+              <div className="relative overflow-hidden rounded-3xl shadow-[0_24px_80px_rgba(15,23,42,0.12)]">
+                {/* Main image frame */}
+                <div className="relative h-[360px] w-full overflow-hidden rounded-3xl sm:h-[460px] lg:h-[560px]">
+                  <AnimatePresence mode="wait">
+                    <motion.img
+                      key={activeImage}
+                      src={cultureImages[activeImage]}
+                      alt={`iFranchise culture moment ${activeImage + 1}`}
+                      initial={{ opacity: 0, scale: 1.06 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.97 }}
+                      transition={{ duration: 0.7, ease: 'easeInOut' }}
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                    />
+                  </AnimatePresence>
+
+                  {/* Gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+
+                  {/* Floating Badges */}
+                  <div className="absolute bottom-6 left-6 flex flex-wrap gap-2">
+                    {floatingBadges.map((badge, i) => (
+                      <motion.div
+                        key={badge.text}
+                        initial={{ opacity: 0, y: 12 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: 0.4 + badge.delay }}
+                        className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/15 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-md"
+                      >
+                        <span className="h-1.5 w-1.5 rounded-full bg-violet-300" />
+                        {badge.text}
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Thumbnail strip */}
+                <div className="mt-4 flex gap-3 overflow-x-auto pb-1 hide-scrollbar">
+                  {cultureImages.map((img, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setActiveImage(i)}
+                      className={`relative h-16 w-24 flex-shrink-0 overflow-hidden rounded-xl border-2 transition-all duration-300 ${
+                        activeImage === i
+                          ? 'border-violet-500 shadow-[0_0_16px_rgba(139,92,246,0.4)]'
+                          : 'border-transparent opacity-60 hover:opacity-90'
+                      }`}
+                      aria-label={`View culture image ${i + 1}`}
+                    >
+                      <img src={img} alt="" className="h-full w-full object-cover" loading="lazy" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Mobile: Swipe carousel */}
+            <div className="relative overflow-hidden rounded-3xl lg:hidden">
+              <div
+                className="flex transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                style={{ transform: `translateX(-${mobileIdx * 100}%)` }}
+              >
+                {cultureImages.map((img, i) => (
+                  <div key={i} className="relative h-64 w-full flex-shrink-0 overflow-hidden rounded-3xl sm:h-80 md:h-96">
+                    <img src={img} alt={`Culture moment ${i + 1}`} className="h-full w-full object-cover" loading="lazy" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                    {i === mobileIdx && (
+                      <div className="absolute bottom-4 left-4 flex flex-wrap gap-2">
+                        {floatingBadges.map((badge) => (
+                          <span
+                            key={badge.text}
+                            className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/15 px-3 py-1 text-xs font-semibold text-white backdrop-blur-md"
+                          >
+                            <span className="h-1.5 w-1.5 rounded-full bg-violet-300" />
+                            {badge.text}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Mobile nav dots */}
+              <div className="mt-4 flex justify-center gap-2">
+                {cultureImages.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setMobileIdx(i)}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      mobileIdx === i ? 'w-6 bg-violet-600' : 'w-2 bg-slate-300'
+                    }`}
+                    aria-label={`Go to image ${i + 1}`}
+                  />
+                ))}
+              </div>
+
+              {/* Mobile swipe arrows */}
+              <button
+                onClick={() => setMobileIdx((p) => (p - 1 + totalImages) % totalImages)}
+                className="absolute left-3 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-white/20 text-white backdrop-blur-sm transition hover:bg-white/30"
+                aria-label="Previous image"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <button
+                onClick={() => setMobileIdx((p) => (p + 1) % totalImages)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-white/20 text-white backdrop-blur-sm transition hover:bg-white/30"
+                aria-label="Next image"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {/* ── RIGHT: Content (45%) ── */}
+          <div className="w-full lg:w-[45%]">
+            {/* Top badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-violet-50 px-4 py-1.5 shadow-sm"
+            >
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-violet-500" />
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-violet-700">Our Culture</span>
+            </motion.div>
+
+            {/* Heading */}
+            <motion.h2
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+              className="mt-6 text-4xl font-black leading-tight tracking-tight text-slate-900 sm:text-5xl lg:text-[3.25rem]"
+            >
+              Scaling brands starts with{' '}
+              <span className="bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
+                scaling people.
+              </span>
+            </motion.h2>
+
+            {/* Body */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="mt-6 text-lg leading-relaxed text-slate-600"
+            >
+              At iFranchise, our culture is built around execution, transparency, and founder-first thinking. We combine strategy, design, and expansion intelligence to create real business momentum.
+            </motion.p>
+
+            {/* Values 2×2 Grid */}
+            <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {cultureValues.map((value, idx) => (
+                <motion.div
+                  key={value.title}
+                  initial={{ opacity: 0, y: 28 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.55, delay: 0.3 + idx * 0.08 }}
+                  whileHover={{ y: -4, transition: { duration: 0.25 } }}
+                  className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_4px_16px_rgba(15,23,42,0.04)] transition-all duration-300 hover:border-violet-300 hover:shadow-[0_8px_32px_rgba(124,58,237,0.12)]"
+                >
+                  {/* Hover glow */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-violet-50/0 to-indigo-50/0 opacity-0 transition-opacity duration-300 group-hover:from-violet-50/60 group-hover:to-indigo-50/40 group-hover:opacity-100" />
+
+                  <div className="relative z-10 flex items-start gap-4">
+                    {/* Icon */}
+                    <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-violet-100 to-indigo-100 text-violet-600 shadow-sm transition-transform duration-300 group-hover:scale-110">
+                      {value.icon}
+                    </div>
+
+                    <div>
+                      <h3 className="text-base font-bold tracking-tight text-slate-900">
+                        {value.title}
+                      </h3>
+                      <p className="mt-1 text-sm leading-relaxed text-slate-500">
+                        {value.description}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Stats row */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.6 }}
+              className="mt-10 flex flex-wrap items-center gap-8 border-t border-slate-100 pt-8"
+            >
+              {[
+                { value: '100+', label: 'Brands Scaled' },
+                { value: '6+', label: 'Years of Execution' },
+                { value: '50+', label: 'Team Members' },
+              ].map((stat) => (
+                <div key={stat.label} className="text-center">
+                  <p className="text-3xl font-black tracking-tight text-slate-900">{stat.value}</p>
+                  <p className="mt-0.5 text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">{stat.label}</p>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </div>
+
+        {/* ── Bottom: Scrolling image marquee strip ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="mt-20 overflow-hidden"
+        >
+          <div className="animate-marquee-left flex w-max items-center gap-5 py-2">
+            {carouselImages.map((img, idx) => (
+              <div
+                key={`${img}-${idx}`}
+                className="group relative h-52 w-[300px] flex-shrink-0 overflow-hidden rounded-2xl border border-slate-200 shadow-[0_4px_20px_rgba(15,23,42,0.06)] transition-all duration-500 hover:shadow-[0_8px_32px_rgba(124,58,237,0.15)]"
+              >
+                <img
+                  src={img}
+                  alt="iFranchise team culture"
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 
 function AboutPage() {
   const testimonialsLoop = [...customerTestimonials, ...customerTestimonials];
@@ -835,7 +1220,7 @@ function AboutPage() {
 
                 {/* Name Stack (Mobile Only - Centered) */}
                 <div className="mt-10 text-center lg:hidden">
-                  <h3 className="text-5xl font-extrabold tracking-tight text-slate-900 sm:text-6xl">
+                  <h3 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl md:text-5xl">
                     Arjun Malhotra
                   </h3>
                   <p className="mt-4 text-base font-semibold text-slate-700 sm:text-lg">
@@ -886,7 +1271,7 @@ function AboutPage() {
               >
                 {/* Name & Title (Desktop Only - Hidden on Mobile) */}
                 <div className="hidden space-y-3 lg:block">
-                  <h3 className="text-5xl font-extrabold tracking-tight text-slate-900 sm:text-6xl lg:text-7xl">
+                  <h3 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl md:text-5xl lg:text-7xl">
                     Arjun Malhotra
                   </h3>
                   <p className="text-base font-semibold text-slate-700 sm:text-lg">
@@ -1012,7 +1397,7 @@ function AboutPage() {
               >
                 {/* Name & Title (Desktop Only - Hidden on Mobile) */}
                 <div className="hidden space-y-3 lg:block">
-                  <h3 className="text-5xl font-extrabold tracking-tight text-slate-900 sm:text-6xl lg:text-7xl">
+                  <h3 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl md:text-5xl lg:text-7xl">
                     Daniel Reeves
                   </h3>
                   <p className="text-base font-semibold text-slate-700 sm:text-lg">
@@ -1135,7 +1520,7 @@ function AboutPage() {
 
                 {/* Name Stack (Mobile Only - Centered) */}
                 <div className="mt-10 text-center lg:hidden">
-                  <h3 className="text-5xl font-extrabold tracking-tight text-slate-900 sm:text-6xl">
+                  <h3 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl md:text-5xl">
                     Daniel Reeves
                   </h3>
                   <p className="mt-4 text-base font-semibold text-slate-700 sm:text-lg">
@@ -1647,6 +2032,11 @@ function AboutPage() {
         </div>
       </section>
       </div>
+
+      {/* ═══════════════════════════════════════════════════════════
+          PREMIUM CULTURE SECTION — "Where Growth Meets Culture"
+          ═══════════════════════════════════════════════════════════ */}
+      <CultureSection />
     </main>
   );
 }

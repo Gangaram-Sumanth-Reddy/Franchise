@@ -79,7 +79,7 @@ const LEFT_ITEMS = [
 ];
 
 const RIGHT_ITEMS = [
-  { title: 'Contact us', path: '/contact' },
+  { title: 'Contact Us', path: '/contact' },
   { title: 'Privacy Policy', path: '/privacy-policy' },
   { title: 'Terms & Conditions', path: '/terms-and-conditions' },
   { title: 'Licenses', path: '/licenses' },
@@ -315,94 +315,88 @@ function Navbar() {
                 </div>
 
                 {/* Content Section */}
-                <div className="grid grid-cols-2 gap-6 p-6">
-                  {/* Company Section */}
-                  <div className="space-y-4">
-                    <div>
-                      <h3 className="text-sm font-semibold text-slate-900 mb-3">Company</h3>
-                      <div className="space-y-1">
-                        {LEFT_ITEMS.map((item) => (
-                          <a
-                            key={item.title}
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              if (item.title === 'Explore Brands') {
-                                navigateTo('/franchise-opportunities');
-                              } else if (item.title === 'Services') {
-                                navigateTo('/services');
-                              } else if (item.title === 'Blog') {
-                                navigateTo('/blog');
-                              } else if (item.title === 'Careers') {
-                                navigateTo('/careers');
-                              }
-                            }}
-                            className="group flex items-center gap-3 rounded-xl px-3 py-3 transition-all duration-200 hover:bg-slate-50 hover:shadow-sm"
-                          >
-                            <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 group-hover:border-[#0b0f19] group-hover:bg-[#0b0f19] transition-colors duration-200">
-                              <item.Icon className="h-4 w-4 stroke-slate-600 group-hover:stroke-white" />
-                            </span>
-                            <div className="flex-1">
-                              <span className="flex items-center gap-2 text-sm font-medium text-slate-800">
-                                {item.title}
-                                {item.badge ? (
-                                  <span className="rounded-full bg-rose-100 px-2 py-0.5 text-[10px] font-semibold lowercase tracking-wide text-rose-600">
-                                    {item.badge}
-                                  </span>
-                                ) : null}
+                <div className="grid grid-cols-2 gap-12 p-6 items-start">
+                  {/* Left Column — Company */}
+                  <div className="space-y-1">
+                    <h3 className="text-sm font-semibold text-slate-900 mb-3">Company</h3>
+                    {LEFT_ITEMS.map((item) => (
+                      <a
+                        key={item.title}
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (item.title === 'Explore Brands') {
+                            navigateTo('/franchise-opportunities');
+                          } else if (item.title === 'Services') {
+                            navigateTo('/services');
+                          } else if (item.title === 'Blog') {
+                            navigateTo('/blog');
+                          } else if (item.title === 'Careers') {
+                            navigateTo('/careers');
+                          }
+                        }}
+                        className="group flex items-center gap-3 rounded-xl px-3 py-3 transition-all duration-200 hover:bg-slate-50 hover:shadow-sm"
+                      >
+                        <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 group-hover:border-[#0b0f19] group-hover:bg-[#0b0f19] transition-colors duration-200">
+                          <item.Icon className="h-4 w-4 stroke-slate-600 group-hover:stroke-white" />
+                        </span>
+                        <div className="flex-1">
+                          <span className="flex items-center gap-2 text-sm font-medium text-slate-800">
+                            {item.title}
+                            {item.badge ? (
+                              <span className="rounded-full bg-rose-100 px-2 py-0.5 text-[10px] font-semibold lowercase tracking-wide text-rose-600">
+                                {item.badge}
                               </span>
-                              <span className="mt-1 block text-xs text-slate-500">{item.description}</span>
-                            </div>
-                            <ArrowIcon className="text-slate-400 opacity-0 group-hover:opacity-100 group-hover:text-[#0b0f19]" />
-                          </a>
-                        ))}
-                      </div>
+                            ) : null}
+                          </span>
+                          <span className="mt-1 block text-xs text-slate-500">{item.description}</span>
+                        </div>
+                        <ArrowIcon className="text-slate-400 opacity-0 group-hover:opacity-100 group-hover:text-[#0b0f19]" />
+                      </a>
+                    ))}
+                  </div>
+
+                  {/* Right Column — Pages + CTA */}
+                  <div className="flex flex-col">
+                    <h3 className="text-sm font-semibold text-slate-900 mb-3">Pages</h3>
+                    <div className="space-y-1">
+                      {RIGHT_ITEMS.map((item) => (
+                        <a
+                          key={item.title}
+                          href={item.path || '#'}
+                          onClick={(event) => {
+                            event.preventDefault();
+                            if (!item.path) return;
+                            navigateTo(item.path);
+                          }}
+                          className="group flex items-center justify-between rounded-xl px-3 py-2.5 text-sm text-slate-700 transition-all duration-200 hover:bg-slate-50 hover:shadow-sm"
+                        >
+                          <span className="flex items-center gap-2">
+                            {item.title}
+                            {item.badge ? (
+                              <span className="rounded-full bg-red-100 px-2 py-0.5 text-[10px] font-semibold text-red-600">
+                                {item.badge}
+                              </span>
+                            ) : null}
+                          </span>
+                          <ArrowIcon className="text-slate-400 opacity-0 group-hover:opacity-100 group-hover:text-[#0b0f19]" />
+                        </a>
+                      ))}
                     </div>
-                    
-                    {/* CTA Button */}
+
+                    {/* CTA Button — anchored under right column */}
                     <button
                       type="button"
                       onClick={() => navigateTo('/contact')}
-                      className="group w-full flex items-center justify-center gap-2 rounded-xl bg-[#0B1220] px-4 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-[#1a2332] hover:shadow-lg hover:-translate-y-0.5"
+                      className="group mt-6 w-full flex items-center justify-center gap-2 rounded-2xl bg-[#0B1220] px-4 py-4 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:bg-[#111827] hover:shadow-xl hover:-translate-y-0.5"
                     >
                       Book A Call
-                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/20 transition-transform duration-200 group-hover:translate-x-1">
+                      <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/20 transition-transform duration-200 group-hover:translate-x-1">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5-5 5M8 12h9" />
                         </svg>
                       </span>
                     </button>
-                  </div>
-
-                  {/* Pages Section */}
-                  <div className="space-y-1">
-                    <h3 className="text-sm font-semibold text-slate-900 mb-3">Pages</h3>
-                    {RIGHT_ITEMS.map((item) => (
-                      <a
-                        key={item.title}
-                        href={item.path || '#'}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          if (!item.path) return;
-                          if (item.path === '/404') {
-                            navigateTo('/404');
-                            return;
-                          }
-                          navigateTo(item.path);
-                        }}
-                        className="group flex items-center justify-between rounded-xl px-3 py-2.5 text-sm text-slate-700 transition-all duration-200 hover:bg-slate-50 hover:shadow-sm"
-                      >
-                        <span className="flex items-center gap-2">
-                          {item.title}
-                          {item.badge ? (
-                            <span className="rounded-full bg-red-100 px-2 py-0.5 text-[10px] font-semibold text-red-600">
-                              {item.badge}
-                            </span>
-                          ) : null}
-                        </span>
-                        <ArrowIcon className="text-slate-400 opacity-0 group-hover:opacity-100 group-hover:text-[#0b0f19]" />
-                      </a>
-                    ))}
                   </div>
                 </div>
               </div>
@@ -496,41 +490,41 @@ function Navbar() {
         </button>
       </nav>
 
-      {/* Premium Clean White Mobile Menu */}
+      {/* Mobile Navigation Drawer — Direct Access, No Dropdowns */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[9998] bg-black/20 backdrop-blur-[2px] lg:hidden"
+            transition={{ duration: 0.18 }}
+            className="fixed inset-0 z-[9998] bg-black/25 backdrop-blur-[2px] lg:hidden"
             onClick={() => setIsMobileMenuOpen(false)}
           >
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="fixed right-0 top-0 bottom-0 w-full max-w-[min(420px,85vw)] overflow-y-auto bg-white shadow-2xl"
+              transition={{ type: 'spring', damping: 32, stiffness: 320 }}
+              className="fixed right-0 top-0 bottom-0 flex flex-col w-full max-w-[min(400px,88vw)] bg-white shadow-2xl"
               style={{
                 paddingTop: 'env(safe-area-inset-top)',
                 paddingBottom: 'env(safe-area-inset-bottom)',
               }}
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Clean White Header with Logo and Close */}
-              <div className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-200 bg-white px-5 py-4 shadow-sm">
+              {/* Drawer Header */}
+              <div className="flex items-center justify-between border-b border-slate-100 bg-white px-6 py-4 shrink-0">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#0b0f19] shadow-md">
-                    <span className="text-lg font-bold text-white">i</span>
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#0b0f19]">
+                    <span className="text-base font-bold text-white">i</span>
                   </div>
-                  <span className="text-xl font-bold text-[#0b0f19]">Menu</span>
+                  <span className="text-lg font-bold text-[#0b0f19]">iFranchise</span>
                 </div>
                 <button
                   type="button"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-700 transition-all duration-200 hover:bg-slate-200 active:scale-90"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-600 transition-all duration-200 hover:bg-slate-200 active:scale-90"
                   aria-label="Close menu"
                 >
                   <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -539,152 +533,119 @@ function Navbar() {
                 </button>
               </div>
 
-              {/* Clean White Menu Content */}
-              <div className="bg-white px-5 py-6 space-y-6">
-                <nav className="space-y-2">
+              {/* Scrollable Nav Items */}
+              <div className="flex-1 overflow-y-auto px-4 py-4">
+                <nav className="space-y-1">
+
+                  {/* Home */}
                   <a
                     href="/"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleHomeClick(e);
-                    }}
-                    className={`block rounded-xl px-4 py-4 text-base font-semibold transition-all duration-200 active:scale-98 ${
+                    onClick={(e) => { e.preventDefault(); handleHomeClick(e); }}
+                    className={`flex items-center justify-between rounded-xl px-4 py-4 text-base font-semibold transition-all duration-200 active:scale-[0.98] min-h-[52px] ${
                       isHomeActive
                         ? 'bg-[#0b0f19] text-white shadow-md'
-                        : 'text-slate-800 hover:bg-slate-100'
+                        : 'text-slate-800 hover:bg-slate-50'
                     }`}
                   >
-                    Home
+                    <span>Home</span>
+                    {isHomeActive && <span className="text-white/60 text-sm">→</span>}
                   </a>
 
-                  {/* Company Accordion - Clean and Visible */}
-                  <div className="space-y-1">
-                    <button
-                      type="button"
-                      onClick={() => setIsCompanyOpen((prev) => !prev)}
-                      className="flex w-full items-center justify-between rounded-xl px-4 py-4 text-base font-semibold text-slate-800 transition-all duration-200 hover:bg-slate-100 active:scale-98"
-                    >
-                      <span>Company</span>
-                      <svg
-                        className={`h-5 w-5 text-slate-600 transition-transform duration-300 ${
-                          isCompanyOpen ? 'rotate-180' : ''
-                        }`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </button>
-
-                    <AnimatePresence>
-                      {isCompanyOpen && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-                          className="overflow-hidden bg-slate-50 rounded-xl"
-                        >
-                          <div className="space-y-1 p-2">
-                            {LEFT_ITEMS.map((item) => (
-                              <a
-                                key={item.title}
-                                href="#"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  if (item.title === 'Explore Brands') {
-                                    navigateTo('/franchise-opportunities');
-                                  } else if (item.title === 'Services') {
-                                    navigateTo('/services');
-                                  } else if (item.title === 'Blog') {
-                                    navigateTo('/blog');
-                                  } else if (item.title === 'Careers') {
-                                    navigateTo('/careers');
-                                  }
-                                }}
-                                className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-slate-700 transition-all duration-200 hover:bg-white hover:text-slate-900 hover:shadow-sm active:scale-98"
-                              >
-                                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-white shadow-sm">
-                                  <item.Icon />
-                                </span>
-                                <span className="flex-1">{item.title}</span>
-                              </a>
-                            ))}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-
+                  {/* Franchise Opportunities */}
                   <a
                     href="/franchise-opportunities"
-                    onClick={(event) => {
-                      event.preventDefault();
-                      navigateTo('/franchise-opportunities');
-                    }}
-                    className="block rounded-xl px-4 py-4 text-base font-semibold text-slate-800 hover:bg-slate-100 transition-all duration-200 active:scale-98"
+                    onClick={(e) => { e.preventDefault(); navigateTo('/franchise-opportunities'); }}
+                    className={`flex items-center justify-between rounded-xl px-4 py-4 text-base font-semibold transition-all duration-200 active:scale-[0.98] min-h-[52px] ${
+                      window.location.pathname === '/franchise-opportunities'
+                        ? 'bg-[#0b0f19] text-white shadow-md'
+                        : 'text-slate-800 hover:bg-slate-50'
+                    }`}
                   >
-                    Franchise Opportunities
+                    <span>Franchise Opportunities</span>
                   </a>
 
+                  {/* Services */}
+                  <a
+                    href="/services"
+                    onClick={(e) => { e.preventDefault(); navigateTo('/services'); }}
+                    className={`flex items-center justify-between rounded-xl px-4 py-4 text-base font-semibold transition-all duration-200 active:scale-[0.98] min-h-[52px] ${
+                      window.location.pathname === '/services'
+                        ? 'bg-[#0b0f19] text-white shadow-md'
+                        : 'text-slate-800 hover:bg-slate-50'
+                    }`}
+                  >
+                    <span>Services</span>
+                  </a>
+
+                  {/* About Us */}
                   <a
                     href="/about"
-                    onClick={(event) => {
-                      event.preventDefault();
-                      navigateTo('/about');
-                    }}
-                    className={`block rounded-xl px-4 py-4 text-base font-semibold transition-all duration-200 active:scale-98 ${
+                    onClick={(e) => { e.preventDefault(); navigateTo('/about'); }}
+                    className={`flex items-center justify-between rounded-xl px-4 py-4 text-base font-semibold transition-all duration-200 active:scale-[0.98] min-h-[52px] ${
                       isAboutActive
                         ? 'bg-[#0b0f19] text-white shadow-md'
-                        : 'text-slate-800 hover:bg-slate-100'
+                        : 'text-slate-800 hover:bg-slate-50'
                     }`}
                   >
-                    About Us
+                    <span>About Us</span>
                   </a>
 
+                  {/* Blog */}
                   <a
                     href="/blog"
-                    onClick={(event) => {
-                      event.preventDefault();
-                      navigateTo('/blog');
-                    }}
-                    className={`block rounded-xl px-4 py-4 text-base font-semibold transition-all duration-200 active:scale-98 ${
+                    onClick={(e) => { e.preventDefault(); navigateTo('/blog'); }}
+                    className={`flex items-center justify-between rounded-xl px-4 py-4 text-base font-semibold transition-all duration-200 active:scale-[0.98] min-h-[52px] ${
                       isBlogActive
                         ? 'bg-[#0b0f19] text-white shadow-md'
-                        : 'text-slate-800 hover:bg-slate-100'
+                        : 'text-slate-800 hover:bg-slate-50'
                     }`}
                   >
-                    Blog
+                    <span>Blog</span>
                   </a>
 
+                  {/* Careers */}
+                  <a
+                    href="/careers"
+                    onClick={(e) => { e.preventDefault(); navigateTo('/careers'); }}
+                    className={`flex items-center justify-between rounded-xl px-4 py-4 text-base font-semibold transition-all duration-200 active:scale-[0.98] min-h-[52px] ${
+                      window.location.pathname === '/careers'
+                        ? 'bg-[#0b0f19] text-white shadow-md'
+                        : 'text-slate-800 hover:bg-slate-50'
+                    }`}
+                  >
+                    <span>Careers</span>
+                  </a>
+
+                  {/* Contact Us */}
                   <a
                     href="/contact"
-                    onClick={(event) => {
-                      event.preventDefault();
-                      navigateTo('/contact');
-                    }}
-                    className={`block rounded-xl px-4 py-4 text-base font-semibold transition-all duration-200 active:scale-98 ${
+                    onClick={(e) => { e.preventDefault(); navigateTo('/contact'); }}
+                    className={`flex items-center justify-between rounded-xl px-4 py-4 text-base font-semibold transition-all duration-200 active:scale-[0.98] min-h-[52px] ${
                       isContactActive
                         ? 'bg-[#0b0f19] text-white shadow-md'
-                        : 'text-slate-800 hover:bg-slate-100'
+                        : 'text-slate-800 hover:bg-slate-50'
                     }`}
                   >
-                    Contact Us
+                    <span>Contact Us</span>
                   </a>
-                </nav>
 
-                {/* Premium CTA Button */}
-                <div className="pt-2 border-t border-slate-200">
-                  <button
-                    type="button"
-                    onClick={() => navigateTo('/contact')}
-                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#0B1220] px-6 py-4 text-base font-bold text-white shadow-lg transition-all duration-300 hover:bg-[#1a2332] hover:shadow-xl active:scale-98"
-                  >
-                    Book a Call
-                    <span className="text-lg leading-none">→</span>
-                  </button>
-                </div>
+                </nav>
+              </div>
+
+              {/* Book a Call CTA — pinned at bottom */}
+              <div className="shrink-0 border-t border-slate-100 bg-white px-4 py-4">
+                <button
+                  type="button"
+                  onClick={() => navigateTo('/contact')}
+                  className="group flex w-full items-center justify-center gap-2.5 rounded-2xl bg-[#0B1220] px-6 py-4 text-base font-semibold text-white shadow-lg transition-all duration-300 hover:bg-[#111827] hover:shadow-xl active:scale-[0.98] min-h-[52px]"
+                >
+                  Book a Call
+                  <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/20 transition-transform duration-200 group-hover:translate-x-1">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5-5 5M8 12h9" />
+                    </svg>
+                  </span>
+                </button>
               </div>
             </motion.div>
           </motion.div>

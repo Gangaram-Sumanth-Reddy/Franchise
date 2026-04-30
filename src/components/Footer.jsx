@@ -16,9 +16,9 @@ function Footer() {
       {/* Main Content */}
       <div className="relative z-10">
         {/* Top CTA Section */}
-        <div className="mx-auto max-w-[1200px] px-4 py-20 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1200px] px-4 py-12 sm:py-16 md:py-20 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h2 className="text-3xl font-bold text-white sm:text-4xl">
+            <h2 className="text-2xl font-bold text-white sm:text-3xl md:text-4xl">
               Ready to scale your franchise?
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-300">
@@ -104,7 +104,7 @@ function Footer() {
 
         {/* Main Footer Links */}
         <div className="mx-auto max-w-[1200px] px-4 py-16 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 gap-12 lg:grid-cols-6">
+          <div className="grid grid-cols-2 gap-8 sm:gap-10 lg:grid-cols-6 lg:gap-12">
             {/* Brand */}
             <div className="col-span-2 lg:col-span-1">
               <div className="group cursor-pointer">

@@ -665,8 +665,8 @@ function FranchiseOpportunitiesPage() {
       <div className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-10">
           <div className="max-w-3xl">
-            <h1 className="text-4xl font-bold tracking-tight text-slate-900 mb-3">Explore Franchise Opportunities</h1>
-            <p className="text-lg text-slate-600">
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900 mb-2 sm:text-3xl md:text-4xl sm:mb-3">Explore Franchise Opportunities</h1>
+            <p className="text-base text-slate-600 sm:text-lg">
               Browse our curated list of vetted franchise brands actively seeking expansion partners. Filter by your investment criteria to find the perfect match.
             </p>
           </div>
@@ -1078,7 +1078,7 @@ function FranchiseOpportunitiesPage() {
           />
           
           {/* Drawer */}
-          <div className="fixed inset-y-0 left-0 w-80 bg-white z-50 transform transition-transform duration-300 ease-in-out lg:hidden">
+          <div className="fixed inset-y-0 left-0 w-[min(320px,85vw)] bg-white z-50 transform transition-transform duration-300 ease-in-out lg:hidden overflow-y-auto">
             {/* Drawer Header */}
             <div className="flex items-center justify-between p-5 border-b border-slate-200">
               <div className="flex items-center gap-2">
@@ -1111,7 +1111,7 @@ function FranchiseOpportunitiesPage() {
             </div>
 
             {/* Drawer Content */}
-            <div className="p-5 overflow-y-auto h-full pb-20 space-y-6">
+            <div className="p-5 pb-24 space-y-6">
               {/* Industry Filters */}
               <div className="bg-slate-50 rounded-lg p-4">
                 <h3 className="text-sm font-semibold text-slate-700 mb-4 flex items-center gap-2">

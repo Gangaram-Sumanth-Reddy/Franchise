@@ -72,72 +72,376 @@ function ContactPage() {
 
   return (
     <main className="relative bg-white">
-      {/* SECTION 1 - HERO CONTACT (FULL VIEWPORT CLEAN) */}
-      <section className="w-full bg-gradient-to-br from-white via-slate-50/20 to-purple-50/10 min-h-[calc(100vh-80px)] flex items-center overflow-hidden">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-8 w-full py-8">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            {/* Left Side - Content */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="flex flex-col justify-center space-y-6 max-w-[540px]"
-            >
-              <div className="space-y-4">
-                <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-slate-900 leading-tight">
-                  Let's grow your brand together!
-                </h1>
-                
-                <p className="text-lg lg:text-xl text-slate-600 leading-relaxed">
-                  Positioning for founders, franchise brands, and expansion leaders through strategy, intelligence, and scalable growth.
-                </p>
-              </div>
-              
-              <div className="pt-2">
-                <motion.button
-                  whileHover={{ scale: 1.02, y: -1 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="inline-flex items-center gap-3 bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
-                  onClick={() => document.getElementById('contact-form').scrollIntoView({ behavior: 'smooth' })}
-                >
-                  Start Your Growth Journey
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </motion.button>
-              </div>
-            </motion.div>
+      {/* ═══════════════════════════════════════════════════════════
+          SECTION 1 — PREMIUM HERO (REBUILT)
+          ═══════════════════════════════════════════════════════════ */}
+      <section className="relative w-full min-h-[calc(100vh-80px)] flex items-center overflow-hidden bg-white">
 
-            {/* Right Side - Image */}
+        {/* ── Background layer ── */}
+        <div className="pointer-events-none absolute inset-0">
+          {/* Soft gradient wash */}
+          <div className="absolute inset-0 bg-gradient-to-br from-violet-50/40 via-white to-indigo-50/30" />
+
+          {/* Subtle dot grid */}
+          <svg className="absolute inset-0 h-full w-full opacity-[0.035]" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="hero-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-slate-900" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#hero-grid)" />
+          </svg>
+
+          {/* Large ambient orb — left */}
+          <motion.div
+            animate={{ scale: [1, 1.18, 1], opacity: [0.12, 0.22, 0.12] }}
+            transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute -left-32 top-1/4 h-[560px] w-[560px] rounded-full bg-violet-400/20 blur-[120px]"
+          />
+          {/* Large ambient orb — right */}
+          <motion.div
+            animate={{ scale: [1, 1.22, 1], opacity: [0.08, 0.18, 0.08] }}
+            transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
+            className="absolute -right-40 bottom-0 h-[640px] w-[640px] rounded-full bg-indigo-400/15 blur-[140px]"
+          />
+
+          {/* Particle flow — left to right */}
+          <motion.div
+            animate={{ x: [-80, 1400], opacity: [0, 0.5, 0] }}
+            transition={{ duration: 16, repeat: Infinity, ease: 'linear' }}
+            className="absolute top-[38%] h-px w-28 bg-gradient-to-r from-transparent via-violet-400/50 to-transparent"
+          />
+          <motion.div
+            animate={{ x: [1400, -80], opacity: [0, 0.35, 0] }}
+            transition={{ duration: 20, repeat: Infinity, ease: 'linear', delay: 5 }}
+            className="absolute top-[62%] h-px w-36 bg-gradient-to-r from-transparent via-indigo-400/40 to-transparent"
+          />
+
+          {/* Floating micro-nodes */}
+          {[
+            { left: '8%', top: '20%', size: 'h-2 w-2', color: 'bg-violet-400/40', dur: 7 },
+            { left: '18%', top: '72%', size: 'h-1.5 w-1.5', color: 'bg-indigo-400/35', dur: 9, delay: 1 },
+            { left: '88%', top: '18%', size: 'h-2.5 w-2.5', color: 'bg-violet-500/30', dur: 11, delay: 2 },
+            { left: '78%', top: '78%', size: 'h-2 w-2', color: 'bg-indigo-500/35', dur: 8, delay: 0.5 },
+          ].map((node, i) => (
             <motion.div
-              initial={{ opacity: 0, x: 30, scale: 0.95 }}
-              whileInView={{ opacity: 1, x: 0, scale: 1 }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-              className="relative flex items-center justify-center lg:justify-end"
-            >
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-[400px] h-[400px] lg:w-[500px] lg:h-[500px] bg-gradient-radial from-purple-100/20 via-transparent to-transparent rounded-full blur-2xl"></div>
+              key={i}
+              animate={{ y: [0, -18, 0], opacity: [0.3, 0.7, 0.3] }}
+              transition={{ duration: node.dur, repeat: Infinity, ease: 'easeInOut', delay: node.delay ?? 0 }}
+              className={`absolute ${node.size} ${node.color} rounded-full blur-[1px]`}
+              style={{ left: node.left, top: node.top }}
+            />
+          ))}
+        </div>
+
+        {/* ── Main content ── */}
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-12 py-10 lg:py-0">
+          <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
+
+            {/* ── LEFT: Text block ── */}
+            <div className="flex flex-col justify-center lg:pl-8 xl:pl-12 text-center lg:text-left items-center lg:items-start">
+
+              {/* Trust badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: 'easeOut' }}
+                className="mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-violet-200 bg-violet-50 px-4 py-1.5 shadow-sm"
+              >
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-violet-500" />
+                <span className="text-xs font-semibold uppercase tracking-[0.14em] text-violet-700">
+                  India's Trusted Franchise Growth Platform
+                </span>
+              </motion.div>
+
+              {/* Headline — staggered word reveal */}
+              <div className="overflow-hidden">
+                <motion.h1
+                  initial={{ opacity: 0, y: 48 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+                  className="text-4xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-5xl xl:text-6xl"
+                >
+                  Let's grow your{' '}
+                  <span className="relative inline-block">
+                    <span className="bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
+                      brand
+                    </span>
+                    {/* Animated gradient underline */}
+                    <motion.span
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      transition={{ duration: 0.7, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                      className="absolute -bottom-1 left-0 h-[3px] w-full origin-left rounded-full bg-gradient-to-r from-violet-500 to-indigo-500"
+                    />
+                  </span>{' '}
+                  together.
+                </motion.h1>
               </div>
-              
-              <div className="relative z-10">
-                <motion.img
-                  initial={{ scale: 0.9 }}
-                  whileInView={{ scale: 1 }}
-                  transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
-                  src={contactImage}
-                  alt="Professional workspace"
-                  className="w-full max-w-md lg:max-w-lg xl:max-w-xl h-auto object-contain drop-shadow-lg"
+
+              {/* Paragraph */}
+              <motion.p
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.3, ease: 'easeOut' }}
+                className="mt-6 max-w-[480px] text-lg leading-relaxed text-slate-600"
+              >
+                Positioning for founders, franchise brands, and expansion leaders through strategy, intelligence, and scalable growth.
+              </motion.p>
+
+              {/* CTA */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.45, ease: 'easeOut' }}
+                className="mt-8"
+              >
+                <motion.button
+                  whileHover={{ scale: 1.04, y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => document.getElementById('contact-form').scrollIntoView({ behavior: 'smooth' })}
+                  className="group relative inline-flex items-center gap-3 overflow-hidden rounded-xl bg-slate-900 px-8 py-4 font-semibold text-white shadow-[0_8px_32px_rgba(15,23,42,0.18)] transition-all duration-300 hover:bg-slate-800 hover:shadow-[0_12px_40px_rgba(15,23,42,0.28)]"
+                >
+                  {/* Shine sweep */}
+                  <span className="absolute inset-0 -translate-x-full skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+
+                  <span className="relative z-10">Start Your Growth Journey</span>
+
+                  {/* Arrow micro-slide */}
+                  <motion.svg
+                    animate={{ x: [0, 3, 0] }}
+                    transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+                    className="relative z-10 h-5 w-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </motion.svg>
+                </motion.button>
+              </motion.div>
+
+              {/* Soft connector beam toward image */}
+              <motion.div
+                initial={{ opacity: 0, scaleX: 0 }}
+                animate={{ opacity: 1, scaleX: 1 }}
+                transition={{ duration: 1.2, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                className="mt-12 hidden origin-left lg:block"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="h-px flex-1 bg-gradient-to-r from-violet-300/60 via-indigo-300/40 to-transparent" />
+                  <motion.div
+                    animate={{ scale: [1, 1.4, 1], opacity: [0.5, 1, 0.5] }}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+                    className="h-2 w-2 rounded-full bg-violet-400"
+                  />
+                  <motion.div
+                    animate={{ scale: [1, 1.3, 1], opacity: [0.4, 0.9, 0.4] }}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
+                    className="h-1.5 w-1.5 rounded-full bg-indigo-400"
+                  />
+                  <motion.div
+                    animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.7, 0.3] }}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
+                    className="h-1 w-1 rounded-full bg-violet-300"
+                  />
+                </div>
+              </motion.div>
+            </div>
+
+            {/* ── RIGHT: Image block — clean orbit system ── */}
+            <div className="relative flex items-center justify-center lg:-ml-8 xl:-ml-16 mt-4 lg:mt-0">
+
+              {/* ── LAYER 0: Deep spotlight glow behind image ── */}
+              <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+                <motion.div
+                  animate={{ scale: [1, 1.14, 1], opacity: [0.14, 0.26, 0.14] }}
+                  transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+                  className="h-[380px] w-[380px] rounded-full bg-gradient-to-br from-violet-400/25 via-indigo-300/15 to-transparent blur-[80px] lg:h-[480px] lg:w-[480px]"
                 />
-                <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 w-3/4 h-12 bg-slate-200/25 rounded-full blur-xl"></div>
               </div>
-            </motion.div>
+
+              {/* ── LAYER 1: Rotating orbit rings (CSS transform, no overlap) ── */}
+              {/* Outer ring — slowest */}
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 28, repeat: Infinity, ease: 'linear' }}
+                className="pointer-events-none absolute h-[min(520px,80vw)] w-[min(520px,80vw)] rounded-full border border-violet-300/20 lg:h-[600px] lg:w-[600px]"
+                aria-hidden="true"
+              />
+              {/* Mid ring — medium, reverse */}
+              <motion.div
+                animate={{ rotate: -360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                className="pointer-events-none absolute h-[min(420px,65vw)] w-[min(420px,65vw)] rounded-full border border-indigo-300/20 lg:h-[490px] lg:w-[490px]"
+                style={{ borderStyle: 'dashed' }}
+                aria-hidden="true"
+              />
+              {/* Inner ring — fastest, hidden on small mobile */}
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 14, repeat: Infinity, ease: 'linear' }}
+                className="pointer-events-none absolute hidden h-[330px] w-[330px] rounded-full border border-purple-200/22 sm:block lg:h-[390px] lg:w-[390px]"
+                aria-hidden="true"
+              />
+
+              {/* ── LAYER 2: Perimeter icon nodes — OUTSIDE image safe zone ── */}
+
+              {/* TOP-RIGHT corner node — Growth arrow */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.7 }}
+                animate={{ opacity: 1, scale: 1, y: [0, -7, 0] }}
+                transition={{
+                  opacity: { duration: 0.5, delay: 0.7 },
+                  scale: { duration: 0.5, delay: 0.7 },
+                  y: { duration: 5, repeat: Infinity, ease: 'easeInOut' },
+                }}
+                className="absolute right-0 top-4 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-violet-200/70 bg-white/80 shadow-[0_4px_20px_rgba(124,58,237,0.12)] backdrop-blur-sm lg:-right-6 lg:top-8"
+                aria-hidden="true"
+              >
+                <svg className="h-5 w-5 text-violet-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
+                </svg>
+              </motion.div>
+
+              {/* UPPER-LEFT corner node — Globe */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.7 }}
+                animate={{ opacity: 1, scale: 1, y: [0, -6, 0] }}
+                transition={{
+                  opacity: { duration: 0.5, delay: 0.9 },
+                  scale: { duration: 0.5, delay: 0.9 },
+                  y: { duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 0.5 },
+                }}
+                className="absolute left-0 top-12 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-indigo-200/70 bg-white/80 shadow-[0_4px_20px_rgba(99,102,241,0.12)] backdrop-blur-sm lg:-left-4 lg:top-16"
+                aria-hidden="true"
+              >
+                <svg className="h-5 w-5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </motion.div>
+
+              {/* BOTTOM-RIGHT corner node — Network pulse */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.7 }}
+                animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
+                transition={{
+                  opacity: { duration: 0.5, delay: 1.1 },
+                  scale: { duration: 0.5, delay: 1.1 },
+                  y: { duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 1 },
+                }}
+                className="absolute bottom-12 right-0 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-purple-200/70 bg-white/80 shadow-[0_4px_20px_rgba(168,85,247,0.12)] backdrop-blur-sm lg:-right-4 lg:bottom-16"
+                aria-hidden="true"
+              >
+                <svg className="h-5 w-5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </motion.div>
+
+              {/* BOTTOM-LEFT corner node — Strategy */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.7 }}
+                animate={{ opacity: 1, scale: 1, y: [0, -6, 0] }}
+                transition={{
+                  opacity: { duration: 0.5, delay: 1.3 },
+                  scale: { duration: 0.5, delay: 1.3 },
+                  y: { duration: 5.5, repeat: Infinity, ease: 'easeInOut', delay: 1.5 },
+                }}
+                className="absolute bottom-8 left-0 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-slate-200/80 bg-white/80 shadow-[0_4px_20px_rgba(15,23,42,0.08)] backdrop-blur-sm lg:-left-4 lg:bottom-12"
+                aria-hidden="true"
+              >
+                <svg className="h-5 w-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+              </motion.div>
+
+              {/* ── LAYER 3: Floating particles ── */}
+              {[
+                { top: '15%', left: '12%', size: 'h-1.5 w-1.5', color: 'bg-violet-400/50', dur: 6 },
+                { top: '80%', left: '15%', size: 'h-1 w-1', color: 'bg-indigo-400/40', dur: 8, delay: 1 },
+                { top: '10%', right: '12%', size: 'h-2 w-2', color: 'bg-purple-400/35', dur: 7, delay: 0.5 },
+                { top: '75%', right: '10%', size: 'h-1.5 w-1.5', color: 'bg-violet-300/45', dur: 9, delay: 2 },
+              ].map((p, i) => (
+                <motion.div
+                  key={i}
+                  animate={{ y: [0, -12, 0], opacity: [0.4, 0.9, 0.4] }}
+                  transition={{ duration: p.dur, repeat: Infinity, ease: 'easeInOut', delay: p.delay ?? 0 }}
+                  className={`pointer-events-none absolute ${p.size} ${p.color} rounded-full blur-[0.5px]`}
+                  style={{ top: p.top, left: p.left, right: p.right }}
+                  aria-hidden="true"
+                />
+              ))}
+
+              {/* ── Stat card — top-right, outside image ── */}
+              <motion.div
+                initial={{ opacity: 0, y: 16, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.6, delay: 1.0, ease: 'easeOut' }}
+                className="absolute -top-6 right-2 z-30 flex items-center gap-2.5 rounded-2xl border border-white/70 bg-white/95 px-4 py-2.5 shadow-[0_8px_32px_rgba(15,23,42,0.10)] backdrop-blur-sm lg:-right-2 xl:-right-6"
+              >
+                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 text-[10px] font-black leading-none text-white shadow-sm">
+                  500+
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-slate-900">Brands Scaled</p>
+                  <p className="text-[10px] text-slate-500">Across India</p>
+                </div>
+              </motion.div>
+
+
+
+              {/* ── Main image — clean, unobstructed ── */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.92, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                className="relative z-10 mx-8 my-10"
+              >
+                <motion.img
+                  animate={{
+                    y: [0, -10, 0],
+                    scale: [1, 1.018, 1],
+                  }}
+                  transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+                  src={contactImage}
+                  alt="Professional workspace — iFranchise"
+                  className="relative w-[75vw] max-w-[380px] object-contain drop-shadow-[0_24px_48px_rgba(15,23,42,0.14)] sm:w-full lg:max-w-[460px] xl:max-w-[500px]"
+                />
+
+                {/* Ground shadow pulse */}
+                <motion.div
+                  animate={{ scaleX: [1, 1.08, 1], opacity: [0.15, 0.25, 0.15] }}
+                  transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+                  className="absolute -bottom-4 left-1/2 h-10 w-3/4 -translate-x-1/2 rounded-full bg-slate-400/20 blur-xl"
+                />
+              </motion.div>
+            </div>
           </div>
         </div>
+
+        {/* ── Scroll indicator ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 1.2 }}
+          className="absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-2 lg:flex"
+        >
+          <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+            Scroll to connect
+          </span>
+          <motion.div
+            animate={{ y: [0, 6, 0] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+            className="flex h-8 w-5 items-start justify-center rounded-full border-2 border-slate-300 pt-1.5"
+          >
+            <div className="h-1.5 w-1 rounded-full bg-slate-400" />
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* SECTION 2 - CONTACT FORM (FULL VIEWPORT FIT) */}
       <section className="w-full bg-gradient-to-br from-slate-50/30 via-white to-purple-50/20 min-h-[calc(100vh-80px)] flex items-center overflow-hidden">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-8 w-full py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 lg:py-8">
           <div id="contact-form" className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Left Side - Large Image + Social Links */}
             <motion.div
@@ -369,8 +673,8 @@ function ContactPage() {
       </section>
 
       {/* SECTION 3 - OUR LOCATION MAP (TIGHT SPACING) */}
-      <section className="w-full bg-white py-16">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-8">
+      <section className="w-full bg-white py-12 md:py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -416,8 +720,8 @@ function ContactPage() {
       </section>
 
       {/* SECTION 4 - FAQ (CLEAN SPACING) */}
-      <section className="w-full bg-slate-50 py-16">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-8">
+      <section className="w-full bg-slate-50 py-12 md:py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -466,7 +770,7 @@ function ContactPage() {
 
       {/* SECTION 5 - PREMIUM "GET IN TOUCH" TRUST BLOCK (FULL SCREEN) */}
       <section className="w-full bg-white min-h-screen flex items-center overflow-hidden">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-8 w-full py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16">
           {/* Section Header - Tight Spacing */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -609,82 +913,243 @@ function ContactPage() {
               </div>
             </motion.div>
 
-            {/* Right Side - Animated Strategic Visual */}
+            {/* Right Side — Premium Visible Animation System */}
             <motion.div
               initial={{ opacity: 0, x: 30, scale: 0.95 }}
               whileInView={{ opacity: 1, x: 0, scale: 1 }}
               transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
               className="relative flex items-center justify-center lg:justify-end order-first lg:order-last"
             >
-              <div className="relative">
-                {/* Background gradient */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-[400px] h-[400px] lg:w-[500px] lg:h-[500px] bg-gradient-radial from-slate-100/40 via-transparent to-transparent rounded-full blur-2xl"></div>
-                </div>
+              <div className="relative flex items-center justify-center" style={{ width: 'min(480px, 90vw)', height: 'min(480px, 90vw)' }}>
 
-                {/* Floating question marks animation */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  {[...Array(6)].map((_, i) => (
-                    <motion.div
-                      key={i}
-                      className="absolute text-slate-300 text-lg font-bold"
-                      initial={{ opacity: 0 }}
-                      animate={{
-                        opacity: [0, 0.6, 0],
-                        x: [0, Math.cos(i * 60 * Math.PI / 180) * 80, Math.cos(i * 60 * Math.PI / 180) * 120],
-                        y: [0, Math.sin(i * 60 * Math.PI / 180) * 80, Math.sin(i * 60 * Math.PI / 180) * 120],
-                        rotate: [0, 360]
-                      }}
-                      transition={{
-                        duration: 8,
-                        repeat: Infinity,
-                        delay: i * 1.3,
-                        ease: "easeInOut"
-                      }}
-                    >
-                      ?
-                    </motion.div>
-                  ))}
-                </div>
+                {/* ── LAYER 0: Glow blobs — visible on white ── */}
+                {/* Lavender radial glow */}
+                <motion.div
+                  animate={{ scale: [1, 1.18, 1], opacity: [0.22, 0.38, 0.22] }}
+                  transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+                  className="pointer-events-none absolute h-72 w-72 rounded-full bg-purple-400/20 blur-[60px]"
+                />
+                {/* Gray spotlight */}
+                <motion.div
+                  animate={{ scale: [1, 1.12, 1], opacity: [0.18, 0.30, 0.18] }}
+                  transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+                  className="pointer-events-none absolute h-56 w-56 rounded-full bg-slate-300/30 blur-[50px]"
+                />
 
-                {/* Pulse rings */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  {[...Array(3)].map((_, i) => (
-                    <motion.div
-                      key={i}
-                      className="absolute border border-slate-200 rounded-full"
-                      initial={{ scale: 0, opacity: 0.8 }}
-                      animate={{
-                        scale: [0, 1.5, 2],
-                        opacity: [0.8, 0.3, 0]
-                      }}
-                      transition={{
-                        duration: 4,
-                        repeat: Infinity,
-                        delay: i * 1.3,
-                        ease: "easeOut"
-                      }}
-                      style={{
-                        width: '200px',
-                        height: '200px'
-                      }}
+                {/* ── LAYER 1: SVG Radar / radial grid ── */}
+                <svg
+                  className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.18]"
+                  viewBox="0 0 480 480"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  {/* Radial spokes */}
+                  {[0, 30, 60, 90, 120, 150].map((deg) => (
+                    <line
+                      key={deg}
+                      x1="240" y1="240"
+                      x2={240 + Math.cos((deg * Math.PI) / 180) * 220}
+                      y2={240 + Math.sin((deg * Math.PI) / 180) * 220}
+                      stroke="#a78bfa"
+                      strokeWidth="0.6"
+                      strokeDasharray="4 6"
                     />
                   ))}
-                </div>
-                
-                <div className="relative z-10">
+                  {/* Concentric guide circles */}
+                  <circle cx="240" cy="240" r="80"  stroke="#c4b5fd" strokeWidth="0.8" strokeDasharray="3 5" />
+                  <circle cx="240" cy="240" r="140" stroke="#a78bfa" strokeWidth="0.6" strokeDasharray="2 6" />
+                  <circle cx="240" cy="240" r="200" stroke="#818cf8" strokeWidth="0.5" strokeDasharray="2 8" />
+                </svg>
+
+                {/* ── LAYER 2: Rotating orbit rings — higher contrast ── */}
+                {/* Outer ring — smooth, slowest */}
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 26, repeat: Infinity, ease: 'linear' }}
+                  className="pointer-events-none absolute rounded-full"
+                  style={{
+                    width: 420, height: 420,
+                    border: '1px solid',
+                    borderColor: 'rgba(167,139,250,0.35)',
+                    boxShadow: '0 0 32px rgba(139,92,246,0.08)',
+                  }}
+                  aria-hidden="true"
+                />
+                {/* Mid ring — dashed, reverse */}
+                <motion.div
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
+                  className="pointer-events-none absolute rounded-full"
+                  style={{
+                    width: 330, height: 330,
+                    border: '1px dashed rgba(148,163,184,0.45)',
+                  }}
+                  aria-hidden="true"
+                />
+                {/* Inner ring — dotted, fastest */}
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
+                  className="pointer-events-none absolute rounded-full"
+                  style={{
+                    width: 240, height: 240,
+                    border: '1.5px solid rgba(196,181,253,0.50)',
+                    boxShadow: '0 0 20px rgba(139,92,246,0.10)',
+                  }}
+                  aria-hidden="true"
+                />
+
+                {/* ── LAYER 3: Floating business signal nodes — perimeter only ── */}
+                {/* Top — Growth arrow */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.7 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{
+                    opacity: { duration: 0.4, delay: 0.5 },
+                    scale: { duration: 0.4, delay: 0.5 },
+                    y: { duration: 5, repeat: Infinity, ease: 'easeInOut' },
+                  }}
+                  className="absolute top-4 left-1/2 z-20 -translate-x-1/2 flex h-11 w-11 items-center justify-center rounded-full border border-violet-300/80 bg-white shadow-[0_4px_20px_rgba(124,58,237,0.18),0_1px_4px_rgba(15,23,42,0.08)] backdrop-blur-sm"
+                  aria-hidden="true"
+                >
+                  <svg className="h-5 w-5 text-violet-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
+                  </svg>
+                </motion.div>
+
+                {/* Right — Globe */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.7 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  animate={{ y: [0, -6, 0] }}
+                  transition={{
+                    opacity: { duration: 0.4, delay: 0.7 },
+                    scale: { duration: 0.4, delay: 0.7 },
+                    y: { duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 0.8 },
+                  }}
+                  className="absolute right-4 top-1/2 z-20 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full border border-indigo-300/80 bg-white shadow-[0_4px_20px_rgba(99,102,241,0.18),0_1px_4px_rgba(15,23,42,0.08)] backdrop-blur-sm"
+                  aria-hidden="true"
+                >
+                  <svg className="h-5 w-5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </motion.div>
+
+                {/* Bottom — Strategy bar chart */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.7 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  animate={{ y: [0, -7, 0] }}
+                  transition={{
+                    opacity: { duration: 0.4, delay: 0.9 },
+                    scale: { duration: 0.4, delay: 0.9 },
+                    y: { duration: 5.5, repeat: Infinity, ease: 'easeInOut', delay: 1.2 },
+                  }}
+                  className="absolute bottom-4 left-1/2 z-20 -translate-x-1/2 flex h-11 w-11 items-center justify-center rounded-full border border-purple-300/80 bg-white shadow-[0_4px_20px_rgba(168,85,247,0.18),0_1px_4px_rgba(15,23,42,0.08)] backdrop-blur-sm"
+                  aria-hidden="true"
+                >
+                  <svg className="h-5 w-5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                </motion.div>
+
+                {/* Left — Lightning / scale */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.7 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  animate={{ y: [0, -6, 0] }}
+                  transition={{
+                    opacity: { duration: 0.4, delay: 1.1 },
+                    scale: { duration: 0.4, delay: 1.1 },
+                    y: { duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 0.4 },
+                  }}
+                  className="absolute left-4 top-1/2 z-20 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full border border-slate-300/80 bg-white shadow-[0_4px_20px_rgba(15,23,42,0.12),0_1px_4px_rgba(15,23,42,0.06)] backdrop-blur-sm"
+                  aria-hidden="true"
+                >
+                  <svg className="h-5 w-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </motion.div>
+
+                {/* ── LAYER 4: Pulse wave rings — visible on white ── */}
+                {[0, 1.4, 2.8].map((delay, i) => (
+                  <motion.div
+                    key={i}
+                    className="pointer-events-none absolute rounded-full"
+                    initial={{ scale: 0.3, opacity: 0 }}
+                    animate={{ scale: [0.3, 1.6], opacity: [0.5, 0] }}
+                    transition={{
+                      duration: 4,
+                      repeat: Infinity,
+                      delay,
+                      ease: 'easeOut',
+                    }}
+                    style={{
+                      width: 160, height: 160,
+                      border: '1.5px solid rgba(167,139,250,0.45)',
+                    }}
+                    aria-hidden="true"
+                  />
+                ))}
+
+                {/* ── CENTER: Question mark — floating, glowing ── */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                  animate={{ y: [0, -10, 0] }}
+                  className="relative z-10 flex flex-col items-center"
+                >
+                  {/* Soft spotlight behind the image */}
+                  <div className="absolute inset-0 -z-10 flex items-center justify-center">
+                    <div className="h-64 w-64 rounded-full bg-purple-500/10 blur-3xl" />
+                  </div>
+
                   <motion.img
-                    initial={{ scale: 0.9 }}
-                    whileInView={{ scale: 1 }}
-                    transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
+                    animate={{ y: [0, -10, 0] }}
+                    transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
                     src={contactImage3}
                     alt="Strategic business clarity"
-                    className="w-full max-w-md lg:max-w-lg h-auto object-contain drop-shadow-xl"
+                    className="relative w-full max-w-[280px] object-contain drop-shadow-[0_20px_40px_rgba(139,92,246,0.18)] lg:max-w-[320px]"
                   />
-                  
-                  {/* Subtle shadow */}
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 w-3/4 h-12 bg-slate-300/20 rounded-full blur-2xl"></div>
-                </div>
+
+                  {/* Ground shadow */}
+                  <motion.div
+                    animate={{ scaleX: [1, 1.1, 1], opacity: [0.18, 0.28, 0.18] }}
+                    transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+                    className="absolute -bottom-4 left-1/2 h-8 w-3/4 -translate-x-1/2 rounded-full bg-purple-400/20 blur-xl"
+                  />
+                </motion.div>
+
+                {/* ── Floating micro-particles ── */}
+                {[
+                  { top: '18%', left: '22%', size: 8, color: 'rgba(167,139,250,0.6)', dur: 5 },
+                  { top: '72%', left: '20%', size: 6, color: 'rgba(129,140,248,0.5)', dur: 7, delay: 1 },
+                  { top: '15%', right: '22%', size: 7, color: 'rgba(196,181,253,0.65)', dur: 6, delay: 0.5 },
+                  { top: '78%', right: '18%', size: 5, color: 'rgba(167,139,250,0.5)', dur: 8, delay: 2 },
+                  { top: '45%', left: '8%',  size: 5, color: 'rgba(148,163,184,0.5)', dur: 6.5, delay: 1.5 },
+                  { top: '50%', right: '8%', size: 6, color: 'rgba(167,139,250,0.45)', dur: 7.5, delay: 0.8 },
+                ].map((p, i) => (
+                  <motion.div
+                    key={i}
+                    animate={{ y: [0, -10, 0], opacity: [0.5, 1, 0.5] }}
+                    transition={{ duration: p.dur, repeat: Infinity, ease: 'easeInOut', delay: p.delay ?? 0 }}
+                    className="pointer-events-none absolute rounded-full"
+                    style={{
+                      top: p.top, left: p.left, right: p.right,
+                      width: p.size, height: p.size,
+                      background: p.color,
+                      boxShadow: `0 0 ${p.size * 2}px ${p.color}`,
+                    }}
+                    aria-hidden="true"
+                  />
+                ))}
               </div>
             </motion.div>
           </div>

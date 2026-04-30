@@ -2439,11 +2439,38 @@ function FranchiseDetailsPage() {
       <div className="space-y-8">
         <section className="space-y-6">
           <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_22px_rgba(15,23,42,0.06)] lg:p-8">
-            <div className="flex flex-wrap items-center gap-3">
-              <h1 className="text-4xl font-extrabold tracking-tight text-[#0b0f19] sm:text-5xl lg:text-6xl">{selectedFranchise.name}</h1>
-              <span className="rounded-full bg-emerald-100 px-4 py-1.5 text-sm font-semibold text-emerald-700">{selectedFranchise.status}</span>
-              <span className="rounded-full bg-violet-100 px-4 py-1.5 text-sm font-semibold text-violet-700">{selectedFranchise.badge}</span>
+            {/* Title row — badges left, Download CTA right */}
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+              {/* Left: name + status badges */}
+              <div className="flex flex-wrap items-center gap-3">
+                <h1 className="text-4xl font-extrabold tracking-tight text-[#0b0f19] sm:text-5xl lg:text-6xl">{selectedFranchise.name}</h1>
+                <span className="rounded-full bg-emerald-100 px-4 py-1.5 text-sm font-semibold text-emerald-700">{selectedFranchise.status}</span>
+                <span className="rounded-full bg-violet-100 px-4 py-1.5 text-sm font-semibold text-violet-700">{selectedFranchise.badge}</span>
+              </div>
+
+              {/* Right: Download Brochure CTA */}
+              <a
+                href={selectedFranchise.brochureUrl || '#'}
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex w-fit items-center gap-2.5 rounded-xl bg-[#0B1220] px-6 py-3 text-sm font-semibold text-white shadow-[0_4px_16px_rgba(11,18,32,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#111827] hover:shadow-[0_8px_28px_rgba(11,18,32,0.28)] active:scale-[0.98] lg:w-auto"
+              >
+                {/* Download icon */}
+                <svg
+                  className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2.2}
+                  aria-hidden="true"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3" />
+                </svg>
+                Download Brochure
+              </a>
             </div>
+
             <p className="mt-4 text-lg text-slate-600 lg:text-xl">{selectedFranchise.tagline}</p>
           </div>
 

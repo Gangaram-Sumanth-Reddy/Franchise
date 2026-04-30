@@ -70,22 +70,22 @@ export default function ServicesPage() {
       {/* Persistent ambient orbs */}
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
         <motion.div
-          className="absolute top-[-5%] left-[-8%] w-[700px] h-[700px] rounded-full opacity-[0.18] blur-[120px]"
+          className="absolute top-[-5%] left-[-8%] w-[min(700px,120vw)] h-[min(700px,120vw)] rounded-full opacity-[0.18] blur-[120px]"
           animate={{ scale: [1, 1.08, 1], opacity: [0.18, 0.24, 0.18], y: ['0%', '8%', '0%'] }}
           transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
           style={{ background: 'radial-gradient(circle, rgba(99,102,241,1) 0%, transparent 70%)' }} />
         <motion.div
-          className="absolute top-[15%] right-[-5%] w-[500px] h-[500px] rounded-full opacity-[0.12] blur-[100px]"
+          className="absolute top-[15%] right-[-5%] w-[min(500px,90vw)] h-[min(500px,90vw)] rounded-full opacity-[0.12] blur-[100px]"
           animate={{ scale: [1, 1.12, 1], opacity: [0.12, 0.18, 0.12] }}
           transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
           style={{ background: 'radial-gradient(circle, rgba(139,92,246,1) 0%, transparent 70%)' }} />
         <motion.div
-          className="absolute top-[45%] left-[10%] w-[400px] h-[400px] rounded-full opacity-[0.07] blur-[80px]"
+          className="absolute top-[45%] left-[10%] w-[min(400px,80vw)] h-[min(400px,80vw)] rounded-full opacity-[0.07] blur-[80px]"
           animate={{ scale: [1, 1.15, 1] }}
           transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
           style={{ background: 'radial-gradient(circle, rgba(59,130,246,1) 0%, transparent 70%)' }} />
         <motion.div
-          className="absolute top-[70%] right-[5%] w-[450px] h-[450px] rounded-full opacity-[0.06] blur-[90px]"
+          className="absolute top-[70%] right-[5%] w-[min(450px,80vw)] h-[min(450px,80vw)] rounded-full opacity-[0.06] blur-[90px]"
           animate={{ scale: [1, 1.1, 1] }}
           transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
           style={{ background: 'radial-gradient(circle, rgba(236,72,153,1) 0%, transparent 70%)' }} />
@@ -236,20 +236,20 @@ export default function ServicesPage() {
           {/* Headline — stagger reveal, centered */}
           <div className="overflow-hidden mb-1">
             <motion.h1 initial={{ y: '110%' }} animate={{ y: 0 }} transition={{ duration: 0.4, delay: 0.05, ease: [0.22,1,0.36,1] }}
-              className="text-5xl font-extrabold leading-[1.04] tracking-[-0.02em] text-white md:text-6xl lg:text-[80px]">
+              className="text-[clamp(2rem,8vw,5rem)] font-extrabold leading-[1.04] tracking-[-0.02em] text-white lg:text-[80px]">
               Strategic Services That
             </motion.h1>
           </div>
           <div className="overflow-hidden mb-1">
             <motion.h1 initial={{ y: '110%' }} animate={{ y: 0 }} transition={{ duration: 0.4, delay: 0.1, ease: [0.22,1,0.36,1] }}
-              className="text-5xl font-extrabold leading-[1.04] tracking-[-0.02em] md:text-6xl lg:text-[80px]"
+              className="text-[clamp(2rem,8vw,5rem)] font-extrabold leading-[1.04] tracking-[-0.02em] lg:text-[80px]"
               style={{ background: 'linear-gradient(90deg,#818cf8 0%,#a78bfa 45%,#60a5fa 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               Scale Brands Beyond
             </motion.h1>
           </div>
           <div className="overflow-hidden mb-8">
             <motion.h1 initial={{ y: '110%' }} animate={{ y: 0 }} transition={{ duration: 0.4, delay: 0.15, ease: [0.22,1,0.36,1] }}
-              className="text-5xl font-extrabold leading-[1.04] tracking-[-0.02em] text-white md:text-6xl lg:text-[80px]">
+              className="text-[clamp(2rem,8vw,5rem)] font-extrabold leading-[1.04] tracking-[-0.02em] text-white lg:text-[80px]">
               Competition
             </motion.h1>
           </div>

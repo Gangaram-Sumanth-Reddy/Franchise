@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 function LegalPageLayout({ translations }) {
   const [language, setLanguage] = useState('en');
@@ -88,25 +88,26 @@ function LegalPageLayout({ translations }) {
           {/* RIGHT CONTENT - Scrollable */}
           <div className="bg-white">
             {/* Mobile Header */}
-            <div className="lg:hidden px-6 py-12 bg-slate-50 border-b border-slate-200">
-              <p className="text-sm font-medium text-slate-500 mb-4">
+            <div className="lg:hidden px-4 sm:px-6 py-10 bg-slate-50 border-b border-slate-200">
+              <p className="text-sm font-medium text-slate-500 mb-3">
                 {t.updated}
               </p>
-              <h1 className="text-3xl font-bold text-slate-900 leading-tight mb-4">
+              <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 leading-tight mb-3">
                 {t.title}
               </h1>
-              <p className="text-lg text-slate-600 leading-relaxed">
+              <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
                 {t.summary}
               </p>
             </div>
 
             {/* Language Selector - Sticky in right column */}
-            <div className="sticky top-24 z-20 flex justify-end bg-white/90 backdrop-blur-sm px-6 lg:px-12 py-4 border-b border-slate-100">
+            <div className="sticky top-16 z-20 flex justify-between items-center bg-white/90 backdrop-blur-sm px-4 sm:px-6 lg:px-12 py-3 border-b border-slate-100">
+              <span className="text-xs font-medium text-slate-400 lg:hidden">{t.title?.slice(0, 20)}{t.title?.length > 20 ? '…' : ''}</span>
               <div className="relative">
                 <select
                   value={language}
                   onChange={(e) => setLanguage(e.target.value)}
-                  className="px-4 py-2 bg-white border border-slate-200 rounded-lg hover:border-slate-300 transition-colors duration-200 shadow-sm text-sm font-medium text-slate-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="px-3 sm:px-4 py-2 bg-white border border-slate-200 rounded-lg hover:border-slate-300 transition-colors duration-200 shadow-sm text-sm font-medium text-slate-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
                   {languageOptions.map((option) => (
                     <option key={option.code} value={option.code}>
@@ -118,15 +119,15 @@ function LegalPageLayout({ translations }) {
             </div>
 
             {/* Content Sections */}
-            <div className="px-6 lg:px-12 py-12 lg:py-16">
+            <div className="px-4 sm:px-6 lg:px-12 py-10 lg:py-16">
               <div className="max-w-4xl">
                 {t.sections.map((section, i) => (
-                  <div key={i} className="mb-12">
-                    <h2 className="text-2xl font-bold text-slate-900 mb-6 leading-tight">
+                  <div key={i} className="mb-10">
+                    <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4 leading-tight">
                       {section.heading}
                     </h2>
-                    <div className="prose prose-slate prose-lg max-w-none">
-                      <p className="text-lg leading-relaxed text-slate-600">
+                    <div className="prose prose-slate sm:prose-lg max-w-none">
+                      <p className="text-base sm:text-lg leading-relaxed text-slate-600">
                         {section.content}
                       </p>
                     </div>
