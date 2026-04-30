@@ -1,38 +1,72 @@
-function NotFoundPage() {
-  return (
-    <main className="relative min-h-[calc(100vh-5rem)] overflow-hidden bg-gradient-to-br from-[#1f4ff2] via-[#2b60ff] to-[#1f4ff2] text-white">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.2)_0%,_rgba(255,255,255,0)_45%)]" />
-      <div className="absolute left-1/2 top-12 h-[520px] w-[520px] -translate-x-1/2 rounded-full border border-white/15 blur-[1px]" />
+import { useEffect, useState } from 'react';
+import notFoundImage from '../assets/404.png';
 
-      <section className="relative z-10 mx-auto flex min-h-[calc(100vh-5rem)] max-w-6xl flex-col items-center justify-center px-6 pb-16 pt-8 text-center">
-        <div className="relative mb-8 h-[260px] w-full max-w-3xl">
-          <div className="absolute left-[8%] top-[30%] text-[150px] font-black leading-none text-blue-100/85 drop-shadow-[0_18px_20px_rgba(0,0,0,0.25)] animate-float-left">
-            4
-          </div>
-          <div className="absolute right-[9%] top-[18%] text-[130px] font-black leading-none text-blue-100/85 drop-shadow-[0_18px_20px_rgba(0,0,0,0.25)] animate-float-right">
-            4
-          </div>
-          <div className="absolute left-1/2 top-[56%] h-[130px] w-[220px] -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-gradient-to-b from-[#2a4eda] to-[#13339f] shadow-[inset_0_20px_40px_rgba(255,255,255,0.18),_0_30px_40px_rgba(0,0,0,0.32)]">
-            <div className="absolute bottom-8 left-[62%] h-16 w-1 rounded-full bg-[#d6b173] shadow-[0_0_0_1px_rgba(0,0,0,0.15)]" />
-            <div className="absolute bottom-10 left-[56%] h-1 w-16 rotate-[55deg] rounded bg-[#d6b173]" />
-            <div className="absolute bottom-[64px] left-[53%] h-1 w-14 rotate-[55deg] rounded bg-[#d6b173]" />
-          </div>
+function NotFoundPage() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setVisible(true), 60);
+    return () => clearTimeout(t);
+  }, []);
+
+  const goHome = () => {
+    window.history.pushState({}, '', '/');
+    window.dispatchEvent(new PopStateEvent('popstate'));
+  };
+
+  return (
+    <main className="h-[calc(100vh-5rem)] overflow-hidden bg-white flex flex-col items-center justify-center px-4">
+      <div
+        className={`flex flex-col items-center transition-all duration-700 ease-out ${
+          visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+        }`}
+      >
+        {/* 404 Image — viewport-fitted hero */}
+        <div className="animate-float">
+          <img
+            src={notFoundImage}
+            alt="404"
+            className="w-auto object-contain max-h-[78vh] max-w-[95vw] drop-shadow-2xl"
+            draggable={false}
+          />
         </div>
 
-        <p className="text-4xl font-semibold tracking-[0.14em]">OOPS!</p>
-        <p className="mt-4 max-w-lg text-xl font-medium text-blue-50">We can&apos;t find the page that you&apos;re looking for :(</p>
-
+        {/* Home icon button */}
         <button
           type="button"
-          onClick={() => {
-            window.history.pushState({}, '', '/');
-            window.dispatchEvent(new PopStateEvent('popstate'));
-          }}
-          className="mt-10 rounded-full border border-blue-100/70 bg-white/10 px-8 py-3 text-sm font-semibold tracking-[0.12em] text-white transition hover:bg-white/20"
+          onClick={goHome}
+          title="Go Home"
+          aria-label="Go back to home"
+          className="mt-4 group relative flex items-center justify-center w-14 h-14 rounded-full bg-slate-900 shadow-lg shadow-slate-900/30 transition-all duration-300 hover:scale-110 hover:shadow-xl hover:shadow-slate-900/40 active:scale-95"
         >
-          BACK TO HOME
+          <svg
+            className="w-6 h-6 text-white transition-transform duration-300 group-hover:-translate-y-0.5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            strokeWidth={1.8}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+            />
+          </svg>
+
+          {/* Tooltip */}
+          <span className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-slate-900 px-2.5 py-1 text-xs font-medium text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            Home
+          </span>
         </button>
-      </section>
+      </div>
+
+      <style>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
+        }
+        .animate-float { animation: float 5s ease-in-out infinite; }
+      `}</style>
     </main>
   );
 }

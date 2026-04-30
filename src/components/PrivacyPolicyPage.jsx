@@ -1,71 +1,64 @@
-import React from 'react';
+import LegalPageLayout from './LegalPageLayout';
+
+const sections = [
+  {
+    title: 'Introduction',
+    body: 'This Privacy Policy describes how iFranchise ("we", "our", or "us") collects, uses, discloses, and safeguards information when you access our franchise marketplace platform, submit enquiries, engage with advisory services, or interact with any feature of our digital ecosystem. By using iFranchise, you acknowledge the practices described in this document.',
+  },
+  {
+    title: 'Information We Collect',
+    body: 'We collect information you provide directly — including your name, email address, phone number, business details, and franchise preferences — as well as information generated through your use of the platform such as browsing activity, search queries, device identifiers, IP address, browser type, and interaction patterns. We may also receive information from third-party partners, franchise brands, and referral sources.',
+  },
+  {
+    title: 'How We Use Your Information',
+    body: 'We use collected information to operate and improve the platform, match users with relevant franchise opportunities, process enquiries and applications, deliver advisory communications, personalize your experience, prevent fraud and abuse, fulfill legal obligations under applicable Indian law, and send service-related notifications. We do not sell personal data to third parties for their independent marketing purposes.',
+  },
+  {
+    title: 'Sharing of Information',
+    body: 'Information may be shared with franchise brands you express interest in, verified service partners, payment processors, cloud infrastructure providers, analytics vendors, and legal or regulatory authorities when required by law. All third-party data processors are contractually bound to handle your information in accordance with applicable data protection standards.',
+  },
+  {
+    title: 'Cookies and Tracking Technologies',
+    body: 'We use cookies, pixel tags, and similar technologies to maintain session state, remember your preferences, measure platform performance, and deliver relevant content. You may manage cookie preferences through your browser settings. Disabling certain cookies may affect the availability or functionality of specific platform features.',
+  },
+  {
+    title: 'Data Security',
+    body: 'We implement administrative, technical, and physical safeguards designed to protect your information from unauthorized access, disclosure, alteration, or destruction. These include encrypted data transmission, access controls, regular security assessments, and internal data handling policies. No system is completely secure, and we encourage users to maintain strong account credentials.',
+  },
+  {
+    title: 'Your Rights and Choices',
+    body: 'Subject to applicable law, you have the right to access, correct, or request deletion of your personal data. You may also object to certain processing activities, request data portability, or withdraw consent where processing is consent-based. To exercise these rights, contact our compliance team at legal@ifranchise.in. We may require identity verification before processing sensitive requests.',
+  },
+  {
+    title: 'Data Retention',
+    body: 'We retain personal information for as long as necessary to provide services, comply with legal obligations, resolve disputes, enforce agreements, and maintain platform security records. When data is no longer required, it is securely deleted or anonymized in accordance with our internal retention schedules.',
+  },
+  {
+    title: 'Third-Party Links and Integrations',
+    body: 'Our platform may contain links to external websites, franchise brand portals, and partner services. iFranchise is not responsible for the privacy practices or content of third-party destinations. We encourage you to review the privacy policies of any external services you access through our platform.',
+  },
+  {
+    title: 'Children\'s Privacy',
+    body: 'iFranchise is not directed at individuals under the age of 18. We do not knowingly collect personal information from minors. If we become aware that a minor has submitted personal data without appropriate consent, we will take steps to delete that information promptly.',
+  },
+  {
+    title: 'Updates to This Policy',
+    body: 'We may revise this Privacy Policy periodically to reflect changes in our practices, legal requirements, or platform features. Material updates will be communicated through the platform interface or via registered contact details. Continued use of iFranchise after any update constitutes acceptance of the revised policy.',
+  },
+  {
+    title: 'Contact Us',
+    body: 'For privacy-related inquiries, data access requests, or compliance concerns, please contact our legal and compliance team at legal@ifranchise.in or call +91 98765 43210. Our registered office is located in Bangalore, Karnataka, India.',
+  },
+];
 
 function PrivacyPolicyPage() {
   return (
-    <div className="min-h-screen w-full bg-white">
-      <div className="max-w-6xl mx-auto px-4 py-16">
-        <div className="text-center mb-12">
-          <p className="text-sm font-medium text-slate-500 mb-4">Last Updated: December 15, 2024</p>
-          <h1 className="text-4xl font-bold text-slate-900 mb-4">Privacy Policy</h1>
-          <p className="text-lg text-slate-600 max-w-3xl mx-auto">How iFranchise collects, uses, shares, and protects your information across our franchise marketplace.</p>
-        </div>
-        <div className="max-w-4xl mx-auto space-y-12">
-          <div className="border-b border-slate-200 pb-8">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Introduction</h2>
-            <p className="text-slate-600 leading-relaxed">This Privacy Policy explains how iFranchise, a franchise marketplace platform, handles personal and business information when users browse opportunities, create accounts, submit franchise enquiries, and engage with our advisory services.</p>
-          </div>
-          <div className="border-b border-slate-200 pb-8">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Information We Collect</h2>
-            <p className="text-slate-600 leading-relaxed">We collect contact details, profile information, communication records, and transaction-related data. We may also receive usage signals such as device type, browser, IP address, and interaction patterns that help us improve platform performance.</p>
-          </div>
-          <div className="border-b border-slate-200 pb-8">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">How We Use Data</h2>
-            <p className="text-slate-600 leading-relaxed">We use data to verify accounts, match users with relevant franchise opportunities, process requests, provide support, improve recommendations, prevent abuse, and meet compliance obligations under applicable Indian law.</p>
-          </div>
-          <div className="border-b border-slate-200 pb-8">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Sharing of Information</h2>
-            <p className="text-slate-600 leading-relaxed">Information may be shared with listed brands, service partners, payment processors, technology providers, and legal authorities only where necessary for service delivery, lawful requests, fraud prevention, or contractual performance.</p>
-          </div>
-          <div className="border-b border-slate-200 pb-8">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Cookies &amp; Tracking</h2>
-            <p className="text-slate-600 leading-relaxed">We use cookies and similar tools to remember preferences, maintain sessions, analyze traffic, and improve product experience. You can control cookie behavior through browser settings, though some features may not function fully.</p>
-          </div>
-          <div className="border-b border-slate-200 pb-8">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Data Security</h2>
-            <p className="text-slate-600 leading-relaxed">We apply administrative, technical, and physical safeguards such as access controls, secure communication channels, and internal review practices designed to protect user data from unauthorized access, misuse, or loss.</p>
-          </div>
-          <div className="border-b border-slate-200 pb-8">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">User Rights</h2>
-            <p className="text-slate-600 leading-relaxed">You may request access, correction, or deletion of your personal data, subject to legal and operational limits. You may also object to specific processing activities or withdraw consent where processing is consent-based.</p>
-          </div>
-          <div className="border-b border-slate-200 pb-8">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Data Retention</h2>
-            <p className="text-slate-600 leading-relaxed">Data is retained only for as long as reasonably required to deliver services, satisfy legal requirements, resolve disputes, maintain security records, and enforce platform agreements.</p>
-          </div>
-          <div className="pb-8">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Contact Information</h2>
-            <p className="text-slate-600 leading-relaxed">For privacy-related requests, users can contact our support and compliance team at legal@ifranchise.in. We may request verification details before processing sensitive account requests.</p>
-          </div>
-        </div>
-        <div className="mt-16 p-6 bg-slate-50 rounded-lg max-w-4xl mx-auto">
-          <h3 className="text-lg font-semibold text-slate-900 mb-4">Privacy Contact Information</h3>
-          <div className="grid gap-4 sm:grid-cols-3">
-            <div>
-              <p className="text-sm font-medium text-slate-700">Email</p>
-              <a href="mailto:legal@ifranchise.in" className="text-blue-600 hover:underline">legal@ifranchise.in</a>
-            </div>
-            <div>
-              <p className="text-sm font-medium text-slate-700">Phone</p>
-              <a href="tel:+919876543210" className="text-blue-600 hover:underline">+91 98765 43210</a>
-            </div>
-            <div>
-              <p className="text-sm font-medium text-slate-700">Address</p>
-              <p className="text-slate-600">Bangalore, Karnataka, India</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <LegalPageLayout
+      badge="Legal"
+      title="Privacy Policy"
+      subtitle="How iFranchise collects, uses, shares, and protects your information across our franchise marketplace and advisory platform."
+      sections={sections}
+    />
   );
 }
 

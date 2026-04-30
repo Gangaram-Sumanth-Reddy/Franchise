@@ -75,7 +75,7 @@ const LEFT_ITEMS = [
   { title: 'Services', description: 'Explore our franchise consulting services.', Icon: FolderIcon },
   { title: 'Blog', description: 'Design tips & insights from blogs.', Icon: BlogIcon },
   { title: 'Explore Brands', description: 'Discover scalable franchise brands.', Icon: TeamIcon },
-  { title: 'Careers', description: 'Join the iFranchise growth team.', Icon: TeamIcon },
+  { title: 'Careers', description: 'Join the iFranchise growth team.', Icon: TeamIcon, badge: '4' },
 ];
 
 const RIGHT_ITEMS = [
@@ -344,8 +344,9 @@ function Navbar() {
                           <span className="flex items-center gap-2 text-sm font-medium text-slate-800">
                             {item.title}
                             {item.badge ? (
-                              <span className="rounded-full bg-rose-100 px-2 py-0.5 text-[10px] font-semibold lowercase tracking-wide text-rose-600">
+                              <span className="relative inline-flex items-center justify-center w-5 h-5 rounded-full bg-red-500 text-[10px] font-bold text-white shadow-sm">
                                 {item.badge}
+                                <span className="absolute inset-0 rounded-full bg-red-500 animate-ping opacity-60" />
                               </span>
                             ) : null}
                           </span>
@@ -613,7 +614,13 @@ function Navbar() {
                         : 'text-slate-800 hover:bg-slate-50'
                     }`}
                   >
-                    <span>Careers</span>
+                    <span className="flex items-center gap-2.5">
+                      Careers
+                      <span className="relative inline-flex items-center justify-center w-5 h-5 rounded-full bg-red-500 text-[10px] font-bold text-white shadow-sm">
+                        4
+                        <span className="absolute inset-0 rounded-full bg-red-500 animate-ping opacity-60" />
+                      </span>
+                    </span>
                   </a>
 
                   {/* Contact Us */}

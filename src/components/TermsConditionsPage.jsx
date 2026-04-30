@@ -1,71 +1,76 @@
-import React from 'react';
+import LegalPageLayout from './LegalPageLayout';
+
+const sections = [
+  {
+    title: 'Introduction',
+    body: 'These Terms & Conditions ("Terms") govern your access to and use of the iFranchise platform, including franchise opportunity discovery, brand engagement workflows, advisory services, and all related digital tools and content made available through our website and applications. Please read these Terms carefully before using our services.',
+  },
+  {
+    title: 'Acceptance of Terms',
+    body: 'By accessing or using iFranchise, you confirm that you are at least 18 years of age, have the legal capacity to enter into binding agreements, and have read, understood, and agreed to these Terms along with our Privacy Policy and any supplemental policies applicable to specific services. If you do not agree, you must discontinue use of the platform immediately.',
+  },
+  {
+    title: 'Platform Description',
+    body: 'iFranchise operates as a franchise growth marketplace and consulting ecosystem. We facilitate connections between prospective franchisees and franchise brands, provide advisory resources, and support business evaluation processes. iFranchise does not guarantee investment outcomes, franchise approvals, or the accuracy of brand-provided information listed on the platform.',
+  },
+  {
+    title: 'User Responsibilities',
+    body: 'You agree to provide accurate, current, and complete information during registration and throughout your use of the platform. You are responsible for maintaining the confidentiality of your account credentials and for all activities conducted under your account. Any unauthorized access or suspected security breach must be reported to us immediately at legal@ifranchise.in.',
+  },
+  {
+    title: 'Prohibited Conduct',
+    body: 'You agree not to misuse platform content, submit fraudulent or misleading franchise applications, reverse-engineer any part of the platform, scrape or harvest data without authorization, interfere with system security or availability, impersonate any person or entity, or use the platform for any unlawful purpose. Violations may result in immediate account suspension and legal action.',
+  },
+  {
+    title: 'Franchise Information Disclaimer',
+    body: 'Franchise listings, investment figures, ROI projections, and brand descriptions on iFranchise are provided for informational and evaluation purposes only. This information is sourced from franchise brands and has not been independently verified by iFranchise. Users should conduct independent due diligence and seek professional legal and financial advice before making any investment decision.',
+  },
+  {
+    title: 'Payments and Transactions',
+    body: 'Certain advisory services, premium listings, or platform features may involve fees. All pricing, applicable taxes, refund eligibility, and payment timelines are governed by the specific service agreement presented at the point of purchase or onboarding. iFranchise uses third-party payment processors and does not store full payment card details on its servers.',
+  },
+  {
+    title: 'Intellectual Property',
+    body: 'All platform content, including but not limited to text, graphics, logos, software, data compilations, and user interface elements, is owned by iFranchise or its licensors and is protected under applicable intellectual property laws. You are granted a limited, non-exclusive, non-transferable license to access and use the platform for lawful personal or business evaluation purposes only.',
+  },
+  {
+    title: 'Limitation of Liability',
+    body: 'To the maximum extent permitted by applicable law, iFranchise and its officers, directors, employees, and partners shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of or inability to use the platform, including losses related to investment decisions, franchise outcomes, third-party conduct, or service interruptions.',
+  },
+  {
+    title: 'Indemnification',
+    body: 'You agree to indemnify, defend, and hold harmless iFranchise and its affiliates from any claims, liabilities, damages, losses, and expenses — including reasonable legal fees — arising out of your use of the platform, violation of these Terms, infringement of any third-party rights, or submission of inaccurate information.',
+  },
+  {
+    title: 'Termination',
+    body: 'iFranchise reserves the right to suspend or permanently terminate your access to the platform at any time, with or without notice, for violations of these Terms, security concerns, legal requirements, or conduct deemed harmful to the platform or its users. You may discontinue use of the platform at any time, subject to any outstanding obligations.',
+  },
+  {
+    title: 'Governing Law',
+    body: 'These Terms are governed by and construed in accordance with the laws of India. Any disputes arising under or in connection with these Terms shall be subject to the exclusive jurisdiction of competent courts located in Bangalore, Karnataka, India, unless otherwise required by applicable law.',
+  },
+  {
+    title: 'Dispute Resolution',
+    body: 'Before initiating formal legal proceedings, both parties agree to attempt resolution through good-faith written negotiation for a period of thirty (30) days from the date of written notice. If unresolved, disputes may be referred to binding arbitration under applicable Indian arbitration law, or to courts of competent jurisdiction as mutually agreed.',
+  },
+  {
+    title: 'Modifications to Terms',
+    body: 'We reserve the right to update these Terms at any time. Material changes will be communicated through the platform or via registered contact details with reasonable advance notice. Continued use of iFranchise following any update constitutes your acceptance of the revised Terms.',
+  },
+  {
+    title: 'Contact Information',
+    body: 'For legal notices, compliance inquiries, or questions about these Terms, please contact our legal team at legal@ifranchise.in or +91 98765 43210. Please include your account information and a clear description of your inquiry for prompt resolution.',
+  },
+];
 
 function TermsConditionsPage() {
   return (
-    <div className="min-h-screen w-full bg-white">
-      <div className="max-w-6xl mx-auto px-4 py-16">
-        <div className="text-center mb-12">
-          <p className="text-sm font-medium text-slate-500 mb-4">Last Updated: December 15, 2024</p>
-          <h1 className="text-4xl font-bold text-slate-900 mb-4">Terms &amp; Conditions</h1>
-          <p className="text-lg text-slate-600 max-w-3xl mx-auto">The rules and responsibilities that apply when you use iFranchise services and platform features.</p>
-        </div>
-        <div className="max-w-4xl mx-auto space-y-12">
-          <div className="border-b border-slate-200 pb-8">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Acceptance of Terms</h2>
-            <p className="text-slate-600 leading-relaxed">By accessing or using iFranchise, you confirm that you have read, understood, and agreed to these terms, our privacy commitments, and any supplemental policies published for specific services.</p>
-          </div>
-          <div className="border-b border-slate-200 pb-8">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">User Responsibilities</h2>
-            <p className="text-slate-600 leading-relaxed">Users must provide accurate information, keep account credentials secure, and use the platform lawfully. You are responsible for all actions performed through your account unless unauthorized use is reported promptly.</p>
-          </div>
-          <div className="border-b border-slate-200 pb-8">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Platform Usage Rules</h2>
-            <p className="text-slate-600 leading-relaxed">You agree not to misuse platform content, submit misleading franchise applications, interfere with system security, scrape restricted data, or attempt unauthorized access to any account, API, or infrastructure component.</p>
-          </div>
-          <div className="border-b border-slate-200 pb-8">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Payments &amp; Transactions</h2>
-            <p className="text-slate-600 leading-relaxed">Certain services may involve fees, partner payments, or transaction processing terms. Pricing, taxes, refunds, and settlement timelines are governed by the specific service agreement shown at checkout or onboarding.</p>
-          </div>
-          <div className="border-b border-slate-200 pb-8">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Intellectual Property</h2>
-            <p className="text-slate-600 leading-relaxed">All platform materials, trademarks, designs, and software elements are owned by iFranchise or its licensors. Limited usage rights are provided only for lawful personal or business evaluation purposes.</p>
-          </div>
-          <div className="border-b border-slate-200 pb-8">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Limitation of Liability</h2>
-            <p className="text-slate-600 leading-relaxed">To the extent permitted by law, iFranchise is not liable for indirect, incidental, or consequential losses arising from platform use, delays, third-party acts, investment outcomes, or business decisions by users.</p>
-          </div>
-          <div className="border-b border-slate-200 pb-8">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Termination</h2>
-            <p className="text-slate-600 leading-relaxed">We may suspend or terminate access for policy violations, security concerns, legal requirements, or misuse of services. Users may stop using the platform at any time, subject to any pending obligations.</p>
-          </div>
-          <div className="border-b border-slate-200 pb-8">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Governing Law (India)</h2>
-            <p className="text-slate-600 leading-relaxed">These terms are governed by the laws of India. Regulatory interpretations and enforceability shall be evaluated under applicable Indian statutes and jurisdictional principles.</p>
-          </div>
-          <div className="pb-8">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Contact Information</h2>
-            <p className="text-slate-600 leading-relaxed">For legal notices and terms-related questions, contact legal@ifranchise.in. Please include your account details and issue summary for faster resolution.</p>
-          </div>
-        </div>
-        <div className="mt-16 p-6 bg-slate-50 rounded-lg max-w-4xl mx-auto">
-          <h3 className="text-lg font-semibold text-slate-900 mb-4">Legal Contact Information</h3>
-          <div className="grid gap-4 sm:grid-cols-3">
-            <div>
-              <p className="text-sm font-medium text-slate-700">Email</p>
-              <a href="mailto:legal@ifranchise.in" className="text-blue-600 hover:underline">legal@ifranchise.in</a>
-            </div>
-            <div>
-              <p className="text-sm font-medium text-slate-700">Phone</p>
-              <a href="tel:+919876543210" className="text-blue-600 hover:underline">+91 98765 43210</a>
-            </div>
-            <div>
-              <p className="text-sm font-medium text-slate-700">Address</p>
-              <p className="text-slate-600">Bangalore, Karnataka, India</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <LegalPageLayout
+      badge="Legal"
+      title="Terms & Conditions"
+      subtitle="The rules, rights, and responsibilities that govern your use of the iFranchise platform, services, and franchise marketplace ecosystem."
+      sections={sections}
+    />
   );
 }
 

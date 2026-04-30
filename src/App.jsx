@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import Hero from './components/Hero';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -14,6 +14,8 @@ import BlogPage from './components/BlogPage';
 import BlogDetailPage from './components/BlogDetailPage';
 import ServicesPage from './components/ServicesPage';
 import LicensesPage from './components/LicensesPage';
+import CareersPage from './components/CareersPage';
+import CareerDetailPage from './components/CareerDetailPage';
 import FloatingContactCTA from './components/FloatingContactCTA';
 
 const scrollToHashSection = () => {
@@ -71,6 +73,12 @@ const getPathname = () => {
   if (pathname === '/services') {
     return '/services';
   }
+  if (pathname === '/careers') {
+    return '/careers';
+  }
+  if (pathname.startsWith('/careers/') && pathname.split('/').filter(Boolean).length === 2) {
+    return '/career-detail';
+  }
   if (pathname.startsWith('/blog/') && pathname.split('/').filter(Boolean).length >= 2) {
     return '/blog-detail';
   }
@@ -90,6 +98,7 @@ const getPathname = () => {
     '/contact',
     '/blog',
     '/services',
+    '/careers',
   ];
   if (!knownPaths.includes(pathname)) {
     return '/404';
@@ -172,6 +181,8 @@ function App() {
   const isContactPage = pathname === '/contact';
   const isLicensesPage = pathname === '/licenses';
   const isServicesPage = pathname === '/services';
+  const isCareersPage = pathname === '/careers';
+  const isCareerDetailPage = pathname === '/career-detail';
   const isNotFoundPage = pathname === '/404';
   const isBlogPage = pathname === '/blog';
   const isBlogDetailPage = pathname === '/blog-detail';
@@ -201,6 +212,10 @@ function App() {
           <PrivacyPolicyPage />
         ) : isServicesPage ? (
           <ServicesPage />
+        ) : isCareersPage ? (
+          <CareersPage />
+        ) : isCareerDetailPage ? (
+          <CareerDetailPage roleId={window.location.pathname.split('/careers/')[1]} />
         ) : isFranchiseOpportunitiesPage ? (
           <FranchiseOpportunitiesPage />
         ) : isFranchiseDetailsPage ? (
@@ -230,3 +245,4 @@ function App() {
 }
 
 export default App;
+
