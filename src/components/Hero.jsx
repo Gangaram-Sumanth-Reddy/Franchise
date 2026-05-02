@@ -1,7 +1,45 @@
-﻿import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import Button from './Button';
 import TestimonialCard from './TestimonialCard';
 import processImg from '../assets/process.png';
+
+// ── Lightweight scroll-triggered visibility hook ──────────────────────────────
+// Returns [ref, isVisible] — isVisible toggles true/false on every enter/leave
+function useInView(threshold = 0.1) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => setVisible(e.isIntersecting),
+      { threshold, rootMargin: '0px 0px -4% 0px' }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [threshold]);
+  return [ref, visible];
+}
+
+// ── Animated wrapper — fades+slides in on scroll, resets when out ─────────────
+function Reveal({ children, delay = 0, direction = 'up', className = '' }) {
+  const [ref, visible] = useInView(0.1);
+  const transforms = { up: 'translateY(16px)', down: 'translateY(-12px)', right: 'translateX(-16px)' };
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translate(0,0)' : transforms[direction] || transforms.up,
+        transition: `opacity 0.38s cubic-bezier(0.22,1,0.36,1) ${delay}s, transform 0.38s cubic-bezier(0.22,1,0.36,1) ${delay}s`,
+        willChange: 'transform, opacity',
+      }}
+    >
+      {children}
+    </div>
+  );
+}
 
 const testimonials = {
   left: [
@@ -18,7 +56,7 @@ const testimonials = {
 const growthCards = [
   {
     eyebrow: 'FOR BRAND OWNERS',
-    badge: 'Scale • Expand • Franchise',
+    badge: 'Scale � Expand � Franchise',
     title: 'Expand Your Brand Through Franchising',
     description:
       'Turn your successful business into a scalable franchise model. We help brand owners structure, launch, and grow through strategic franchising systems, legal frameworks, and investor connections.',
@@ -33,10 +71,10 @@ const growthCards = [
   },
   {
     eyebrow: 'FOR INVESTORS',
-    badge: 'Invest • Own • Grow',
+    badge: 'Invest � Own � Grow',
     title: 'Invest in Proven Franchise Opportunities',
     description:
-      'Discover vetted franchise businesses across high-growth industries. Find the right investment based on your budget, goals, and market demand — with clarity and confidence.',
+      'Discover vetted franchise businesses across high-growth industries. Find the right investment based on your budget, goals, and market demand � with clarity and confidence.',
     linkText: 'For Investors',
     href: '/franchise-opportunities',
     image:
@@ -440,7 +478,7 @@ function GrowthCard({ card }) {
 
         {/* Badge pills */}
         <div className="mt-5 flex flex-wrap gap-2">
-          {card.badge.split(' • ').map((b) => (
+          {card.badge.split(' � ').map((b) => (
             <span key={b} className="text-[11px] font-semibold text-slate-500 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-full">
               {b}
             </span>
@@ -884,7 +922,7 @@ function ContactSection() {
                     </div>
                   </div>
                   <span className="ml-2 text-emerald-200/60 opacity-0 transition duration-200 group-hover:opacity-100 shrink-0">
-                    →
+                    ?
                   </span>
                 </article>
               ))}
@@ -932,7 +970,7 @@ function ContactSection() {
   );
 }
 
-// ─── Franchise Education Card ─────────────────────────────────────────────────
+// --- Franchise Education Card -------------------------------------------------
 
 function FranchiseEduCard({ card, index }) {
   const [imgLoaded, setImgLoaded] = useState(false);
@@ -941,7 +979,7 @@ function FranchiseEduCard({ card, index }) {
   const [fallbackIdx, setFallbackIdx] = useState(0);
 
   // Force-trigger load: if the browser already cached the image,
-  // onLoad won't fire — so we check naturalWidth after mount.
+  // onLoad won't fire � so we check naturalWidth after mount.
   const imgRef = useRef(null);
   useEffect(() => {
     if (imgRef.current && imgRef.current.complete && imgRef.current.naturalWidth > 0) {
@@ -961,15 +999,8 @@ function FranchiseEduCard({ card, index }) {
   };
 
   return (
-    <div
-      className="group bg-white rounded-[28px] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden flex flex-col"
-      style={{
-        opacity: 0,
-        animation: 'fadeSlideUp 0.55s ease forwards',
-        animationDelay: `${index * 0.1}s`,
-      }}
-    >
-      {/* Image container — fixed height, consistent ratio */}
+    <Reveal delay={index * 0.06} className="group bg-white rounded-[28px] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden flex flex-col">
+      {/* Image container � fixed height, consistent ratio */}
       <div className="relative h-48 sm:h-52 overflow-hidden shrink-0 bg-slate-100">
         {/* Skeleton shimmer shown while loading */}
         {!imgLoaded && !imgError && (
@@ -1020,11 +1051,11 @@ function FranchiseEduCard({ card, index }) {
           <p className="text-xs text-slate-400 leading-relaxed italic">{card.why}</p>
         </div>
       </div>
-    </div>
+    </Reveal>
   );
 }
 
-// ─── Market Intelligence Section ─────────────────────────────────────────────
+// --- Market Intelligence Section ---------------------------------------------
 
 function useCountUp(target, active, duration = 1600) {
   const [count, setCount] = useState(0);
@@ -1050,7 +1081,7 @@ function useCountUp(target, active, duration = 1600) {
   return count;
 }
 
-// ── Dataset definitions ──────────────────────────────────────────────────────
+// -- Dataset definitions ------------------------------------------------------
 const CHART_DATASETS = {
   Monthly: {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -1079,7 +1110,7 @@ const CATEGORIES = [
 
 const SOURCES = ['IFA', 'KPMG', 'Franchise India', 'Statista', 'Deloitte', 'Industry Reports'];
 
-// ── Donut chart ──────────────────────────────────────────────────────────────
+// -- Donut chart --------------------------------------------------------------
 function DonutChart({ active }) {
   const r = 48; const cx = 64; const cy = 64;
   const circ = 2 * Math.PI * r;
@@ -1125,7 +1156,7 @@ function DonutChart({ active }) {
   );
 }
 
-// ── Bar + line chart ─────────────────────────────────────────────────────────
+// -- Bar + line chart ---------------------------------------------------------
 function BarLineChart({ dataset, active }) {
   const [tooltip, setTooltip] = useState(null);
   const { labels, bars, line } = dataset;
@@ -1211,9 +1242,9 @@ function BarLineChart({ dataset, active }) {
   );
 }
 
-// ── Platform Advantage Bento Grid ────────────────────────────────────────────
+// -- Platform Advantage Bento Grid --------------------------------------------
 
-/* Live Dashboard Visual — right panel */
+/* Live Dashboard Visual � right panel */
 function LiveDashboard({ active }) {
   const bars = [62, 78, 55, 88, 70, 92, 74];
   const labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -1387,14 +1418,14 @@ function BentoPlatformGrid({ active }) {
           Why Smart Franchise Decisions<br className="hidden sm:block" /> Win Faster
         </h3>
         <p className="text-sm sm:text-base text-slate-500 max-w-lg mx-auto leading-relaxed">
-          Beyond listings — real-time intelligence, investor signals, and AI-driven brand matching in one platform.
+          Beyond listings � real-time intelligence, investor signals, and AI-driven brand matching in one platform.
         </p>
       </div>
 
       {/* Main layout: features left, dashboard right */}
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-5 lg:gap-6 items-stretch">
 
-        {/* LEFT — 2×2 feature cards */}
+        {/* LEFT � 2�2 feature cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {PLATFORM_FEATURES.map((f, i) => (
             <div
@@ -1420,7 +1451,7 @@ function BentoPlatformGrid({ active }) {
           ))}
         </div>
 
-        {/* RIGHT — Live dashboard */}
+        {/* RIGHT � Live dashboard */}
         <div
           style={{
             opacity: active ? 1 : 0,
@@ -1435,7 +1466,7 @@ function BentoPlatformGrid({ active }) {
   );
 }
 
-/* ── Legacy sub-components kept for reference but replaced above ── */
+/* -- Legacy sub-components kept for reference but replaced above -- */
 function NodeGraph({ active }) {
   const nodes = [
     { x: 50, y: 50, r: 7, delay: 0 },
@@ -1497,7 +1528,7 @@ function NodeGraph({ active }) {
   );
 }
 
-/* Card 2 — Opportunity Gauge */
+/* Card 2 � Opportunity Gauge */
 function OpportunityGauge({ active }) {
   const [angle, setAngle] = useState(0);
   const targetAngle = 210; // ~70% of 300deg arc
@@ -1570,7 +1601,7 @@ function OpportunityGauge({ active }) {
   );
 }
 
-/* Card 3 — Benchmark Speedometer bars */
+/* Card 3 � Benchmark Speedometer bars */
 function BenchmarkBars({ active }) {
   const segments = [
     { label: 'Food & Bev',  score: 88, color: '#7c3aed' },
@@ -1601,14 +1632,14 @@ function BenchmarkBars({ active }) {
       <div className="flex items-center justify-between pt-1">
         <span className="text-[10px] text-slate-400 font-medium">Scalability Index</span>
         <span className="text-[11px] font-bold text-violet-600">
-          {active ? '↑ Optimised' : '—'}
+          {active ? '? Optimised' : '�'}
         </span>
       </div>
     </div>
   );
 }
 
-/* Card 4 — Investor Signal Stream */
+/* Card 4 � Investor Signal Stream */
 function InvestorSignals({ active }) {
   const signals = [
     {
@@ -1685,7 +1716,7 @@ function InvestorSignals({ active }) {
   );
 }
 
-// ── Main section ─────────────────────────────────────────────────────────────
+// -- Main section -------------------------------------------------------------
 function MarketIntelligenceSection() {
   const ref = useRef(null);
   const [active, setActive] = useState(false);
@@ -1702,7 +1733,7 @@ function MarketIntelligenceSection() {
     if (!el) return;
     const obs = new IntersectionObserver(
       ([e]) => {
-        // Toggle active on every enter/leave — animations replay each time
+        // Toggle active on every enter/leave � animations replay each time
         setActive(e.isIntersecting);
       },
       { threshold: 0.15 }
@@ -1811,7 +1842,7 @@ function MarketIntelligenceSection() {
         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_260px]">
 
-            {/* LEFT — Chart panel */}
+            {/* LEFT � Chart panel */}
             <div className="p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-slate-100">
 
               {/* Chart header row */}
@@ -1896,10 +1927,10 @@ function MarketIntelligenceSection() {
                     );
                   })}
 
-                  {/* Area fill — always show */}
+                  {/* Area fill � always show */}
                   <path d={buildPath(linePoints, true)} fill="url(#miAreaGrad)" />
 
-                  {/* Smooth trend line — always visible, animates in */}
+                  {/* Smooth trend line � always visible, animates in */}
                   <path
                     key={`${tab}-line`}
                     d={buildPath(linePoints)}
@@ -1913,7 +1944,7 @@ function MarketIntelligenceSection() {
                     style={{ transition: 'stroke-dashoffset 1.8s cubic-bezier(0.22,1,0.36,1) 0.3s' }}
                   />
 
-                  {/* Dots on line — always show */}
+                  {/* Dots on line � always show */}
                   {linePoints.map((pt, i) => (
                     <circle
                       key={`${tab}-dot-${i}`}
@@ -1963,7 +1994,7 @@ function MarketIntelligenceSection() {
               </div>
             </div>
 
-            {/* RIGHT — Donut + Category bars */}
+            {/* RIGHT � Donut + Category bars */}
             <div className="flex flex-col divide-y divide-slate-100">
 
               {/* Donut */}
@@ -2046,7 +2077,7 @@ function MarketIntelligenceSection() {
   );
 }
 
-// ─── Process Timeline Component ──────────────────────────────────────────────
+// --- Process Timeline Component ----------------------------------------------
 
 const PROCESS_FLOWS = {
   Franchisors: [
@@ -2256,20 +2287,13 @@ function ProcessTimeline() {
   );
 }
 
-// ─── Hero ─────────────────────────────────────────────────────────────────────
+// --- Hero ---------------------------------------------------------------------
 
 function FAQAccordionItem({ faq, index }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div 
-      className="group border border-slate-200/60 rounded-xl bg-white hover:shadow-md transition-all duration-300"
-      style={{
-        opacity: 0,
-        animation: 'fadeSlideUp 0.6s ease forwards',
-        animationDelay: `${0.4 + index * 0.1}s`
-      }}
-    >
+    <Reveal delay={index * 0.06} className="group border border-slate-200/60 rounded-xl bg-white hover:shadow-md transition-all duration-300">
       {/* Question Header */}
       <button
         onClick={() => setIsOpen(!isOpen)}
@@ -2315,7 +2339,7 @@ function FAQAccordionItem({ faq, index }) {
           </div>
         </div>
       </div>
-    </div>
+    </Reveal>
   );
 }
 
@@ -2323,16 +2347,7 @@ function PremiumFAQItem({ faq, index }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div 
-      className={`group rounded-xl border border-slate-200/60 bg-white shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden ${
-        isOpen ? 'shadow-lg border-slate-300/80 bg-slate-50/30' : ''
-      }`}
-      style={{
-        opacity: 0,
-        animation: 'fadeSlideRight 0.6s ease forwards',
-        animationDelay: `${0.1 + index * 0.05}s`
-      }}
-    >
+    <Reveal delay={index * 0.04} direction="right" className={`group rounded-xl border border-slate-200/60 bg-white shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden ${isOpen ? 'shadow-lg border-slate-300/80 bg-slate-50/30' : ''}`}>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full p-4 text-left flex items-center justify-between hover:bg-slate-50/50 transition-colors duration-200"
@@ -2373,7 +2388,7 @@ function PremiumFAQItem({ faq, index }) {
           </div>
         </div>
       </div>
-    </div>
+    </Reveal>
   );
 }
 
@@ -2426,30 +2441,26 @@ function Hero() {
     };
   }, []);
 
-  // Premium section reveal animation system
+  // Section reveal � replays every time section enters viewport
   useEffect(() => {
-    const observerOptions = {
-      threshold: 0.08,
-      rootMargin: '0px 0px -5% 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
+    const obs = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
+        } else {
+          // Remove so it re-animates next time it enters
+          entry.target.classList.remove('is-visible');
         }
       });
-    }, observerOptions);
+    }, { threshold: 0.08, rootMargin: '0px 0px -4% 0px' });
 
-    // Add will-animate first so sections start invisible, then observe
     const sections = document.querySelectorAll('.section-reveal');
-    sections.forEach((section) => {
-      section.classList.add('will-animate');
-      observer.observe(section);
+    sections.forEach((s) => {
+      s.classList.add('will-animate');
+      obs.observe(s);
     });
 
-    return () => observer.disconnect();
+    return () => obs.disconnect();
   }, []);
 
   useEffect(() => {
@@ -2585,7 +2596,7 @@ function Hero() {
 
   return (
     <main className="relative isolate overflow-x-hidden bg-transparent">
-      {/* ── HERO SECTION ── */}
+      {/* -- HERO SECTION -- */}
       <section className="relative w-full min-h-[calc(100vh-80px)] flex items-center pt-16 sm:pt-20 md:pt-24 pb-12 sm:pb-16">
         <div className="section-container relative">
           <div className="absolute left-4 top-24 hidden h-[460px] w-56 overflow-hidden xl:block" style={{ maskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)' }}>
@@ -2614,7 +2625,7 @@ function Hero() {
             </div>
           </div>
 
-          <div className="relative z-10 flex w-full max-w-[720px] flex-col items-center text-center mx-auto">
+          <div className="relative z-10 flex w-full max-w-[720px] flex-col items-center text-center mx-auto" style={{ animation: 'heroEntrance 0.5s cubic-bezier(0.22,1,0.36,1) both' }}>
             <span className="mb-4 sm:mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50/80 backdrop-blur-sm px-3 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-xs font-medium text-emerald-800 shadow-sm">
               <span className="animate-dot-pulse h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-emerald-500" />
               10K+ Growing Franchise Networks
@@ -2677,7 +2688,7 @@ function Hero() {
         aria-hidden="true"
       />
 
-      {/* ── GROWTH CARDS SECTION ── */}
+      {/* -- GROWTH CARDS SECTION -- */}
       <section className="relative w-full py-12 sm:py-16 lg:py-20 section-reveal" ref={growthRef}>
         <div className="section-container">
           {/* SYMBOLIC TRANSFORMATION MARQUEE - Trust Section Upgrade */}
@@ -2775,9 +2786,9 @@ function Hero() {
             </div>
             </div>
           </div>
-          {/* ── End Transformation Marquee ── */}
+          {/* -- End Transformation Marquee -- */}
 
-          {/* ── What is Franchising? ── */}
+          {/* -- What is Franchising? -- */}
         <div className="mb-12 sm:mb-16">
           {/* Section header */}
           <div className="text-center mb-8 sm:mb-10">
@@ -2792,7 +2803,7 @@ function Hero() {
             </p>
           </div>
 
-          {/* 2×2 card grid — equal height via grid rows */}
+          {/* 2�2 card grid � equal height via grid rows */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:grid-rows-2">
             {[
               {
@@ -2868,9 +2879,9 @@ function Hero() {
             ))}
           </div>
         </div>
-        {/* ── End What is Franchising? ── */}
+        {/* -- End What is Franchising? -- */}
 
-        {/* ── Who Are You? / Choose Your Path ── */}
+        {/* -- Who Are You? / Choose Your Path -- */}
         <div className="mb-12 sm:mb-16">
           {/* Section header */}
           <div className="text-center mb-8 sm:mb-10">
@@ -2892,17 +2903,17 @@ function Hero() {
             ))}
           </div>
         </div>
-        {/* ── End Who Are You? ── */}
+        {/* -- End Who Are You? -- */}
         </div>
       </section>
 
-      {/* ── India Franchise Market Intelligence ── */}
+      {/* -- India Franchise Market Intelligence -- */}
       <MarketIntelligenceSection />
-      {/* ── End Market Intelligence ── */}
+      {/* -- End Market Intelligence -- */}
 
       <div id="about" ref={processRef} className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
 
-        {/* ── Centered section header ── */}
+        {/* -- Centered section header -- */}
         <div className="text-center mb-10 sm:mb-12">
           <div className="inline-flex items-center gap-2 bg-white border border-slate-200 shadow-sm rounded-full px-4 py-1.5 mb-4">
             <span className="relative flex h-2 w-2">
@@ -2921,10 +2932,10 @@ function Hero() {
           </p>
         </div>
 
-        {/* ── Two-column layout ── */}
+        {/* -- Two-column layout -- */}
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-8 lg:gap-12 items-start">
 
-          {/* LEFT — Living Visual with Growth Signal */}
+          {/* LEFT � Living Visual with Growth Signal */}
           <div className="lg:sticky lg:top-28 self-start flex flex-col items-center gap-6">
 
             {/* Living Process Visual */}
@@ -3022,11 +3033,6 @@ function Hero() {
                 <div
                   key={p.label}
                   className={`group flex items-center gap-1.5 bg-white/80 backdrop-blur-sm border border-slate-200/60 rounded-full px-3 py-1.5 shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300 cursor-pointer`}
-                  style={{ 
-                    opacity: 0, 
-                    animation: 'fadeSlideUp 0.6s ease forwards', 
-                    animationDelay: `${0.8 + i * 0.2}s` 
-                  }}
                 >
                   <svg className={`w-3 h-3 text-${p.color}-500 group-hover:text-${p.color}-600 transition-colors duration-200`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d={p.d} />
@@ -3039,7 +3045,7 @@ function Hero() {
 
           </div>
 
-          {/* RIGHT — toggle + timeline */}
+          {/* RIGHT � toggle + timeline */}
           <ProcessTimeline />
 
         </div>
@@ -3071,7 +3077,7 @@ function Hero() {
         </div>
       </div>
 
-      {/* ── SOCIAL PROOF ECOSYSTEM ── */}
+      {/* -- SOCIAL PROOF ECOSYSTEM -- */}
       <section className="relative w-full py-12 sm:py-16 lg:py-20 section-reveal">
         <div className="section-container">
           
@@ -3185,18 +3191,12 @@ function Hero() {
                   { label: '72% investor preference', icon: '📈' },
                   { label: '30% CAGR aligned', icon: '⚡' }
                 ].map((item, i) => (
-                  <div
-                    key={item.label}
-                    className="inline-flex items-center gap-2 bg-gradient-to-r from-slate-50 to-white border border-slate-200/60 rounded-full px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300"
-                    style={{
-                      opacity: 0,
-                      animation: 'fadeSlideUp 0.6s ease forwards',
-                      animationDelay: `${0.2 + i * 0.1}s`
-                    }}
-                  >
-                    <span className="text-sm">{item.icon}</span>
-                    <span>{item.label}</span>
-                  </div>
+                  <Reveal key={item.label} delay={i * 0.05}>
+                    <div className="inline-flex items-center gap-2 bg-gradient-to-r from-slate-50 to-white border border-slate-200/60 rounded-full px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300">
+                      <span className="text-sm">{item.icon}</span>
+                      <span>{item.label}</span>
+                    </div>
+                  </Reveal>
                 ))}
               </div>
             </div>
@@ -3227,7 +3227,7 @@ function Hero() {
         </div>
       </section>
 
-      {/* ── INDUSTRY RECOGNITION SECTION ── */}
+      {/* -- INDUSTRY RECOGNITION SECTION -- */}
       <section className="relative w-full py-12 sm:py-16 lg:py-20 section-reveal">
         <div className="section-container">
           {/* Subtle background elements */}
@@ -3244,7 +3244,7 @@ function Hero() {
                 className="inline-flex items-center gap-2 bg-gradient-to-r from-slate-50 to-white border border-slate-200/60 shadow-sm rounded-full px-4 py-1.5 mb-6"
                 style={{
                   opacity: 0,
-                  animation: 'fadeSlideDown 0.8s ease forwards',
+                  animation: 'fadeSlideDown 0.3s ease forwards',
                   animationDelay: '0.2s'
                 }}
               >
@@ -3265,8 +3265,8 @@ function Hero() {
                 className="space-y-4"
                 style={{
                   opacity: 0,
-                  animation: 'fadeSlideUp 0.8s ease forwards',
-                  animationDelay: '0.4s'
+                  animation: 'fadeSlideUp 0.35s ease forwards',
+                  animationDelay: '0.1s'
                 }}
               >
                 <h2 className="text-2xl sm:text-3xl lg:text-[2.6rem] font-extrabold tracking-tight text-[#0b0f19] leading-tight">
@@ -3322,8 +3322,8 @@ function Hero() {
                     className="group p-3.5 rounded-xl border border-slate-100/60 bg-gradient-to-br from-white to-slate-50/20 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
                     style={{
                       opacity: 0,
-                      animation: 'fadeSlideUp 0.6s ease forwards',
-                      animationDelay: `${0.6 + index * 0.1}s`
+                      animation: 'fadeSlideUp 0.35s ease forwards',
+                      animationDelay: `${index * 0.06}s`
                     }}
                   >
                     <div className="flex items-start gap-3">
@@ -3348,8 +3348,8 @@ function Hero() {
                 className="pt-4 flex justify-center"
                 style={{
                   opacity: 0,
-                  animation: 'fadeSlideUp 0.8s ease forwards',
-                  animationDelay: '1.2s'
+                  animation: 'fadeSlideUp 0.35s ease forwards',
+                  animationDelay: '0.3s'
                 }}
               >
                 <button
@@ -3454,8 +3454,8 @@ function Hero() {
                 className="relative z-10"
                 style={{
                   opacity: 0,
-                  animation: 'fadeSlideRight 1s ease forwards',
-                  animationDelay: '0.8s'
+                  animation: 'fadeSlideRight 0.35s ease forwards',
+                  animationDelay: '0.2s'
                 }}
               >
                 {/* Premium glow backdrop */}
@@ -3538,7 +3538,7 @@ function Hero() {
         </div>
       </section>
 
-      {/* ── FEATURED FRANCHISES SECTION ── */}
+      {/* -- FEATURED FRANCHISES SECTION -- */}
       <section className="relative w-full py-12 sm:py-16 lg:py-20 section-reveal">
         <div className="section-container">
           <div className="section-header">
@@ -3578,7 +3578,7 @@ function Hero() {
         </div>
       </section>
 
-      {/* ── OUR EXPERTS SECTION ── */}
+      {/* -- OUR EXPERTS SECTION -- */}
       <section className="relative w-full py-12 sm:py-16 lg:py-20 section-reveal">
         <div className="section-container">
           
@@ -3903,7 +3903,7 @@ function Hero() {
         </div>
       </section>
 
-      {/* ── FRANCHISE FAQ / DECISION INTELLIGENCE SECTION ── */}
+      {/* -- FRANCHISE FAQ / DECISION INTELLIGENCE SECTION -- */}
       <section className="relative w-full py-12 sm:py-16 lg:py-20 section-reveal">
         <div className="section-container">
           {/* Subtle background pattern */}
@@ -3919,7 +3919,7 @@ function Hero() {
             className="text-center mb-8"
             style={{
               opacity: 0,
-              animation: 'fadeSlideDown 0.8s ease forwards',
+              animation: 'fadeSlideDown 0.3s ease forwards',
               animationDelay: '0.2s'
             }}
           >
@@ -3936,8 +3936,8 @@ function Hero() {
             className="text-center mb-12"
             style={{
               opacity: 0,
-              animation: 'fadeSlideUp 0.8s ease forwards',
-              animationDelay: '0.4s'
+              animation: 'fadeSlideUp 0.35s ease forwards',
+              animationDelay: '0.1s'
             }}
           >
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#0b0f19] leading-tight mb-4">
@@ -3956,8 +3956,8 @@ function Hero() {
               className="flex flex-col items-center justify-center"
               style={{
                 opacity: 0,
-                animation: 'fadeSlideUp 1s ease forwards',
-                animationDelay: '0.6s'
+                animation: 'fadeSlideUp 0.35s ease forwards',
+                animationDelay: '0.15s'
               }}
             >
               {/* Strategic Advisor Image - Contact Page Style */}
@@ -4026,8 +4026,8 @@ function Hero() {
               className="flex flex-col justify-start pr-0 sm:pr-2"
               style={{
                 opacity: 0,
-                animation: 'fadeSlideUp 1s ease forwards',
-                animationDelay: '0.8s'
+                animation: 'fadeSlideUp 0.35s ease forwards',
+                animationDelay: '0.2s'
               }}
             >
               <div className="space-y-3">
@@ -4035,7 +4035,7 @@ function Hero() {
                   {
                     number: "01",
                     question: "How much does it cost to start a franchise?",
-                    answer: "Franchise investment varies by industry. Low-cost franchises (₹2-10 lakhs), mid-range (₹10-50 lakhs), premium (₹50 lakhs+). FOCO models require 30-40% less capital than FOFO models."
+                    answer: "Franchise investment varies by industry. Low-cost franchises (?2-10 lakhs), mid-range (?10-50 lakhs), premium (?50 lakhs+). FOCO models require 30-40% less capital than FOFO models."
                   },
                   {
                     number: "02", 

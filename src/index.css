@@ -182,26 +182,35 @@ img.loaded {
     box-shadow: 0 10px 24px rgba(11, 15, 25, 0.25);
   }
 
-  /* ── Section reveal ── */
+  /* ── Section reveal — fast, snappy, replays on scroll ── */
   .section-reveal {
     opacity: 1;
     transform: translateY(0);
-    transition:
-      opacity 0.7s var(--ease-premium),
-      transform 0.7s var(--ease-premium);
+    transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
     will-change: transform, opacity;
   }
 
-  /* JS adds .will-animate before observing, then .is-visible to trigger */
+  /* JS adds will-animate before observing */
   .section-reveal.will-animate {
     opacity: 0;
-    transform: translateY(32px);
+    transform: translateY(24px);
   }
 
+  /* Visible state */
   .section-reveal.will-animate.is-visible {
     opacity: 1;
     transform: translateY(0);
   }
+
+  /* Stagger children inside revealed sections */
+  .section-reveal.is-visible .reveal-child {
+    animation: revealChild 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .section-reveal.is-visible .reveal-child:nth-child(1) { animation-delay: 0.05s; }
+  .section-reveal.is-visible .reveal-child:nth-child(2) { animation-delay: 0.10s; }
+  .section-reveal.is-visible .reveal-child:nth-child(3) { animation-delay: 0.15s; }
+  .section-reveal.is-visible .reveal-child:nth-child(4) { animation-delay: 0.20s; }
 
   /* Stagger helpers */
   .reveal-stagger-1 { transition-delay: 0.1s; }
@@ -455,7 +464,22 @@ img.loaded {
 }
 
 @keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes fadeSlideDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0);     }
+}
+
+@keyframes fadeSlideRight {
+  from { opacity: 0; transform: translateX(-18px); }
+  to   { opacity: 1; transform: translateX(0);     }
+}
+
+@keyframes revealChild {
+  from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0);    }
 }
 
@@ -642,4 +666,9 @@ img.loaded {
 @keyframes transformationMarquee {
   from { transform: translateX(0);    }
   to   { transform: translateX(-50%); }
+}
+
+@keyframes heroEntrance {
+  from { opacity: 0; transform: translateY(20px) scale(0.99); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
 }
