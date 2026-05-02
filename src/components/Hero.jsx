@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import Button from './Button';
 import TestimonialCard from './TestimonialCard';
+import processImg from '../assets/process.png';
 
 const testimonials = {
   left: [
@@ -16,34 +17,46 @@ const testimonials = {
 
 const growthCards = [
   {
-    eyebrow: 'FOR BRANDS',
-    title: 'Scale your brand into new markets',
+    eyebrow: 'FOR BRAND OWNERS',
+    badge: 'Scale • Expand • Franchise',
+    title: 'Expand Your Brand Through Franchising',
     description:
-      'Turn your business into a scalable franchise model. We help you structure, expand, and connect with the right partners to accelerate growth.',
-    linkText: 'For Brands',
+      'Turn your successful business into a scalable franchise model. We help brand owners structure, launch, and grow through strategic franchising systems, legal frameworks, and investor connections.',
+    linkText: 'For Brand Owners',
+    href: '/services',
     image:
-      'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=900&q=80',
+    fallbackImage:
+      'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=900&q=80',
+    accent: 'from-violet-600 to-indigo-600',
+    tag: 'Franchisors',
   },
   {
     eyebrow: 'FOR INVESTORS',
-    title: 'Invest in high-growth franchise opportunities',
+    badge: 'Invest • Own • Grow',
+    title: 'Invest in Proven Franchise Opportunities',
     description:
-      'Discover curated franchise opportunities across industries. Find businesses with proven models and strong potential for returns.',
+      'Discover vetted franchise businesses across high-growth industries. Find the right investment based on your budget, goals, and market demand — with clarity and confidence.',
     linkText: 'For Investors',
+    href: '/franchise-opportunities',
     image:
-      'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1664575602554-2087b04935a5?auto=format&fit=crop&w=900&q=80',
+    fallbackImage:
+      'https://images.unsplash.com/photo-1507003211169-0a1dd7228d39?auto=format&fit=crop&w=900&q=80',
+    accent: 'from-emerald-600 to-teal-600',
+    tag: 'Franchisees',
   },
 ];
 
 const statsCards = [
   {
-    value: 500,
+    value: 350,
     suffix: '+',
     title: 'Brands Partnered',
     description: 'Trusted by businesses across multiple industries and growth stages.',
   },
   {
-    value: 10000,
+    value: 8000,
     suffix: '+',
     title: 'Leads Generated',
     description: 'Qualified opportunities created through focused conversion systems.',
@@ -350,28 +363,105 @@ function StarIcon() {
   );
 }
 
-function GrowthCard({ card, reverse = false }) {
+function GrowthCard({ card }) {
+  const [imgLoaded, setImgLoaded] = useState(false);
+  const [imgError, setImgError] = useState(false);
+  const imgRef = useRef(null);
+
+  useEffect(() => {
+    if (imgRef.current && imgRef.current.complete && imgRef.current.naturalWidth > 0) {
+      setImgLoaded(true);
+    }
+  }, []);
+
+  const navigateTo = (path) => {
+    window.history.pushState({}, '', path);
+    window.dispatchEvent(new PopStateEvent('popstate'));
+  };
+
   return (
-    <article className="group grid overflow-hidden rounded-3xl bg-white shadow-soft transition duration-300 hover:-translate-y-1.5 hover:scale-[1.01] hover:shadow-[0_18px_42px_rgba(15,23,42,0.14)] md:grid-cols-2">
-      <div className={`${reverse ? 'md:order-2' : ''} overflow-hidden`}>
-        <img
-          src={card.image}
-          alt={card.title}
-          className="h-56 w-full object-cover transition duration-300 group-hover:scale-105 md:h-full"
-          loading="lazy"
-        />
+    <article
+      className="group relative flex flex-col overflow-hidden rounded-[32px] bg-white border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-400 cursor-pointer"
+      onClick={() => navigateTo(card.href)}
+    >
+      {/* Image */}
+      <div className="relative h-56 sm:h-64 overflow-hidden shrink-0 bg-slate-100">
+        {!imgLoaded && !imgError && (
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-100 via-slate-50 to-slate-100 animate-pulse" />
+        )}
+        {imgError && (
+          <div className={`absolute inset-0 bg-gradient-to-br ${card.accent} opacity-20`} />
+        )}
+        {!imgError && (
+          <img
+            ref={imgRef}
+            src={card.image}
+            alt={card.title}
+            loading="eager"
+            decoding="async"
+            onLoad={() => setImgLoaded(true)}
+            onError={() => {
+              if (card.fallbackImage) {
+                imgRef.current.src = card.fallbackImage;
+                imgRef.current.onerror = () => setImgError(true);
+              } else {
+                setImgError(true);
+              }
+            }}
+            className={`w-full h-full object-cover object-center transition-all duration-500 group-hover:scale-105 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
+          />
+        )}
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent pointer-events-none" />
+        {/* Tag pill on image */}
+        <div className="absolute top-4 left-4">
+          <span className={`inline-flex items-center text-[11px] font-bold uppercase tracking-widest text-white px-3 py-1.5 rounded-full bg-gradient-to-r ${card.accent} shadow-lg`}>
+            {card.tag}
+          </span>
+        </div>
       </div>
-      <div className={`${reverse ? 'md:order-1' : ''} flex flex-col justify-center p-7 sm:p-9`}>
-        <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">{card.eyebrow}</p>
-        <h3 className="text-2xl font-bold tracking-tight text-[#0b0f19]">{card.title}</h3>
-        <p className="mt-3 text-base leading-relaxed text-slate-500">{card.description}</p>
-        <a
-          href="#"
-          className="group/link mt-6 inline-flex items-center gap-2 text-sm font-semibold text-slate-700 transition duration-200 hover:text-[#0b0f19]"
-        >
-          {card.linkText}
-          <span className="transition duration-200 group-hover/link:translate-x-1">→</span>
-        </a>
+
+      {/* Content */}
+      <div className="flex flex-col flex-1 p-7 sm:p-8">
+        {/* Eyebrow */}
+        <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-400 mb-2">
+          {card.eyebrow}
+        </p>
+
+        {/* Title */}
+        <h3 className="text-xl sm:text-2xl font-extrabold tracking-tight text-[#0b0f19] leading-snug mb-3 group-hover:text-slate-700 transition-colors duration-200">
+          {card.title}
+        </h3>
+
+        {/* Description */}
+        <p className="text-sm sm:text-[15px] leading-relaxed text-slate-500 flex-1">
+          {card.description}
+        </p>
+
+        {/* Badge pills */}
+        <div className="mt-5 flex flex-wrap gap-2">
+          {card.badge.split(' • ').map((b) => (
+            <span key={b} className="text-[11px] font-semibold text-slate-500 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-full">
+              {b}
+            </span>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <div className="mt-6 pt-5 border-t border-slate-100">
+          <button
+            onClick={(e) => { e.stopPropagation(); navigateTo(card.href); }}
+            className={`group/btn inline-flex items-center gap-2 text-sm font-bold text-white px-5 py-2.5 rounded-full bg-gradient-to-r ${card.accent} shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 active:scale-95`}
+          >
+            {card.linkText}
+            <svg
+              className="w-4 h-4 transition-transform duration-200 group-hover/btn:translate-x-0.5"
+              fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.2}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M8 12h9" />
+            </svg>
+          </button>
+        </div>
       </div>
     </article>
   );
@@ -383,12 +473,16 @@ function StatCard({ stat, active }) {
   useEffect(() => {
     let frameId;
     let startTime;
-    const durationMs = 1800;
+    const durationMs = 2000; // 2 seconds for smooth animation
 
+    // Always reset to 0 when active changes
     if (!active) {
       setCount(0);
       return undefined;
     }
+
+    // Start animation from 0
+    setCount(0);
 
     const animate = (timestamp) => {
       if (!startTime) {
@@ -397,32 +491,43 @@ function StatCard({ stat, active }) {
 
       const elapsed = timestamp - startTime;
       const progress = Math.min(elapsed / durationMs, 1);
-      const eased = 1 - (1 - progress) ** 3;
-      setCount(Math.floor(stat.value * eased));
+      
+      // Eased animation for smooth counting
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const currentCount = Math.floor(stat.value * eased);
+      
+      setCount(currentCount);
 
       if (progress < 1) {
         frameId = window.requestAnimationFrame(animate);
+      } else {
+        // Ensure we end exactly at the target value
+        setCount(stat.value);
       }
     };
 
-    frameId = window.requestAnimationFrame(animate);
+    // Small delay before starting animation for better visual effect
+    const timeoutId = setTimeout(() => {
+      frameId = window.requestAnimationFrame(animate);
+    }, 200);
 
     return () => {
       if (frameId) {
         window.cancelAnimationFrame(frameId);
       }
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
     };
-  }, [active, stat.value]);
+  }, [active, stat.value]); // Re-run when active changes
 
   return (
-    <article className="rounded-2xl border border-slate-200 bg-slate-50 p-6 shadow-[0_2px_10px_rgba(15,23,42,0.04)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_14px_26px_rgba(15,23,42,0.10)]">
-      <p className="text-3xl font-extrabold tracking-tight text-[#0b0f19] sm:text-[34px]">
+    <div className="inline-block">
+      <p className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-[#0b0f19] tabular-nums mb-1">
         {count.toLocaleString()}
         {stat.suffix}
       </p>
-      <p className="mt-2 text-sm font-semibold text-slate-800">{stat.title}</p>
-      <p className="mt-2 text-sm leading-relaxed text-slate-500">{stat.description}</p>
-    </article>
+    </div>
   );
 }
 
@@ -743,7 +848,7 @@ function ContactIcon({ type }) {
 
 function ContactSection() {
   return (
-    <section className="relative mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8 pb-20 sm:pb-24 md:pb-28 pt-2">
+    <section className="relative mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <div className="relative overflow-hidden rounded-2xl sm:rounded-[28px] md:rounded-[32px] border border-emerald-300/20 bg-[radial-gradient(circle_at_50%_30%,rgba(16,185,129,0.16),transparent_50%),linear-gradient(130deg,#020506_0%,#051414_48%,#020506_100%)] px-4 sm:px-6 md:px-8 lg:px-10 py-8 sm:py-10 lg:py-12 shadow-[0_20px_60px_rgba(0,0,0,0.4)]">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(52,211,153,0.18),transparent_42%)]" />
         <div className="pointer-events-none absolute -left-12 top-16 h-[1px] w-52 bg-gradient-to-r from-transparent via-emerald-200/35 to-transparent hidden sm:block" />
@@ -827,6 +932,1451 @@ function ContactSection() {
   );
 }
 
+// ─── Franchise Education Card ─────────────────────────────────────────────────
+
+function FranchiseEduCard({ card, index }) {
+  const [imgLoaded, setImgLoaded] = useState(false);
+  const [imgError, setImgError] = useState(false);
+  const [activeSrc, setActiveSrc] = useState(card.img);
+  const [fallbackIdx, setFallbackIdx] = useState(0);
+
+  // Force-trigger load: if the browser already cached the image,
+  // onLoad won't fire — so we check naturalWidth after mount.
+  const imgRef = useRef(null);
+  useEffect(() => {
+    if (imgRef.current && imgRef.current.complete && imgRef.current.naturalWidth > 0) {
+      setImgLoaded(true);
+    }
+  }, [activeSrc]);
+
+  const handleError = () => {
+    const next = fallbackIdx + 1;
+    if (card.fallbackImgs && next < card.fallbackImgs.length) {
+      setFallbackIdx(next);
+      setActiveSrc(card.fallbackImgs[next]);
+      setImgLoaded(false);
+    } else {
+      setImgError(true);
+    }
+  };
+
+  return (
+    <div
+      className="group bg-white rounded-[28px] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden flex flex-col"
+      style={{
+        opacity: 0,
+        animation: 'fadeSlideUp 0.55s ease forwards',
+        animationDelay: `${index * 0.1}s`,
+      }}
+    >
+      {/* Image container — fixed height, consistent ratio */}
+      <div className="relative h-48 sm:h-52 overflow-hidden shrink-0 bg-slate-100">
+        {/* Skeleton shimmer shown while loading */}
+        {!imgLoaded && !imgError && (
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-100 via-slate-50 to-slate-100 animate-pulse" />
+        )}
+        {/* Fallback gradient on total failure */}
+        {imgError && (
+          <div className={`absolute inset-0 bg-gradient-to-br ${card.fallback} flex items-center justify-center`}>
+            <svg className="w-10 h-10 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
+        )}
+        {!imgError && (
+          <img
+            ref={imgRef}
+            src={activeSrc}
+            alt={card.alt}
+            loading="eager"
+            decoding="async"
+            onLoad={() => setImgLoaded(true)}
+            onError={handleError}
+            className={`w-full h-full object-cover object-center transition-opacity duration-500 group-hover:scale-105 transition-transform ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
+          />
+        )}
+        {/* Bottom gradient overlay */}
+        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+      </div>
+
+      {/* Content */}
+      <div className="p-6 flex flex-col flex-1">
+        <div className="mb-3">
+          <span className={`inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ${card.badgeColor}`}>
+            {card.badgeIcon}
+            {card.badge}
+          </span>
+        </div>
+        <h3 className="text-base sm:text-[17px] font-extrabold text-[#0b0f19] mb-3 leading-snug">
+          {card.title}
+        </h3>
+        <p className="text-sm text-slate-500 leading-relaxed flex-1">
+          {card.body}
+        </p>
+        <div className="mt-4 pt-4 border-t border-slate-100 flex items-start gap-2">
+          <svg className="w-3.5 h-3.5 text-slate-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <p className="text-xs text-slate-400 leading-relaxed italic">{card.why}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Market Intelligence Section ─────────────────────────────────────────────
+
+function useCountUp(target, active, duration = 1600) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!active) {
+      setCount(0);
+      return;
+    }
+    let frameId; let start;
+    const tick = (ts) => {
+      if (!start) start = ts;
+      const p = Math.min((ts - start) / duration, 1);
+      setCount(Math.floor(target * (1 - Math.pow(1 - p, 3))));
+      if (p < 1) {
+        frameId = requestAnimationFrame(tick);
+      } else {
+        setCount(target);
+      }
+    };
+    frameId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frameId);
+  }, [active, target, duration]);
+  return count;
+}
+
+// ── Dataset definitions ──────────────────────────────────────────────────────
+const CHART_DATASETS = {
+  Monthly: {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    bars:   [42, 48, 55, 51, 60, 67, 63, 72, 78, 74, 85, 92],
+    line:   [30, 36, 44, 40, 52, 58, 55, 65, 70, 67, 80, 88],
+  },
+  Quarterly: {
+    labels: ["Q1'21", "Q2'21", "Q3'21", "Q4'21", "Q1'22", "Q2'22", "Q3'22", "Q4'22", "Q1'23", "Q2'23", "Q3'23", "Q4'23"],
+    bars:   [38, 45, 52, 61, 58, 70, 78, 85, 80, 90, 95, 100],
+    line:   [28, 35, 42, 50, 48, 58, 65, 72, 68, 80, 88, 96],
+  },
+  Yearly: {
+    labels: ['2018', '2019', '2020', '2021', '2022', '2023', '2024E', '2025E'],
+    bars:   [28, 36, 30, 52, 68, 82, 90, 100],
+    line:   [20, 28, 22, 44, 60, 76, 86, 96],
+  },
+};
+
+const CATEGORIES = [
+  { name: 'Food & Beverage', pct: 34, color: '#7c3aed' },
+  { name: 'Retail',          pct: 22, color: '#3b82f6' },
+  { name: 'Education',       pct: 18, color: '#10b981' },
+  { name: 'Wellness',        pct: 14, color: '#f97316' },
+  { name: 'Services',        pct: 12, color: '#f43f5e' },
+];
+
+const SOURCES = ['IFA', 'KPMG', 'Franchise India', 'Statista', 'Deloitte', 'Industry Reports'];
+
+// ── Donut chart ──────────────────────────────────────────────────────────────
+function DonutChart({ active }) {
+  const r = 48; const cx = 64; const cy = 64;
+  const circ = 2 * Math.PI * r;
+  const [filled, setFilled] = useState(0);
+  useEffect(() => {
+    if (!active) {
+      setFilled(0);
+      return;
+    }
+    let frameId; let start;
+    const tick = (ts) => {
+      if (!start) start = ts;
+      const p = Math.min((ts - start) / 1400, 1);
+      setFilled(Math.floor(72 * (1 - Math.pow(1 - p, 3))));
+      if (p < 1) { frameId = requestAnimationFrame(tick); }
+      else { setFilled(72); }
+    };
+    frameId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frameId);
+  }, [active]);
+  const dash = (circ * filled) / 100;
+  return (
+    <svg viewBox="0 0 128 128" className="w-full h-full">
+      <defs>
+        <linearGradient id="dg" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#7c3aed" />
+          <stop offset="100%" stopColor="#6366f1" />
+        </linearGradient>
+      </defs>
+      <circle cx={cx} cy={cy} r={r} fill="none" stroke="#f1f5f9" strokeWidth="16" />
+      <circle cx={cx} cy={cy} r={r} fill="none" stroke="url(#dg)" strokeWidth="16"
+        strokeDasharray={`${dash} ${circ}`} strokeLinecap="round"
+        transform={`rotate(-90 ${cx} ${cy})`} />
+      <text x={cx} y={cy - 5} textAnchor="middle"
+        style={{ fontSize: 20, fontWeight: 800, fill: '#0b0f19', fontFamily: 'inherit' }}>
+        {filled}%
+      </text>
+      <text x={cx} y={cy + 12} textAnchor="middle"
+        style={{ fontSize: 8, fill: '#94a3b8', fontWeight: 700, letterSpacing: 1, fontFamily: 'inherit' }}>
+        FRANCHISE
+      </text>
+    </svg>
+  );
+}
+
+// ── Bar + line chart ─────────────────────────────────────────────────────────
+function BarLineChart({ dataset, active }) {
+  const [tooltip, setTooltip] = useState(null);
+  const { labels, bars, line } = dataset;
+  const yTicks = [100, 75, 50, 25, 0];
+
+  return (
+    <div className="relative h-52 sm:h-56 select-none">
+      {/* Y-axis */}
+      <div className="absolute left-0 top-0 bottom-6 flex flex-col justify-between pr-1.5">
+        {yTicks.map((v) => (
+          <span key={v} className="text-[9px] text-slate-300 font-medium w-5 text-right leading-none">{v}</span>
+        ))}
+      </div>
+
+      {/* Grid */}
+      <div className="absolute left-7 right-0 top-0 bottom-6 pointer-events-none">
+        {yTicks.map((_, i) => (
+          <div key={i} className="absolute w-full border-t border-slate-100"
+            style={{ top: `${(i / (yTicks.length - 1)) * 100}%` }} />
+        ))}
+      </div>
+
+      {/* Bars */}
+      <div className="absolute left-7 right-0 top-0 bottom-6 flex items-end gap-1">
+        {bars.map((val, i) => (
+          <div key={`${labels[i]}-${i}`}
+            className="relative flex-1 flex flex-col items-center group/bar cursor-pointer"
+            onMouseEnter={() => setTooltip({ i, val, label: labels[i] })}
+            onMouseLeave={() => setTooltip(null)}
+          >
+            {tooltip?.i === i && (
+              <div className="absolute bottom-full mb-1.5 left-1/2 -translate-x-1/2 z-20
+                bg-[#0b0f19] text-white text-[10px] font-bold px-2 py-1 rounded-lg
+                whitespace-nowrap shadow-xl pointer-events-none">
+                {labels[i]}: {val}%
+                <div className="absolute top-full left-1/2 -translate-x-1/2
+                  border-[3px] border-transparent border-t-[#0b0f19]" />
+              </div>
+            )}
+            <div
+              className="w-full rounded-t-[3px] bg-gradient-to-t from-violet-500/90 to-violet-400/60
+                group-hover/bar:from-violet-600 group-hover/bar:to-violet-500 transition-colors duration-150"
+              style={{
+                height: active ? `${val}%` : '2px',
+                transition: `height 0.65s cubic-bezier(0.22,1,0.36,1) ${i * 0.04}s`,
+              }}
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* SVG line overlay */}
+      <svg className="absolute pointer-events-none overflow-visible"
+        style={{ left: '1.75rem', top: 0, width: 'calc(100% - 1.75rem)', height: 'calc(100% - 1.5rem)' }}
+        preserveAspectRatio="none" viewBox="0 0 100 100">
+        <defs>
+          <linearGradient id="lg2" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#f59e0b" />
+            <stop offset="100%" stopColor="#ef4444" />
+          </linearGradient>
+        </defs>
+        <polyline
+          points={line.map((v, i) => `${(i / (line.length - 1)) * 100},${100 - v}`).join(' ')}
+          fill="none" stroke="url(#lg2)" strokeWidth="1.6"
+          strokeLinecap="round" strokeLinejoin="round"
+          strokeDasharray="220" strokeDashoffset={active ? '0' : '220'}
+          style={{ transition: 'stroke-dashoffset 1.6s cubic-bezier(0.22,1,0.36,1) 0.25s' }}
+        />
+        {line.map((v, i) => (
+          <circle key={i} cx={(i / (line.length - 1)) * 100} cy={100 - v} r="1.4"
+            fill="#f59e0b" opacity={active ? 1 : 0}
+            style={{ transition: `opacity 0.25s ease ${0.25 + i * 0.08}s` }} />
+        ))}
+      </svg>
+
+      {/* X-axis labels */}
+      <div className="absolute left-7 right-0 bottom-0 flex justify-between">
+        {labels.map((l) => (
+          <span key={l} className="text-[8px] sm:text-[9px] text-slate-300 font-medium flex-1 text-center leading-none">{l}</span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── Platform Advantage Bento Grid ────────────────────────────────────────────
+
+/* Live Dashboard Visual — right panel */
+function LiveDashboard({ active }) {
+  const bars = [62, 78, 55, 88, 70, 92, 74];
+  const labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const signals = [
+    { text: 'Retail rising in Pune',       time: '2m ago',  dot: 'bg-blue-400'    },
+    { text: 'Food demand in Tier 2',        time: '5m ago',  dot: 'bg-orange-400'  },
+    { text: 'Education gaining traction',   time: '9m ago',  dot: 'bg-emerald-400' },
+  ];
+  const sectors = [
+    { label: 'Food & Bev', pct: 88, color: '#7c3aed' },
+    { label: 'Retail',     pct: 72, color: '#3b82f6'  },
+    { label: 'Education',  pct: 65, color: '#10b981'  },
+    { label: 'Wellness',   pct: 58, color: '#f97316'  },
+  ];
+
+  return (
+    <div className="relative w-full h-full min-h-[400px] bg-[#0b0f19] rounded-2xl overflow-hidden p-5 flex flex-col gap-4">
+      {/* Subtle dot grid */}
+      <div className="pointer-events-none absolute inset-0 opacity-[0.04]"
+        style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '24px 24px' }} />
+
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Live Intelligence</p>
+          <p className="text-sm font-bold text-white mt-0.5">Market Activity</p>
+        </div>
+        <div className="flex items-center gap-1.5 bg-emerald-500/15 border border-emerald-500/30 rounded-full px-2.5 py-1">
+          <span className="relative flex h-1.5 w-1.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-400" />
+          </span>
+          <span className="text-[10px] font-bold text-emerald-400">Live</span>
+        </div>
+      </div>
+
+      {/* Bar chart */}
+      <div>
+        <p className="text-[10px] text-slate-500 font-medium mb-2">Weekly Expansion Index</p>
+        <div className="flex items-end gap-1.5 h-20">
+          {bars.map((h, i) => (
+            <div key={i} className="flex-1 flex flex-col items-center gap-1">
+              <div
+                className="w-full rounded-t-sm"
+                style={{
+                  height: active ? `${h}%` : '4px',
+                  background: i === 5 ? 'linear-gradient(to top, #7c3aed, #a78bfa)' : 'rgba(148,163,184,0.15)',
+                  transition: `height 0.6s cubic-bezier(0.22,1,0.36,1) ${i * 0.06}s`,
+                  minHeight: '4px',
+                }}
+              />
+              <span className="text-[8px] text-slate-600">{labels[i]}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Sector bars */}
+      <div className="space-y-2">
+        <p className="text-[10px] text-slate-500 font-medium">Top Sectors</p>
+        {sectors.map((s, i) => (
+          <div key={s.label} className="flex items-center gap-2">
+            <span className="text-[10px] text-slate-400 w-16 shrink-0">{s.label}</span>
+            <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
+              <div
+                className="h-full rounded-full transition-all duration-700"
+                style={{
+                  width: active ? `${s.pct}%` : '0%',
+                  background: s.color,
+                  transitionDelay: `${0.3 + i * 0.1}s`,
+                }}
+              />
+            </div>
+            <span className="text-[10px] font-bold text-slate-300 w-5 text-right">{s.pct}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Signal feed */}
+      <div className="space-y-1.5">
+        <p className="text-[10px] text-slate-500 font-medium">Investor Signals</p>
+        {signals.map((s, i) => (
+          <div
+            key={i}
+            className="flex items-center gap-2 bg-white/5 rounded-lg px-2.5 py-1.5"
+            style={{
+              opacity: active ? 1 : 0,
+              transform: active ? 'translateX(0)' : 'translateX(-8px)',
+              transition: `all 0.4s ease ${0.5 + i * 0.12}s`,
+            }}
+          >
+            <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${s.dot}`} />
+            <span className="text-[10px] text-slate-300 flex-1 truncate">{s.text}</span>
+            <span className="text-[9px] text-slate-600 shrink-0">{s.time}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+const PLATFORM_FEATURES = [
+  {
+    id: 'expand',
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+      </svg>
+    ),
+    color: 'text-violet-600',
+    bg: 'bg-violet-50',
+    border: 'border-violet-100',
+    tag: 'Expansion',
+    title: 'Track What Expands',
+    desc: 'Monitor category demand and city-level velocity in real time to spot where growth is accelerating first.',
+  },
+  {
+    id: 'predict',
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+      </svg>
+    ),
+    color: 'text-emerald-600',
+    bg: 'bg-emerald-50',
+    border: 'border-emerald-100',
+    tag: 'Market Intel',
+    title: 'Know Which Markets Buy First',
+    desc: 'Predict Tier 2 & 3 opportunity zones before competitors by analyzing demand and regional readiness.',
+  },
+  {
+    id: 'scale',
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+      </svg>
+    ),
+    color: 'text-blue-600',
+    bg: 'bg-blue-50',
+    border: 'border-blue-100',
+    tag: 'Benchmarking',
+    title: 'Scale Smarter, Adjust Instantly',
+    desc: 'Compare sectors and investment brackets to optimize your franchise expansion strategy dynamically.',
+  },
+  {
+    id: 'intent',
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+    ),
+    color: 'text-orange-600',
+    bg: 'bg-orange-50',
+    border: 'border-orange-100',
+    tag: 'Investor Intent',
+    title: 'Let Investor Intent Guide Growth',
+    desc: 'Surface investor behavior patterns and capital trends so brands and buyers align faster.',
+  },
+];
+
+function BentoPlatformGrid({ active }) {
+  return (
+    <div className="mt-12 sm:mt-16">
+      {/* Section label + headline */}
+      <div className="text-center mb-10 sm:mb-12">
+        <div className="inline-flex items-center gap-2 bg-white border border-slate-200 shadow-sm rounded-full px-4 py-1.5 mb-5">
+          <span className="w-1.5 h-1.5 rounded-full bg-violet-500 shrink-0" />
+          <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">Platform Advantage</span>
+        </div>
+        <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#0b0f19] mb-3">
+          Why Smart Franchise Decisions<br className="hidden sm:block" /> Win Faster
+        </h3>
+        <p className="text-sm sm:text-base text-slate-500 max-w-lg mx-auto leading-relaxed">
+          Beyond listings — real-time intelligence, investor signals, and AI-driven brand matching in one platform.
+        </p>
+      </div>
+
+      {/* Main layout: features left, dashboard right */}
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-5 lg:gap-6 items-stretch">
+
+        {/* LEFT — 2×2 feature cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {PLATFORM_FEATURES.map((f, i) => (
+            <div
+              key={f.id}
+              className={`group relative bg-white rounded-2xl border ${f.border} p-5 hover:shadow-lg hover:-translate-y-1 transition-all duration-300`}
+              style={{
+                opacity: active ? 1 : 0,
+                transform: active ? 'translateY(0)' : 'translateY(16px)',
+                transition: `opacity 0.5s ease ${0.1 + i * 0.08}s, transform 0.5s ease ${0.1 + i * 0.08}s, box-shadow 0.3s ease`,
+              }}
+            >
+              {/* Icon */}
+              <div className={`inline-flex items-center justify-center w-10 h-10 rounded-xl ${f.bg} ${f.color} mb-4`}>
+                {f.icon}
+              </div>
+              {/* Tag */}
+              <p className={`text-[10px] font-bold uppercase tracking-widest ${f.color} mb-1.5`}>{f.tag}</p>
+              {/* Title */}
+              <h4 className="text-sm font-bold text-[#0b0f19] leading-snug mb-2">{f.title}</h4>
+              {/* Description */}
+              <p className="text-xs text-slate-500 leading-relaxed">{f.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* RIGHT — Live dashboard */}
+        <div
+          style={{
+            opacity: active ? 1 : 0,
+            transform: active ? 'translateY(0)' : 'translateY(16px)',
+            transition: 'opacity 0.6s ease 0.4s, transform 0.6s ease 0.4s',
+          }}
+        >
+          <LiveDashboard active={active} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Legacy sub-components kept for reference but replaced above ── */
+function NodeGraph({ active }) {
+  const nodes = [
+    { x: 50, y: 50, r: 7, delay: 0 },
+    { x: 20, y: 25, r: 4, delay: 0.3 },
+    { x: 78, y: 22, r: 5, delay: 0.6 },
+    { x: 15, y: 68, r: 4, delay: 0.9 },
+    { x: 82, y: 65, r: 6, delay: 0.4 },
+    { x: 50, y: 85, r: 4, delay: 0.7 },
+    { x: 35, y: 48, r: 3, delay: 1.1 },
+    { x: 65, y: 42, r: 3, delay: 0.2 },
+  ];
+  const edges = [
+    [0,1],[0,2],[0,3],[0,4],[0,5],[0,6],[0,7],[1,6],[2,7],[3,5],[4,5],
+  ];
+  return (
+    <div className="relative w-full h-36">
+      <svg viewBox="0 0 100 100" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
+        {/* Edges */}
+        {edges.map(([a, b], i) => (
+          <line key={i}
+            x1={nodes[a].x} y1={nodes[a].y} x2={nodes[b].x} y2={nodes[b].y}
+            stroke="#7c3aed" strokeWidth="0.5" strokeOpacity="0.25"
+          />
+        ))}
+        {/* Nodes */}
+        {nodes.map((n, i) => (
+          <g key={i}>
+            <circle cx={n.x} cy={n.y} r={n.r + 3} fill="#7c3aed" fillOpacity="0.08">
+              {active && (
+                <animate attributeName="r" values={`${n.r+3};${n.r+6};${n.r+3}`}
+                  dur="2.4s" begin={`${n.delay}s`} repeatCount="indefinite" />
+              )}
+            </circle>
+            <circle cx={n.x} cy={n.y} r={n.r} fill="url(#ng)" />
+          </g>
+        ))}
+        {/* Travelling pulse dot */}
+        {active && (
+          <circle r="1.8" fill="#a78bfa">
+            <animateMotion dur="3s" repeatCount="indefinite" path="M50,50 L20,25 L78,22 L82,65 L50,85 L15,68 L50,50" />
+          </circle>
+        )}
+        <defs>
+          <radialGradient id="ng" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#a78bfa" />
+            <stop offset="100%" stopColor="#7c3aed" />
+          </radialGradient>
+        </defs>
+      </svg>
+      {/* Signal badge */}
+      <div className="absolute top-2 right-2 flex items-center gap-1.5 bg-violet-50 border border-violet-100 rounded-full px-2.5 py-1">
+        <span className="relative flex h-1.5 w-1.5">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75" />
+          <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-violet-500" />
+        </span>
+        <span className="text-[10px] font-bold text-violet-700">+34% Growth Signal</span>
+      </div>
+    </div>
+  );
+}
+
+/* Card 2 — Opportunity Gauge */
+function OpportunityGauge({ active }) {
+  const [angle, setAngle] = useState(0);
+  const targetAngle = 210; // ~70% of 300deg arc
+  useEffect(() => {
+    if (!active) return;
+    let start;
+    const tick = (ts) => {
+      if (!start) start = ts;
+      const p = Math.min((ts - start) / 1600, 1);
+      setAngle(Math.floor(targetAngle * (1 - Math.pow(1 - p, 3))));
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }, [active]);
+
+  // Arc from -150deg to +150deg (300deg total), needle at `angle` from start
+  const cx = 60; const cy = 62; const r = 44;
+  const startDeg = -210; // left end
+  const needleDeg = startDeg + angle;
+  const toRad = (d) => (d * Math.PI) / 180;
+  const nx = cx + (r - 6) * Math.cos(toRad(needleDeg));
+  const ny = cy + (r - 6) * Math.sin(toRad(needleDeg));
+
+  const arcPath = (start, end, radius) => {
+    const s = { x: cx + radius * Math.cos(toRad(start)), y: cy + radius * Math.sin(toRad(start)) };
+    const e = { x: cx + radius * Math.cos(toRad(end)),   y: cy + radius * Math.sin(toRad(end)) };
+    const large = end - start > 180 ? 1 : 0;
+    return `M ${s.x} ${s.y} A ${radius} ${radius} 0 ${large} 1 ${e.x} ${e.y}`;
+  };
+
+  const zones = [
+    { label: 'Saturated', color: '#f43f5e', start: -210, end: -110 },
+    { label: 'Emerging',  color: '#f59e0b', start: -110, end: -10  },
+    { label: 'High Demand', color: '#10b981', start: -10, end: 90  },
+  ];
+
+  return (
+    <div className="relative w-full h-36 flex flex-col items-center">
+      <svg viewBox="0 0 120 80" className="w-full h-28" preserveAspectRatio="xMidYMid meet">
+        {/* Zone arcs */}
+        {zones.map((z) => (
+          <path key={z.label} d={arcPath(z.start, z.end, 44)}
+            fill="none" stroke={z.color} strokeWidth="6" strokeOpacity="0.25" strokeLinecap="round" />
+        ))}
+        {/* Active arc */}
+        <path d={arcPath(-210, startDeg + angle, 44)}
+          fill="none" stroke="url(#gaugeGrad)" strokeWidth="6" strokeLinecap="round" />
+        {/* Needle */}
+        <line x1={cx} y1={cy} x2={nx} y2={ny}
+          stroke="#7c3aed" strokeWidth="2" strokeLinecap="round" />
+        <circle cx={cx} cy={cy} r="3" fill="#7c3aed" />
+        <defs>
+          <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#f43f5e" />
+            <stop offset="50%" stopColor="#f59e0b" />
+            <stop offset="100%" stopColor="#10b981" />
+          </linearGradient>
+        </defs>
+      </svg>
+      {/* Zone labels */}
+      <div className="flex items-center gap-3 -mt-2">
+        {zones.map((z) => (
+          <div key={z.label} className="flex items-center gap-1">
+            <span className="w-1.5 h-1.5 rounded-full" style={{ background: z.color }} />
+            <span className="text-[9px] font-semibold text-slate-500">{z.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* Card 3 — Benchmark Speedometer bars */
+function BenchmarkBars({ active }) {
+  const segments = [
+    { label: 'Food & Bev',  score: 88, color: '#7c3aed' },
+    { label: 'Retail',      score: 72, color: '#3b82f6' },
+    { label: 'Education',   score: 65, color: '#10b981' },
+    { label: 'Wellness',    score: 58, color: '#f97316' },
+  ];
+  return (
+    <div className="w-full space-y-2.5 pt-1">
+      {segments.map((s, i) => (
+        <div key={s.label}>
+          <div className="flex justify-between mb-1">
+            <span className="text-[11px] font-semibold text-slate-600">{s.label}</span>
+            <span className="text-[11px] font-bold text-slate-800">{s.score}</span>
+          </div>
+          <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+            <div className="h-full rounded-full transition-all duration-700"
+              style={{
+                width: active ? `${s.score}%` : '0%',
+                background: s.color,
+                transitionDelay: `${0.3 + i * 0.12}s`,
+              }}
+            />
+          </div>
+        </div>
+      ))}
+      {/* Dial indicator */}
+      <div className="flex items-center justify-between pt-1">
+        <span className="text-[10px] text-slate-400 font-medium">Scalability Index</span>
+        <span className="text-[11px] font-bold text-violet-600">
+          {active ? '↑ Optimised' : '—'}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+/* Card 4 — Investor Signal Stream */
+function InvestorSignals({ active }) {
+  const signals = [
+    {
+      icon: (
+        <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+        </svg>
+      ),
+      text: 'Retail interest rising in Pune',
+      time: '2m ago',
+      color: 'bg-blue-50 border-blue-100',
+      iconBg: 'bg-blue-100',
+    },
+    {
+      icon: (
+        <svg className="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      ),
+      text: 'Food demand trending in Tier 2',
+      time: '5m ago',
+      color: 'bg-orange-50 border-orange-100',
+      iconBg: 'bg-orange-100',
+    },
+    {
+      icon: (
+        <svg className="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+      ),
+      text: 'Education sector gaining traction',
+      time: '9m ago',
+      color: 'bg-emerald-50 border-emerald-100',
+      iconBg: 'bg-emerald-100',
+    },
+    {
+      icon: (
+        <svg className="w-4 h-4 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+        </svg>
+      ),
+      text: 'Wellness brands expanding fast',
+      time: '14m ago',
+      color: 'bg-violet-50 border-violet-100',
+      iconBg: 'bg-violet-100',
+    },
+  ];
+  return (
+    <div className="w-full space-y-2 pt-1">
+      {signals.map((s, i) => (
+        <div
+          key={i}
+          className={`flex items-center gap-2.5 rounded-xl border px-3 py-2 ${s.color} transition-all duration-500`}
+          style={{
+            opacity: active ? 1 : 0,
+            transform: active ? 'translateX(0)' : 'translateX(-12px)',
+            transitionDelay: `${0.2 + i * 0.15}s`,
+          }}
+        >
+          <div className={`w-7 h-7 rounded-lg ${s.iconBg} flex items-center justify-center shrink-0`}>
+            {s.icon}
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-[11px] font-semibold text-slate-700 leading-snug truncate">{s.text}</p>
+            <p className="text-[10px] text-slate-400">{s.time}</p>
+          </div>
+          <span className="relative shrink-0 flex h-2 w-2">
+            {active && <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />}
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ── Main section ─────────────────────────────────────────────────────────────
+function MarketIntelligenceSection() {
+  const ref = useRef(null);
+  const [active, setActive] = useState(false);
+  const [tab, setTab] = useState('Quarterly');
+  const [hoveredBar, setHoveredBar] = useState(null);
+
+  const marketSize = useCountUp(800, active, 1800);
+  const cagr       = useCountUp(30,  active, 1400);
+  const cities     = useCountUp(500, active, 1600);
+  const investors  = useCountUp(72,  active, 1500);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => {
+        // Toggle active on every enter/leave — animations replay each time
+        setActive(e.isIntersecting);
+      },
+      { threshold: 0.15 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  const kpis = [
+    { label: 'Market Size',     value: `\u20b9${marketSize}B+`, sub: 'Total ecosystem',   dotColor: '#7c3aed' },
+    { label: 'Annual CAGR',     value: `~${cagr}%`,             sub: 'Fastest in Asia',   dotColor: '#10b981' },
+    { label: 'Emerging Cities', value: `${cities}+`,            sub: 'Tier 2 & 3 demand', dotColor: '#3b82f6' },
+    { label: 'Investor Shift',  value: `${investors}%`,         sub: 'Prefer franchise',  dotColor: '#f97316' },
+  ];
+
+  const dataset = CHART_DATASETS[tab];
+
+  // Build smooth cubic bezier SVG path
+  const buildPath = (pts, close = false) => {
+    if (!pts.length) return '';
+    let d = `M ${pts[0].x} ${pts[0].y}`;
+    for (let i = 1; i < pts.length; i++) {
+      const cp1x = pts[i - 1].x + (pts[i].x - pts[i - 1].x) * 0.4;
+      const cp1y = pts[i - 1].y;
+      const cp2x = pts[i].x - (pts[i].x - pts[i - 1].x) * 0.4;
+      const cp2y = pts[i].y;
+      d += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${pts[i].x} ${pts[i].y}`;
+    }
+    if (close) {
+      d += ` L ${pts[pts.length - 1].x} 100 L ${pts[0].x} 100 Z`;
+    }
+    return d;
+  };
+
+  const linePoints = dataset.line.map((v, i) => ({
+    x: (i / (dataset.line.length - 1)) * 100,
+    y: 100 - v,
+  }));
+
+  return (
+    <section ref={ref} className="w-full bg-[#f4f6f9]">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center gap-2 bg-white border border-slate-200 shadow-sm rounded-full px-4 py-1.5 mb-4">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+            </span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">India Franchise Market Intelligence</span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl lg:text-[2rem] font-extrabold tracking-tight text-[#0b0f19] leading-tight mb-2">
+            Inside India&apos;s Franchise Growth Engine
+          </h2>
+          <p className="text-sm text-slate-500 max-w-xl mx-auto leading-relaxed">
+            Real-time market insights, investor patterns, and expansion trends shaping India&apos;s franchise future.
+          </p>
+        </div>
+
+        {/* Live ticker */}
+        <div className="mb-6 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+          <div className="flex items-center gap-3 px-4 py-2.5">
+            <span className="shrink-0 inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+              </span>
+              Live
+            </span>
+            <div className="overflow-hidden flex-1">
+              <p className="text-xs text-slate-600 font-medium whitespace-nowrap animate-marquee-right">
+                India&apos;s franchise sector expanding into Tier 2 &amp; Tier 3 markets &nbsp;&middot;&nbsp;
+                &#8377;800B+ ecosystem projected to cross &#8377;1T by 2027 &nbsp;&middot;&nbsp;
+                30% CAGR &mdash; Asia&apos;s fastest-growing franchise market &nbsp;&middot;&nbsp;
+                72% of new investors prefer franchise models &nbsp;&middot;&nbsp;
+                500+ emerging cities driving next wave of demand
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* KPI stat tiles */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
+          {kpis.map((k, i) => (
+            <div
+              key={k.label}
+              className="bg-white rounded-2xl border border-slate-100 shadow-sm px-5 py-4"
+              style={{
+                opacity: active ? 1 : 0.4,
+                transform: active ? 'translateY(0)' : 'translateY(8px)',
+                transition: `opacity 0.5s ease ${i * 0.08}s, transform 0.5s ease ${i * 0.08}s`,
+              }}
+            >
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">{k.label}</p>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="w-2 h-2 rounded-full shrink-0" style={{ background: k.dotColor }} />
+                <p className="text-xl sm:text-2xl font-extrabold text-[#0b0f19] tabular-nums leading-none">{k.value}</p>
+              </div>
+              <p className="text-[11px] text-slate-400">{k.sub}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Main dashboard card */}
+        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_260px]">
+
+            {/* LEFT — Chart panel */}
+            <div className="p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-slate-100">
+
+              {/* Chart header row */}
+              <div className="flex items-start justify-between mb-5 gap-3 flex-wrap">
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 mb-0.5">Revenue Growth Index</p>
+                  <p className="text-sm font-extrabold text-[#0b0f19]">India Franchise Market Expansion</p>
+                </div>
+                <div className="flex items-center gap-0.5 bg-slate-50 rounded-xl p-1 border border-slate-100 shrink-0">
+                  {['Monthly', 'Quarterly', 'Yearly'].map((t) => (
+                    <button
+                      key={t}
+                      onClick={() => setTab(t)}
+                      className={`text-[11px] font-semibold px-3 py-1.5 rounded-lg transition-all duration-200 ${
+                        tab === t
+                          ? 'bg-white text-[#0b0f19] shadow-sm border border-slate-200'
+                          : 'text-slate-400 hover:text-slate-600'
+                      }`}
+                    >
+                      {t}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Chart area */}
+              <div className="relative h-52 sm:h-60 select-none">
+                {/* Y-axis */}
+                <div className="absolute left-0 top-0 bottom-6 flex flex-col justify-between pr-2 pointer-events-none">
+                  {[100, 75, 50, 25, 0].map((v) => (
+                    <span key={v} className="text-[9px] text-slate-300 font-medium w-6 text-right leading-none">{v}</span>
+                  ))}
+                </div>
+
+                {/* Grid lines */}
+                <div className="absolute left-8 right-0 top-0 bottom-6 pointer-events-none">
+                  {[0, 1, 2, 3, 4].map((i) => (
+                    <div key={i} className="absolute w-full border-t border-slate-100" style={{ top: `${(i / 4) * 100}%` }} />
+                  ))}
+                </div>
+
+                {/* SVG chart */}
+                <svg
+                  className="absolute top-0 bottom-6 cursor-crosshair"
+                  style={{ left: '2rem', width: 'calc(100% - 2rem)', height: 'calc(100% - 1.5rem)' }}
+                  viewBox="0 0 100 100"
+                  preserveAspectRatio="none"
+                >
+                  <defs>
+                    <linearGradient id="miBarGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#7c3aed" stopOpacity="0.75" />
+                      <stop offset="100%" stopColor="#7c3aed" stopOpacity="0.2" />
+                    </linearGradient>
+                    <linearGradient id="miAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.18" />
+                      <stop offset="100%" stopColor="#f59e0b" stopOpacity="0" />
+                    </linearGradient>
+                    <linearGradient id="miLineGrad" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stopColor="#f59e0b" />
+                      <stop offset="100%" stopColor="#ef4444" />
+                    </linearGradient>
+                  </defs>
+
+                  {/* Bars */}
+                  {dataset.bars.map((val, i) => {
+                    const bw = 100 / dataset.bars.length;
+                    const x = i * bw + bw * 0.22;
+                    const w = bw * 0.56;
+                    const barH = active ? val : val * 0.3; // show 30% height even before active
+                    return (
+                      <rect
+                        key={`${tab}-bar-${i}`}
+                        x={x} y={100 - barH} width={w} height={barH}
+                        fill={hoveredBar === i ? '#6d28d9' : 'url(#miBarGrad)'}
+                        rx="1.5"
+                        style={{
+                          transition: `height 0.65s cubic-bezier(0.22,1,0.36,1) ${i * 0.04}s, y 0.65s cubic-bezier(0.22,1,0.36,1) ${i * 0.04}s`,
+                        }}
+                        onMouseEnter={() => setHoveredBar(i)}
+                        onMouseLeave={() => setHoveredBar(null)}
+                      />
+                    );
+                  })}
+
+                  {/* Area fill — always show */}
+                  <path d={buildPath(linePoints, true)} fill="url(#miAreaGrad)" />
+
+                  {/* Smooth trend line — always visible, animates in */}
+                  <path
+                    key={`${tab}-line`}
+                    d={buildPath(linePoints)}
+                    fill="none"
+                    stroke="url(#miLineGrad)"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeDasharray="240"
+                    strokeDashoffset={active ? '0' : '120'}
+                    style={{ transition: 'stroke-dashoffset 1.8s cubic-bezier(0.22,1,0.36,1) 0.3s' }}
+                  />
+
+                  {/* Dots on line — always show */}
+                  {linePoints.map((pt, i) => (
+                    <circle
+                      key={`${tab}-dot-${i}`}
+                      cx={pt.x} cy={pt.y} r="1.8"
+                      fill="white" stroke="#f59e0b" strokeWidth="1"
+                      opacity={active ? 1 : 0.5}
+                      style={{ transition: `opacity 0.2s ease ${0.4 + i * 0.06}s` }}
+                    />
+                  ))}
+
+                  {/* Hover tooltip */}
+                  {hoveredBar !== null && (() => {
+                    const bw = 100 / dataset.bars.length;
+                    const cx = hoveredBar * bw + bw / 2;
+                    const val = dataset.bars[hoveredBar];
+                    const lbl = dataset.labels[hoveredBar];
+                    return (
+                      <g>
+                        <rect x={cx - 13} y={100 - val - 16} width="26" height="13" rx="2.5" fill="#0b0f19" />
+                        <text x={cx} y={100 - val - 7} textAnchor="middle"
+                          style={{ fontSize: 4.5, fill: 'white', fontWeight: 700, fontFamily: 'Inter, sans-serif' }}>
+                          {lbl}: {val}%
+                        </text>
+                      </g>
+                    );
+                  })()}
+                </svg>
+
+                {/* X-axis labels */}
+                <div className="absolute left-8 right-0 bottom-0 flex justify-between">
+                  {dataset.labels.map((l) => (
+                    <span key={l} className="text-[8px] sm:text-[9px] text-slate-300 font-medium flex-1 text-center leading-none">{l}</span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Legend */}
+              <div className="mt-4 flex items-center gap-5">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-3 h-3 rounded-sm" style={{ background: 'linear-gradient(to top, #7c3aed, #a78bfa)' }} />
+                  <span className="text-[11px] text-slate-500 font-medium">Market Growth Index</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-5 h-0.5 rounded" style={{ background: 'linear-gradient(to right, #f59e0b, #ef4444)' }} />
+                  <span className="text-[11px] text-slate-500 font-medium">CAGR Trend Line</span>
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT — Donut + Category bars */}
+            <div className="flex flex-col divide-y divide-slate-100">
+
+              {/* Donut */}
+              <div className="p-5">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-0.5">Investor Preference</p>
+                <p className="text-sm font-bold text-[#0b0f19] mb-4">Franchise vs Independent</p>
+                <div className="flex items-center gap-4">
+                  <div className="w-[88px] h-[88px] shrink-0">
+                    <DonutChart active={active} />
+                  </div>
+                  <div className="flex flex-col gap-2.5">
+                    {[
+                      { label: 'Franchise Model', pct: '72%', color: '#7c3aed' },
+                      { label: 'Independent',     pct: '28%', color: '#e2e8f0' },
+                    ].map((s) => (
+                      <div key={s.label} className="flex items-center gap-2">
+                        <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: s.color }} />
+                        <div>
+                          <p className="text-xs font-semibold text-slate-700 leading-tight">{s.label}</p>
+                          <p className="text-[11px] text-slate-400">{s.pct}</p>
+                        </div>
+                      </div>
+                    ))}
+                    <p className="text-[10px] text-slate-400 italic">3&times; since 2020</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Category bars */}
+              <div className="p-5 flex-1">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-0.5">Top Sectors</p>
+                <p className="text-sm font-bold text-[#0b0f19] mb-4">Fastest Growing Categories</p>
+                <div className="space-y-3">
+                  {CATEGORIES.map((cat, i) => (
+                    <div key={cat.name}>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-xs font-semibold text-slate-600">{cat.name}</span>
+                        <span className="text-xs font-bold text-slate-700">{cat.pct}%</span>
+                      </div>
+                      <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                        <div
+                          className="h-full rounded-full transition-all duration-700"
+                          style={{
+                            width: active ? `${cat.pct}%` : `${cat.pct * 0.25}%`,
+                            background: cat.color,
+                            transitionDelay: `${0.4 + i * 0.1}s`,
+                          }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        {/* Source strip */}
+        <div className="mt-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-2 justify-center sm:justify-start">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Verified Sources:</span>
+            {SOURCES.map((s) => (
+              <span key={s} className="text-[11px] font-semibold text-slate-500 bg-white border border-slate-200 px-2.5 py-1 rounded-full shadow-sm">{s}</span>
+            ))}
+          </div>
+          <div className="flex items-center gap-1.5 shrink-0">
+            <svg className="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+            <p className="text-[11px] text-slate-400 font-medium">AI + Market Intelligence Powered</p>
+          </div>
+        </div>
+
+        {/* Platform Advantage Bento Grid */}
+        <BentoPlatformGrid active={active} />
+
+      </div>
+    </section>
+  );
+}
+
+// ─── Process Timeline Component ──────────────────────────────────────────────
+
+const PROCESS_FLOWS = {
+  Franchisors: [
+    {
+      num: '01',
+      title: 'Discovery',
+      desc: 'Analyze your business model, readiness, and category potential to determine if your brand is franchise-expandable.',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      ),
+    },
+    {
+      num: '02',
+      title: 'Franchise Structuring',
+      desc: 'Build your franchise system with pricing, legal frameworks, SOPs, and investor-ready positioning.',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+        </svg>
+      ),
+    },
+    {
+      num: '03',
+      title: 'Expansion Strategy',
+      desc: 'Identify ideal cities, investor profiles, and market-entry opportunities for scalable expansion.',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+        </svg>
+      ),
+    },
+  ],
+  Franchisees: [
+    {
+      num: '01',
+      title: 'Budget Analysis',
+      desc: 'Assess your capital, risk appetite, and target sectors to define your ideal investment path.',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      ),
+    },
+    {
+      num: '02',
+      title: 'Brand Matching',
+      desc: 'Get matched with relevant franchise opportunities based on budget, geography, and growth potential.',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+        </svg>
+      ),
+    },
+    {
+      num: '03',
+      title: 'Deal Support',
+      desc: 'Receive guidance through evaluation, negotiation, and launch support for smarter ownership decisions.',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+        </svg>
+      ),
+    },
+  ],
+};
+
+function ProcessTimeline() {
+  const [mode, setMode] = useState('Franchisors');
+  const [visible, setVisible] = useState(false);
+  const [lineH, setLineH] = useState(0);
+  const ref = useRef(null);
+  const hasShown = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting && !hasShown.current) {
+          hasShown.current = true;
+          setVisible(true);
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  // Animate the connector line height
+  useEffect(() => {
+    if (!visible) return;
+    let start;
+    const tick = (ts) => {
+      if (!start) start = ts;
+      const p = Math.min((ts - start) / 1200, 1);
+      setLineH(Math.floor(100 * (1 - Math.pow(1 - p, 3))));
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }, [visible, mode]);
+
+  const steps = PROCESS_FLOWS[mode];
+
+  return (
+    <div ref={ref}>
+      {/* Toggle pills */}
+      <div className="flex items-center gap-2 mb-8 bg-slate-50 border border-slate-200 rounded-2xl p-1.5 w-fit">
+        {['Franchisors', 'Franchisees'].map((m) => (
+          <button
+            key={m}
+            onClick={() => { setMode(m); setLineH(0); setVisible(false); setTimeout(() => setVisible(true), 50); }}
+            className={`text-sm font-bold px-5 py-2.5 rounded-xl transition-all duration-250 ${
+              mode === m
+                ? 'bg-white text-[#0b0f19] shadow-sm border border-slate-200'
+                : 'text-slate-400 hover:text-slate-600'
+            }`}
+          >
+            For {m}
+          </button>
+        ))}
+      </div>
+
+      {/* Timeline */}
+      <div className="relative">
+        {/* Vertical connector track */}
+        <div className="absolute left-5 top-10 bottom-10 w-px bg-slate-100 hidden sm:block" />
+        {/* Animated fill */}
+        <div
+          className="absolute left-5 top-10 w-px bg-gradient-to-b from-violet-500 to-indigo-400 hidden sm:block origin-top transition-none"
+          style={{ height: `${lineH}%`, transition: 'height 0.05s linear' }}
+        />
+
+        <div className="space-y-5">
+          {steps.map((step, i) => (
+            <div
+              key={`${mode}-${step.num}`}
+              className="relative sm:pl-16"
+              style={{
+                opacity: visible ? 1 : 0,
+                transform: visible ? 'translateY(0)' : 'translateY(20px)',
+                transition: `opacity 0.5s ease ${i * 0.15}s, transform 0.5s ease ${i * 0.15}s`,
+              }}
+            >
+              {/* Step node */}
+              <div className={`hidden sm:flex absolute left-0 top-5 w-10 h-10 rounded-full items-center justify-center
+                border-2 bg-white z-10 transition-all duration-500 ${
+                  visible
+                    ? 'border-violet-400 shadow-[0_0_0_4px_rgba(139,92,246,0.12)]'
+                    : 'border-slate-200'
+                }`}>
+                <span className="text-xs font-extrabold text-violet-600">{step.num}</span>
+              </div>
+
+              {/* Card */}
+              <div className="group bg-white rounded-[20px] border border-slate-100 shadow-sm
+                hover:shadow-lg hover:-translate-y-1 hover:border-violet-200 transition-all duration-300 p-5">
+                <div className="flex items-start gap-4">
+                  {/* Mobile step number */}
+                  <div className="sm:hidden flex-shrink-0 w-9 h-9 rounded-full bg-violet-50 border border-violet-200
+                    flex items-center justify-center">
+                    <span className="text-xs font-extrabold text-violet-600">{step.num}</span>
+                  </div>
+                  {/* Icon */}
+                  <div className="hidden sm:flex w-10 h-10 rounded-xl bg-violet-50 border border-violet-100
+                    items-center justify-center text-violet-600 shrink-0 group-hover:bg-violet-100 transition-colors duration-200">
+                    {step.icon}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-base font-extrabold text-[#0b0f19] mb-1.5 leading-snug">
+                      {step.title}
+                    </h3>
+                    <p className="text-sm text-slate-500 leading-relaxed">{step.desc}</p>
+                  </div>
+                </div>
+                {/* Hover accent line */}
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 rounded-b-[20px] bg-gradient-to-r
+                  from-violet-500 to-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* CTA */}
+      <div className="mt-8 sm:pl-16">
+        <button
+          onClick={() => {
+            const path = mode === 'Franchisors' ? '/services' : '/franchise-opportunities';
+            window.history.pushState({}, '', path);
+            window.dispatchEvent(new PopStateEvent('popstate'));
+          }}
+          className="inline-flex items-center gap-2 bg-[#0b0f19] text-white text-sm font-bold
+            px-6 py-3 rounded-full hover:bg-violet-700 transition-all duration-200
+            hover:shadow-lg hover:shadow-violet-500/25 hover:-translate-y-0.5 active:scale-95"
+        >
+          {mode === 'Franchisors' ? 'Explore Brand Services' : 'Browse Opportunities'}
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M8 12h9" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ─── Hero ─────────────────────────────────────────────────────────────────────
+
+function FAQAccordionItem({ faq, index }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div 
+      className="group border border-slate-200/60 rounded-xl bg-white hover:shadow-md transition-all duration-300"
+      style={{
+        opacity: 0,
+        animation: 'fadeSlideUp 0.6s ease forwards',
+        animationDelay: `${0.4 + index * 0.1}s`
+      }}
+    >
+      {/* Question Header */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center justify-between p-6 text-left hover:bg-slate-50/50 transition-colors duration-200 rounded-xl"
+      >
+        <div className="flex items-start gap-4 flex-1">
+          {/* Number Badge */}
+          <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-[#0b0f19] text-white text-sm font-bold flex items-center justify-center">
+            {faq.number}
+          </div>
+          
+          {/* Question */}
+          <h3 className="text-lg font-bold text-[#0b0f19] leading-tight tracking-tight pr-4">
+            {faq.question}
+          </h3>
+        </div>
+        
+        {/* Plus/Minus Icon */}
+        <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
+          <svg 
+            className={`w-5 h-5 text-slate-400 transition-transform duration-300 ${isOpen ? 'rotate-45' : 'rotate-0'}`}
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24" 
+            strokeWidth={2.5}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+        </div>
+      </button>
+      
+      {/* Answer Content */}
+      <div 
+        className={`overflow-hidden transition-all duration-500 ease-in-out ${
+          isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+        }`}
+      >
+        <div className="px-6 pb-6 pt-0">
+          <div className="pl-12">
+            <p className="text-slate-600 leading-relaxed text-base">
+              {faq.answer}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PremiumFAQItem({ faq, index }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div 
+      className={`group rounded-xl border border-slate-200/60 bg-white shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden ${
+        isOpen ? 'shadow-lg border-slate-300/80 bg-slate-50/30' : ''
+      }`}
+      style={{
+        opacity: 0,
+        animation: 'fadeSlideRight 0.6s ease forwards',
+        animationDelay: `${0.1 + index * 0.05}s`
+      }}
+    >
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full p-4 text-left flex items-center justify-between hover:bg-slate-50/50 transition-colors duration-200"
+      >
+        <div className="flex items-center gap-3 flex-1">
+          {/* Compact Number Badge */}
+          <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-[#0b0f19] to-slate-700 text-white text-sm font-bold flex items-center justify-center shadow-sm">
+            {faq.number}
+          </div>
+          
+          {/* Question */}
+          <h3 className="text-sm font-semibold text-[#0b0f19] leading-tight pr-2">
+            {faq.question}
+          </h3>
+        </div>
+        
+        {/* Plus/Minus Icon */}
+        <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
+          <svg 
+            className={`w-4 h-4 text-slate-400 transition-all duration-300 ${isOpen ? 'rotate-45 text-[#0b0f19]' : 'group-hover:text-slate-600'}`} 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24" 
+            strokeWidth={2.5}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
+        </div>
+      </button>
+      
+      {/* Answer Content */}
+      <div className={`overflow-hidden transition-all duration-400 ease-out ${isOpen ? 'max-h-32 pb-4' : 'max-h-0'}`}>
+        <div className="px-4">
+          <div className="pl-11 pr-2">
+            <p className="text-xs text-slate-600 leading-relaxed">
+              {faq.answer}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Hero() {
   const leftLoopItems = [...testimonials.left, ...testimonials.left];
   const rightLoopItems = [...testimonials.right, ...testimonials.right];
@@ -876,6 +2426,32 @@ function Hero() {
     };
   }, []);
 
+  // Premium section reveal animation system
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.08,
+      rootMargin: '0px 0px -5% 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    // Add will-animate first so sections start invisible, then observe
+    const sections = document.querySelectorAll('.section-reveal');
+    sections.forEach((section) => {
+      section.classList.add('will-animate');
+      observer.observe(section);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(() => {
     if (!growthRef.current || growthVisible) {
       return undefined;
@@ -903,9 +2479,22 @@ function Hero() {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setStatsInView(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          // Always reset to false first, then trigger animation
+          setStatsInView(false);
+          // Use requestAnimationFrame to ensure state update happens before triggering animation
+          requestAnimationFrame(() => {
+            setStatsInView(true);
+          });
+        } else {
+          // Reset when leaving viewport to prepare for next animation
+          setStatsInView(false);
+        }
       },
-      { threshold: 0.25 }
+      { 
+        threshold: 0.3, // Trigger when 30% of section is visible
+        rootMargin: '-50px 0px' // Add some margin to prevent premature triggering
+      }
     );
 
     observer.observe(statsRef.current);
@@ -995,60 +2584,62 @@ function Hero() {
   }, []);
 
   return (
-    <main className="relative isolate overflow-hidden">
-      <section className="relative mx-auto flex min-h-[calc(100vh-80px)] w-full max-w-[1200px] items-center justify-center px-4 pb-14 pt-16 sm:pt-20 md:pt-24 sm:px-6 lg:px-8">
-        <div className="absolute left-4 top-24 hidden h-[460px] w-56 overflow-hidden xl:block">
-          <div className="animate-scroll-up space-y-5">
-            {leftLoopItems.map((item, idx) => (
-              <TestimonialCard
-                key={`${item.author}-${idx}`}
-                quote={item.quote}
-                author={item.author}
-                className={idx % 2 === 0 ? 'opacity-70' : 'opacity-60'}
-              />
-            ))}
+    <main className="relative isolate overflow-x-hidden bg-transparent">
+      {/* ── HERO SECTION ── */}
+      <section className="relative w-full min-h-[calc(100vh-80px)] flex items-center pt-16 sm:pt-20 md:pt-24 pb-12 sm:pb-16">
+        <div className="section-container relative">
+          <div className="absolute left-4 top-24 hidden h-[460px] w-56 overflow-hidden xl:block" style={{ maskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)' }}>
+            <div className="animate-scroll-up space-y-5">
+              {leftLoopItems.map((item, idx) => (
+                <TestimonialCard
+                  key={`${item.author}-${idx}`}
+                  quote={item.quote}
+                  author={item.author}
+                  className={idx % 2 === 0 ? 'opacity-70' : 'opacity-60'}
+                />
+              ))}
+            </div>
           </div>
-        </div>
 
-        <div className="absolute right-4 top-24 hidden h-[460px] w-56 overflow-hidden xl:block">
-          <div className="animate-scroll-down space-y-5">
-            {rightLoopItems.map((item, idx) => (
-              <TestimonialCard
-                key={`${item.author}-${idx}`}
-                quote={item.quote}
-                author={item.author}
-                className={idx % 2 === 0 ? 'opacity-70' : 'opacity-60'}
-              />
-            ))}
+          <div className="absolute right-4 top-24 hidden h-[460px] w-56 overflow-hidden xl:block" style={{ maskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)' }}>
+            <div className="animate-scroll-down space-y-5">
+              {rightLoopItems.map((item, idx) => (
+                <TestimonialCard
+                  key={`${item.author}-${idx}`}
+                  quote={item.quote}
+                  author={item.author}
+                  className={idx % 2 === 0 ? 'opacity-70' : 'opacity-60'}
+                />
+              ))}
+            </div>
           </div>
-        </div>
 
-        <div className="relative z-10 flex w-full max-w-[720px] flex-col items-center text-center mx-auto">
-          <span className="mb-4 sm:mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50/80 px-3 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-xs font-medium text-emerald-800 shadow-soft">
-            <span className="animate-dot-pulse h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-emerald-500" />
-            10K+ Growing Franchise Networks
-          </span>
+          <div className="relative z-10 flex w-full max-w-[720px] flex-col items-center text-center mx-auto">
+            <span className="mb-4 sm:mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50/80 backdrop-blur-sm px-3 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-xs font-medium text-emerald-800 shadow-sm">
+              <span className="animate-dot-pulse h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-emerald-500" />
+              10K+ Growing Franchise Networks
+            </span>
 
-          <h1 className="mb-4 sm:mb-6 text-[clamp(1.75rem,8vw,3.75rem)] font-extrabold leading-[1.15] tracking-tight text-[#0b0f19] px-2">
-            Discover &amp; Scale Franchise Brands
-            <br className="hidden xs:block" />
-            <span className="xs:inline"> </span>For Ambitious Investors
-          </h1>
+            <h1 className="mb-4 sm:mb-6 text-[clamp(1.75rem,8vw,3.75rem)] font-extrabold leading-[1.15] tracking-tight text-[#0b0f19] px-2">
+              Discover &amp; Scale Franchise Brands
+              <br className="hidden xs:block" />
+              <span className="xs:inline"> </span>For Ambitious Investors
+            </h1>
 
-          <p className="max-w-[600px] px-4 text-sm sm:text-base md:text-lg leading-relaxed text-slate-500">
-            Explore verified franchise opportunities and make smarter investment decisions with real-time insights and growth analytics.
-          </p>
+            <p className="max-w-[600px] px-4 text-sm sm:text-base md:text-lg leading-relaxed text-slate-500 mb-8 sm:mb-10">
+              Explore verified franchise opportunities and make smarter investment decisions with real-time insights and growth analytics.
+            </p>
 
-          <div className="mt-8 sm:mt-10 flex flex-col xs:flex-row justify-center gap-3 sm:gap-4 w-full px-4 xs:w-auto">
-            <Button 
-              variant="primary" 
-              icon 
-              className="h-12 sm:h-[56px] w-full xs:w-auto px-6 sm:px-7 py-3 sm:py-[14px] text-sm sm:text-[15px] font-semibold transition-all duration-300 hover:scale-[1.03] hover:bg-[#0c1a2] hover:shadow-[0_8px_20px_rgba(12,18,41,0.12)] hover:-translate-y-1 sm:hover:-translate-y-2"
-            >
-              Explore Brands
-            </Button>
-            <button
-              type="button"
+            <div className="flex flex-col xs:flex-row justify-center gap-3 sm:gap-4 w-full px-4 xs:w-auto">
+              <Button 
+                variant="primary" 
+                icon 
+                className="cta-button h-12 sm:h-[56px] w-full xs:w-auto px-6 sm:px-7 py-3 sm:py-[14px] text-sm sm:text-[15px] font-semibold"
+              >
+                Explore Brands
+              </Button>
+              <button
+                type="button"
               onClick={() => {
                 window.history.pushState({}, '', '/franchise-opportunities');
                 window.dispatchEvent(new PopStateEvent('popstate'));
@@ -1077,6 +2668,7 @@ function Hero() {
               <p className="text-xs text-slate-500">From {reviewCount}+ reviews</p>
             </div>
           </div>
+          </div>
         </div>
       </section>
 
@@ -1085,53 +2677,375 @@ function Hero() {
         aria-hidden="true"
       />
 
-      <div
-        ref={growthRef}
-        className={`mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8 pb-16 sm:pb-20 md:pb-24 pt-12 sm:pt-16 md:pt-20 transition duration-700 ease-out ${
-          growthVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
-        }`}
-      >
-        {/* Trust Text - Moved from Hero */}
-        <div className="mb-12 sm:mb-16 text-center">
-          <p className="text-sm sm:text-[15px] font-medium text-slate-700 px-4">
-            Trusted by 5000+ franchise investors & brands
-          </p>
+      {/* ── GROWTH CARDS SECTION ── */}
+      <section className="relative w-full py-12 sm:py-16 lg:py-20 section-reveal" ref={growthRef}>
+        <div className="section-container">
+          {/* SYMBOLIC TRANSFORMATION MARQUEE - Trust Section Upgrade */}
+          <div className="mb-12 sm:mb-16 text-center">
+            <p className="text-sm sm:text-[15px] font-medium text-slate-700 px-4 mb-8">
+              Trusted by 5000+ franchise investors & growth-focused brands
+            </p>
           
-          {/* Logo Strip - Restored with left-to-right scrolling */}
-          <div className="mt-6 sm:mt-8 overflow-hidden rounded-2xl py-2">
-            <div className="animate-marquee-right flex w-max items-center gap-12 sm:gap-16 md:gap-20 will-change-transform">
-              {['FranchiseIndia', 'FranchiseBazar', 'FranchiseMart', 'BizFranchise', 'IndiaFranchise', 'FranchiseHub', 'TopFranchise', 'FranchiseIndia', 'FranchiseBazar', 'FranchiseMart', 'BizFranchise', 'IndiaFranchise', 'FranchiseHub', 'TopFranchise'].map((brand, idx) => (
+            {/* Transformation Marquee Strip */}
+            <div className="relative overflow-hidden bg-white rounded-2xl py-8 shadow-sm border border-slate-100">
+            {/* Gradient fade edges */}
+            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent z-10" />
+            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent z-10" />
+            
+            {/* Center iFranchise Transformation Icon */}
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+              <div className="relative">
+                {/* Main transformation icon */}
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#0b0f19] to-slate-700 flex items-center justify-center shadow-xl border-4 border-white">
+                  <span className="text-white font-black text-lg">iF</span>
+                </div>
+                
+                {/* Pulsing glow */}
+                <div 
+                  className="absolute inset-0 rounded-full bg-blue-500/20 animate-pulse"
+                  style={{
+                    animation: 'transformationPulse 3s ease-in-out infinite'
+                  }}
+                />
+                
+                {/* Transformation beam effect */}
+                <div className="absolute top-1/2 -translate-y-1/2 left-full w-8 h-0.5 bg-gradient-to-r from-blue-500/60 to-transparent" />
+              </div>
+            </div>
+            
+            {/* Moving logos marquee */}
+            <div className="flex items-center">
+              {/* Left side - Grayscale incoming logos */}
+              <div 
+                className="flex items-center gap-12 will-change-transform"
+                style={{
+                  animation: 'transformationMarquee 25s linear infinite'
+                }}
+              >
+                {[
+                  'TopFranchise', 'FranchiseIndia', 'FranchiseBazar', 'Franchoice', 'InvestorHub', 'BrandScale',
+                  'TopFranchise', 'FranchiseIndia', 'FranchiseBazar', 'Franchoice', 'InvestorHub', 'BrandScale'
+                ].map((brand, idx) => (
+                  <div key={`gray-${brand}-${idx}`} className="flex items-center gap-3 whitespace-nowrap group cursor-pointer">
+                    {/* Grayscale version */}
+                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-slate-300 to-slate-400 flex items-center justify-center">
+                      <span className="text-white font-bold text-xs">{brand.slice(0, 2)}</span>
+                    </div>
+                    <span className="text-lg font-semibold text-slate-400 group-hover:text-slate-600 transition-colors duration-300">
+                      {brand}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              
+              {/* Right side - Colorful transformed logos */}
+              <div 
+                className="flex items-center gap-12 ml-32 will-change-transform"
+                style={{
+                  animation: 'transformationMarquee 25s linear infinite'
+                }}
+              >
+                {[
+                  { name: 'TopFranchise', color: 'from-blue-500 to-blue-600' },
+                  { name: 'FranchiseIndia', color: 'from-emerald-500 to-emerald-600' },
+                  { name: 'FranchiseBazar', color: 'from-violet-500 to-violet-600' },
+                  { name: 'Franchoice', color: 'from-orange-500 to-orange-600' },
+                  { name: 'InvestorHub', color: 'from-purple-500 to-purple-600' },
+                  { name: 'BrandScale', color: 'from-teal-500 to-teal-600' },
+                  { name: 'TopFranchise', color: 'from-blue-500 to-blue-600' },
+                  { name: 'FranchiseIndia', color: 'from-emerald-500 to-emerald-600' },
+                  { name: 'FranchiseBazar', color: 'from-violet-500 to-violet-600' },
+                  { name: 'Franchoice', color: 'from-orange-500 to-orange-600' },
+                  { name: 'InvestorHub', color: 'from-purple-500 to-purple-600' },
+                  { name: 'BrandScale', color: 'from-teal-500 to-teal-600' }
+                ].map((brand, idx) => (
+                  <div key={`color-${brand.name}-${idx}`} className="flex items-center gap-3 whitespace-nowrap group cursor-pointer">
+                    {/* Colorful version */}
+                    <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${brand.color} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                      <span className="text-white font-bold text-xs">{brand.name.slice(0, 2)}</span>
+                    </div>
+                    <span className="text-lg font-semibold text-slate-800 group-hover:text-slate-900 transition-colors duration-300">
+                      {brand.name}
+                    </span>
+                    {/* Subtle glow effect */}
+                    <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-20 bg-gradient-to-r from-blue-400 to-violet-400 blur-sm transition-opacity duration-300" />
+                  </div>
+                ))}
+              </div>
+            </div>
+            </div>
+          </div>
+          {/* ── End Transformation Marquee ── */}
+
+          {/* ── What is Franchising? ── */}
+        <div className="mb-12 sm:mb-16">
+          {/* Section header */}
+          <div className="text-center mb-8 sm:mb-10">
+            <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 mb-3">
+              Franchise Basics
+            </p>
+            <h2 className="text-[clamp(1.6rem,5vw,2.6rem)] font-extrabold tracking-tight text-[#0b0f19] leading-tight mb-3">
+              What is Franchising &amp; Why It Matters
+            </h2>
+            <p className="text-sm sm:text-base text-slate-500 max-w-2xl mx-auto leading-relaxed">
+              New to franchising? Learn the fundamentals of how franchise businesses work, who powers them, and why India's market is booming.
+            </p>
+          </div>
+
+          {/* 2×2 card grid — equal height via grid rows */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:grid-rows-2">
+            {[
+              {
+                badge: 'Low Risk',
+                badgeColor: 'bg-emerald-50 text-emerald-700',
+                badgeIcon: (
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                ),
+                title: 'What is a Franchise?',
+                body: 'A franchise is a business system where you invest in an already established brand and operate your own outlet using its name, products, training, and proven success model. Instead of starting from zero, you run a ready-made business with lower risk, structured support, and faster growth potential.',
+                why: 'Perfect for first-time entrepreneurs seeking a safer, structured business entry.',
+                img: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80',
+                fallbackImgs: [
+                  'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=800&q=80',
+                  'https://images.unsplash.com/photo-1534723452862-4c874018d66d?auto=format&fit=crop&w=800&q=80',
+                ],
+                alt: 'Franchise retail store interior',
+                fallback: 'from-blue-50 to-slate-100',
+              },
+              {
+                badge: 'Brand Power',
+                badgeColor: 'bg-violet-50 text-violet-700',
+                badgeIcon: (
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
+                ),
+                title: 'What is a Franchisor?',
+                body: 'A franchisor is the original business owner or parent company that creates the brand, business model, and operational systems. They provide franchisees with licensing rights, branding, marketing support, and business guidance to expand their network.',
+                why: 'Franchisors grow their brand nationally without managing every outlet directly.',
+                img: 'https://images.unsplash.com/photo-1542744173-8e7a5d373a97?auto=format&fit=crop&w=800&q=80',
+                fallbackImgs: [
+                  'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80',
+                  'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80',
+                ],
+                alt: 'Business leadership team strategy meeting',
+                fallback: 'from-violet-50 to-slate-100',
+              },
+              {
+                badge: 'Business Support',
+                badgeColor: 'bg-blue-50 text-blue-700',
+                badgeIcon: (
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                ),
+                title: 'What is a Franchisee?',
+                body: 'A franchisee is the investor or entrepreneur who purchases the rights to operate a franchisor\'s business in a specific location. They manage daily operations while benefiting from an established reputation, customer trust, and expert support.',
+                why: 'Franchisees gain independence with the safety net of a proven brand behind them.',
+                img: 'https://images.unsplash.com/photo-1664575602554-2087b04935a5?auto=format&fit=crop&w=800&q=80',
+                fallbackImgs: [
+                  'https://images.unsplash.com/photo-1507003211169-0a1dd7228d39?auto=format&fit=crop&w=800&q=80',
+                  'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=80',
+                ],
+                alt: 'Entrepreneur managing a franchise business',
+                fallback: 'from-sky-50 to-slate-100',
+              },
+              {
+                badge: 'Market Growth',
+                badgeColor: 'bg-orange-50 text-orange-700',
+                badgeIcon: (
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+                ),
+                title: "Why India's Franchise Market is Growing",
+                body: "India's franchise industry is rapidly expanding due to rising disposable income, urbanisation, startup ambition, and increasing demand for trusted brands. From food to retail to wellness, franchising is becoming one of India's smartest business expansion and investment opportunities.",
+                why: 'India is projected to be among the top 3 global franchise markets by 2030.',
+                img: 'https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=800&q=80',
+                fallbackImgs: [
+                  'https://images.unsplash.com/photo-1567521464027-f127ff144326?auto=format&fit=crop&w=800&q=80',
+                  'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
+                ],
+                alt: 'India retail market and business growth',
+                fallback: 'from-orange-50 to-slate-100',
+              },
+            ].map((card, i) => (
+              <FranchiseEduCard key={card.title} card={card} index={i} />
+            ))}
+          </div>
+        </div>
+        {/* ── End What is Franchising? ── */}
+
+        {/* ── Who Are You? / Choose Your Path ── */}
+        <div className="mb-12 sm:mb-16">
+          {/* Section header */}
+          <div className="text-center mb-8 sm:mb-10">
+            <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 mb-3">
+              Who Are You?
+            </p>
+            <h2 className="text-[clamp(1.6rem,5vw,2.6rem)] font-extrabold tracking-tight text-[#0b0f19] leading-tight mb-3">
+              Your Franchise Journey Starts Here
+            </h2>
+            <p className="text-sm sm:text-base text-slate-500 max-w-xl mx-auto leading-relaxed">
+              Whether you're expanding your brand or investing in the right opportunity, iFranchise helps you take the next strategic step with confidence.
+            </p>
+          </div>
+
+          {/* 2-column pathway cards */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
+            {growthCards.map((card) => (
+              <GrowthCard key={card.eyebrow} card={card} />
+            ))}
+          </div>
+        </div>
+        {/* ── End Who Are You? ── */}
+        </div>
+      </section>
+
+      {/* ── India Franchise Market Intelligence ── */}
+      <MarketIntelligenceSection />
+      {/* ── End Market Intelligence ── */}
+
+      <div id="about" ref={processRef} className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+
+        {/* ── Centered section header ── */}
+        <div className="text-center mb-10 sm:mb-12">
+          <div className="inline-flex items-center gap-2 bg-white border border-slate-200 shadow-sm rounded-full px-4 py-1.5 mb-4">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-violet-500" />
+            </span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+              How iFranchise Works
+            </span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl lg:text-[2.2rem] font-extrabold tracking-tight text-[#0b0f19] leading-tight mb-2">
+            Two Strategic Paths. One Growth Engine.
+          </h2>
+          <p className="text-sm text-slate-500 max-w-xl mx-auto leading-relaxed">
+            Whether you&apos;re scaling a franchise brand or investing in the right opportunity, iFranchise simplifies every critical step.
+          </p>
+        </div>
+
+        {/* ── Two-column layout ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-8 lg:gap-12 items-start">
+
+          {/* LEFT — Living Visual with Growth Signal */}
+          <div className="lg:sticky lg:top-28 self-start flex flex-col items-center gap-6">
+
+            {/* Living Process Visual */}
+            <div className="relative w-full flex items-center justify-center">
+              {/* Soft ambient glow */}
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-16 bg-violet-300/15 blur-3xl rounded-full pointer-events-none animate-pulse" />
+              
+              {/* Growth Signal Pill - Top Left */}
+              <div 
+                className="absolute top-2 left-4 flex items-center gap-1.5 bg-white/90 backdrop-blur-md border border-emerald-200/60 rounded-full px-3 py-1.5 shadow-lg z-10"
+                style={{ 
+                  animation: 'float 4s ease-in-out infinite',
+                  animationDelay: '0.5s'
+                }}
+              >
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                </span>
+                <span className="text-[10px] font-bold text-emerald-700 tracking-wide">Growth Signal</span>
+              </div>
+
+              {/* Main Process Image with Premium Animation */}
+              <div className="relative group">
+                {/* Background glow that responds to image */}
+                <div 
+                  className="absolute inset-0 bg-gradient-to-br from-violet-200/20 via-emerald-200/15 to-blue-200/20 rounded-3xl blur-2xl"
+                  style={{ 
+                    animation: 'breathingGlow 8s ease-in-out infinite',
+                    transform: 'scale(1.1)'
+                  }}
+                />
+                
+                {/* Main image with sophisticated animation */}
+                <img
+                  src={processImg}
+                  alt="iFranchise Process"
+                  className="relative w-full max-w-sm object-contain drop-shadow-[0_24px_48px_rgba(15,23,42,0.12)] transition-all duration-700 group-hover:drop-shadow-[0_32px_64px_rgba(139,92,246,0.15)]"
+                  loading="eager"
+                  style={{ 
+                    animation: 'premiumFloat 10s ease-in-out infinite',
+                    transformOrigin: 'center center'
+                  }}
+                />
+                
+                {/* Subtle rotating accent ring */}
+                <div 
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    background: 'conic-gradient(from 0deg, transparent 0deg, rgba(139, 92, 246, 0.1) 60deg, transparent 120deg, rgba(16, 185, 129, 0.08) 180deg, transparent 240deg, rgba(59, 130, 246, 0.06) 300deg, transparent 360deg)',
+                    animation: 'slowRotate 20s linear infinite',
+                    borderRadius: '50%',
+                    filter: 'blur(1px)'
+                  }}
+                />
+                
+                {/* Energy particles */}
+                <div className="absolute inset-0 pointer-events-none">
+                  <div 
+                    className="absolute top-1/4 left-1/4 w-1 h-1 bg-violet-400 rounded-full opacity-60"
+                    style={{ animation: 'particleFloat1 12s ease-in-out infinite' }}
+                  />
+                  <div 
+                    className="absolute top-3/4 right-1/3 w-0.5 h-0.5 bg-emerald-400 rounded-full opacity-70"
+                    style={{ animation: 'particleFloat2 15s ease-in-out infinite' }}
+                  />
+                  <div 
+                    className="absolute bottom-1/4 left-2/3 w-0.5 h-0.5 bg-blue-400 rounded-full opacity-50"
+                    style={{ animation: 'particleFloat3 18s ease-in-out infinite' }}
+                  />
+                </div>
+                
+                {/* Hover enhancement */}
+                <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              </div>
+
+              {/* Floating Micro Elements */}
+              <div 
+                className="absolute top-8 right-8 w-2 h-2 bg-violet-400/60 rounded-full"
+                style={{ animation: 'microFloat 5s ease-in-out infinite' }}
+              />
+              <div 
+                className="absolute bottom-12 left-8 w-1.5 h-1.5 bg-emerald-400/50 rounded-full"
+                style={{ animation: 'microFloat 7s ease-in-out infinite', animationDelay: '2s' }}
+              />
+            </div>
+
+            {/* Interactive Bottom Pills */}
+            <div className="flex items-center gap-2 flex-wrap justify-center">
+              {[
+                { label: 'Discover', d: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z', color: 'violet' },
+                { label: 'Structure', d: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2', color: 'emerald' },
+                { label: 'Expand', d: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6', color: 'blue' },
+              ].map((p, i) => (
                 <div
-                  key={`${brand}-${idx}`}
-                  className="inline-flex items-center gap-2 whitespace-nowrap text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight text-slate-800"
+                  key={p.label}
+                  className={`group flex items-center gap-1.5 bg-white/80 backdrop-blur-sm border border-slate-200/60 rounded-full px-3 py-1.5 shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300 cursor-pointer`}
+                  style={{ 
+                    opacity: 0, 
+                    animation: 'fadeSlideUp 0.6s ease forwards', 
+                    animationDelay: `${0.8 + i * 0.2}s` 
+                  }}
                 >
-                  <span className="text-lg sm:text-xl md:text-2xl leading-none">*</span>
-                  <span>{brand}</span>
+                  <svg className={`w-3 h-3 text-${p.color}-500 group-hover:text-${p.color}-600 transition-colors duration-200`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d={p.d} />
+                  </svg>
+                  <span className="text-[11px] font-bold text-slate-700 group-hover:text-slate-800 transition-colors duration-200">{p.label}</span>
+                  <div className={`absolute inset-0 rounded-full bg-${p.color}-100/0 group-hover:bg-${p.color}-100/30 transition-all duration-300 -z-10`} />
                 </div>
               ))}
             </div>
+
           </div>
-        </div>
 
-        <div className="mx-auto max-w-[640px] text-center px-4">
-          <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
-            CHOOSE YOUR PATH
-          </p>
-          <h2 className="mt-3 text-[clamp(1.75rem,7vw,3rem)] font-extrabold tracking-tight text-[#0b0f19] leading-tight">
-            Two ways to grow
-          </h2>
-          <p className="mt-3 sm:mt-4 text-sm sm:text-base leading-relaxed text-slate-500">
-            Select the path that aligns with your goals and scale faster with the right strategy.
-          </p>
-        </div>
+          {/* RIGHT — toggle + timeline */}
+          <ProcessTimeline />
 
-        <div className="mt-8 sm:mt-10 md:mt-12 grid gap-5 sm:gap-6 lg:grid-cols-2">
-          <GrowthCard card={growthCards[0]} />
-          <GrowthCard card={growthCards[1]} reverse />
         </div>
       </div>
 
-      <div id="services" ref={modelsRef} className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8 pb-20 sm:pb-24 md:pb-28 pt-2">
+      <div id="services" ref={modelsRef} className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <div className="mx-auto max-w-[640px] text-center px-4">
           <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
             FRANCHISE MODELS
@@ -1157,271 +3071,1005 @@ function Hero() {
         </div>
       </div>
 
-      <div id="about" ref={processRef} className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8 pb-20 sm:pb-24 md:pb-28 pt-2">
-        <div className="grid items-start gap-8 sm:gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
-          <div className="flex flex-col gap-6 sm:gap-8 lg:sticky lg:top-[120px]">
-            <div className="px-2 sm:px-0">
-              <p className="inline-flex items-center gap-2 text-xs sm:text-sm font-medium text-slate-600">
-                <span className="h-2 w-2 rounded-sm bg-rose-500" />
-                Process
-              </p>
-              <h2 className="mt-3 text-[clamp(1.75rem,7vw,3rem)] font-extrabold leading-tight tracking-tight text-[#0b0f19]">
-                Proven &amp; effective process.
-                <br />
-                <span className="text-slate-600">That delivers results.</span>
-              </h2>
-              <p className="mt-4 sm:mt-5 max-w-[520px] text-sm sm:text-base leading-relaxed text-slate-500">
-                We dive deep into your goals, audience, and challenges to craft a strategy that drives
-                clear direction and impact.
-              </p>
+      {/* ── SOCIAL PROOF ECOSYSTEM ── */}
+      <section className="relative w-full py-12 sm:py-16 lg:py-20 section-reveal">
+        <div className="section-container">
+          
+          {/* Section Header */}
+          <div className="section-header">
+            <div className="section-pill">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+              </span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+                Testimonials
+              </span>
             </div>
+            <h2 className="section-title">
+              Trusted by brands. Backed by outcomes.
+            </h2>
+            <p className="section-subtitle">
+              From franchise structuring to investor conversion, iFranchise has helped brands scale smarter and franchisees choose with confidence.
+            </p>
+          </div>
 
-            {/* Video Card - Fills remaining vertical space below text */}
-            <div className="relative flex-grow rounded-2xl sm:rounded-3xl overflow-hidden bg-slate-900 shadow-soft min-h-[240px] sm:min-h-[300px]">
-              <video
-                className="absolute inset-0 h-full w-full object-cover block"
-                style={{ transform: 'scale(1.05)' }}
-                autoPlay
-                loop
-                muted
-                playsInline
-                controls={false}
-                poster="/process-video-poster.jpg"
+          {/* Testimonials Section - UNCHANGED */}
+          <div className="mb-16 sm:mb-20">
+            <div className="hidden gap-6 sm:gap-9 md:grid md:grid-cols-2 xl:grid-cols-3">
+              <div
+                className="testi-column relative h-[500px] overflow-hidden"
+                style={{ maskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)' }}
               >
-                <source src="/src/assets/Videos/video.mp4" type="video/mp4" />
-              </video>
+                <div className="testi-track-down space-y-6">
+                  {leftColumnLoop.map((item, idx) => (
+                    <TestimonialStatCard key={`${item.name}-left-${idx}`} item={item} />
+                  ))}
+                </div>
+              </div>
+              <div
+                className="testi-column relative h-[500px] overflow-hidden"
+                style={{ maskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)' }}
+              >
+                <div className="testi-track-up space-y-6">
+                  {middleColumnLoop.map((item, idx) => (
+                    <TestimonialStatCard key={`${item.name}-middle-${idx}`} item={item} />
+                  ))}
+                </div>
+              </div>
+              <div
+                className="testi-column relative h-[500px] overflow-hidden md:hidden xl:block"
+                style={{ maskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)' }}
+              >
+                <div className="testi-track-down space-y-6">
+                  {rightColumnLoop.map((item, idx) => (
+                    <TestimonialStatCard key={`${item.name}-right-${idx}`} item={item} />
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8 sm:mt-10 space-y-4 sm:space-y-5 md:hidden">
+              {testimonialsFlowCards.map((item) => (
+                <TestimonialStatCard key={item.name} item={item} />
+              ))}
+            </div>
+          </div>
+
+          {/* Clean Stats Row - No Card Background */}
+          <div ref={statsRef} className="mb-16 sm:mb-20">
+            {/* Subtle background pattern */}
+            <div className="relative">
+              <div className="absolute inset-0 opacity-[0.02]" style={{
+                backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(15,23,42,0.15) 1px, transparent 0)',
+                backgroundSize: '24px 24px'
+              }} />
               
-              {/* Optional overlay for better text readability */}
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent pointer-events-none" />
-            </div>
-          </div>
-
-          <div ref={processTimelineRef} className="relative pl-0 sm:pl-2">
-            <div className="absolute left-2 top-3 hidden h-[calc(100%-24px)] w-[2px] bg-slate-200 sm:block" />
-            <div
-              className="absolute left-2 top-3 hidden h-[calc(100%-24px)] w-[2px] origin-top bg-rose-500 transition-transform duration-200 sm:block"
-              style={{ transform: `scaleY(${processLineProgress})` }}
-            />
-
-            <div className="space-y-6 sm:space-y-9">
-              {processSteps.map((step, idx) => {
-                const isActive = visibleProcessSteps[idx];
-                return (
-                  <div
-                    key={step.number}
-                    ref={(el) => {
-                      stepRefs.current[idx] = el;
-                    }}
-                    data-step-index={idx}
-                    className={`relative rounded-2xl sm:rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-6 transition duration-500 ${
-                      isActive ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
-                    } sm:ml-12`}
-                  >
-                    <span
-                      className={`mb-3 sm:mb-4 inline-flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full border bg-white text-xs sm:text-sm font-semibold transition duration-300 sm:absolute sm:-left-[58px] sm:top-5 ${
-                        isActive
-                          ? 'border-rose-400 text-slate-900 shadow-[0_8px_18px_rgba(244,63,94,0.18)]'
-                          : 'border-slate-300 text-slate-500'
-                      }`}
-                    >
-                      {step.number}
-                    </span>
-                    <h3 className="text-lg sm:text-xl font-bold tracking-tight text-[#0b0f19]">{step.title}</h3>
-                    <p className="mt-2 sm:mt-3 text-xs sm:text-sm leading-relaxed text-slate-500">{step.description}</p>
+              <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 py-8">
+                {statsCards.map((stat, index) => (
+                  <div key={stat.title} className="group relative flex flex-col items-center text-center">
+                    {/* Vertical divider - hidden on mobile, shown on lg+ */}
+                    {index < statsCards.length - 1 && (
+                      <div className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 w-px h-20 bg-gradient-to-b from-transparent via-slate-200 to-transparent" />
+                    )}
+                    
+                    {/* Stat content */}
+                    <div className="relative z-10">
+                      <div className="flex items-center gap-2 mb-3 justify-center">
+                        <div className="w-2 h-2 rounded-full bg-gradient-to-r from-violet-500 to-emerald-500" />
+                        <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400">
+                          {stat.title}
+                        </p>
+                      </div>
+                      
+                      <div className="mb-3">
+                        <StatCard stat={stat} active={statsInView} />
+                      </div>
+                      
+                      <p className="text-sm text-slate-500 leading-relaxed max-w-[200px] mx-auto">
+                        {stat.description}
+                      </p>
+                    </div>
+                    
+                    {/* Hover glow effect */}
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-violet-50/0 via-emerald-50/0 to-blue-50/0 group-hover:from-violet-50/30 group-hover:via-emerald-50/20 group-hover:to-blue-50/30 transition-all duration-500 -z-10" />
                   </div>
-                );
-              })}
+                ))}
+              </div>
+              
+              {/* Success Stories Pills */}
+              <div className="mt-12 pt-8 border-t border-slate-100/60 flex flex-wrap items-center justify-center gap-3">
+                {[
+                  { label: '500+ franchise launches', icon: '🚀' },
+                  { label: '₹800Cr+ ecosystem influenced', icon: '💰' },
+                  { label: '72% investor preference', icon: '📈' },
+                  { label: '30% CAGR aligned', icon: '⚡' }
+                ].map((item, i) => (
+                  <div
+                    key={item.label}
+                    className="inline-flex items-center gap-2 bg-gradient-to-r from-slate-50 to-white border border-slate-200/60 rounded-full px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300"
+                    style={{
+                      opacity: 0,
+                      animation: 'fadeSlideUp 0.6s ease forwards',
+                      animationDelay: `${0.2 + i * 0.1}s`
+                    }}
+                  >
+                    <span className="text-sm">{item.icon}</span>
+                    <span>{item.label}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-[100px]">
-        <div className="mx-auto max-w-[680px] text-center px-4">
-          <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">Testimonials</p>
-          <h2 className="mt-3 text-[clamp(1.75rem,7vw,3rem)] font-extrabold leading-tight tracking-tight text-[#0b0f19]">
-            We&apos;re loved.
-            <br />
-            Just success stories.
-          </h2>
-        </div>
-
-        <div className="mt-10 sm:mt-12 hidden gap-6 sm:gap-9 md:grid md:grid-cols-2 xl:grid-cols-3">
-          <div
-            className="testi-column relative h-[500px] overflow-hidden"
-            style={{ maskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)' }}
-          >
-            <div className="testi-track-down space-y-6">
-              {leftColumnLoop.map((item, idx) => (
-                <TestimonialStatCard key={`${item.name}-left-${idx}`} item={item} />
-              ))}
+          {/* Brand Trust Rail */}
+          <div className="text-center">
+            <p className="text-sm font-medium text-slate-600 mb-6 sm:mb-8">
+              Trusted across franchise, strategy & enterprise ecosystems
+            </p>
+            
+            {/* Logo Marquee */}
+            <div className="overflow-hidden rounded-2xl py-4">
+              <div className="animate-marquee-right flex w-max items-center gap-12 sm:gap-16 md:gap-20 will-change-transform">
+                {['Tata', 'Reliance', 'Infosys', 'Shopify', 'Stripe', 'Microsoft', 'Google', 'Amazon', 'Tata', 'Reliance', 'Infosys', 'Shopify', 'Stripe', 'Microsoft', 'Google', 'Amazon'].map((brand, idx) => (
+                  <div
+                    key={`${brand}-${idx}`}
+                    className="group inline-flex items-center gap-2 whitespace-nowrap text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-slate-300 hover:text-slate-600 transition-colors duration-300"
+                  >
+                    <span className="text-lg sm:text-xl md:text-2xl leading-none opacity-40 group-hover:opacity-60 transition-opacity duration-300">*</span>
+                    <span className="group-hover:bg-gradient-to-r group-hover:from-violet-600 group-hover:to-emerald-600 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">{brand}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-          <div
-            className="testi-column relative h-[500px] overflow-hidden"
-            style={{ maskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)' }}
-          >
-            <div className="testi-track-up space-y-6">
-              {middleColumnLoop.map((item, idx) => (
-                <TestimonialStatCard key={`${item.name}-middle-${idx}`} item={item} />
-              ))}
-            </div>
-          </div>
-          <div
-            className="testi-column relative h-[500px] overflow-hidden md:hidden xl:block"
-            style={{ maskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)' }}
-          >
-            <div className="testi-track-down space-y-6">
-              {rightColumnLoop.map((item, idx) => (
-                <TestimonialStatCard key={`${item.name}-right-${idx}`} item={item} />
-              ))}
-            </div>
-          </div>
-        </div>
 
-        <div className="mt-8 sm:mt-10 space-y-4 sm:space-y-5 md:hidden">
-          {testimonialsFlowCards.map((item) => (
-            <TestimonialStatCard key={item.name} item={item} />
-          ))}
-        </div>
-      </div>
-
-      <section id="featured-franchises" className="mx-auto w-full max-w-[1200px] scroll-mt-28 px-4 sm:px-6 lg:px-8 pb-20 sm:pb-24 md:pb-28 pt-2">
-        <div className="mx-auto max-w-[680px] text-center px-4">
-          <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.14em] text-blue-600">OPPORTUNITIES</p>
-          <h2 className="mt-3 text-[clamp(1.75rem,7vw,3rem)] font-extrabold leading-tight tracking-tight text-[#0b0f19]">
-            Featured Franchises
-          </h2>
-          <p className="mt-3 sm:mt-4 text-sm sm:text-base leading-relaxed text-slate-500">
-            Curated, high-performing brands ready for expansion and investment
-          </p>
-        </div>
-
-        <div className="mt-8 sm:mt-10 md:mt-12 grid gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {featuredFranchises.slice(0, 3).map((franchise) => (
-            <FranchiseCard key={franchise.id} franchise={franchise} />
-          ))}
-        </div>
-
-        <div className="mt-12 sm:mt-14 md:mt-16 text-center">
-          <button
-            type="button"
-            onClick={() => {
-              window.history.pushState({}, '', '/franchise-opportunities');
-              window.dispatchEvent(new PopStateEvent('popstate'));
-            }}
-            className="inline-flex items-center gap-2 sm:gap-3 rounded-full bg-[#0B1220] px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#0B1220]/25"
-          >
-            View More
-            <span className="transition duration-200 group-hover:translate-x-1">{"\u2192"}</span>
-          </button>
         </div>
       </section>
 
-      <div ref={statsRef} className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8 pb-20 sm:pb-24 md:pb-28 pt-2">
-        <div className="grid items-start gap-8 sm:gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-12">
-          <div className="px-2 sm:px-0">
-            <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
-              PROVEN TRACK RECORD
-            </p>
-            <h2 className="mt-3 text-[clamp(1.75rem,7vw,3rem)] font-extrabold tracking-tight text-[#0b0f19] leading-tight">
-              Numbers that speak
-            </h2>
-            <p className="mt-3 sm:mt-4 max-w-[500px] text-sm sm:text-base leading-relaxed text-slate-500">
-              Clear metrics from real projects, reflecting consistent growth outcomes across
-              branding, acquisition, and conversion performance.
-            </p>
-            <div className="mt-6 sm:mt-8 flex flex-col xs:flex-row flex-wrap items-start xs:items-center gap-3 sm:gap-4">
-              <Button variant="primary" className="w-full xs:w-auto">Learn More</Button>
-              <a
-                href="#"
-                className="group inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-600 transition duration-200 hover:text-[#0b0f19]"
+      {/* ── INDUSTRY RECOGNITION SECTION ── */}
+      <section className="relative w-full py-12 sm:py-16 lg:py-20 section-reveal">
+        <div className="section-container">
+          {/* Subtle background elements */}
+          <div className="absolute inset-0 opacity-[0.02]" style={{
+            backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(15,23,42,0.15) 1px, transparent 0)',
+            backgroundSize: '48px 48px'
+          }} />
+          <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
+          
+          <div className="py-4">
+            <div className="text-center mb-8">
+              {/* Centered Premium Badge - Closer to headline */}
+              <div 
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-slate-50 to-white border border-slate-200/60 shadow-sm rounded-full px-4 py-1.5 mb-6"
+                style={{
+                  opacity: 0,
+                  animation: 'fadeSlideDown 0.8s ease forwards',
+                  animationDelay: '0.2s'
+                }}
               >
-                View All
-                <span className="transition duration-200 group-hover:translate-x-1">→</span>
-              </a>
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-600">
+                  Industry Recognition
+                </span>
+              </div>
             </div>
-          </div>
 
-          <div className="grid gap-3 sm:gap-4 grid-cols-1 xs:grid-cols-2">
-            {statsCards.map((stat) => (
-              <StatCard key={stat.title} stat={stat} active={statsInView} />
-            ))}
+          <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-16 items-center">
+            
+            {/* LEFT SIDE - Content */}
+            <div className="space-y-6">
+              
+              {/* Main Headline */}
+              <div 
+                className="space-y-4"
+                style={{
+                  opacity: 0,
+                  animation: 'fadeSlideUp 0.8s ease forwards',
+                  animationDelay: '0.4s'
+                }}
+              >
+                <h2 className="text-2xl sm:text-3xl lg:text-[2.6rem] font-extrabold tracking-tight text-[#0b0f19] leading-tight">
+                  Trusted by brands. Backed by outcomes.
+                </h2>
+                <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl">
+                  From franchise structuring to investor conversion, iFranchise has helped brands scale smarter and franchisees choose with confidence.
+                </p>
+              </div>
+
+              {/* 4 Refined Credibility Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {[
+                  {
+                    icon: (
+                      <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                      </svg>
+                    ),
+                    title: 'Featured In',
+                    description: 'Recognized by franchise, startup, and business platforms for ecosystem insights and market leadership.'
+                  },
+                  {
+                    icon: (
+                      <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                    ),
+                    title: 'Industry Memberships',
+                    description: 'Connected with franchise, startup, and business leadership networks across India and globally.'
+                  },
+                  {
+                    icon: (
+                      <svg className="w-4 h-4 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                      </svg>
+                    ),
+                    title: 'Events & Summits',
+                    description: 'Present across franchise expos, strategic sessions, and ecosystem discussions nationwide.'
+                  },
+                  {
+                    icon: (
+                      <svg className="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                      </svg>
+                    ),
+                    title: 'Press Mentions',
+                    description: 'Featured through interviews, expert commentary, and market education across business media.'
+                  }
+                ].map((item, index) => (
+                  <div 
+                    key={item.title}
+                    className="group p-3.5 rounded-xl border border-slate-100/60 bg-gradient-to-br from-white to-slate-50/20 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+                    style={{
+                      opacity: 0,
+                      animation: 'fadeSlideUp 0.6s ease forwards',
+                      animationDelay: `${0.6 + index * 0.1}s`
+                    }}
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className="flex-shrink-0 w-7 h-7 rounded-lg bg-white border border-slate-200/60 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                        {item.icon}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-sm font-bold text-[#0b0f19] mb-1 group-hover:text-slate-700 transition-colors duration-200">
+                          {item.title}
+                        </h3>
+                        <p className="text-xs text-slate-500 leading-relaxed">
+                          {item.description}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Single Premium CTA - Closer to text and smaller */}
+              <div 
+                className="pt-4 flex justify-center"
+                style={{
+                  opacity: 0,
+                  animation: 'fadeSlideUp 0.8s ease forwards',
+                  animationDelay: '1.2s'
+                }}
+              >
+                <button
+                  onClick={() => {
+                    window.history.pushState({}, '', '/blog');
+                    window.dispatchEvent(new PopStateEvent('popstate'));
+                  }}
+                  className="group inline-flex items-center gap-2.5 bg-gradient-to-r from-[#0b0f19] to-slate-800 text-white text-sm font-semibold px-6 py-3 rounded-xl hover:from-slate-800 hover:to-slate-700 transition-all duration-300 hover:shadow-xl hover:shadow-slate-900/25 hover:-translate-y-0.5 active:scale-95 relative overflow-hidden"
+                  style={{
+                    boxShadow: '0 0 0 1px rgba(59, 130, 246, 0.08), 0 4px 16px rgba(15, 23, 42, 0.12)'
+                  }}
+                >
+                  {/* Subtle glow effect */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600/8 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  
+                  <svg className="w-4 h-4 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15" />
+                  </svg>
+                  <span className="relative z-10">Explore Insights Hub</span>
+                  <svg className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            {/* RIGHT SIDE - Enhanced Media Visual with Floating Cubes */}
+            <div className="relative flex items-center justify-center">
+              {/* Animated Blue Cubes System */}
+              <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                {/* Large floating holographic cube */}
+                <div 
+                  className="absolute top-8 right-12 w-16 h-16 border border-blue-400/30 bg-blue-500/5 backdrop-blur-sm rounded-lg"
+                  style={{ 
+                    animation: 'cubeFloat 12s ease-in-out infinite',
+                    animationDelay: '0s',
+                    transform: 'rotateX(15deg) rotateY(25deg)'
+                  }}
+                />
+                
+                {/* Medium cubes */}
+                <div 
+                  className="absolute top-20 left-8 w-8 h-8 border border-blue-300/40 bg-blue-400/8 backdrop-blur-sm rounded-md"
+                  style={{ 
+                    animation: 'cubeFloat 8s ease-in-out infinite',
+                    animationDelay: '2s',
+                    transform: 'rotateX(25deg) rotateY(-15deg)'
+                  }}
+                />
+                
+                <div 
+                  className="absolute bottom-16 right-20 w-10 h-10 border border-blue-500/35 bg-blue-600/6 backdrop-blur-sm rounded-lg"
+                  style={{ 
+                    animation: 'cubeFloat 10s ease-in-out infinite',
+                    animationDelay: '4s',
+                    transform: 'rotateX(-10deg) rotateY(35deg)'
+                  }}
+                />
+                
+                {/* Small particle cubes */}
+                <div 
+                  className="absolute top-32 right-8 w-4 h-4 border border-blue-200/50 bg-blue-300/10 backdrop-blur-sm rounded"
+                  style={{ 
+                    animation: 'cubeFloat 6s ease-in-out infinite',
+                    animationDelay: '1s',
+                    transform: 'rotateX(45deg) rotateY(-25deg)'
+                  }}
+                />
+                
+                <div 
+                  className="absolute bottom-32 left-12 w-6 h-6 border border-blue-400/45 bg-blue-500/7 backdrop-blur-sm rounded-md"
+                  style={{ 
+                    animation: 'cubeFloat 9s ease-in-out infinite',
+                    animationDelay: '3s',
+                    transform: 'rotateX(-20deg) rotateY(45deg)'
+                  }}
+                />
+                
+                {/* Micro spark cubes */}
+                <div 
+                  className="absolute top-1/3 left-1/4 w-2 h-2 bg-blue-400/60 rounded-sm"
+                  style={{ 
+                    animation: 'sparkFloat 4s ease-in-out infinite',
+                    animationDelay: '0.5s'
+                  }}
+                />
+                
+                <div 
+                  className="absolute bottom-1/3 right-1/3 w-3 h-3 bg-blue-300/50 rounded"
+                  style={{ 
+                    animation: 'sparkFloat 5s ease-in-out infinite',
+                    animationDelay: '2.5s'
+                  }}
+                />
+              </div>
+              
+              {/* Subtle ambient glow */}
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4/5 h-20 bg-blue-500/8 blur-3xl rounded-full pointer-events-none" />
+              
+              {/* Main Media Image - Enhanced Premium Animation */}
+              <div 
+                className="relative z-10"
+                style={{
+                  opacity: 0,
+                  animation: 'fadeSlideRight 1s ease forwards',
+                  animationDelay: '0.8s'
+                }}
+              >
+                {/* Premium glow backdrop */}
+                <div 
+                  className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-violet-500/5 to-transparent rounded-3xl blur-2xl"
+                  style={{ 
+                    animation: 'premiumGlow 6s ease-in-out infinite',
+                    transform: 'scale(1.2)'
+                  }}
+                />
+                
+                {/* Rotating accent ring */}
+                <div 
+                  className="absolute inset-0 rounded-3xl"
+                  style={{ 
+                    background: 'conic-gradient(from 0deg, transparent, rgba(59, 130, 246, 0.1), transparent)',
+                    animation: 'slowRotate 20s linear infinite',
+                    transform: 'scale(1.1)'
+                  }}
+                />
+                
+                <img
+                  src="/src/assets/media.png"
+                  alt="iFranchise Media Authority"
+                  className="relative w-full max-w-lg object-contain transition-all duration-700 hover:scale-105"
+                  loading="lazy"
+                  style={{ 
+                    animation: 'premiumMediaFloat 10s ease-in-out infinite',
+                    transformOrigin: 'center center',
+                    filter: 'drop-shadow(0 32px 64px rgba(15, 23, 42, 0.15)) drop-shadow(0 0 32px rgba(59, 130, 246, 0.08))'
+                  }}
+                  onError={(e) => {
+                    // Fallback to a placeholder if media.png doesn't exist
+                    e.target.style.display = 'none';
+                    e.target.nextElementSibling.style.display = 'flex';
+                  }}
+                />
+                
+                {/* Fallback placeholder */}
+                <div className="hidden w-full max-w-lg aspect-square bg-gradient-to-br from-slate-100 via-white to-slate-50 rounded-3xl items-center justify-center relative overflow-hidden">
+                  <div className="absolute inset-0 opacity-[0.03]" style={{
+                    backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(15,23,42,0.15) 1px, transparent 0)',
+                    backgroundSize: '32px 32px'
+                  }} />
+                  <div className="relative z-10 text-center p-8">
+                    <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-slate-200 to-slate-100 flex items-center justify-center">
+                      <svg className="w-10 h-10 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h2.25M16.5 7.5h2.25" />
+                      </svg>
+                    </div>
+                    <p className="text-base font-semibold text-slate-500">Media Authority</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Enhanced floating trust indicators */}
+              <div className="absolute top-12 right-16 opacity-70 z-20">
+                <div 
+                  className="inline-flex items-center gap-1.5 bg-white/80 backdrop-blur-md border border-emerald-200/50 rounded-full px-3 py-1.5 shadow-lg text-[11px] font-semibold text-emerald-700"
+                  style={{ animation: 'float 8s ease-in-out infinite', animationDelay: '1s' }}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                  Verified
+                </div>
+              </div>
+
+              <div className="absolute bottom-12 left-16 opacity-70 z-20">
+                <div 
+                  className="inline-flex items-center gap-1.5 bg-white/80 backdrop-blur-md border border-blue-200/50 rounded-full px-3 py-1.5 shadow-lg text-[11px] font-semibold text-blue-700"
+                  style={{ animation: 'float 8s ease-in-out infinite', animationDelay: '3s' }}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                  Trusted
+                </div>
+              </div>
+            </div>
+
+          </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <ContactSection />
+      {/* ── FEATURED FRANCHISES SECTION ── */}
+      <section className="relative w-full py-12 sm:py-16 lg:py-20 section-reveal">
+        <div className="section-container">
+          <div className="section-header">
+            <div className="section-pill">
+              <span className="w-2 h-2 rounded-full bg-blue-500" />
+              <span className="text-xs font-bold uppercase tracking-[0.15em] text-slate-600">
+                OPPORTUNITIES
+              </span>
+            </div>
+            <h2 className="section-title">
+              Featured Franchises
+            </h2>
+            <p className="section-subtitle">
+              Curated, high-performing brands ready for expansion and investment
+            </p>
+          </div>
 
-      <div className="relative z-10 mx-auto -mt-8 sm:-mt-12 w-full max-w-[1200px] px-4 sm:px-6 lg:px-8">
-        <div
-          className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-b from-slate-50 to-white px-5 sm:px-8 md:px-16 py-12 sm:py-14 md:py-16 text-center shadow-xl shadow-slate-900/10 ring-1 ring-slate-100"
-        >
-          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-slate-900 px-4">
-            Trusted by 1,200+ founders.
-            <br />
-            <span className="text-slate-400">Turning ideas into bold brands.</span>
-          </h2>
-          <p className="mx-auto mt-4 sm:mt-6 max-w-2xl text-sm sm:text-base text-slate-600 px-4">
-            Book a free discovery call to discuss strategy, set goals, and see how we can help you grow.
-          </p>
-          <div className="mt-8 sm:mt-10 flex justify-center px-4">
+          <div className="mt-8 sm:mt-10 md:mt-12 grid gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {featuredFranchises.slice(0, 3).map((franchise) => (
+              <FranchiseCard key={franchise.id} franchise={franchise} />
+            ))}
+          </div>
+
+          <div className="mt-12 sm:mt-14 md:mt-16 text-center">
             <button
               type="button"
               onClick={() => {
-                window.history.pushState({}, '', '/contact');
+                window.history.pushState({}, '', '/franchise-opportunities');
                 window.dispatchEvent(new PopStateEvent('popstate'));
               }}
-              className="group inline-flex items-center justify-center rounded-full bg-[#0B1220] px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#0B1220]/25 w-full xs:w-auto"
+              className="cta-button"
             >
-              Book A Call
-              <span
-                className="ml-2 sm:ml-3 inline-flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded-full bg-[#1a2332] transition group-hover:translate-x-1"
-              >
-                <svg
-                  className="h-2.5 w-2.5 sm:h-3 sm:w-3"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </span>
+              View More
+              <span className="transition duration-200 group-hover:translate-x-1">{"\u2192"}</span>
             </button>
           </div>
+        </div>
+      </section>
 
-          {/* Pill Button - Moved under CTA buttons */}
-          <div className="mt-6 sm:mt-8 flex flex-col xs:flex-row items-center justify-center gap-2 sm:gap-3 px-4">
-            <div className="flex items-center gap-2">
-              <span
-                className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75"
-              ></span>
-              <span className="relative inline-flex h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-blue-500"></span>
+      {/* ── OUR EXPERTS SECTION ── */}
+      <section className="relative w-full py-12 sm:py-16 lg:py-20 section-reveal">
+        <div className="section-container">
+          
+          {/* Section Header */}
+          <div className="section-header">
+            <div className="section-pill">
+              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+              <span className="text-xs font-bold uppercase tracking-[0.15em] text-slate-600">
+                OUR EXPERTS
+              </span>
             </div>
-            <p className="text-xs sm:text-sm text-slate-600">Trusted by 1,000,000+ Professionals</p>
+            <h2 className="section-title">
+              REAL PEOPLE, REAL RESULTS,<br />
+              REAL IMPACT
+            </h2>
+            <div className="cta-row">
+              <p className="cta-text">
+                Meet our team of franchise experts who bring decades of experience in scaling businesses and creating successful partnerships.
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  window.history.pushState({}, '', '/team');
+                  window.dispatchEvent(new PopStateEvent('popstate'));
+                }}
+                className="cta-button"
+              >
+                Meet the Team
+                <svg className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5-5 5M8 12h9" />
+                </svg>
+              </button>
+            </div>
           </div>
 
-          {/* Logo Marquee */}
-          <div className="mt-10 sm:mt-12 overflow-hidden">
-            <div className="animate-marquee-right flex items-center gap-12 sm:gap-16 will-change-transform">
-              {['Google', 'Amazon', 'Stripe', 'Shopify', 'Tata', 'Reliance', 'Infosys', 'Microsoft', 'Apple', 'Meta', 'Google', 'Amazon', 'Stripe', 'Shopify', 'Tata', 'Reliance', 'Infosys', 'Microsoft', 'Apple', 'Meta'].map((brand, idx) => (
-                <div
-                  key={`${brand}-${idx}`}
-                  className="flex items-center gap-2 whitespace-nowrap text-lg sm:text-xl md:text-2xl font-bold tracking-tight text-slate-400 transition-opacity hover:opacity-100"
-                >
-                  <span className="text-lg sm:text-xl md:text-2xl leading-none opacity-50">*</span>
-                  <span>{brand}</span>
+          {/* Experts Carousel */}
+          <div className="relative overflow-hidden">
+            {/* Fade edges */}
+            <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-r from-white to-transparent z-10" />
+            <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-l from-white to-transparent z-10" />
+            {/* Scrolling Container */}
+            <div className="flex gap-6 animate-scroll-left" style={{ width: 'max-content' }}>
+              {/* First Set of Cards */}
+              {/* Expert 1 - Donnie Bennett */}
+              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-72">
+                <div className="relative h-80 overflow-hidden bg-slate-100">
+                  <img
+                    src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80"
+                    alt="Donnie Bennett - Data Analyst"
+                    className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228d39?auto=format&fit=crop&w=400&q=80";
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                 </div>
-              ))}
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-[#0b0f19] mb-2">DONNIE BENNETT</h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    " Data analyst turning insights into business success. "
+                  </p>
+                </div>
+              </div>
+
+              {/* Expert 2 - Levi West */}
+              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-72">
+                <div className="relative h-80 overflow-hidden bg-slate-100">
+                  <img
+                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80"
+                    alt="Levi West - Market Strategist"
+                    className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=400&q=80";
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-[#0b0f19] mb-2">LEVI WEST</h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    " Market strategist helping brands expand with confidence. "
+                  </p>
+                </div>
+              </div>
+
+              {/* Expert 3 - Jamaal Smith */}
+              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-72">
+                <div className="relative h-80 overflow-hidden bg-slate-100">
+                  <img
+                    src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=400&q=80"
+                    alt="Jamaal Smith - Operations Specialist"
+                    className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80";
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-[#0b0f19] mb-2">JAMAAL SMITH</h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    " Operations specialist improving efficiency and productivity. "
+                  </p>
+                </div>
+              </div>
+
+              {/* Expert 4 - Brenda Lam */}
+              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-72">
+                <div className="relative h-80 overflow-hidden bg-slate-100">
+                  <img
+                    src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80"
+                    alt="Brenda Lam - Leadership Advisor"
+                    className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=400&q=80";
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-[#0b0f19] mb-2">BRENDA LAM</h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    " Leadership advisor empowering executive decision-making. "
+                  </p>
+                </div>
+              </div>
+
+              {/* Expert 5 - Marcus Chen */}
+              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-72">
+                <div className="relative h-80 overflow-hidden bg-slate-100">
+                  <img
+                    src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80"
+                    alt="Marcus Chen - Financial Advisor"
+                    className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80";
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-[#0b0f19] mb-2">MARCUS CHEN</h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    " Financial advisor optimizing investment strategies. "
+                  </p>
+                </div>
+              </div>
+
+              {/* Expert 6 - Sarah Johnson */}
+              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-72">
+                <div className="relative h-80 overflow-hidden bg-slate-100">
+                  <img
+                    src="https://images.unsplash.com/photo-1551836022-deb4988cc6c0?auto=format&fit=crop&w=400&q=80"
+                    alt="Sarah Johnson - Legal Consultant"
+                    className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=400&q=80";
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-[#0b0f19] mb-2">SARAH JOHNSON</h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    " Legal consultant ensuring compliance and protection. "
+                  </p>
+                </div>
+              </div>
+
+              {/* Expert 7 - David Rodriguez */}
+              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-72">
+                <div className="relative h-80 overflow-hidden bg-slate-100">
+                  <img
+                    src="https://images.unsplash.com/photo-1566492031773-4f4e44671d66?auto=format&fit=crop&w=400&q=80"
+                    alt="David Rodriguez - Technology Director"
+                    className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "https://images.unsplash.com/photo-1463453091185-61582044d556?auto=format&fit=crop&w=400&q=80";
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-[#0b0f19] mb-2">DAVID RODRIGUEZ</h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    " Technology director driving digital transformation. "
+                  </p>
+                </div>
+              </div>
+
+              {/* Expert 8 - Emily Parker */}
+              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-72">
+                <div className="relative h-80 overflow-hidden bg-slate-100">
+                  <img
+                    src="https://images.unsplash.com/photo-1559548331-f9cb98001426?auto=format&fit=crop&w=400&q=80"
+                    alt="Emily Parker - Marketing Director"
+                    className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80";
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-[#0b0f19] mb-2">EMILY PARKER</h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    " Marketing director building powerful brand presence. "
+                  </p>
+                </div>
+              </div>
+
+              {/* Duplicate cards for seamless loop */}
+              {/* Expert 1 - Donnie Bennett (Duplicate) */}
+              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-72">
+                <div className="relative h-80 overflow-hidden bg-slate-100">
+                  <img
+                    src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80"
+                    alt="Donnie Bennett - Data Analyst"
+                    className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228d39?auto=format&fit=crop&w=400&q=80";
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-[#0b0f19] mb-2">DONNIE BENNETT</h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    " Data analyst turning insights into business success. "
+                  </p>
+                </div>
+              </div>
+
+              {/* Expert 2 - Levi West (Duplicate) */}
+              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-72">
+                <div className="relative h-80 overflow-hidden bg-slate-100">
+                  <img
+                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80"
+                    alt="Levi West - Market Strategist"
+                    className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=400&q=80";
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-[#0b0f19] mb-2">LEVI WEST</h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    " Market strategist helping brands expand with confidence. "
+                  </p>
+                </div>
+              </div>
+
+              {/* Expert 3 - Jamaal Smith (Duplicate) */}
+              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-72">
+                <div className="relative h-80 overflow-hidden bg-slate-100">
+                  <img
+                    src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=400&q=80"
+                    alt="Jamaal Smith - Operations Specialist"
+                    className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80";
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-[#0b0f19] mb-2">JAMAAL SMITH</h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    " Operations specialist improving efficiency and productivity. "
+                  </p>
+                </div>
+              </div>
+
+              {/* Expert 4 - Brenda Lam (Duplicate) */}
+              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-72">
+                <div className="relative h-80 overflow-hidden bg-slate-100">
+                  <img
+                    src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80"
+                    alt="Brenda Lam - Leadership Advisor"
+                    className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=400&q=80";
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-[#0b0f19] mb-2">BRENDA LAM</h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    " Leadership advisor empowering executive decision-making. "
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* ── FRANCHISE FAQ / DECISION INTELLIGENCE SECTION ── */}
+      <section className="relative w-full py-12 sm:py-16 lg:py-20 section-reveal">
+        <div className="section-container">
+          {/* Subtle background pattern */}
+          <div className="absolute inset-0 opacity-[0.015]" style={{
+            backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(15,23,42,0.15) 1px, transparent 0)',
+            backgroundSize: '48px 48px'
+          }} />
+          
+          <div className="mx-auto w-full max-w-[1400px] px-4 sm:px-6 lg:px-12 flex flex-col justify-center">
+          
+          {/* TOP CENTER PILL */}
+          <div 
+            className="text-center mb-8"
+            style={{
+              opacity: 0,
+              animation: 'fadeSlideDown 0.8s ease forwards',
+              animationDelay: '0.2s'
+            }}
+          >
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-white to-slate-50 border border-slate-200/60 shadow-sm rounded-full px-3 py-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+              <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-600">
+                FRANCHISE DECISION INTELLIGENCE
+              </span>
+            </div>
+          </div>
+
+          {/* SECTION HEADER - CENTERED */}
+          <div 
+            className="text-center mb-12"
+            style={{
+              opacity: 0,
+              animation: 'fadeSlideUp 0.8s ease forwards',
+              animationDelay: '0.4s'
+            }}
+          >
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#0b0f19] leading-tight mb-4">
+              Helpful Franchise Questions & Answers
+            </h2>
+            <p className="text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
+              Everything founders, investors, and franchise buyers need to know before making expansion decisions.
+            </p>
+          </div>
+
+          {/* MAIN CONTENT - PERFECT 50/50 SPLIT */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+            
+            {/* LEFT SIDE - STRATEGIC ADVISOR IMAGE */}
+            <div 
+              className="flex flex-col items-center justify-center"
+              style={{
+                opacity: 0,
+                animation: 'fadeSlideUp 1s ease forwards',
+                animationDelay: '0.6s'
+              }}
+            >
+              {/* Strategic Advisor Image - Contact Page Style */}
+              <div className="relative">
+                <img
+                  src="/src/assets/contact.png"
+                  alt="Strategic Franchise Advisory"
+                  className="relative w-[75vw] max-w-[380px] object-contain drop-shadow-[0_24px_48px_rgba(15,23,42,0.14)] sm:w-full lg:max-w-[460px] xl:max-w-[500px]"
+                  loading="lazy"
+                  style={{ 
+                    animation: 'contactFloat 10s ease-in-out infinite',
+                    transformOrigin: 'center center'
+                  }}
+                  onError={(e) => {
+                    // Fallback to professional placeholder
+                    e.target.style.display = 'none';
+                    e.target.nextElementSibling.style.display = 'flex';
+                  }}
+                />
+                
+                {/* Fallback placeholder */}
+                <div className="hidden w-[75vw] max-w-[380px] sm:w-full lg:max-w-[460px] xl:max-w-[500px] h-80 bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl items-center justify-center drop-shadow-[0_24px_48px_rgba(15,23,42,0.14)]">
+                  <div className="text-center">
+                    <div className="w-24 h-24 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-slate-200 to-slate-100 flex items-center justify-center">
+                      <svg className="w-12 h-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                      </svg>
+                    </div>
+                    <p className="text-xl font-semibold text-slate-600">Strategic Franchise Advisory</p>
+                    <p className="text-sm text-slate-400 mt-2">Professional consultation</p>
+                  </div>
+                </div>
+
+                {/* Ground shadow pulse - Contact Page Style */}
+                <div
+                  className="absolute -bottom-4 left-1/2 h-10 w-3/4 -translate-x-1/2 rounded-full bg-slate-400/20 blur-xl"
+                  style={{
+                    animation: 'shadowPulse 10s ease-in-out infinite'
+                  }}
+                />
+              </div>
+
+              {/* Advisory Text & CTA */}
+              <div className="text-center mt-8 w-full max-w-md">
+                {/* Premium CTA */}
+                <button
+                  onClick={() => {
+                    window.history.pushState({}, '', '/contact');
+                    window.dispatchEvent(new PopStateEvent('popstate'));
+                  }}
+                  className="group inline-flex items-center gap-2 bg-[#0b0f19] text-white text-sm font-semibold px-6 py-3 rounded-xl hover:bg-slate-800 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 active:scale-95"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                  <span>Book Strategic Call</span>
+                  <svg className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M8 12h9" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            {/* RIGHT SIDE - COMPACT FAQ ACCORDION */}
+            <div 
+              className="flex flex-col justify-start pr-0 sm:pr-2"
+              style={{
+                opacity: 0,
+                animation: 'fadeSlideUp 1s ease forwards',
+                animationDelay: '0.8s'
+              }}
+            >
+              <div className="space-y-3">
+                {[
+                  {
+                    number: "01",
+                    question: "How much does it cost to start a franchise?",
+                    answer: "Franchise investment varies by industry. Low-cost franchises (₹2-10 lakhs), mid-range (₹10-50 lakhs), premium (₹50 lakhs+). FOCO models require 30-40% less capital than FOFO models."
+                  },
+                  {
+                    number: "02", 
+                    question: "What's the difference between FOCO, FOFO & COCO?",
+                    answer: "FOCO: You invest, company operates. FOFO: You own and operate. COCO: Company owned and operated. Each offers different risk-reward profiles and involvement levels."
+                  },
+                  {
+                    number: "03",
+                    question: "Is franchise business profitable in India?",
+                    answer: "Successful franchises achieve 15-25% net margins after stabilization. F&B shows 18-30% gross margins, retail 25-40%, services 35-50%. Success depends on brand strength and execution."
+                  },
+                  {
+                    number: "04",
+                    question: "What legal documents are required?",
+                    answer: "Essential documents: FDD, Franchise Agreement, Trademark License, Operations Manual, Territory Rights. Plus GST registration, FSSAI license, and local permits."
+                  },
+                  {
+                    number: "05",
+                    question: "How long does it take to launch a franchise?",
+                    answer: "Typically 3-6 months from agreement to opening. Includes due diligence, documentation, site selection, setup, training, and soft launch preparation."
+                  }
+                ].map((faq, index) => (
+                  <PremiumFAQItem 
+                    key={faq.number}
+                    faq={faq}
+                    index={index}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </section>
 
       {/* Smooth transition to footer */}
       <div className="h-16 sm:h-20 bg-gradient-to-b from-slate-50 to-slate-100"></div>
