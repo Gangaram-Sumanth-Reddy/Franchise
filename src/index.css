@@ -23,8 +23,7 @@
     scroll-behavior: smooth;
     scroll-padding-top: 80px;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
-    /* Prevent horizontal overflow globally */
-    overflow-x: hidden;
+    /* overflow-x clipped at wrapper level, not html/body — preserves sticky */
   }
 
   body {
@@ -35,9 +34,9 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background: #f8f8f6;
-    overflow-x: hidden;
     /* Prevent layout shift from scrollbar */
     scrollbar-gutter: stable;
+    /* NOTE: overflow-x:hidden removed — it breaks position:sticky on child elements */
   }
 
   /* Subtle global grain — keeps sections feeling connected */

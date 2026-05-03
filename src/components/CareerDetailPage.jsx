@@ -306,12 +306,7 @@ function CareerDetailPage({ roleId }) {
           </motion.div>
 
           {/* RIGHT — Sticky form */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
-            className="lg:sticky lg:top-20 self-start"
-          >
+          <div className="lg:sticky lg:top-[136px] self-start">
             <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-xl shadow-slate-100/80">
               <div className="mb-5">
                 <h3 className="text-base font-bold text-slate-900 mb-1">Apply for this role</h3>
@@ -319,7 +314,7 @@ function CareerDetailPage({ roleId }) {
               </div>
               <ApplicationForm roleTitle={role.title} />
             </div>
-          </motion.div>
+          </div>
 
         </div>
       </div>
