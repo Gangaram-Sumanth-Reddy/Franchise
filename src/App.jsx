@@ -17,6 +17,8 @@ import LicensesPage from './components/LicensesPage';
 import CareersPage from './components/CareersPage';
 import CareerDetailPage from './components/CareerDetailPage';
 import FloatingContactCTA from './components/FloatingContactCTA';
+import ForBrandOwnersPage from './components/ForBrandOwnersPage';
+import ForInvestorsPage from './components/ForInvestorsPage';
 
 const scrollToHashSection = () => {
   const hash = window.location.hash;
@@ -82,6 +84,8 @@ const getPathname = () => {
   if (pathname.startsWith('/blog/') && pathname.split('/').filter(Boolean).length >= 2) {
     return '/blog-detail';
   }
+  if (pathname === '/for-brand-owners') return '/for-brand-owners';
+  if (pathname === '/for-investors') return '/for-investors';
   // Handle dedicated franchise routes
   if (pathname.startsWith('/franchise/') && pathname.length > 12) {
     return '/franchise-details';
@@ -99,6 +103,8 @@ const getPathname = () => {
     '/blog',
     '/services',
     '/careers',
+    '/for-brand-owners',
+    '/for-investors',
   ];
   if (!knownPaths.includes(pathname)) {
     return '/404';
@@ -186,6 +192,8 @@ function App() {
   const isNotFoundPage = pathname === '/404';
   const isBlogPage = pathname === '/blog';
   const isBlogDetailPage = pathname === '/blog-detail';
+  const isForBrandOwnersPage = pathname === '/for-brand-owners';
+  const isForInvestorsPage = pathname === '/for-investors';
 
   if (isNotFoundPage) {
     return <NotFoundPage />;
@@ -230,6 +238,10 @@ function App() {
           <BlogPage />
         ) : isBlogDetailPage ? (
           <BlogDetailPage />
+        ) : isForBrandOwnersPage ? (
+          <ForBrandOwnersPage />
+        ) : isForInvestorsPage ? (
+          <ForInvestorsPage />
         ) : (
           <Hero />
         )}

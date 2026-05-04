@@ -56,35 +56,42 @@ const testimonials = {
 const growthCards = [
   {
     eyebrow: 'FOR BRAND OWNERS',
-    badge: 'Scale � Expand � Franchise',
+    tag: 'FRANCHISORS',
+    pillBg: 'rgba(124,58,237,0.85)',
+    tags: ['Scale', 'Expand', 'Franchise'],
     title: 'Expand Your Brand Through Franchising',
     description:
       'Turn your successful business into a scalable franchise model. We help brand owners structure, launch, and grow through strategic franchising systems, legal frameworks, and investor connections.',
     linkText: 'For Brand Owners',
-    href: '/services',
+    href: '/for-brand-owners',
     image:
-      'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1200&q=85',
     fallbackImage:
-      'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=85',
     accent: 'from-violet-600 to-indigo-600',
-    tag: 'Franchisors',
+    accentText: 'text-violet-700',
+    accentBg: 'bg-violet-50',
   },
   {
     eyebrow: 'FOR INVESTORS',
-    badge: 'Invest � Own � Grow',
+    tag: 'FRANCHISEES',
+    pillBg: 'rgba(5,150,105,0.85)',
+    tags: ['Invest', 'Own', 'Grow'],
     title: 'Invest in Proven Franchise Opportunities',
     description:
-      'Discover vetted franchise businesses across high-growth industries. Find the right investment based on your budget, goals, and market demand � with clarity and confidence.',
+      'Discover vetted franchise businesses across high-growth industries. Find the right investment based on your budget, goals, and market demand — with clarity and confidence.',
     linkText: 'For Investors',
-    href: '/franchise-opportunities',
+    href: '/for-investors',
     image:
-      'https://images.unsplash.com/photo-1664575602554-2087b04935a5?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1551836022-deb4988cc6c0?auto=format&fit=crop&w=1200&q=85',
     fallbackImage:
-      'https://images.unsplash.com/photo-1507003211169-0a1dd7228d39?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=1200&q=85',
     accent: 'from-emerald-600 to-teal-600',
-    tag: 'Franchisees',
+    accentText: 'text-emerald-700',
+    accentBg: 'bg-emerald-50',
   },
 ];
+
 
 const statsCards = [
   {
@@ -419,23 +426,43 @@ function GrowthCard({ card }) {
 
   return (
     <article
-      className="group relative flex flex-col overflow-hidden rounded-[32px] bg-white border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-400 cursor-pointer"
+      className="group flex flex-col overflow-hidden rounded-[20px] bg-white border border-slate-100 cursor-pointer"
+      style={{
+        boxShadow: '0 4px 24px rgba(0,0,0,0.06)',
+        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = 'translateY(-6px)';
+        e.currentTarget.style.boxShadow = '0 16px 40px rgba(0,0,0,0.10)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = 'translateY(0)';
+        e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.06)';
+      }}
       onClick={() => navigateTo(card.href)}
     >
-      {/* Image */}
-      <div className="relative h-56 sm:h-64 overflow-hidden shrink-0 bg-slate-100">
+      {/* Image — 16/9 ratio, fits fully in viewport */}
+      <div
+        className="relative overflow-hidden shrink-0"
+        style={{ aspectRatio: '16/9', backgroundColor: '#f8f9fa' }}
+      >
+        {/* Skeleton */}
         {!imgLoaded && !imgError && (
           <div className="absolute inset-0 bg-gradient-to-br from-slate-100 via-slate-50 to-slate-100 animate-pulse" />
         )}
+        {/* Error fallback */}
         {imgError && (
-          <div className={`absolute inset-0 bg-gradient-to-br ${card.accent} opacity-20`} />
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center">
+            <span className="text-5xl font-black text-slate-300">{card.eyebrow[0]}</span>
+          </div>
         )}
+        {/* Image — contain so nothing is cut */}
         {!imgError && (
           <img
             ref={imgRef}
             src={card.image}
             alt={card.title}
-            loading="eager"
+            loading="lazy"
             decoding="async"
             onLoad={() => setImgLoaded(true)}
             onError={() => {
@@ -446,60 +473,84 @@ function GrowthCard({ card }) {
                 setImgError(true);
               }
             }}
-            className={`w-full h-full object-cover object-center transition-all duration-500 group-hover:scale-105 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: 'center 20%',
+              transition: 'transform 0.5s ease, opacity 0.4s ease',
+              opacity: imgLoaded ? 1 : 0,
+            }}
+            className="group-hover:scale-[1.03]"
           />
         )}
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent pointer-events-none" />
-        {/* Tag pill on image */}
-        <div className="absolute top-4 left-4">
-          <span className={`inline-flex items-center text-[11px] font-bold uppercase tracking-widest text-white px-3 py-1.5 rounded-full bg-gradient-to-r ${card.accent} shadow-lg`}>
+        {/* Soft overlay */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.02), rgba(0,0,0,0.10))' }}
+        />
+        {/* Tag pill — top right, colored glassmorphism */}
+        <div className="absolute top-3 right-3 z-10">
+          <span
+            className="inline-flex items-center text-[10px] font-bold uppercase tracking-[0.14em] text-white px-3 py-1.5 rounded-full"
+            style={{
+              background: card.pillBg,
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
+              border: '1px solid rgba(255,255,255,0.25)',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+            }}
+          >
             {card.tag}
           </span>
         </div>
       </div>
 
       {/* Content */}
-      <div className="flex flex-col flex-1 p-7 sm:p-8">
-        {/* Eyebrow */}
-        <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-400 mb-2">
+      <div className="flex flex-col flex-1 p-5">
+
+        {/* Eyebrow label */}
+        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400 mb-2">
           {card.eyebrow}
         </p>
 
         {/* Title */}
-        <h3 className="text-xl sm:text-2xl font-extrabold tracking-tight text-[#0b0f19] leading-snug mb-3 group-hover:text-slate-700 transition-colors duration-200">
+        <h3 className="text-lg font-extrabold tracking-tight text-[#0b0f19] leading-snug mb-2">
           {card.title}
         </h3>
 
         {/* Description */}
-        <p className="text-sm sm:text-[15px] leading-relaxed text-slate-500 flex-1">
+        <p className="text-sm leading-relaxed text-slate-500 flex-1 mb-3">
           {card.description}
         </p>
 
-        {/* Badge pills */}
-        <div className="mt-5 flex flex-wrap gap-2">
-          {card.badge.split(' � ').map((b) => (
-            <span key={b} className="text-[11px] font-semibold text-slate-500 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-full">
-              {b}
+        {/* Tags */}
+        <div className="flex flex-wrap gap-1.5 mb-4">
+          {card.tags.map((t) => (
+            <span
+              key={t}
+              className="text-[11px] font-medium text-slate-500 px-2.5 py-0.5 rounded-full border border-slate-200"
+              style={{ backgroundColor: '#f8f9fa' }}
+            >
+              {t}
             </span>
           ))}
         </div>
 
         {/* CTA */}
-        <div className="mt-6 pt-5 border-t border-slate-100">
-          <button
-            onClick={(e) => { e.stopPropagation(); navigateTo(card.href); }}
-            className={`group/btn inline-flex items-center gap-2 text-sm font-bold text-white px-5 py-2.5 rounded-full bg-gradient-to-r ${card.accent} shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 active:scale-95`}
+        <button
+          onClick={(e) => { e.stopPropagation(); navigateTo(card.href); }}
+          className={`group/btn inline-flex items-center gap-2 text-sm font-semibold px-5 py-2 rounded-full bg-gradient-to-r ${card.accent} text-white transition-all duration-200 active:scale-95 self-start`}
+        >
+          {card.linkText}
+          <svg
+            className="w-4 h-4 transition-transform duration-200 group-hover/btn:translate-x-1"
+            fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}
           >
-            {card.linkText}
-            <svg
-              className="w-4 h-4 transition-transform duration-200 group-hover/btn:translate-x-0.5"
-              fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.2}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M8 12h9" />
-            </svg>
-          </button>
-        </div>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M8 12h9" />
+          </svg>
+        </button>
+
       </div>
     </article>
   );
@@ -1242,230 +1293,6 @@ function BarLineChart({ dataset, active }) {
   );
 }
 
-// -- Platform Advantage Bento Grid --------------------------------------------
-
-/* Live Dashboard Visual � right panel */
-function LiveDashboard({ active }) {
-  const bars = [62, 78, 55, 88, 70, 92, 74];
-  const labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  const signals = [
-    { text: 'Retail rising in Pune',       time: '2m ago',  dot: 'bg-blue-400'    },
-    { text: 'Food demand in Tier 2',        time: '5m ago',  dot: 'bg-orange-400'  },
-    { text: 'Education gaining traction',   time: '9m ago',  dot: 'bg-emerald-400' },
-  ];
-  const sectors = [
-    { label: 'Food & Bev', pct: 88, color: '#7c3aed' },
-    { label: 'Retail',     pct: 72, color: '#3b82f6'  },
-    { label: 'Education',  pct: 65, color: '#10b981'  },
-    { label: 'Wellness',   pct: 58, color: '#f97316'  },
-  ];
-
-  return (
-    <div className="relative w-full h-full min-h-[400px] bg-[#0b0f19] rounded-2xl overflow-hidden p-5 flex flex-col gap-4">
-      {/* Subtle dot grid */}
-      <div className="pointer-events-none absolute inset-0 opacity-[0.04]"
-        style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '24px 24px' }} />
-
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Live Intelligence</p>
-          <p className="text-sm font-bold text-white mt-0.5">Market Activity</p>
-        </div>
-        <div className="flex items-center gap-1.5 bg-emerald-500/15 border border-emerald-500/30 rounded-full px-2.5 py-1">
-          <span className="relative flex h-1.5 w-1.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-400" />
-          </span>
-          <span className="text-[10px] font-bold text-emerald-400">Live</span>
-        </div>
-      </div>
-
-      {/* Bar chart */}
-      <div>
-        <p className="text-[10px] text-slate-500 font-medium mb-2">Weekly Expansion Index</p>
-        <div className="flex items-end gap-1.5 h-20">
-          {bars.map((h, i) => (
-            <div key={i} className="flex-1 flex flex-col items-center gap-1">
-              <div
-                className="w-full rounded-t-sm"
-                style={{
-                  height: active ? `${h}%` : '4px',
-                  background: i === 5 ? 'linear-gradient(to top, #7c3aed, #a78bfa)' : 'rgba(148,163,184,0.15)',
-                  transition: `height 0.6s cubic-bezier(0.22,1,0.36,1) ${i * 0.06}s`,
-                  minHeight: '4px',
-                }}
-              />
-              <span className="text-[8px] text-slate-600">{labels[i]}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Sector bars */}
-      <div className="space-y-2">
-        <p className="text-[10px] text-slate-500 font-medium">Top Sectors</p>
-        {sectors.map((s, i) => (
-          <div key={s.label} className="flex items-center gap-2">
-            <span className="text-[10px] text-slate-400 w-16 shrink-0">{s.label}</span>
-            <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
-              <div
-                className="h-full rounded-full transition-all duration-700"
-                style={{
-                  width: active ? `${s.pct}%` : '0%',
-                  background: s.color,
-                  transitionDelay: `${0.3 + i * 0.1}s`,
-                }}
-              />
-            </div>
-            <span className="text-[10px] font-bold text-slate-300 w-5 text-right">{s.pct}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* Signal feed */}
-      <div className="space-y-1.5">
-        <p className="text-[10px] text-slate-500 font-medium">Investor Signals</p>
-        {signals.map((s, i) => (
-          <div
-            key={i}
-            className="flex items-center gap-2 bg-white/5 rounded-lg px-2.5 py-1.5"
-            style={{
-              opacity: active ? 1 : 0,
-              transform: active ? 'translateX(0)' : 'translateX(-8px)',
-              transition: `all 0.4s ease ${0.5 + i * 0.12}s`,
-            }}
-          >
-            <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${s.dot}`} />
-            <span className="text-[10px] text-slate-300 flex-1 truncate">{s.text}</span>
-            <span className="text-[9px] text-slate-600 shrink-0">{s.time}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-const PLATFORM_FEATURES = [
-  {
-    id: 'expand',
-    icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-      </svg>
-    ),
-    color: 'text-violet-600',
-    bg: 'bg-violet-50',
-    border: 'border-violet-100',
-    tag: 'Expansion',
-    title: 'Track What Expands',
-    desc: 'Monitor category demand and city-level velocity in real time to spot where growth is accelerating first.',
-  },
-  {
-    id: 'predict',
-    icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-      </svg>
-    ),
-    color: 'text-emerald-600',
-    bg: 'bg-emerald-50',
-    border: 'border-emerald-100',
-    tag: 'Market Intel',
-    title: 'Know Which Markets Buy First',
-    desc: 'Predict Tier 2 & 3 opportunity zones before competitors by analyzing demand and regional readiness.',
-  },
-  {
-    id: 'scale',
-    icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-      </svg>
-    ),
-    color: 'text-blue-600',
-    bg: 'bg-blue-50',
-    border: 'border-blue-100',
-    tag: 'Benchmarking',
-    title: 'Scale Smarter, Adjust Instantly',
-    desc: 'Compare sectors and investment brackets to optimize your franchise expansion strategy dynamically.',
-  },
-  {
-    id: 'intent',
-    icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
-      </svg>
-    ),
-    color: 'text-orange-600',
-    bg: 'bg-orange-50',
-    border: 'border-orange-100',
-    tag: 'Investor Intent',
-    title: 'Let Investor Intent Guide Growth',
-    desc: 'Surface investor behavior patterns and capital trends so brands and buyers align faster.',
-  },
-];
-
-function BentoPlatformGrid({ active }) {
-  return (
-    <div className="mt-12 sm:mt-16">
-      {/* Section label + headline */}
-      <div className="text-center mb-10 sm:mb-12">
-        <div className="inline-flex items-center gap-2 bg-white border border-slate-200 shadow-sm rounded-full px-4 py-1.5 mb-5">
-          <span className="w-1.5 h-1.5 rounded-full bg-violet-500 shrink-0" />
-          <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">Platform Advantage</span>
-        </div>
-        <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#0b0f19] mb-3">
-          Why Smart Franchise Decisions<br className="hidden sm:block" /> Win Faster
-        </h3>
-        <p className="text-sm sm:text-base text-slate-500 max-w-lg mx-auto leading-relaxed">
-          Beyond listings � real-time intelligence, investor signals, and AI-driven brand matching in one platform.
-        </p>
-      </div>
-
-      {/* Main layout: features left, dashboard right */}
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-5 lg:gap-6 items-stretch">
-
-        {/* LEFT � 2�2 feature cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {PLATFORM_FEATURES.map((f, i) => (
-            <div
-              key={f.id}
-              className={`group relative bg-white rounded-2xl border ${f.border} p-5 hover:shadow-lg hover:-translate-y-1 transition-all duration-300`}
-              style={{
-                opacity: active ? 1 : 0,
-                transform: active ? 'translateY(0)' : 'translateY(16px)',
-                transition: `opacity 0.5s ease ${0.1 + i * 0.08}s, transform 0.5s ease ${0.1 + i * 0.08}s, box-shadow 0.3s ease`,
-              }}
-            >
-              {/* Icon */}
-              <div className={`inline-flex items-center justify-center w-10 h-10 rounded-xl ${f.bg} ${f.color} mb-4`}>
-                {f.icon}
-              </div>
-              {/* Tag */}
-              <p className={`text-[10px] font-bold uppercase tracking-widest ${f.color} mb-1.5`}>{f.tag}</p>
-              {/* Title */}
-              <h4 className="text-sm font-bold text-[#0b0f19] leading-snug mb-2">{f.title}</h4>
-              {/* Description */}
-              <p className="text-xs text-slate-500 leading-relaxed">{f.desc}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* RIGHT � Live dashboard */}
-        <div
-          style={{
-            opacity: active ? 1 : 0,
-            transform: active ? 'translateY(0)' : 'translateY(16px)',
-            transition: 'opacity 0.6s ease 0.4s, transform 0.6s ease 0.4s',
-          }}
-        >
-          <LiveDashboard active={active} />
-        </div>
-      </div>
-    </div>
-  );
-}
-
 /* -- Legacy sub-components kept for reference but replaced above -- */
 function NodeGraph({ active }) {
   const nodes = [
@@ -1804,14 +1631,22 @@ function MarketIntelligenceSection() {
               </span>
               Live
             </span>
-            <div className="overflow-hidden flex-1">
-              <p className="text-xs text-slate-600 font-medium whitespace-nowrap animate-marquee-right">
-                India&apos;s franchise sector expanding into Tier 2 &amp; Tier 3 markets &nbsp;&middot;&nbsp;
-                &#8377;800B+ ecosystem projected to cross &#8377;1T by 2027 &nbsp;&middot;&nbsp;
-                30% CAGR &mdash; Asia&apos;s fastest-growing franchise market &nbsp;&middot;&nbsp;
-                72% of new investors prefer franchise models &nbsp;&middot;&nbsp;
-                500+ emerging cities driving next wave of demand
-              </p>
+            {/* Fade edges */}
+            <div className="relative overflow-hidden flex-1">
+              <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white to-transparent z-10" />
+              <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent z-10" />
+              {/* Duplicated text for seamless LEFT→RIGHT loop */}
+              <div className="flex w-max animate-marquee-right">
+                {[0, 1].map((n) => (
+                  <p key={n} className="text-xs text-slate-600 font-medium whitespace-nowrap pr-16">
+                    India&apos;s franchise sector expanding into Tier 2 &amp; Tier 3 markets &nbsp;&middot;&nbsp;
+                    &#8377;800B+ ecosystem projected to cross &#8377;1T by 2027 &nbsp;&middot;&nbsp;
+                    30% CAGR &mdash; Asia&apos;s fastest-growing franchise market &nbsp;&middot;&nbsp;
+                    72% of new investors prefer franchise models &nbsp;&middot;&nbsp;
+                    500+ emerging cities driving next wave of demand &nbsp;&middot;&nbsp;
+                  </p>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -2069,8 +1904,7 @@ function MarketIntelligenceSection() {
           </div>
         </div>
 
-        {/* Platform Advantage Bento Grid */}
-        <BentoPlatformGrid active={active} />
+
 
       </div>
     </section>
@@ -2691,103 +2525,6 @@ function Hero() {
       {/* -- GROWTH CARDS SECTION -- */}
       <section className="relative w-full py-12 sm:py-16 lg:py-20 section-reveal" ref={growthRef}>
         <div className="section-container">
-          {/* SYMBOLIC TRANSFORMATION MARQUEE - Trust Section Upgrade */}
-          <div className="mb-12 sm:mb-16 text-center">
-            <p className="text-sm sm:text-[15px] font-medium text-slate-700 px-4 mb-8">
-              Trusted by 5000+ franchise investors & growth-focused brands
-            </p>
-          
-            {/* Transformation Marquee Strip */}
-            <div className="relative overflow-hidden bg-white rounded-2xl py-8 shadow-sm border border-slate-100">
-            {/* Gradient fade edges */}
-            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent z-10" />
-            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent z-10" />
-            
-            {/* Center iFranchise Transformation Icon */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
-              <div className="relative">
-                {/* Main transformation icon */}
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#0b0f19] to-slate-700 flex items-center justify-center shadow-xl border-4 border-white">
-                  <span className="text-white font-black text-lg">iF</span>
-                </div>
-                
-                {/* Pulsing glow */}
-                <div 
-                  className="absolute inset-0 rounded-full bg-blue-500/20 animate-pulse"
-                  style={{
-                    animation: 'transformationPulse 3s ease-in-out infinite'
-                  }}
-                />
-                
-                {/* Transformation beam effect */}
-                <div className="absolute top-1/2 -translate-y-1/2 left-full w-8 h-0.5 bg-gradient-to-r from-blue-500/60 to-transparent" />
-              </div>
-            </div>
-            
-            {/* Moving logos marquee */}
-            <div className="flex items-center">
-              {/* Left side - Grayscale incoming logos */}
-              <div 
-                className="flex items-center gap-12 will-change-transform"
-                style={{
-                  animation: 'transformationMarquee 25s linear infinite'
-                }}
-              >
-                {[
-                  'TopFranchise', 'FranchiseIndia', 'FranchiseBazar', 'Franchoice', 'InvestorHub', 'BrandScale',
-                  'TopFranchise', 'FranchiseIndia', 'FranchiseBazar', 'Franchoice', 'InvestorHub', 'BrandScale'
-                ].map((brand, idx) => (
-                  <div key={`gray-${brand}-${idx}`} className="flex items-center gap-3 whitespace-nowrap group cursor-pointer">
-                    {/* Grayscale version */}
-                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-slate-300 to-slate-400 flex items-center justify-center">
-                      <span className="text-white font-bold text-xs">{brand.slice(0, 2)}</span>
-                    </div>
-                    <span className="text-lg font-semibold text-slate-400 group-hover:text-slate-600 transition-colors duration-300">
-                      {brand}
-                    </span>
-                  </div>
-                ))}
-              </div>
-              
-              {/* Right side - Colorful transformed logos */}
-              <div 
-                className="flex items-center gap-12 ml-32 will-change-transform"
-                style={{
-                  animation: 'transformationMarquee 25s linear infinite'
-                }}
-              >
-                {[
-                  { name: 'TopFranchise', color: 'from-blue-500 to-blue-600' },
-                  { name: 'FranchiseIndia', color: 'from-emerald-500 to-emerald-600' },
-                  { name: 'FranchiseBazar', color: 'from-violet-500 to-violet-600' },
-                  { name: 'Franchoice', color: 'from-orange-500 to-orange-600' },
-                  { name: 'InvestorHub', color: 'from-purple-500 to-purple-600' },
-                  { name: 'BrandScale', color: 'from-teal-500 to-teal-600' },
-                  { name: 'TopFranchise', color: 'from-blue-500 to-blue-600' },
-                  { name: 'FranchiseIndia', color: 'from-emerald-500 to-emerald-600' },
-                  { name: 'FranchiseBazar', color: 'from-violet-500 to-violet-600' },
-                  { name: 'Franchoice', color: 'from-orange-500 to-orange-600' },
-                  { name: 'InvestorHub', color: 'from-purple-500 to-purple-600' },
-                  { name: 'BrandScale', color: 'from-teal-500 to-teal-600' }
-                ].map((brand, idx) => (
-                  <div key={`color-${brand.name}-${idx}`} className="flex items-center gap-3 whitespace-nowrap group cursor-pointer">
-                    {/* Colorful version */}
-                    <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${brand.color} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                      <span className="text-white font-bold text-xs">{brand.name.slice(0, 2)}</span>
-                    </div>
-                    <span className="text-lg font-semibold text-slate-800 group-hover:text-slate-900 transition-colors duration-300">
-                      {brand.name}
-                    </span>
-                    {/* Subtle glow effect */}
-                    <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-20 bg-gradient-to-r from-blue-400 to-violet-400 blur-sm transition-opacity duration-300" />
-                  </div>
-                ))}
-              </div>
-            </div>
-            </div>
-          </div>
-          {/* -- End Transformation Marquee -- */}
-
           {/* -- What is Franchising? -- */}
         <div className="mb-12 sm:mb-16">
           {/* Section header */}
@@ -2881,10 +2618,10 @@ function Hero() {
         </div>
         {/* -- End What is Franchising? -- */}
 
-        {/* -- Who Are You? / Choose Your Path -- */}
-        <div className="mb-12 sm:mb-16">
+        {/* ── Who Are You? / Choose Your Path ── */}
+        <div id="who-are-you" className="mb-8 sm:mb-10">
           {/* Section header */}
-          <div className="text-center mb-8 sm:mb-10">
+          <div className="text-center mb-6 sm:mb-8">
             <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 mb-3">
               Who Are You?
             </p>
