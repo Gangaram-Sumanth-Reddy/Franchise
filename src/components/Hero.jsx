@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import Button from './Button';
 import TestimonialCard from './TestimonialCard';
 import processImg from '../assets/process.png';
@@ -620,108 +621,396 @@ function StatCard({ stat, active }) {
   );
 }
 
-function FranchiseModelCard({ model, visible, delayMs }) {
-  const handleCardClick = () => {
-    // Navigate to franchise-specific detail page
-    console.log('Navigating to franchise:', model.slug);
-    window.history.pushState({}, '', `/franchise/${model.slug}`);
+// ── Franchise Model Modal Data ────────────────────────────────────────────────
+const MODEL_DETAILS = {
+  FOCO: {
+    badge: 'FOCO',
+    badgeColor: 'bg-violet-100 text-violet-700 border-violet-200',
+    accentColor: '#7c3aed',
+    tagline: 'Company manages operations while you focus on ownership and returns.',
+    overview:
+      'In the FOCO model, you invest in and own the franchise unit, but the franchisor\u2019s central team handles all day-to-day operations \u2014 staffing, quality control, and customer experience. You earn returns without being involved in daily management.',
+    howItWorks: [
+      'You provide the capital and own the franchise unit',
+      'Franchisor deploys an operations team to run the outlet',
+      'You receive regular performance reports and profit distributions',
+      'Brand maintains quality standards across all units',
+    ],
+    investment: '₹15L – ₹50L',
+    whoShouldChoose:
+      'Ideal for passive investors, working professionals, or HNIs who want franchise returns without operational involvement.',
+    pros: [
+      'Truly passive income — no daily involvement needed',
+      'Brand expertise drives operational quality',
+      'Lower personal risk from management errors',
+      'Scalable — own multiple units simultaneously',
+    ],
+    considerations: [
+      'Lower control over day-to-day decisions',
+      'Returns depend on franchisor\u2019s operational efficiency',
+      'Management fees reduce net margins',
+    ],
+  },
+  FOFO: {
+    badge: 'FOFO',
+    badgeColor: 'bg-emerald-100 text-emerald-700 border-emerald-200',
+    accentColor: '#059669',
+    tagline: 'You own and run the business with full control and higher involvement.',
+    overview:
+      'In the FOFO model, you own the franchise unit and manage all operations yourself using the franchisor\u2019s proven systems, brand, and support. This gives you maximum control and higher profit potential in exchange for active involvement.',
+    howItWorks: [
+      'You invest capital and take ownership of the franchise unit',
+      'Franchisor provides brand license, SOPs, and training',
+      'You hire, manage staff, and run daily operations',
+      'Ongoing support from franchisor for marketing and systems',
+    ],
+    investment: '₹20L – ₹80L',
+    whoShouldChoose:
+      'Best for entrepreneurs, ex-professionals, or business-minded individuals who want hands-on ownership with a proven brand behind them.',
+    pros: [
+      'Full operational control and decision-making authority',
+      'Higher profit margins — no management fee to franchisor',
+      'Direct relationship with customers and team',
+      'Faster adaptation to local market needs',
+    ],
+    considerations: [
+      'Requires significant time and personal involvement',
+      'Operational success depends on your management skills',
+      'Higher personal workload, especially in early stages',
+    ],
+  },
+  FICO: {
+    badge: 'FICO',
+    badgeColor: 'bg-orange-100 text-orange-700 border-orange-200',
+    accentColor: '#ea580c',
+    tagline: 'You invest capital while the company handles execution and operations.',
+    overview:
+      'In the FICO model, the franchisor owns and operates the outlet while you act as a pure financial investor. You provide the capital for expansion and receive a fixed or revenue-linked return, with full transparency on performance.',
+    howItWorks: [
+      'You commit capital as a franchise investor',
+      'Franchisor owns, sets up, and operates the unit entirely',
+      'You receive periodic returns based on agreed terms',
+      'Transparent reporting on revenue, costs, and performance',
+    ],
+    investment: '₹10L – ₹40L',
+    whoShouldChoose:
+      'Perfect for investors seeking structured returns without any operational role — similar to a business investment with brand-backed security.',
+    pros: [
+      'Zero operational involvement required',
+      'Structured, predictable return framework',
+      'Brand accountability for performance outcomes',
+      'Low entry barrier with defined exit options',
+    ],
+    considerations: [
+      'No ownership of the physical franchise unit',
+      'Returns are capped by the agreed investment structure',
+      'Less flexibility to influence business decisions',
+    ],
+  },
+};
+
+// ── Franchise Model Modal ─────────────────────────────────────────────────────
+function FranchiseModelModal({ model, onClose }) {
+  const details = MODEL_DETAILS[model.code];
+  const navigateTo = (path) => {
+    window.history.pushState({}, '', path);
     window.dispatchEvent(new PopStateEvent('popstate'));
+    onClose();
   };
 
-  return (
-    <article
-      onClick={handleCardClick}
-      className={`group flex h-full min-h-[520px] flex-col overflow-hidden rounded-2xl border border-slate-200/60 bg-white shadow-[0_4px_20px_rgba(15,23,42,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,23,42,0.15)] cursor-pointer ${
-        visible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
-      }`}
-      style={{ transitionDelay: `${delayMs}ms` }}
+  // Lock body scroll while open
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = ''; };
+  }, []);
+
+  // Close on Escape
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onClose]);
+
+  if (!details) return null;
+
+  const modal = (
+    /* ── Full-screen backdrop — always fixed to viewport ── */
+    <div
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 99999,
+        backgroundColor: 'rgba(11,15,25,0.55)',
+        backdropFilter: 'blur(6px)',
+        WebkitBackdropFilter: 'blur(6px)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '16px',
+      }}
+      onClick={onClose}
     >
-      {/* IMAGE SECTION - Top with consistent height */}
-      <div className="relative overflow-hidden rounded-t-2xl">
-        <img
-          src={model.image}
-          alt={model.title}
-          className="h-56 w-full object-cover transition-all duration-300 group-hover:scale-105"
-          loading="lazy"
-          onLoad={(e) => {
-            e.target.classList.add('loaded');
-            e.target.classList.remove('loading');
-          }}
-          onError={(e) => {
-            e.target.onerror = null; // Prevent infinite loop
-            e.target.classList.add('loaded');
-            e.target.classList.remove('loading');
-            // Fallback to category-specific images based on model type
-            const fallbackImages = {
-              'Food & Beverage': 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=600&q=80',
-              'Health & Wellness': 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=600&q=80',
-              'Home Services': 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&w=600&q=80',
-              'Education': 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80',
-              'Technology': 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80',
-              'Retail': 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&q=80',
-              'Entertainment': 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80'
-            };
-            // Determine category based on model title or use default
-            let category = 'Food & Beverage'; // default
-            if (model.title.toLowerCase().includes('company') || model.title.toLowerCase().includes('operated')) {
-              category = 'Business Services';
-            } else if (model.title.toLowerCase().includes('invested') || model.title.toLowerCase().includes('invest')) {
-              category = 'Financial Services';
-            }
-            e.target.src = fallbackImages[category] || 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?auto=format&fit=crop&w=600&q=80';
-          }}
-        />
-      </div>
-
-      {/* CONTENT SECTION */}
-      <div className="flex flex-col flex-1 p-6">
-        {/* TITLE SECTION - Fixed height for alignment */}
-        <div className="h-16 flex items-start">
-          <h3 className="text-xl font-bold leading-tight tracking-tight text-[#0b0f19] line-clamp-2">
-            {model.title}
-          </h3>
-        </div>
-
-        {/* DESCRIPTION SECTION - Controlled text */}
-        <div className="flex-1">
-          <p className="text-sm leading-relaxed text-slate-500 line-clamp-3">
-            {model.description}
-          </p>
-        </div>
-
-        {/* CTA SECTION - Bottom aligned */}
-        <div className="mt-6 flex items-center justify-center gap-3">
+      {/* ── Modal panel — centered, never affected by scroll ── */}
+      <div
+        role="dialog"
+        aria-modal="true"
+        style={{
+          position: 'relative',
+          width: '100%',
+          maxWidth: '780px',
+          maxHeight: '85vh',
+          backgroundColor: '#fff',
+          borderRadius: '20px',
+          overflow: 'hidden',
+          boxShadow: '0 32px 80px rgba(11,15,25,0.22), 0 0 0 1px rgba(11,15,25,0.06)',
+          animation: 'modalIn 0.22s cubic-bezier(0.22,1,0.36,1) both',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* ── Scrollable inner wrapper — clips inside the rounded container ── */}
+        <div style={{ overflowY: 'auto', display: 'flex', flexDirection: 'column', flex: 1 }}>
+        {/* ── HEADER ── */}
+        <div className="flex items-start justify-between gap-4 px-8 pt-8 pb-6 border-b border-slate-100 shrink-0">
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-3 mb-2">
+              <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold border shadow-sm ${details.badgeColor}`}>
+                {details.badge}
+              </span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-extrabold text-[#0b0f19] leading-tight mb-1">
+              {model.title}
+            </h2>
+            <p className="text-sm text-slate-500 leading-relaxed">{details.tagline}</p>
+          </div>
           <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              console.log('Button clicked - navigating to:', model.slug);
-              window.history.pushState({}, '', `/franchise/${model.slug}`);
-              window.dispatchEvent(new PopStateEvent('popstate'));
-            }}
-            className="flex-1 rounded-xl bg-[#0B1220] px-4 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-[#1a2332] hover:shadow-lg hover:-translate-y-0.5"
+            onClick={onClose}
+            className="shrink-0 flex items-center justify-center w-9 h-9 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700 transition-colors duration-150 mt-0.5"
+            aria-label="Close modal"
           >
-            Explore
-          </button>
-          <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              console.log('Link clicked - navigating to:', model.slug);
-              window.history.pushState({}, '', `/franchise/${model.slug}`);
-              window.dispatchEvent(new PopStateEvent('popstate'));
-            }}
-            className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-[#0B1220] transition-all duration-300 hover:border-[#0B1220] hover:bg-slate-50"
-          >
-            Learn more
-            <svg className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5-5 5M8 12h9" />
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
-          </a>
+          </button>
         </div>
+
+        {/* ── BODY ── */}
+        <div className="px-8 py-6 space-y-7 flex-1">
+
+          {/* Overview */}
+          <div>
+            <div className="flex items-center gap-2.5 mb-3">
+              <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: details.accentColor + '15' }}>
+                <svg className="w-4 h-4" fill="none" stroke={details.accentColor} viewBox="0 0 24 24" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="text-sm font-bold text-[#0b0f19] uppercase tracking-wider">Overview</h3>
+            </div>
+            <p className="text-sm text-slate-600 leading-relaxed pl-[2.375rem]">{details.overview}</p>
+          </div>
+
+          {/* How it Works */}
+          <div>
+            <div className="flex items-center gap-2.5 mb-3">
+              <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: details.accentColor + '15' }}>
+                <svg className="w-4 h-4" fill="none" stroke={details.accentColor} viewBox="0 0 24 24" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+              </div>
+              <h3 className="text-sm font-bold text-[#0b0f19] uppercase tracking-wider">How It Works</h3>
+            </div>
+            <ul className="pl-[2.375rem] space-y-2">
+              {details.howItWorks.map((step, i) => (
+                <li key={i} className="flex items-start gap-2.5 text-sm text-slate-600">
+                  <span className="shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold text-white mt-0.5" style={{ backgroundColor: details.accentColor }}>
+                    {i + 1}
+                  </span>
+                  {step}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Investment + Who Should Choose — 2 col */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="rounded-2xl border border-slate-100 bg-slate-50 p-5">
+              <div className="flex items-center gap-2 mb-2">
+                <svg className="w-4 h-4 shrink-0" fill="none" stroke={details.accentColor} viewBox="0 0 24 24" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Investment Range</span>
+              </div>
+              <p className="text-2xl font-extrabold text-[#0b0f19]">{details.investment}</p>
+            </div>
+            <div className="rounded-2xl border border-slate-100 bg-slate-50 p-5">
+              <div className="flex items-center gap-2 mb-2">
+                <svg className="w-4 h-4 shrink-0" fill="none" stroke={details.accentColor} viewBox="0 0 24 24" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Who Should Choose</span>
+              </div>
+              <p className="text-sm text-slate-600 leading-relaxed">{details.whoShouldChoose}</p>
+            </div>
+          </div>
+
+          {/* Pros + Considerations — 2 col */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <div className="flex items-center gap-2.5 mb-3">
+                <div className="w-7 h-7 rounded-lg bg-emerald-50 flex items-center justify-center shrink-0">
+                  <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-sm font-bold text-[#0b0f19] uppercase tracking-wider">Pros</h3>
+              </div>
+              <ul className="space-y-2">
+                {details.pros.map((p, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
+                    <svg className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    {p}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <div className="flex items-center gap-2.5 mb-3">
+                <div className="w-7 h-7 rounded-lg bg-amber-50 flex items-center justify-center shrink-0">
+                  <svg className="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-sm font-bold text-[#0b0f19] uppercase tracking-wider">Considerations</h3>
+              </div>
+              <ul className="space-y-2">
+                {details.considerations.map((c, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
+                    <svg className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01" />
+                    </svg>
+                    {c}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* ── FOOTER ── */}
+        <div className="flex items-center justify-between gap-3 px-8 py-5 border-t border-slate-100 bg-slate-50/60 rounded-b-[20px] shrink-0">
+          <button
+            onClick={() => navigateTo('/franchise-opportunities')}
+            className="text-sm font-semibold text-slate-600 hover:text-[#0b0f19] transition-colors duration-150 underline underline-offset-2"
+          >
+            Compare Models
+          </button>
+          <button
+            onClick={() => navigateTo('/contact')}
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg active:scale-95"
+            style={{ backgroundColor: details.accentColor, boxShadow: `0 4px 14px ${details.accentColor}40` }}
+          >
+            Book Consultation
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M8 12h9" />
+            </svg>
+          </button>
+        </div>
+        </div>{/* ── end inner scrollable wrapper ── */}
       </div>
-    </article>
+    </div>
+  );
+
+  // Render into document.body — completely outside card/section DOM tree
+  return createPortal(modal, document.body);
+}
+
+function FranchiseModelCard({ model, visible, delayMs }) {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  return (
+    <>
+      {modalOpen && (
+        <FranchiseModelModal model={model} onClose={() => setModalOpen(false)} />
+      )}
+      <article
+        className={`group flex h-full min-h-[520px] flex-col overflow-hidden rounded-2xl border border-slate-200/60 bg-white shadow-[0_4px_20px_rgba(15,23,42,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,23,42,0.15)] ${
+          visible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+        }`}
+        style={{ transitionDelay: `${delayMs}ms` }}
+      >
+        {/* IMAGE SECTION */}
+        <div className="relative overflow-hidden rounded-t-2xl">
+          <img
+            src={model.image}
+            alt={model.title}
+            className="h-56 w-full object-cover transition-all duration-300 group-hover:scale-105"
+            loading="lazy"
+            onLoad={(e) => { e.target.classList.add('loaded'); e.target.classList.remove('loading'); }}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.classList.add('loaded');
+              e.target.classList.remove('loading');
+              const fallbackImages = {
+                'Food & Beverage': 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=600&q=80',
+                'Health & Wellness': 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=600&q=80',
+                'Home Services': 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&w=600&q=80',
+                'Education': 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80',
+                'Technology': 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80',
+                'Retail': 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&q=80',
+                'Entertainment': 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80',
+              };
+              let category = 'Food & Beverage';
+              if (model.title.toLowerCase().includes('company') || model.title.toLowerCase().includes('operated')) category = 'Business Services';
+              else if (model.title.toLowerCase().includes('invested') || model.title.toLowerCase().includes('invest')) category = 'Financial Services';
+              e.target.src = fallbackImages[category] || 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?auto=format&fit=crop&w=600&q=80';
+            }}
+          />
+        </div>
+
+        {/* CONTENT SECTION */}
+        <div className="flex flex-col flex-1 p-6">
+          <div className="h-16 flex items-start">
+            <h3 className="text-xl font-bold leading-tight tracking-tight text-[#0b0f19] line-clamp-2">
+              {model.title}
+            </h3>
+          </div>
+          <div className="flex-1">
+            <p className="text-sm leading-relaxed text-slate-500 line-clamp-3">
+              {model.description}
+            </p>
+          </div>
+
+          {/* CTA — only these buttons are interactive */}
+          <div className="mt-6 flex items-center justify-center gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                window.history.pushState({}, '', `/franchise/${model.slug}`);
+                window.dispatchEvent(new PopStateEvent('popstate'));
+              }}
+              className="flex-1 rounded-xl bg-[#0B1220] px-4 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-[#1a2332] hover:shadow-lg hover:-translate-y-0.5"
+            >
+              Explore
+            </button>
+            <button
+              type="button"
+              data-action="open-modal"
+              onClick={() => setModalOpen(true)}
+              className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-[#0B1220] transition-all duration-300 hover:border-[#0B1220] hover:bg-slate-50"
+            >
+              Learn more
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5-5 5M8 12h9" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </article>
+    </>
   );
 }
 
@@ -2923,14 +3212,42 @@ function Hero() {
               {/* Success Stories Pills */}
               <div className="mt-12 pt-8 border-t border-slate-100/60 flex flex-wrap items-center justify-center gap-3">
                 {[
-                  { label: '500+ franchise launches', icon: '🚀' },
-                  { label: '₹800Cr+ ecosystem influenced', icon: '💰' },
-                  { label: '72% investor preference', icon: '📈' },
-                  { label: '30% CAGR aligned', icon: '⚡' }
+                  {
+                    label: '500+ franchise launches',
+                    icon: (
+                      <svg className="w-3.5 h-3.5 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                      </svg>
+                    ),
+                  },
+                  {
+                    label: '₹800Cr+ ecosystem influenced',
+                    icon: (
+                      <svg className="w-3.5 h-3.5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    ),
+                  },
+                  {
+                    label: '72% investor preference',
+                    icon: (
+                      <svg className="w-3.5 h-3.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                      </svg>
+                    ),
+                  },
+                  {
+                    label: '30% CAGR aligned',
+                    icon: (
+                      <svg className="w-3.5 h-3.5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      </svg>
+                    ),
+                  },
                 ].map((item, i) => (
                   <Reveal key={item.label} delay={i * 0.05}>
                     <div className="inline-flex items-center gap-2 bg-gradient-to-r from-slate-50 to-white border border-slate-200/60 rounded-full px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300">
-                      <span className="text-sm">{item.icon}</span>
+                      {item.icon}
                       <span>{item.label}</span>
                     </div>
                   </Reveal>
@@ -2961,317 +3278,6 @@ function Hero() {
             </div>
           </div>
 
-        </div>
-      </section>
-
-      {/* -- INDUSTRY RECOGNITION SECTION -- */}
-      <section className="relative w-full py-12 sm:py-16 lg:py-20 section-reveal">
-        <div className="section-container">
-          {/* Subtle background elements */}
-          <div className="absolute inset-0 opacity-[0.02]" style={{
-            backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(15,23,42,0.15) 1px, transparent 0)',
-            backgroundSize: '48px 48px'
-          }} />
-          <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
-          
-          <div className="py-4">
-            <div className="text-center mb-8">
-              {/* Centered Premium Badge - Closer to headline */}
-              <div 
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-slate-50 to-white border border-slate-200/60 shadow-sm rounded-full px-4 py-1.5 mb-6"
-                style={{
-                  opacity: 0,
-                  animation: 'fadeSlideDown 0.3s ease forwards',
-                  animationDelay: '0.2s'
-                }}
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-600">
-                  Industry Recognition
-                </span>
-              </div>
-            </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-16 items-center">
-            
-            {/* LEFT SIDE - Content */}
-            <div className="space-y-6">
-              
-              {/* Main Headline */}
-              <div 
-                className="space-y-4"
-                style={{
-                  opacity: 0,
-                  animation: 'fadeSlideUp 0.35s ease forwards',
-                  animationDelay: '0.1s'
-                }}
-              >
-                <h2 className="text-2xl sm:text-3xl lg:text-[2.6rem] font-extrabold tracking-tight text-[#0b0f19] leading-tight">
-                  Trusted by brands. Backed by outcomes.
-                </h2>
-                <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl">
-                  From franchise structuring to investor conversion, iFranchise has helped brands scale smarter and franchisees choose with confidence.
-                </p>
-              </div>
-
-              {/* 4 Refined Credibility Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {[
-                  {
-                    icon: (
-                      <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                      </svg>
-                    ),
-                    title: 'Featured In',
-                    description: 'Recognized by franchise, startup, and business platforms for ecosystem insights and market leadership.'
-                  },
-                  {
-                    icon: (
-                      <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
-                    ),
-                    title: 'Industry Memberships',
-                    description: 'Connected with franchise, startup, and business leadership networks across India and globally.'
-                  },
-                  {
-                    icon: (
-                      <svg className="w-4 h-4 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                      </svg>
-                    ),
-                    title: 'Events & Summits',
-                    description: 'Present across franchise expos, strategic sessions, and ecosystem discussions nationwide.'
-                  },
-                  {
-                    icon: (
-                      <svg className="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                      </svg>
-                    ),
-                    title: 'Press Mentions',
-                    description: 'Featured through interviews, expert commentary, and market education across business media.'
-                  }
-                ].map((item, index) => (
-                  <div 
-                    key={item.title}
-                    className="group p-3.5 rounded-xl border border-slate-100/60 bg-gradient-to-br from-white to-slate-50/20 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
-                    style={{
-                      opacity: 0,
-                      animation: 'fadeSlideUp 0.35s ease forwards',
-                      animationDelay: `${index * 0.06}s`
-                    }}
-                  >
-                    <div className="flex items-start gap-3">
-                      <div className="flex-shrink-0 w-7 h-7 rounded-lg bg-white border border-slate-200/60 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-                        {item.icon}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-sm font-bold text-[#0b0f19] mb-1 group-hover:text-slate-700 transition-colors duration-200">
-                          {item.title}
-                        </h3>
-                        <p className="text-xs text-slate-500 leading-relaxed">
-                          {item.description}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Single Premium CTA - Closer to text and smaller */}
-              <div 
-                className="pt-4 flex justify-center"
-                style={{
-                  opacity: 0,
-                  animation: 'fadeSlideUp 0.35s ease forwards',
-                  animationDelay: '0.3s'
-                }}
-              >
-                <button
-                  onClick={() => {
-                    window.history.pushState({}, '', '/blog');
-                    window.dispatchEvent(new PopStateEvent('popstate'));
-                  }}
-                  className="group inline-flex items-center gap-2.5 bg-gradient-to-r from-[#0b0f19] to-slate-800 text-white text-sm font-semibold px-6 py-3 rounded-xl hover:from-slate-800 hover:to-slate-700 transition-all duration-300 hover:shadow-xl hover:shadow-slate-900/25 hover:-translate-y-0.5 active:scale-95 relative overflow-hidden"
-                  style={{
-                    boxShadow: '0 0 0 1px rgba(59, 130, 246, 0.08), 0 4px 16px rgba(15, 23, 42, 0.12)'
-                  }}
-                >
-                  {/* Subtle glow effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600/8 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  
-                  <svg className="w-4 h-4 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15" />
-                  </svg>
-                  <span className="relative z-10">Explore Insights Hub</span>
-                  <svg className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            {/* RIGHT SIDE - Enhanced Media Visual with Floating Cubes */}
-            <div className="relative flex items-center justify-center">
-              {/* Animated Blue Cubes System */}
-              <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                {/* Large floating holographic cube */}
-                <div 
-                  className="absolute top-8 right-12 w-16 h-16 border border-blue-400/30 bg-blue-500/5 backdrop-blur-sm rounded-lg"
-                  style={{ 
-                    animation: 'cubeFloat 12s ease-in-out infinite',
-                    animationDelay: '0s',
-                    transform: 'rotateX(15deg) rotateY(25deg)'
-                  }}
-                />
-                
-                {/* Medium cubes */}
-                <div 
-                  className="absolute top-20 left-8 w-8 h-8 border border-blue-300/40 bg-blue-400/8 backdrop-blur-sm rounded-md"
-                  style={{ 
-                    animation: 'cubeFloat 8s ease-in-out infinite',
-                    animationDelay: '2s',
-                    transform: 'rotateX(25deg) rotateY(-15deg)'
-                  }}
-                />
-                
-                <div 
-                  className="absolute bottom-16 right-20 w-10 h-10 border border-blue-500/35 bg-blue-600/6 backdrop-blur-sm rounded-lg"
-                  style={{ 
-                    animation: 'cubeFloat 10s ease-in-out infinite',
-                    animationDelay: '4s',
-                    transform: 'rotateX(-10deg) rotateY(35deg)'
-                  }}
-                />
-                
-                {/* Small particle cubes */}
-                <div 
-                  className="absolute top-32 right-8 w-4 h-4 border border-blue-200/50 bg-blue-300/10 backdrop-blur-sm rounded"
-                  style={{ 
-                    animation: 'cubeFloat 6s ease-in-out infinite',
-                    animationDelay: '1s',
-                    transform: 'rotateX(45deg) rotateY(-25deg)'
-                  }}
-                />
-                
-                <div 
-                  className="absolute bottom-32 left-12 w-6 h-6 border border-blue-400/45 bg-blue-500/7 backdrop-blur-sm rounded-md"
-                  style={{ 
-                    animation: 'cubeFloat 9s ease-in-out infinite',
-                    animationDelay: '3s',
-                    transform: 'rotateX(-20deg) rotateY(45deg)'
-                  }}
-                />
-                
-                {/* Micro spark cubes */}
-                <div 
-                  className="absolute top-1/3 left-1/4 w-2 h-2 bg-blue-400/60 rounded-sm"
-                  style={{ 
-                    animation: 'sparkFloat 4s ease-in-out infinite',
-                    animationDelay: '0.5s'
-                  }}
-                />
-                
-                <div 
-                  className="absolute bottom-1/3 right-1/3 w-3 h-3 bg-blue-300/50 rounded"
-                  style={{ 
-                    animation: 'sparkFloat 5s ease-in-out infinite',
-                    animationDelay: '2.5s'
-                  }}
-                />
-              </div>
-              
-              {/* Subtle ambient glow */}
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4/5 h-20 bg-blue-500/8 blur-3xl rounded-full pointer-events-none" />
-              
-              {/* Main Media Image - Enhanced Premium Animation */}
-              <div 
-                className="relative z-10"
-                style={{
-                  opacity: 0,
-                  animation: 'fadeSlideRight 0.35s ease forwards',
-                  animationDelay: '0.2s'
-                }}
-              >
-                {/* Premium glow backdrop */}
-                <div 
-                  className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-violet-500/5 to-transparent rounded-3xl blur-2xl"
-                  style={{ 
-                    animation: 'premiumGlow 6s ease-in-out infinite',
-                    transform: 'scale(1.2)'
-                  }}
-                />
-                
-                {/* Rotating accent ring */}
-                <div 
-                  className="absolute inset-0 rounded-3xl"
-                  style={{ 
-                    background: 'conic-gradient(from 0deg, transparent, rgba(59, 130, 246, 0.1), transparent)',
-                    animation: 'slowRotate 20s linear infinite',
-                    transform: 'scale(1.1)'
-                  }}
-                />
-                
-                <img
-                  src="/src/assets/media.png"
-                  alt="iFranchise Media Authority"
-                  className="relative w-full max-w-lg object-contain transition-all duration-700 hover:scale-105"
-                  loading="lazy"
-                  style={{ 
-                    animation: 'premiumMediaFloat 10s ease-in-out infinite',
-                    transformOrigin: 'center center',
-                    filter: 'drop-shadow(0 32px 64px rgba(15, 23, 42, 0.15)) drop-shadow(0 0 32px rgba(59, 130, 246, 0.08))'
-                  }}
-                  onError={(e) => {
-                    // Fallback to a placeholder if media.png doesn't exist
-                    e.target.style.display = 'none';
-                    e.target.nextElementSibling.style.display = 'flex';
-                  }}
-                />
-                
-                {/* Fallback placeholder */}
-                <div className="hidden w-full max-w-lg aspect-square bg-gradient-to-br from-slate-100 via-white to-slate-50 rounded-3xl items-center justify-center relative overflow-hidden">
-                  <div className="absolute inset-0 opacity-[0.03]" style={{
-                    backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(15,23,42,0.15) 1px, transparent 0)',
-                    backgroundSize: '32px 32px'
-                  }} />
-                  <div className="relative z-10 text-center p-8">
-                    <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-slate-200 to-slate-100 flex items-center justify-center">
-                      <svg className="w-10 h-10 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h2.25M16.5 7.5h2.25" />
-                      </svg>
-                    </div>
-                    <p className="text-base font-semibold text-slate-500">Media Authority</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Enhanced floating trust indicators */}
-              <div className="absolute top-12 right-16 opacity-70 z-20">
-                <div 
-                  className="inline-flex items-center gap-1.5 bg-white/80 backdrop-blur-md border border-emerald-200/50 rounded-full px-3 py-1.5 shadow-lg text-[11px] font-semibold text-emerald-700"
-                  style={{ animation: 'float 8s ease-in-out infinite', animationDelay: '1s' }}
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                  Verified
-                </div>
-              </div>
-
-              <div className="absolute bottom-12 left-16 opacity-70 z-20">
-                <div 
-                  className="inline-flex items-center gap-1.5 bg-white/80 backdrop-blur-md border border-blue-200/50 rounded-full px-3 py-1.5 shadow-lg text-[11px] font-semibold text-blue-700"
-                  style={{ animation: 'float 8s ease-in-out infinite', animationDelay: '3s' }}
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-                  Trusted
-                </div>
-              </div>
-            </div>
-
-          </div>
-          </div>
         </div>
       </section>
 
@@ -3311,331 +3317,6 @@ function Hero() {
               View More
               <span className="transition duration-200 group-hover:translate-x-1">{"\u2192"}</span>
             </button>
-          </div>
-        </div>
-      </section>
-
-      {/* -- OUR EXPERTS SECTION -- */}
-      <section className="relative w-full py-12 sm:py-16 lg:py-20 section-reveal">
-        <div className="section-container">
-          
-          {/* Section Header */}
-          <div className="section-header">
-            <div className="section-pill">
-              <span className="w-2 h-2 rounded-full bg-emerald-500" />
-              <span className="text-xs font-bold uppercase tracking-[0.15em] text-slate-600">
-                OUR EXPERTS
-              </span>
-            </div>
-            <h2 className="section-title">
-              REAL PEOPLE, REAL RESULTS,<br />
-              REAL IMPACT
-            </h2>
-            <div className="cta-row">
-              <p className="cta-text">
-                Meet our team of franchise experts who bring decades of experience in scaling businesses and creating successful partnerships.
-              </p>
-              <button
-                type="button"
-                onClick={() => {
-                  window.history.pushState({}, '', '/team');
-                  window.dispatchEvent(new PopStateEvent('popstate'));
-                }}
-                className="cta-button"
-              >
-                Meet the Team
-                <svg className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5-5 5M8 12h9" />
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          {/* Experts Carousel */}
-          <div className="relative overflow-hidden">
-            {/* Fade edges */}
-            <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-r from-white to-transparent z-10" />
-            <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-l from-white to-transparent z-10" />
-            {/* Scrolling Container */}
-            <div className="flex gap-6 animate-scroll-left" style={{ width: 'max-content' }}>
-              {/* First Set of Cards */}
-              {/* Expert 1 - Donnie Bennett */}
-              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-72">
-                <div className="relative h-80 overflow-hidden bg-slate-100">
-                  <img
-                    src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80"
-                    alt="Donnie Bennett - Data Analyst"
-                    className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
-                    loading="lazy"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228d39?auto=format&fit=crop&w=400&q=80";
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-[#0b0f19] mb-2">DONNIE BENNETT</h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    " Data analyst turning insights into business success. "
-                  </p>
-                </div>
-              </div>
-
-              {/* Expert 2 - Levi West */}
-              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-72">
-                <div className="relative h-80 overflow-hidden bg-slate-100">
-                  <img
-                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80"
-                    alt="Levi West - Market Strategist"
-                    className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
-                    loading="lazy"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=400&q=80";
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-[#0b0f19] mb-2">LEVI WEST</h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    " Market strategist helping brands expand with confidence. "
-                  </p>
-                </div>
-              </div>
-
-              {/* Expert 3 - Jamaal Smith */}
-              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-72">
-                <div className="relative h-80 overflow-hidden bg-slate-100">
-                  <img
-                    src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=400&q=80"
-                    alt="Jamaal Smith - Operations Specialist"
-                    className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
-                    loading="lazy"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80";
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-[#0b0f19] mb-2">JAMAAL SMITH</h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    " Operations specialist improving efficiency and productivity. "
-                  </p>
-                </div>
-              </div>
-
-              {/* Expert 4 - Brenda Lam */}
-              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-72">
-                <div className="relative h-80 overflow-hidden bg-slate-100">
-                  <img
-                    src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80"
-                    alt="Brenda Lam - Leadership Advisor"
-                    className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
-                    loading="lazy"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=400&q=80";
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-[#0b0f19] mb-2">BRENDA LAM</h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    " Leadership advisor empowering executive decision-making. "
-                  </p>
-                </div>
-              </div>
-
-              {/* Expert 5 - Marcus Chen */}
-              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-72">
-                <div className="relative h-80 overflow-hidden bg-slate-100">
-                  <img
-                    src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80"
-                    alt="Marcus Chen - Financial Advisor"
-                    className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
-                    loading="lazy"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80";
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-[#0b0f19] mb-2">MARCUS CHEN</h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    " Financial advisor optimizing investment strategies. "
-                  </p>
-                </div>
-              </div>
-
-              {/* Expert 6 - Sarah Johnson */}
-              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-72">
-                <div className="relative h-80 overflow-hidden bg-slate-100">
-                  <img
-                    src="https://images.unsplash.com/photo-1551836022-deb4988cc6c0?auto=format&fit=crop&w=400&q=80"
-                    alt="Sarah Johnson - Legal Consultant"
-                    className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
-                    loading="lazy"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=400&q=80";
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-[#0b0f19] mb-2">SARAH JOHNSON</h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    " Legal consultant ensuring compliance and protection. "
-                  </p>
-                </div>
-              </div>
-
-              {/* Expert 7 - David Rodriguez */}
-              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-72">
-                <div className="relative h-80 overflow-hidden bg-slate-100">
-                  <img
-                    src="https://images.unsplash.com/photo-1566492031773-4f4e44671d66?auto=format&fit=crop&w=400&q=80"
-                    alt="David Rodriguez - Technology Director"
-                    className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
-                    loading="lazy"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "https://images.unsplash.com/photo-1463453091185-61582044d556?auto=format&fit=crop&w=400&q=80";
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-[#0b0f19] mb-2">DAVID RODRIGUEZ</h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    " Technology director driving digital transformation. "
-                  </p>
-                </div>
-              </div>
-
-              {/* Expert 8 - Emily Parker */}
-              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-72">
-                <div className="relative h-80 overflow-hidden bg-slate-100">
-                  <img
-                    src="https://images.unsplash.com/photo-1559548331-f9cb98001426?auto=format&fit=crop&w=400&q=80"
-                    alt="Emily Parker - Marketing Director"
-                    className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
-                    loading="lazy"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80";
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-[#0b0f19] mb-2">EMILY PARKER</h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    " Marketing director building powerful brand presence. "
-                  </p>
-                </div>
-              </div>
-
-              {/* Duplicate cards for seamless loop */}
-              {/* Expert 1 - Donnie Bennett (Duplicate) */}
-              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-72">
-                <div className="relative h-80 overflow-hidden bg-slate-100">
-                  <img
-                    src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80"
-                    alt="Donnie Bennett - Data Analyst"
-                    className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
-                    loading="lazy"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228d39?auto=format&fit=crop&w=400&q=80";
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-[#0b0f19] mb-2">DONNIE BENNETT</h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    " Data analyst turning insights into business success. "
-                  </p>
-                </div>
-              </div>
-
-              {/* Expert 2 - Levi West (Duplicate) */}
-              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-72">
-                <div className="relative h-80 overflow-hidden bg-slate-100">
-                  <img
-                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80"
-                    alt="Levi West - Market Strategist"
-                    className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
-                    loading="lazy"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=400&q=80";
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-[#0b0f19] mb-2">LEVI WEST</h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    " Market strategist helping brands expand with confidence. "
-                  </p>
-                </div>
-              </div>
-
-              {/* Expert 3 - Jamaal Smith (Duplicate) */}
-              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-72">
-                <div className="relative h-80 overflow-hidden bg-slate-100">
-                  <img
-                    src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=400&q=80"
-                    alt="Jamaal Smith - Operations Specialist"
-                    className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
-                    loading="lazy"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80";
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-[#0b0f19] mb-2">JAMAAL SMITH</h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    " Operations specialist improving efficiency and productivity. "
-                  </p>
-                </div>
-              </div>
-
-              {/* Expert 4 - Brenda Lam (Duplicate) */}
-              <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex-shrink-0 w-72">
-                <div className="relative h-80 overflow-hidden bg-slate-100">
-                  <img
-                    src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80"
-                    alt="Brenda Lam - Leadership Advisor"
-                    className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
-                    loading="lazy"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=400&q=80";
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-[#0b0f19] mb-2">BRENDA LAM</h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    " Leadership advisor empowering executive decision-making. "
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>

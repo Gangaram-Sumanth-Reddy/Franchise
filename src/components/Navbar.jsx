@@ -21,11 +21,11 @@ function MenuIcon({ isOpen }) {
   );
 }
 
-function FolderIcon() {
+function GrowthIcon() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5 stroke-slate-500">
       <path
-        d="M3.5 8.5a2 2 0 0 1 2-2h4l1.6 1.7h7.4a2 2 0 0 1 2 2V16a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2V8.5z"
+        d="M3 17l4-4 4 4 4-6 4 2M3 21h18"
         fill="none"
         strokeWidth="1.6"
         strokeLinecap="round"
@@ -72,10 +72,9 @@ function ArrowIcon({ className = '' }) {
 }
 
 const LEFT_ITEMS = [
-  { title: 'Services', description: 'Explore our franchise consulting services.', Icon: FolderIcon },
-  { title: 'Blog', description: 'Design tips & insights from blogs.', Icon: BlogIcon },
-  { title: 'Explore Brands', description: 'Discover scalable franchise brands.', Icon: TeamIcon },
-  { title: 'Careers', description: 'Join the iFranchise growth team.', Icon: TeamIcon, badge: '4' },
+  { title: 'Franchise Opportunities', description: 'Discover scalable franchise investment opportunities.', Icon: GrowthIcon, path: '/franchise-opportunities' },
+  { title: 'Blog', description: 'Design tips & insights from blogs.', Icon: BlogIcon, path: '/blog' },
+  { title: 'Careers', description: 'Join the iFranchise growth team.', Icon: TeamIcon, badge: '4', path: '/careers' },
 ];
 
 const RIGHT_ITEMS = [
@@ -83,7 +82,6 @@ const RIGHT_ITEMS = [
   { title: 'Privacy Policy', path: '/privacy-policy' },
   { title: 'Terms & Conditions', path: '/terms-and-conditions' },
   { title: 'Licenses', path: '/licenses' },
-  { title: '404 Page', path: '/404' },
 ];
 
 function Navbar() {
@@ -325,15 +323,7 @@ function Navbar() {
                         href="#"
                         onClick={(e) => {
                           e.preventDefault();
-                          if (item.title === 'Explore Brands') {
-                            navigateTo('/franchise-opportunities');
-                          } else if (item.title === 'Services') {
-                            navigateTo('/services');
-                          } else if (item.title === 'Blog') {
-                            navigateTo('/blog');
-                          } else if (item.title === 'Careers') {
-                            navigateTo('/careers');
-                          }
+                          navigateTo(item.path);
                         }}
                         className="group flex items-center gap-3 rounded-xl px-3 py-3 transition-all duration-200 hover:bg-slate-50 hover:shadow-sm"
                       >
@@ -404,11 +394,11 @@ function Navbar() {
             ) : null}
           </li>
           <li>
-            <a href="/franchise-opportunities" onClick={(event) => {
+            <a href="/services" onClick={(event) => {
               event.preventDefault();
-              navigateTo('/franchise-opportunities');
+              navigateTo('/services');
             }} className="inline-flex items-center gap-2 transition duration-200 hover:text-[#0b0f19]">
-              Franchise Opportunities
+              Services
             </a>
           </li>
           <li>
@@ -552,19 +542,6 @@ function Navbar() {
                     {isHomeActive && <span className="text-white/60 text-sm">→</span>}
                   </a>
 
-                  {/* Franchise Opportunities */}
-                  <a
-                    href="/franchise-opportunities"
-                    onClick={(e) => { e.preventDefault(); navigateTo('/franchise-opportunities'); }}
-                    className={`flex items-center justify-between rounded-xl px-4 py-4 text-base font-semibold transition-all duration-200 active:scale-[0.98] min-h-[52px] ${
-                      window.location.pathname === '/franchise-opportunities'
-                        ? 'bg-[#0b0f19] text-white shadow-md'
-                        : 'text-slate-800 hover:bg-slate-50'
-                    }`}
-                  >
-                    <span>Franchise Opportunities</span>
-                  </a>
-
                   {/* Services */}
                   <a
                     href="/services"
@@ -576,6 +553,19 @@ function Navbar() {
                     }`}
                   >
                     <span>Services</span>
+                  </a>
+
+                  {/* Franchise Opportunities */}
+                  <a
+                    href="/franchise-opportunities"
+                    onClick={(e) => { e.preventDefault(); navigateTo('/franchise-opportunities'); }}
+                    className={`flex items-center justify-between rounded-xl px-4 py-4 text-base font-semibold transition-all duration-200 active:scale-[0.98] min-h-[52px] ${
+                      window.location.pathname === '/franchise-opportunities'
+                        ? 'bg-[#0b0f19] text-white shadow-md'
+                        : 'text-slate-800 hover:bg-slate-50'
+                    }`}
+                  >
+                    <span>Franchise Opportunities</span>
                   </a>
 
                   {/* About Us */}

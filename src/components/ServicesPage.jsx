@@ -574,34 +574,6 @@ export default function ServicesPage() {
         </div>
       </div>
 
-      {/* CTA */}
-      <div className="relative z-10 mx-auto max-w-[1240px] px-4 sm:px-6 lg:px-8 py-24">
-        <Reveal>
-          <div className="relative overflow-hidden rounded-3xl bg-[#0b1220] px-8 py-16 text-center shadow-[0_40px_100px_rgba(0,0,0,0.25)]">
-            <div className="pointer-events-none absolute top-[-40%] left-1/2 -translate-x-1/2 w-[600px] h-[400px] opacity-30 blur-3xl"
-              style={{ background: 'radial-gradient(ellipse, rgba(99,102,241,0.8) 0%, transparent 70%)' }} />
-            <div className="relative z-10">
-              <span className="inline-block rounded-full border border-indigo-500/30 bg-indigo-500/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-indigo-300 mb-6">
-                Get Started Today
-              </span>
-              <h2 className="text-4xl font-extrabold text-white md:text-5xl mb-4">Ready to scale your brand?</h2>
-              <p className="text-base text-slate-400 max-w-lg mx-auto mb-10">
-                Book a free 30-minute strategy call with our senior consultants and discover your brand's true growth potential.
-              </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <button type="button" onClick={() => navigateTo('/contact')}
-                  className="group relative overflow-hidden rounded-xl bg-indigo-600 px-9 py-4 text-sm font-bold text-white transition-all duration-300 hover:bg-indigo-500 hover:-translate-y-0.5">
-                  Book Your Strategy Call
-                </button>
-                <button type="button" onClick={() => navigateTo('/franchise-opportunities')}
-                  className="rounded-xl border border-white/20 bg-white/5 px-9 py-4 text-sm font-bold text-white transition-all duration-300 hover:border-white/35 hover:bg-white/8">
-                  View Opportunities
-                </button>
-              </div>
-            </div>
-          </div>
-        </Reveal>
-      </div>
 
     </div>
   );

@@ -372,23 +372,6 @@ function ContactPage() {
                 />
               ))}
 
-              {/* ── Stat card — top-right, outside image ── */}
-              <motion.div
-                initial={{ opacity: 0, y: 16, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 0.6, delay: 1.0, ease: 'easeOut' }}
-                className="absolute -top-6 right-2 z-30 flex items-center gap-2.5 rounded-2xl border border-white/70 bg-white/95 px-4 py-2.5 shadow-[0_8px_32px_rgba(15,23,42,0.10)] backdrop-blur-sm lg:-right-2 xl:-right-6"
-              >
-                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 text-[10px] font-black leading-none text-white shadow-sm">
-                  500+
-                </div>
-                <div>
-                  <p className="text-xs font-bold text-slate-900">Brands Scaled</p>
-                  <p className="text-[10px] text-slate-500">Across India</p>
-                </div>
-              </motion.div>
-
-
 
               {/* ── Main image — clean, unobstructed ── */}
               <motion.div
@@ -418,25 +401,6 @@ function ContactPage() {
             </div>
           </div>
         </div>
-
-        {/* ── Scroll indicator ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.2 }}
-          className="absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-2 lg:flex"
-        >
-          <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-            Scroll to connect
-          </span>
-          <motion.div
-            animate={{ y: [0, 6, 0] }}
-            transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-            className="flex h-8 w-5 items-start justify-center rounded-full border-2 border-slate-300 pt-1.5"
-          >
-            <div className="h-1.5 w-1 rounded-full bg-slate-400" />
-          </motion.div>
-        </motion.div>
       </section>
 
       {/* SECTION 2 - CONTACT FORM (FULL VIEWPORT FIT) */}
@@ -792,7 +756,7 @@ function ContactPage() {
           </motion.div>
 
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            {/* Left Side - Interactive Black Contact Card */}
+            {/* Left Side - Contact Info Card */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -800,26 +764,26 @@ function ContactPage() {
               className="order-last lg:order-first"
             >
               <div className="relative group">
-                <div className="relative bg-black rounded-3xl p-8 lg:p-10 shadow-2xl group-hover:shadow-3xl transition-all duration-500 border border-slate-800/50">
-                  <div className="space-y-6">
+                <div className="relative bg-white rounded-3xl p-8 lg:p-10 shadow-[0_4px_32px_rgba(11,15,25,0.08)] group-hover:shadow-[0_8px_48px_rgba(11,15,25,0.12)] transition-all duration-500 border border-slate-100">
+                  <div className="space-y-2">
                     {/* Email - Interactive */}
                     <motion.a
                       href="mailto:hello@ifranchise.in"
                       whileHover={{ x: 4 }}
                       className="group/item cursor-pointer block"
                     >
-                      <div className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-900/50 transition-all duration-300 border border-transparent hover:border-slate-700">
-                        <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center border border-white/20">
-                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-50 transition-all duration-300 border border-transparent hover:border-slate-200">
+                        <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center border border-slate-200">
+                          <svg className="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                           </svg>
                         </div>
                         <div className="flex-1">
-                          <p className="text-sm text-slate-400 font-medium mb-1">Email:</p>
-                          <p className="text-white font-semibold group-hover/item:underline transition-all duration-300">hello@ifranchise.in</p>
+                          <p className="text-xs text-slate-400 font-medium mb-0.5 uppercase tracking-wide">Email</p>
+                          <p className="text-slate-800 font-semibold group-hover/item:text-indigo-600 transition-colors duration-300">hello@ifranchise.in</p>
                         </div>
                         <div className="opacity-0 group-hover/item:opacity-100 transition-opacity duration-300">
-                          <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                           </svg>
                         </div>
@@ -832,18 +796,18 @@ function ContactPage() {
                       whileHover={{ x: 4 }}
                       className="group/item cursor-pointer block"
                     >
-                      <div className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-900/50 transition-all duration-300 border border-transparent hover:border-slate-700">
-                        <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center border border-white/20">
-                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-50 transition-all duration-300 border border-transparent hover:border-slate-200">
+                        <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center border border-slate-200">
+                          <svg className="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                           </svg>
                         </div>
                         <div className="flex-1">
-                          <p className="text-sm text-slate-400 font-medium mb-1">Phone:</p>
-                          <p className="text-white font-semibold group-hover/item:underline transition-all duration-300">+91 98765 43210</p>
+                          <p className="text-xs text-slate-400 font-medium mb-0.5 uppercase tracking-wide">Phone</p>
+                          <p className="text-slate-800 font-semibold group-hover/item:text-indigo-600 transition-colors duration-300">+91 98765 43210</p>
                         </div>
                         <div className="opacity-0 group-hover/item:opacity-100 transition-opacity duration-300">
-                          <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                           </svg>
                         </div>
@@ -858,19 +822,19 @@ function ContactPage() {
                       whileHover={{ x: 4 }}
                       className="group/item cursor-pointer block"
                     >
-                      <div className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-900/50 transition-all duration-300 border border-transparent hover:border-slate-700">
-                        <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center border border-white/20">
-                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-50 transition-all duration-300 border border-transparent hover:border-slate-200">
+                        <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center border border-slate-200">
+                          <svg className="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                           </svg>
                         </div>
                         <div className="flex-1">
-                          <p className="text-sm text-slate-400 font-medium mb-1">Address:</p>
-                          <p className="text-white font-semibold group-hover/item:underline transition-all duration-300">Bangalore, Karnataka, India</p>
+                          <p className="text-xs text-slate-400 font-medium mb-0.5 uppercase tracking-wide">Address</p>
+                          <p className="text-slate-800 font-semibold group-hover/item:text-indigo-600 transition-colors duration-300">Bangalore, Karnataka, India</p>
                         </div>
                         <div className="opacity-0 group-hover/item:opacity-100 transition-opacity duration-300">
-                          <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                           </svg>
                         </div>
@@ -878,37 +842,20 @@ function ContactPage() {
                     </motion.a>
 
                     {/* Availability */}
-                    <motion.div
-                      whileHover={{ x: 4 }}
-                      className="group/item"
-                    >
-                      <div className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-900/50 transition-all duration-300 border border-transparent hover:border-slate-700">
-                        <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center border border-white/20">
-                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <motion.div whileHover={{ x: 4 }} className="group/item">
+                      <div className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-50 transition-all duration-300 border border-transparent hover:border-slate-200">
+                        <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center border border-slate-200">
+                          <svg className="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>
                         </div>
                         <div className="flex-1">
-                          <p className="text-sm text-slate-400 font-medium mb-1">Availability:</p>
-                          <p className="text-white font-semibold">Monday to Saturday, 9 AM – 7 PM IST</p>
+                          <p className="text-xs text-slate-400 font-medium mb-0.5 uppercase tracking-wide">Availability</p>
+                          <p className="text-slate-800 font-semibold">Monday to Saturday, 9 AM – 7 PM IST</p>
                         </div>
                       </div>
                     </motion.div>
                   </div>
-
-                  {/* Premium CTA Button */}
-                  <div className="mt-8 pt-6 border-t border-slate-800">
-                    <motion.button
-                      whileHover={{ scale: 1.02, y: -2 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="w-full bg-white text-black px-6 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-slate-50"
-                    >
-                      Book Your Strategic Call
-                    </motion.button>
-                  </div>
-
-                  {/* Subtle glow effect */}
-                  <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-slate-800/20 to-slate-700/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                 </div>
               </div>
             </motion.div>

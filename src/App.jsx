@@ -19,6 +19,7 @@ import CareerDetailPage from './components/CareerDetailPage';
 import FloatingContactCTA from './components/FloatingContactCTA';
 import ForBrandOwnersPage from './components/ForBrandOwnersPage';
 import ForInvestorsPage from './components/ForInvestorsPage';
+import PreFooterCTA from './components/PreFooterCTA';
 
 const scrollToHashSection = () => {
   const hash = window.location.hash;
@@ -246,6 +247,7 @@ function App() {
           <Hero />
         )}
       </div>
+      <PreFooterCTA />
       <Footer />
       
       {/* Global Floating Contact CTA - Always visible on Franchise Details and Franchise Opportunities pages */}
