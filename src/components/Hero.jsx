@@ -1900,7 +1900,7 @@ function MarketIntelligenceSection() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
             </span>
-            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">India Franchise Market Intelligence</span>
+            <span className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">India Franchise Market Intelligence</span>
           </div>
           <h2 className="text-2xl sm:text-3xl lg:text-[2rem] font-extrabold tracking-tight text-[#0b0f19] leading-tight mb-2">
             Inside India&apos;s Franchise Growth Engine
@@ -2814,106 +2814,14 @@ function Hero() {
       {/* -- GROWTH CARDS SECTION -- */}
       <section className="relative w-full py-12 sm:py-16 lg:py-20 section-reveal" ref={growthRef}>
         <div className="section-container">
-          {/* -- What is Franchising? -- */}
-        <div className="mb-12 sm:mb-16">
-          {/* Section header */}
-          <div className="text-center mb-8 sm:mb-10">
-            <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 mb-3">
-              Franchise Basics
-            </p>
-            <h2 className="text-[clamp(1.6rem,5vw,2.6rem)] font-extrabold tracking-tight text-[#0b0f19] leading-tight mb-3">
-              What is Franchising &amp; Why It Matters
-            </h2>
-            <p className="text-sm sm:text-base text-slate-500 max-w-2xl mx-auto leading-relaxed">
-              New to franchising? Learn the fundamentals of how franchise businesses work, who powers them, and why India's market is booming.
-            </p>
-          </div>
-
-          {/* 2�2 card grid � equal height via grid rows */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:grid-rows-2">
-            {[
-              {
-                badge: 'Low Risk',
-                badgeColor: 'bg-emerald-50 text-emerald-700',
-                badgeIcon: (
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
-                ),
-                title: 'What is a Franchise?',
-                body: 'A franchise is a business system where you invest in an already established brand and operate your own outlet using its name, products, training, and proven success model. Instead of starting from zero, you run a ready-made business with lower risk, structured support, and faster growth potential.',
-                why: 'Perfect for first-time entrepreneurs seeking a safer, structured business entry.',
-                img: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80',
-                fallbackImgs: [
-                  'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=800&q=80',
-                  'https://images.unsplash.com/photo-1534723452862-4c874018d66d?auto=format&fit=crop&w=800&q=80',
-                ],
-                alt: 'Franchise retail store interior',
-                fallback: 'from-blue-50 to-slate-100',
-              },
-              {
-                badge: 'Brand Power',
-                badgeColor: 'bg-violet-50 text-violet-700',
-                badgeIcon: (
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
-                ),
-                title: 'What is a Franchisor?',
-                body: 'A franchisor is the original business owner or parent company that creates the brand, business model, and operational systems. They provide franchisees with licensing rights, branding, marketing support, and business guidance to expand their network.',
-                why: 'Franchisors grow their brand nationally without managing every outlet directly.',
-                img: 'https://images.unsplash.com/photo-1542744173-8e7a5d373a97?auto=format&fit=crop&w=800&q=80',
-                fallbackImgs: [
-                  'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80',
-                  'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80',
-                ],
-                alt: 'Business leadership team strategy meeting',
-                fallback: 'from-violet-50 to-slate-100',
-              },
-              {
-                badge: 'Business Support',
-                badgeColor: 'bg-blue-50 text-blue-700',
-                badgeIcon: (
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                ),
-                title: 'What is a Franchisee?',
-                body: 'A franchisee is the investor or entrepreneur who purchases the rights to operate a franchisor\'s business in a specific location. They manage daily operations while benefiting from an established reputation, customer trust, and expert support.',
-                why: 'Franchisees gain independence with the safety net of a proven brand behind them.',
-                img: 'https://images.unsplash.com/photo-1664575602554-2087b04935a5?auto=format&fit=crop&w=800&q=80',
-                fallbackImgs: [
-                  'https://images.unsplash.com/photo-1507003211169-0a1dd7228d39?auto=format&fit=crop&w=800&q=80',
-                  'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=80',
-                ],
-                alt: 'Entrepreneur managing a franchise business',
-                fallback: 'from-sky-50 to-slate-100',
-              },
-              {
-                badge: 'Market Growth',
-                badgeColor: 'bg-orange-50 text-orange-700',
-                badgeIcon: (
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
-                ),
-                title: "Why India's Franchise Market is Growing",
-                body: "India's franchise industry is rapidly expanding due to rising disposable income, urbanisation, startup ambition, and increasing demand for trusted brands. From food to retail to wellness, franchising is becoming one of India's smartest business expansion and investment opportunities.",
-                why: 'India is projected to be among the top 3 global franchise markets by 2030.',
-                img: 'https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=800&q=80',
-                fallbackImgs: [
-                  'https://images.unsplash.com/photo-1567521464027-f127ff144326?auto=format&fit=crop&w=800&q=80',
-                  'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
-                ],
-                alt: 'India retail market and business growth',
-                fallback: 'from-orange-50 to-slate-100',
-              },
-            ].map((card, i) => (
-              <FranchiseEduCard key={card.title} card={card} index={i} />
-            ))}
-          </div>
-        </div>
-        {/* -- End What is Franchising? -- */}
-
         {/* ── Who Are You? / Choose Your Path ── */}
         <div id="who-are-you" className="mb-8 sm:mb-10">
           {/* Section header */}
           <div className="text-center mb-6 sm:mb-8">
-            <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 mb-3">
-              Who Are You?
-            </p>
+            <span className="inline-flex items-center gap-2 bg-white border border-slate-200 shadow-sm rounded-full px-4 py-1.5 mb-4">
+              <span className="w-1.5 h-1.5 rounded-full bg-violet-500" />
+              <span className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-600">Choose Your Path</span>
+            </span>
             <h2 className="text-[clamp(1.6rem,5vw,2.6rem)] font-extrabold tracking-tight text-[#0b0f19] leading-tight mb-3">
               Your Franchise Journey Starts Here
             </h2>
@@ -2946,7 +2854,7 @@ function Hero() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-violet-500" />
             </span>
-            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+            <span className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">
               How iFranchise Works
             </span>
           </div>
@@ -3079,9 +2987,10 @@ function Hero() {
 
       <div id="services" ref={modelsRef} className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <div className="mx-auto max-w-[640px] text-center px-4">
-          <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
-            FRANCHISE MODELS
-          </p>
+          <span className="inline-flex items-center gap-2 bg-white border border-slate-200 shadow-sm rounded-full px-4 py-1.5 mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+            <span className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-600">Franchise Models</span>
+          </span>
           <h2 className="mt-3 text-[clamp(1.75rem,7vw,3rem)] font-extrabold tracking-tight text-[#0b0f19] leading-tight">
             Choose the right franchise model
           </h2>
@@ -3103,6 +3012,46 @@ function Hero() {
         </div>
       </div>
 
+      {/* -- FEATURED FRANCHISES SECTION -- */}
+      <section className="relative w-full py-12 sm:py-16 lg:py-20 section-reveal">
+        <div className="section-container">
+          <div className="section-header">
+            <div className="section-pill">
+              <span className="w-2 h-2 rounded-full bg-blue-500" />
+              <span className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-600">
+                OPPORTUNITIES
+              </span>
+            </div>
+            <h2 className="section-title">
+              Featured Franchises
+            </h2>
+            <p className="section-subtitle">
+              Curated, high-performing brands ready for expansion and investment
+            </p>
+          </div>
+
+          <div className="mt-8 sm:mt-10 md:mt-12 grid gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {featuredFranchises.slice(0, 3).map((franchise) => (
+              <FranchiseCard key={franchise.id} franchise={franchise} />
+            ))}
+          </div>
+
+          <div className="mt-12 sm:mt-14 md:mt-16 text-center">
+            <button
+              type="button"
+              onClick={() => {
+                window.history.pushState({}, '', '/franchise-opportunities');
+                window.dispatchEvent(new PopStateEvent('popstate'));
+              }}
+              className="cta-button"
+            >
+              View More
+              <span className="transition duration-200 group-hover:translate-x-1">{"\u2192"}</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* -- SOCIAL PROOF ECOSYSTEM -- */}
       <section className="relative w-full py-12 sm:py-16 lg:py-20 section-reveal">
         <div className="section-container">
@@ -3114,7 +3063,7 @@ function Hero() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
               </span>
-              <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+              <span className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">
                 Testimonials
               </span>
             </div>
@@ -3281,46 +3230,6 @@ function Hero() {
         </div>
       </section>
 
-      {/* -- FEATURED FRANCHISES SECTION -- */}
-      <section className="relative w-full py-12 sm:py-16 lg:py-20 section-reveal">
-        <div className="section-container">
-          <div className="section-header">
-            <div className="section-pill">
-              <span className="w-2 h-2 rounded-full bg-blue-500" />
-              <span className="text-xs font-bold uppercase tracking-[0.15em] text-slate-600">
-                OPPORTUNITIES
-              </span>
-            </div>
-            <h2 className="section-title">
-              Featured Franchises
-            </h2>
-            <p className="section-subtitle">
-              Curated, high-performing brands ready for expansion and investment
-            </p>
-          </div>
-
-          <div className="mt-8 sm:mt-10 md:mt-12 grid gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {featuredFranchises.slice(0, 3).map((franchise) => (
-              <FranchiseCard key={franchise.id} franchise={franchise} />
-            ))}
-          </div>
-
-          <div className="mt-12 sm:mt-14 md:mt-16 text-center">
-            <button
-              type="button"
-              onClick={() => {
-                window.history.pushState({}, '', '/franchise-opportunities');
-                window.dispatchEvent(new PopStateEvent('popstate'));
-              }}
-              className="cta-button"
-            >
-              View More
-              <span className="transition duration-200 group-hover:translate-x-1">{"\u2192"}</span>
-            </button>
-          </div>
-        </div>
-      </section>
-
       {/* -- FRANCHISE FAQ / DECISION INTELLIGENCE SECTION -- */}
       <section className="relative w-full py-12 sm:py-16 lg:py-20 section-reveal">
         <div className="section-container">
@@ -3343,8 +3252,8 @@ function Hero() {
           >
             <div className="inline-flex items-center gap-2 bg-gradient-to-r from-white to-slate-50 border border-slate-200/60 shadow-sm rounded-full px-3 py-1">
               <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-600">
-                FRANCHISE DECISION INTELLIGENCE
+              <span className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-600">
+                FAQs
               </span>
             </div>
           </div>

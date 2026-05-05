@@ -1,5 +1,51 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { createPortal } from 'react-dom';
+import '../styles/about-page-optimizations.css';
+
+// Lazy load images with intersection observer
+function LazyImage({ src, alt, className, style }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+  const imgRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '50px' }
+    );
+
+    if (imgRef.current) {
+      observer.observe(imgRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={imgRef} className={className} style={style}>
+      {isInView && (
+        <img
+          src={src}
+          alt={alt}
+          loading="lazy"
+          onLoad={() => setIsLoaded(true)}
+          style={{
+            ...style,
+            opacity: isLoaded ? 1 : 0,
+            transition: 'opacity 0.3s ease-in-out'
+          }}
+          className={className}
+        />
+      )}
+    </div>
+  );
+}
 
 // Premium Team Card Component with Interactive Social Reveal
 function PremiumTeamCard({ member }) {
@@ -274,45 +320,6 @@ function PremiumTeamCard({ member }) {
 }
 
 // Brand Card Component
-function BrandCard({ brand }) {
-  return (
-    <div className="group relative flex h-20 w-48 flex-shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-slate-800/80 to-slate-900/80 px-6 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-violet-400/30 hover:shadow-[0_0_24px_rgba(139,92,246,0.15)] lg:h-24 lg:w-56">
-      {/* Subtle gradient overlay on hover */}
-      <div className="absolute inset-0 bg-gradient-to-br from-violet-500/0 to-indigo-500/0 opacity-0 transition-opacity duration-300 group-hover:opacity-10" />
-      
-      {/* Brand name */}
-      <span className="relative z-10 text-center text-lg font-bold tracking-wide text-white/90 transition-colors duration-300 group-hover:text-white lg:text-xl">
-        {brand.name}
-      </span>
-      
-      {/* Glow effect */}
-      <div className="absolute inset-0 opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-20">
-        <div className="h-full w-full bg-gradient-to-r from-violet-400 to-indigo-400" />
-      </div>
-    </div>
-  );
-}
-
-// Brand Logos Data - Realistic franchise categories
-const brandLogos = [
-  { name: 'BurgerBlast', category: 'food' },
-  { name: 'FitLife Studio', category: 'fitness' },
-  { name: 'KidZone Academy', category: 'education' },
-  { name: 'EduSpark', category: 'education' },
-  { name: 'RetailHub', category: 'retail' },
-  { name: 'UrbanBite', category: 'food' },
-  { name: 'SmartCare Clinic', category: 'healthcare' },
-  { name: 'GrowthLabs', category: 'business' },
-  { name: 'CoffeeHouse Co.', category: 'food' },
-  { name: 'TechRepair Pro', category: 'service' },
-  { name: 'PetPalace', category: 'retail' },
-  { name: 'YogaFlow', category: 'fitness' },
-  { name: 'QuickBites', category: 'food' },
-  { name: 'AutoCare Plus', category: 'service' },
-  { name: 'BeautyBar', category: 'beauty' },
-  { name: 'HomeClean Pro', category: 'service' },
-];
-
 // Accordion Item Component
 function AccordionItem({ number, title, content, defaultOpen = false }) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
@@ -464,357 +471,45 @@ const customerTestimonials = [
   },
 ];
 
-// ─── Culture Section Data ────────────────────────────────────────────────────
-
-const cultureImages = [
-  'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80',
+// Slideshow Images for About Section
+const slideshowImages = [
   'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80',
   'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80',
   'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=80',
   'https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=1200&q=80',
-  'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80',
-  'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1200&q=80',
-  'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80',
 ];
-
-const cultureValues = [
-  {
-    icon: (
-      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-      </svg>
-    ),
-    title: 'Innovation First',
-    description: 'We challenge convention and build systems that didn\'t exist before.',
-  },
-  {
-    icon: (
-      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-      </svg>
-    ),
-    title: 'Founder Mindset',
-    description: 'Every decision is made with ownership, urgency, and long-term vision.',
-  },
-  {
-    icon: (
-      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-      </svg>
-    ),
-    title: 'Strategic Integrity',
-    description: 'Transparency and trust are non-negotiable in every partnership we build.',
-  },
-  {
-    icon: (
-      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-      </svg>
-    ),
-    title: 'Scalable Collaboration',
-    description: 'We grow together — across teams, brands, and geographies.',
-  },
-];
-
-const floatingBadges = [
-  { text: '100+ Brands Scaled', delay: 0 },
-  { text: 'Built in Bangalore', delay: 0.15 },
-  { text: 'Founder-first Ecosystem', delay: 0.3 },
-];
-
-// ─── Culture Section Component ───────────────────────────────────────────────
-
-function CultureSection() {
-  const [activeImage, setActiveImage] = useState(0);
-  const carouselImages = [...cultureImages, ...cultureImages];
-
-  // Auto-advance carousel on mobile
-  const [mobileIdx, setMobileIdx] = useState(0);
-  const totalImages = cultureImages.length;
-
-  return (
-    <section className="relative w-full overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50 py-24 md:py-32">
-      {/* ── Subtle Background Blobs ── */}
-      <div className="pointer-events-none absolute inset-0">
-        <motion.div
-          animate={{ scale: [1, 1.15, 1], opacity: [0.04, 0.09, 0.04] }}
-          transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute left-[5%] top-[10%] h-[500px] w-[500px] rounded-full bg-violet-500/20 blur-[120px]"
-        />
-        <motion.div
-          animate={{ scale: [1, 1.2, 1], opacity: [0.03, 0.07, 0.03] }}
-          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
-          className="absolute right-[5%] bottom-[10%] h-[600px] w-[600px] rounded-full bg-indigo-500/15 blur-[140px]"
-        />
-        {/* Subtle grid */}
-        <svg className="absolute inset-0 h-full w-full opacity-[0.025]" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="culture-grid" width="50" height="50" patternUnits="userSpaceOnUse">
-              <path d="M 50 0 L 0 0 0 50" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-slate-900" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#culture-grid)" />
-        </svg>
-      </div>
-
-      <div className="relative z-10 mx-auto w-full max-w-[1400px] px-6 md:px-12 lg:px-20">
-        {/* ── Desktop Layout: 55% image | 45% content ── */}
-        <div className="flex flex-col gap-12 lg:flex-row lg:items-center lg:gap-16">
-
-          {/* ── LEFT: Sticky Image Showcase (55%) ── */}
-          <div className="w-full lg:w-[55%]">
-            {/* Desktop: Auto-scroll sticky carousel */}
-            <div className="hidden lg:block">
-              <div className="relative overflow-hidden rounded-3xl shadow-[0_24px_80px_rgba(15,23,42,0.12)]">
-                {/* Main image frame */}
-                <div className="relative h-[360px] w-full overflow-hidden rounded-3xl sm:h-[460px] lg:h-[560px]">
-                  <AnimatePresence mode="wait">
-                    <motion.img
-                      key={activeImage}
-                      src={cultureImages[activeImage]}
-                      alt={`iFranchise culture moment ${activeImage + 1}`}
-                      initial={{ opacity: 0, scale: 1.06 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.97 }}
-                      transition={{ duration: 0.7, ease: 'easeInOut' }}
-                      className="h-full w-full object-cover"
-                      loading="lazy"
-                    />
-                  </AnimatePresence>
-
-                  {/* Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-
-                  {/* Floating Badges */}
-                  <div className="absolute bottom-6 left-6 flex flex-wrap gap-2">
-                    {floatingBadges.map((badge, i) => (
-                      <motion.div
-                        key={badge.text}
-                        initial={{ opacity: 0, y: 12 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.4 + badge.delay }}
-                        className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/15 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-md"
-                      >
-                        <span className="h-1.5 w-1.5 rounded-full bg-violet-300" />
-                        {badge.text}
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Thumbnail strip */}
-                <div className="mt-4 flex gap-3 overflow-x-auto pb-1 hide-scrollbar">
-                  {cultureImages.map((img, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setActiveImage(i)}
-                      className={`relative h-16 w-24 flex-shrink-0 overflow-hidden rounded-xl border-2 transition-all duration-300 ${
-                        activeImage === i
-                          ? 'border-violet-500 shadow-[0_0_16px_rgba(139,92,246,0.4)]'
-                          : 'border-transparent opacity-60 hover:opacity-90'
-                      }`}
-                      aria-label={`View culture image ${i + 1}`}
-                    >
-                      <img src={img} alt="" className="h-full w-full object-cover" loading="lazy" />
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Mobile: Swipe carousel */}
-            <div className="relative overflow-hidden rounded-3xl lg:hidden">
-              <div
-                className="flex transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
-                style={{ transform: `translateX(-${mobileIdx * 100}%)` }}
-              >
-                {cultureImages.map((img, i) => (
-                  <div key={i} className="relative h-64 w-full flex-shrink-0 overflow-hidden rounded-3xl sm:h-80 md:h-96">
-                    <img src={img} alt={`Culture moment ${i + 1}`} className="h-full w-full object-cover" loading="lazy" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                    {i === mobileIdx && (
-                      <div className="absolute bottom-4 left-4 flex flex-wrap gap-2">
-                        {floatingBadges.map((badge) => (
-                          <span
-                            key={badge.text}
-                            className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/15 px-3 py-1 text-xs font-semibold text-white backdrop-blur-md"
-                          >
-                            <span className="h-1.5 w-1.5 rounded-full bg-violet-300" />
-                            {badge.text}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-
-              {/* Mobile nav dots */}
-              <div className="mt-4 flex justify-center gap-2">
-                {cultureImages.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setMobileIdx(i)}
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      mobileIdx === i ? 'w-6 bg-violet-600' : 'w-2 bg-slate-300'
-                    }`}
-                    aria-label={`Go to image ${i + 1}`}
-                  />
-                ))}
-              </div>
-
-              {/* Mobile swipe arrows */}
-              <button
-                onClick={() => setMobileIdx((p) => (p - 1 + totalImages) % totalImages)}
-                className="absolute left-3 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-white/20 text-white backdrop-blur-sm transition hover:bg-white/30"
-                aria-label="Previous image"
-              >
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-              <button
-                onClick={() => setMobileIdx((p) => (p + 1) % totalImages)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-white/20 text-white backdrop-blur-sm transition hover:bg-white/30"
-                aria-label="Next image"
-              >
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          {/* ── RIGHT: Content (45%) ── */}
-          <div className="w-full lg:w-[45%]">
-            {/* Top badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-violet-50 px-4 py-1.5 shadow-sm"
-            >
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-violet-500" />
-              <span className="text-xs font-bold uppercase tracking-[0.2em] text-violet-700">Our Culture</span>
-            </motion.div>
-
-            {/* Heading */}
-            <motion.h2
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.1 }}
-              className="mt-6 text-4xl font-black leading-tight tracking-tight text-slate-900 sm:text-5xl lg:text-[3.25rem]"
-            >
-              Scaling brands starts with{' '}
-              <span className="bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
-                scaling people.
-              </span>
-            </motion.h2>
-
-            {/* Body */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="mt-6 text-lg leading-relaxed text-slate-600"
-            >
-              At iFranchise, our culture is built around execution, transparency, and founder-first thinking. We combine strategy, design, and expansion intelligence to create real business momentum.
-            </motion.p>
-
-            {/* Values 2×2 Grid */}
-            <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {cultureValues.map((value, idx) => (
-                <motion.div
-                  key={value.title}
-                  initial={{ opacity: 0, y: 28 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.55, delay: 0.3 + idx * 0.08 }}
-                  whileHover={{ y: -4, transition: { duration: 0.25 } }}
-                  className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_4px_16px_rgba(15,23,42,0.04)] transition-all duration-300 hover:border-violet-300 hover:shadow-[0_8px_32px_rgba(124,58,237,0.12)]"
-                >
-                  {/* Hover glow */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-violet-50/0 to-indigo-50/0 opacity-0 transition-opacity duration-300 group-hover:from-violet-50/60 group-hover:to-indigo-50/40 group-hover:opacity-100" />
-
-                  <div className="relative z-10 flex items-start gap-4">
-                    {/* Icon */}
-                    <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-violet-100 to-indigo-100 text-violet-600 shadow-sm transition-transform duration-300 group-hover:scale-110">
-                      {value.icon}
-                    </div>
-
-                    <div>
-                      <h3 className="text-base font-bold tracking-tight text-slate-900">
-                        {value.title}
-                      </h3>
-                      <p className="mt-1 text-sm leading-relaxed text-slate-500">
-                        {value.description}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Stats row */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.6 }}
-              className="mt-10 flex flex-wrap items-center gap-8 border-t border-slate-100 pt-8"
-            >
-              {[
-                { value: '100+', label: 'Brands Scaled' },
-                { value: '6+', label: 'Years of Execution' },
-                { value: '50+', label: 'Team Members' },
-              ].map((stat) => (
-                <div key={stat.label} className="text-center">
-                  <p className="text-3xl font-black tracking-tight text-slate-900">{stat.value}</p>
-                  <p className="mt-0.5 text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">{stat.label}</p>
-                </div>
-              ))}
-            </motion.div>
-          </div>
-        </div>
-
-        {/* ── Bottom: Scrolling image marquee strip ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="mt-20 overflow-hidden"
-        >
-          <div className="animate-marquee-left flex w-max items-center gap-5 py-2">
-            {carouselImages.map((img, idx) => (
-              <div
-                key={`${img}-${idx}`}
-                className="group relative h-52 w-[300px] flex-shrink-0 overflow-hidden rounded-2xl border border-slate-200 shadow-[0_4px_20px_rgba(15,23,42,0.06)] transition-all duration-500 hover:shadow-[0_8px_32px_rgba(124,58,237,0.15)]"
-              >
-                <img
-                  src={img}
-                  alt="iFranchise team culture"
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-              </div>
-            ))}
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
 
 // ─────────────────────────────────────────────────────────────────────────────
 
 function AboutPage() {
+  const [founderModalOpen, setFounderModalOpen] = useState(false);
+  const [cofounderModalOpen, setCofounderModalOpen] = useState(false);
+  const [expandedCard, setExpandedCard] = useState(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Create testimonials loop for marquee
   const testimonialsLoop = [...customerTestimonials, ...customerTestimonials];
+
+  // Auto-advance slideshow (faster - every 3 seconds)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slideshowImages.length);
+    }, 3000); // Change slide every 3 seconds (faster)
+    
+    return () => clearInterval(interval);
+  }, []);
+
+  // Disable scroll when modal is open
+  useEffect(() => {
+    if (founderModalOpen || cofounderModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [founderModalOpen, cofounderModalOpen]);
 
   const openTeamPage = () => {
     window.history.pushState({}, '', '/team');
@@ -822,347 +517,418 @@ function AboutPage() {
   };
 
   return (
-    <main className="w-full">
-      {/* CINEMATIC PREMIUM HERO SECTION - About our Company */}
-      <section className="relative w-full overflow-hidden bg-white pt-16 pb-10 lg:pt-20 lg:pb-12">
-        {/* Advanced Cinematic Background */}
-        <div className="pointer-events-none absolute inset-0">
-          {/* Animated gradient mesh */}
-          <div className="absolute inset-0 bg-gradient-to-br from-violet-50/30 via-white to-indigo-50/20" />
-          
-          {/* Floating strategic grid lines */}
-          <svg className="absolute inset-0 h-full w-full opacity-[0.03]" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-slate-900" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#grid)" />
-          </svg>
+    <>
+    <main className="w-full bg-white">
+      {/* HERO SECTION - STRICT GRID */}
+      <section className="relative w-full bg-white py-24">
+        <div className="mx-auto w-full max-w-[1200px] px-6">
+          <div className="grid items-center gap-12 lg:grid-cols-12">
 
-          {/* Animated network nodes - floating */}
-          <motion.div
-            animate={{
-              y: [0, -20, 0],
-              opacity: [0.3, 0.6, 0.3],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            className="absolute left-[10%] top-[15%] h-2 w-2 rounded-full bg-violet-400/40 blur-[1px]"
-          />
-          <motion.div
-            animate={{
-              y: [0, 30, 0],
-              opacity: [0.2, 0.5, 0.2],
-            }}
-            transition={{
-              duration: 10,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 1,
-            }}
-            className="absolute right-[15%] top-[25%] h-3 w-3 rounded-full bg-indigo-400/30 blur-[1px]"
-          />
-          <motion.div
-            animate={{
-              y: [0, -25, 0],
-              x: [0, 15, 0],
-              opacity: [0.25, 0.55, 0.25],
-            }}
-            transition={{
-              duration: 12,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 2,
-            }}
-            className="absolute left-[70%] top-[40%] h-2.5 w-2.5 rounded-full bg-violet-500/35 blur-[1px]"
-          />
-          <motion.div
-            animate={{
-              y: [0, 20, 0],
-              x: [0, -10, 0],
-              opacity: [0.3, 0.6, 0.3],
-            }}
-            transition={{
-              duration: 9,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 0.5,
-            }}
-            className="absolute left-[25%] bottom-[30%] h-2 w-2 rounded-full bg-indigo-500/40 blur-[1px]"
-          />
-
-          {/* Soft glowing pathways */}
-          <motion.div
-            animate={{
-              opacity: [0.1, 0.3, 0.1],
-              scale: [1, 1.1, 1],
-            }}
-            transition={{
-              duration: 6,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            className="absolute left-[20%] top-[20%] h-64 w-64 rounded-full bg-gradient-to-br from-violet-200/20 to-transparent blur-3xl"
-          />
-          <motion.div
-            animate={{
-              opacity: [0.15, 0.35, 0.15],
-              scale: [1, 1.15, 1],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 2,
-            }}
-            className="absolute right-[15%] bottom-[25%] h-80 w-80 rounded-full bg-gradient-to-tl from-indigo-200/20 to-transparent blur-3xl"
-          />
-
-          {/* Particle flows */}
-          <motion.div
-            animate={{
-              x: [-100, 1200],
-              opacity: [0, 0.4, 0],
-            }}
-            transition={{
-              duration: 15,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-            className="absolute top-[30%] h-[1px] w-32 bg-gradient-to-r from-transparent via-violet-400/40 to-transparent"
-          />
-          <motion.div
-            animate={{
-              x: [1200, -100],
-              opacity: [0, 0.3, 0],
-            }}
-            transition={{
-              duration: 18,
-              repeat: Infinity,
-              ease: "linear",
-              delay: 3,
-            }}
-            className="absolute top-[60%] h-[1px] w-40 bg-gradient-to-r from-transparent via-indigo-400/30 to-transparent"
-          />
-        </div>
-
-        <div className="relative z-10 mx-auto w-full max-w-[1280px] px-6 md:px-12 lg:px-20">
-          <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-            {/* LEFT SIDE - Enhanced Brand Narrative */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="space-y-8"
-            >
-              {/* WHO WE ARE Pill */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-violet-50 px-4 py-1.5 shadow-sm"
-              >
-                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-violet-500" />
-                <span className="text-xs font-semibold uppercase tracking-[0.14em] text-violet-700">Who We Are</span>
-              </motion.div>
+            {/* LEFT SIDE — Content (7 cols) */}
+            <div className="lg:col-span-7 flex flex-col gap-6 text-center lg:text-left">
               
-              {/* Headline */}
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: 0.3 }}
-                className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl"
-              >
-                About our Company
-              </motion.h2>
+              {/* H1 */}
+              <h1 className="text-[clamp(32px,8vw,56px)] font-black leading-[1.1] tracking-tight text-slate-900">
+                India's Franchise Intelligence Engine
+              </h1>
+
+              {/* Subtext */}
+              <p className="text-[clamp(16px,4vw,18px)] leading-relaxed text-slate-600">
+                We engineer scalable franchise growth systems powered by data, execution, and investor alignment.
+              </p>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row flex-wrap gap-3 pt-4 justify-center lg:justify-start">
+                <button
+                  onClick={() => { window.history.pushState({}, '', '/franchise-opportunities'); window.dispatchEvent(new PopStateEvent('popstate')); }}
+                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-900 px-6 py-3.5 text-[15px] font-semibold text-white transition-all duration-200 hover:bg-slate-800 w-full sm:w-auto"
+                >
+                  Explore Opportunities
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
+                  </svg>
+                </button>
+                <button
+                  onClick={openTeamPage}
+                  className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-slate-200 bg-white px-6 py-3.5 text-[15px] font-semibold text-slate-900 transition-all duration-200 hover:border-slate-300 hover:bg-slate-50 w-full sm:w-auto"
+                >
+                  Meet Leadership
+                </button>
+              </div>
+            </div>
+
+            {/* RIGHT SIDE — System Diagram (5 cols) */}
+            <div className="lg:col-span-5 relative w-full mx-auto max-w-[400px] lg:max-w-none" style={{ aspectRatio: '1 / 1' }}>
               
-              {/* Enhanced Brand Narrative */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-                className="space-y-6 text-lg leading-relaxed text-slate-600"
-              >
-                <p>
-                  We don't just list franchise opportunities — we{' '}
-                  <span className="font-semibold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
-                    engineer scalable growth ecosystems
-                  </span>{' '}
-                  for founders, investors, and category-defining brands.
-                </p>
-                
-                <p>
-                  At iFranchise, we combine{' '}
-                  <span className="font-semibold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
-                    franchise discovery intelligence
-                  </span>
-                  ,{' '}
-                  <span className="font-semibold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
-                    investor-grade business scaling
-                  </span>
-                  , and verified growth ecosystems to transform opportunities into powerful business infrastructures.
-                </p>
-                
-                <p>
-                  From strategic expansion systems to founder-investor bridges, we help ambitious leaders unlock{' '}
-                  <span className="font-semibold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
-                    category leadership
-                  </span>{' '}
-                  through trust, transparency, and precision execution.
-                </p>
-                
-                <p className="text-slate-700 font-medium">
-                  We believe franchise growth should be transparent, data-driven, and built beyond ordinary listings — because real success comes from strategic execution and verified intelligence.
-                </p>
-              </motion.div>
-
-              {/* Social Proof Row - Premium Icons */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: 0.6 }}
-                className="flex items-center gap-3 pt-4"
-              >
-                <a
-                  href="#"
-                  aria-label="iFranchise Instagram"
-                  className="group relative inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:scale-110 hover:border-violet-300 hover:shadow-[0_0_20px_rgba(139,92,246,0.3)]"
+              {/* Center: iF Engine */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <motion.div 
+                  animate={{ y: [-2, 2, -2] }} 
+                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                  className="relative z-20 flex flex-col items-center justify-center w-28 h-28 rounded-2xl bg-slate-900 shadow-lg"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-violet-500/0 to-indigo-500/0 opacity-0 transition-opacity duration-300 group-hover:opacity-10" />
-                  <svg viewBox="0 0 24 24" aria-hidden="true" className="relative z-10 h-5 w-5 fill-slate-700 transition-colors duration-300 group-hover:fill-violet-600">
-                    <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5a4.25 4.25 0 0 0 4.25 4.25h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5a4.25 4.25 0 0 0-4.25-4.25h-8.5zm8.95 1.75a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z" />
-                  </svg>
-                </a>
+                  <span className="text-white font-black text-xl">iF</span>
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400 mt-1">Engine</span>
+                </motion.div>
+              </div>
 
-                <a
-                  href="#"
-                  aria-label="iFranchise X"
-                  className="group relative inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:scale-110 hover:border-slate-400 hover:shadow-[0_0_20px_rgba(71,85,105,0.3)]"
+              {/* 4 Corner Nodes */}
+              {[
+                { label: 'Market Intelligence', pos: 'top-[15%] left-[10%]', delay: 0 },
+                { label: 'Investor Network', pos: 'top-[15%] right-[10%]', delay: 0.5 },
+                { label: 'SOP Systems', pos: 'bottom-[15%] left-[10%]', delay: 1 },
+                { label: 'Legal & Compliance', pos: 'bottom-[15%] right-[10%]', delay: 1.5 },
+              ].map((node, i) => (
+                <motion.div 
+                  key={i}
+                  animate={{ y: [-2, 2, -2] }} 
+                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: node.delay }}
+                  className={`absolute ${node.pos} flex flex-col items-center gap-2 w-[100px] sm:w-[120px]`}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-slate-500/0 to-slate-600/0 opacity-0 transition-opacity duration-300 group-hover:opacity-10" />
-                  <svg viewBox="0 0 24 24" aria-hidden="true" className="relative z-10 h-4 w-4 fill-slate-700 transition-colors duration-300 group-hover:fill-slate-900">
-                    <path d="M18.9 3h2.92l-6.38 7.3L23 21h-5.88l-4.6-6.01L7.3 21H4.37l6.82-7.8L1 3h6.03l4.15 5.42L18.9 3zm-1.03 16.22h1.62L6.16 4.7H4.42l13.45 14.52z" />
-                  </svg>
-                </a>
+                  <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-slate-100 border border-slate-200">
+                    <div className="h-2 w-2 rounded-full bg-slate-700" />
+                  </div>
+                  <p className="text-[10px] sm:text-[11px] font-semibold text-slate-900 text-center leading-tight">{node.label}</p>
+                </motion.div>
+              ))}
 
-                <a
-                  href="#"
-                  aria-label="iFranchise YouTube"
-                  className="group relative inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:scale-110 hover:border-red-300 hover:shadow-[0_0_20px_rgba(239,68,68,0.3)]"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-red-500/0 to-red-600/0 opacity-0 transition-opacity duration-300 group-hover:opacity-10" />
-                  <svg viewBox="0 0 24 24" aria-hidden="true" className="relative z-10 h-5 w-5 fill-slate-700 transition-colors duration-300 group-hover:fill-red-600">
-                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                  </svg>
-                </a>
-
-                <a
-                  href="#"
-                  aria-label="iFranchise LinkedIn"
-                  className="group relative inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:scale-110 hover:border-blue-300 hover:shadow-[0_0_20px_rgba(59,130,246,0.3)]"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-blue-600/0 opacity-0 transition-opacity duration-300 group-hover:opacity-10" />
-                  <svg viewBox="0 0 24 24" aria-hidden="true" className="relative z-10 h-5 w-5 fill-slate-700 transition-colors duration-300 group-hover:fill-blue-600">
-                    <path d="M6.94 8.5H3.56V20h3.38V8.5zM5.25 3A2.02 2.02 0 1 0 5.3 7.04 2.02 2.02 0 0 0 5.25 3zM20.44 13.26c0-3.04-1.62-4.95-4.37-4.95-1.27 0-2.11.7-2.46 1.2v-1h-3.37c.04.66 0 11.49 0 11.49h3.37v-6.42c0-.34.02-.68.12-.92.27-.68.87-1.39 1.88-1.39 1.32 0 1.85 1 1.85 2.48V20H20.44v-6.74z" />
-                  </svg>
-                </a>
-              </motion.div>
-            </motion.div>
-
-            {/* RIGHT SIDE - Enhanced Accordion */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="space-y-4"
-            >
-              <AccordionItem
-                number="01"
-                title="Our History"
-                content="Founded to modernize franchise discovery, iFranchise was built to bridge the gap between investors, founders, and scalable franchise ecosystems. We identified a critical market fragmentation — where trust, transparency, and verified intelligence were missing. Our platform solves the investor-franchise disconnect through strategic data systems and category-defining infrastructure."
-                defaultOpen={true}
-              />
-              
-              <AccordionItem
-                number="02"
-                title="Our Mission"
-                content="To build India's most trusted franchise intelligence ecosystem. We empower entrepreneurs and investors with strategic, transparent, and growth-focused franchise opportunities backed by verified data, operational excellence, and investor-grade positioning. Our mission is to transform how brands scale and how investors discover category leadership opportunities."
-              />
-              
-              <AccordionItem
-                number="03"
-                title="Our Vision"
-                content="To become the category-defining global franchise infrastructure — where technology meets strategy, trust meets execution, and expansion meets intelligence. We envision a future where iFranchise powers the world's most ambitious franchise growth ecosystems, setting the standard for verified scaling and strategic leadership."
-              />
-            </motion.div>
+              {/* Connecting Lines */}
+              <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 1 }}>
+                <line x1="50%" y1="50%" x2="20%" y2="20%" stroke="rgba(15,23,42,0.1)" strokeWidth="1" />
+                <line x1="50%" y1="50%" x2="80%" y2="20%" stroke="rgba(15,23,42,0.1)" strokeWidth="1" />
+                <line x1="50%" y1="50%" x2="20%" y2="80%" stroke="rgba(15,23,42,0.1)" strokeWidth="1" />
+                <line x1="50%" y1="50%" x2="80%" y2="80%" stroke="rgba(15,23,42,0.1)" strokeWidth="1" />
+              </svg>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Brands We Have Worked With Section - Premium Marquee */}
-      <section className="w-full bg-white py-12 lg:py-16">
-        <div className="mx-auto w-full max-w-[1400px] px-6 md:px-12 lg:px-20">
-          {/* Header */}
-          <div className="mx-auto max-w-3xl text-center">
-            <div className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-violet-50 px-4 py-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-violet-500" />
-              <span className="text-xs font-semibold uppercase tracking-[0.14em] text-violet-700">Brands</span>
+      {/* WHO WE ARE SECTION - STRICT GRID */}
+      <section className="w-full bg-slate-50 py-24">
+        <div className="mx-auto w-full max-w-[1200px] px-6">
+          
+          {/* Section Header - Centered */}
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-1.5 mb-4">
+              <span className="h-1.5 w-1.5 rounded-full bg-slate-900" />
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-700">About Us</span>
             </div>
-            
-            <h2 className="mt-6 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
-              Brands we have worked with
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900 mb-4">
+              We Build Infrastructure, Not Listings
             </h2>
-            
-            <p className="mt-4 text-lg text-slate-600">
-              Trusted by ambitious businesses across industries.
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              iFranchise transforms franchise opportunities into scalable business systems through data intelligence and strategic execution.
             </p>
           </div>
 
-          {/* Premium Dark Container with Marquee */}
-          <div className="relative mt-16 overflow-hidden rounded-[32px] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-8 shadow-[0_24px_60px_rgba(0,0,0,0.15)] lg:p-12">
-            {/* Subtle Grid Pattern */}
-            <div className="pointer-events-none absolute inset-0 opacity-[0.03]">
-              <div className="absolute inset-0 bg-dot-grid" />
+          {/* Grid Layout - 12 columns - PERFECT HEIGHT ALIGNMENT */}
+          <div className="grid gap-8 lg:grid-cols-12 items-stretch">
+            
+            {/* LEFT - Premium Visual System (5 cols) - FULL HEIGHT MATCH */}
+            <div className="lg:col-span-5 mb-8 lg:mb-0 flex">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                className="relative w-full"
+              >
+                {/* Subtle Background Glow */}
+                <div className="absolute -inset-4 bg-gradient-to-br from-violet-100/40 via-transparent to-indigo-100/40 blur-3xl opacity-60" />
+                
+                {/* Main Image Block with Slideshow - FULL HEIGHT */}
+                <div className="relative overflow-hidden rounded-3xl shadow-2xl h-full">
+                  {/* Auto Slideshow Images */}
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={currentSlide}
+                      initial={{ opacity: 0, scale: 1.1 }}
+                      animate={{ opacity: 1, scale: 1.08 }}
+                      exit={{ opacity: 0, scale: 1 }}
+                      transition={{ duration: 1.2, ease: 'easeInOut' }}
+                      className="absolute inset-0"
+                    >
+                      <img
+                        src={slideshowImages[currentSlide]}
+                        alt={`iFranchise ${currentSlide + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </motion.div>
+                  </AnimatePresence>
+                  
+                  {/* Gradient Overlay at Bottom */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+                  
+                  {/* Slide Indicators */}
+                  <div className="absolute bottom-6 left-6 flex gap-1.5">
+                    {slideshowImages.map((_, idx) => (
+                      <div
+                        key={idx}
+                        className={`h-1 rounded-full transition-all duration-500 ${
+                          idx === currentSlide ? 'w-8 bg-white' : 'w-1 bg-white/40'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
             </div>
 
-            {/* Row 1 - Scrolls Right to Left */}
-            <div className="relative mb-6 overflow-hidden lg:mb-8">
-              <div className="flex animate-marquee-right gap-4 lg:gap-6">
-                {[...brandLogos, ...brandLogos].map((brand, idx) => (
-                  <BrandCard key={`row1-${idx}`} brand={brand} />
-                ))}
-              </div>
+            {/* RIGHT - 4 Compact Accordion Cards (7 cols) */}
+            <div className="lg:col-span-7 space-y-3 flex flex-col">
+              
+              {/* Card 01 - Our Foundation */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className={`group overflow-hidden rounded-xl border-2 bg-white transition-all duration-250 ${
+                  expandedCard === '01' ? 'border-slate-900 shadow-lg' : 'border-slate-200 hover:border-slate-400'
+                } ${expandedCard && expandedCard !== '01' ? 'opacity-60' : 'opacity-100'}`}
+              >
+                <button
+                  onClick={() => setExpandedCard(expandedCard === '01' ? null : '01')}
+                  className="flex w-full items-center gap-3 p-4 text-left"
+                >
+                  <span className="text-xl font-black text-slate-900">01</span>
+                  <h3 className="flex-1 text-lg font-bold text-slate-900">Our Foundation</h3>
+                  <svg 
+                    className={`h-5 w-5 text-slate-400 transition-transform duration-250 ${expandedCard === '01' ? 'rotate-180' : ''}`}
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor" 
+                    strokeWidth={2.5}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {expandedCard === '01' && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.25, ease: 'easeInOut' }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-4 pb-4 text-sm text-slate-600 leading-relaxed">
+                      Built on 15+ years of franchise expansion expertise across India and Southeast Asia. We understand the complexities of scaling brands from single locations to multi-city operations.
+                    </div>
+                  </motion.div>
+                )}
+              </motion.div>
+
+              {/* Card 02 - Our Approach */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.05 }}
+                className={`group overflow-hidden rounded-xl border-2 bg-white transition-all duration-250 ${
+                  expandedCard === '02' ? 'border-slate-900 shadow-lg' : 'border-slate-200 hover:border-slate-400'
+                } ${expandedCard && expandedCard !== '02' ? 'opacity-60' : 'opacity-100'}`}
+              >
+                <button
+                  onClick={() => setExpandedCard(expandedCard === '02' ? null : '02')}
+                  className="flex w-full items-center gap-3 p-4 text-left"
+                >
+                  <span className="text-xl font-black text-slate-900">02</span>
+                  <h3 className="flex-1 text-lg font-bold text-slate-900">Our Approach</h3>
+                  <svg 
+                    className={`h-5 w-5 text-slate-400 transition-transform duration-250 ${expandedCard === '02' ? 'rotate-180' : ''}`}
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor" 
+                    strokeWidth={2.5}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {expandedCard === '02' && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.25, ease: 'easeInOut' }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-4 pb-4 text-sm text-slate-600 leading-relaxed">
+                      Data-driven franchise intelligence combined with investor-grade business systems. Every opportunity is evaluated through our proprietary framework that assesses market viability, operational scalability, and capital efficiency.
+                    </div>
+                  </motion.div>
+                )}
+              </motion.div>
+
+              {/* Card 03 - Our Edge */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className={`group overflow-hidden rounded-xl border-2 bg-white transition-all duration-250 ${
+                  expandedCard === '03' ? 'border-slate-900 shadow-lg' : 'border-slate-200 hover:border-slate-400'
+                } ${expandedCard && expandedCard !== '03' ? 'opacity-60' : 'opacity-100'}`}
+              >
+                <button
+                  onClick={() => setExpandedCard(expandedCard === '03' ? null : '03')}
+                  className="flex w-full items-center gap-3 p-4 text-left"
+                >
+                  <span className="text-xl font-black text-slate-900">03</span>
+                  <h3 className="flex-1 text-lg font-bold text-slate-900">Our Edge</h3>
+                  <svg 
+                    className={`h-5 w-5 text-slate-400 transition-transform duration-250 ${expandedCard === '03' ? 'rotate-180' : ''}`}
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor" 
+                    strokeWidth={2.5}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {expandedCard === '03' && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.25, ease: 'easeInOut' }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-4 pb-4 text-sm text-slate-600 leading-relaxed">
+                      Direct access to 8,000+ verified investors, 350+ scaled brands, and proven expansion frameworks. We don't just connect—we architect sustainable franchise growth ecosystems.
+                    </div>
+                  </motion.div>
+                )}
+              </motion.div>
+
+              {/* Card 04 - Vision & Mission */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.15 }}
+                className={`group overflow-hidden rounded-xl border-2 bg-white transition-all duration-250 ${
+                  expandedCard === '04' ? 'border-slate-900 shadow-lg' : 'border-slate-200 hover:border-slate-400'
+                } ${expandedCard && expandedCard !== '04' ? 'opacity-60' : 'opacity-100'}`}
+              >
+                <button
+                  onClick={() => setExpandedCard(expandedCard === '04' ? null : '04')}
+                  className="flex w-full items-center gap-3 p-4 text-left"
+                >
+                  <span className="text-xl font-black text-slate-900">04</span>
+                  <h3 className="flex-1 text-lg font-bold text-slate-900">Vision & Mission</h3>
+                  <svg 
+                    className={`h-5 w-5 text-slate-400 transition-transform duration-250 ${expandedCard === '04' ? 'rotate-180' : ''}`}
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor" 
+                    strokeWidth={2.5}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {expandedCard === '04' && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.25, ease: 'easeInOut' }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-4 pb-4 space-y-3">
+                      <div>
+                        <p className="text-xs font-bold text-slate-900 mb-1">Mission</p>
+                        <p className="text-sm text-slate-600 leading-relaxed">
+                          To build India's most trusted franchise intelligence ecosystem. We empower entrepreneurs and investors with strategic, transparent, and growth-focused franchise opportunities backed by verified data.
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-slate-900 mb-1">Vision</p>
+                        <p className="text-sm text-slate-600 leading-relaxed">
+                          To become the category-defining global franchise infrastructure — where technology meets strategy, trust meets execution, and expansion meets intelligence.
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </motion.div>
+
+            </div>
+          </div>
+
+          {/* iFranchise HISTORY CONTINUATION - MINIMAL GAP */}
+          <div className="grid gap-8 lg:grid-cols-12 items-stretch mt-8">
+            
+            {/* LEFT - Static Image (5 cols) - FULL HEIGHT */}
+            <div className="lg:col-span-5 flex">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                className="relative w-full"
+              >
+                {/* Subtle Background Glow */}
+                <div className="absolute -inset-4 bg-gradient-to-br from-indigo-100/40 via-transparent to-violet-100/40 blur-3xl opacity-60" />
+                
+                {/* Static Image with Subtle Zoom - FULL HEIGHT */}
+                <div className="relative overflow-hidden rounded-3xl shadow-2xl h-full">
+                  <motion.img
+                    initial={{ scale: 1 }}
+                    whileInView={{ scale: 1.05 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, ease: 'easeOut' }}
+                    src="/src/assets/aboutus.png"
+                    alt="iFranchise History"
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+                </div>
+              </motion.div>
             </div>
 
-            {/* Row 2 - Scrolls Left to Right */}
-            <div className="relative overflow-hidden">
-              <div className="flex animate-marquee-left gap-4 lg:gap-6">
-                {[...brandLogos.slice().reverse(), ...brandLogos.slice().reverse()].map((brand, idx) => (
-                  <BrandCard key={`row2-${idx}`} brand={brand} />
-                ))}
-              </div>
+            {/* RIGHT - Content (7 cols) - FULL HEIGHT MATCH */}
+            <div className="lg:col-span-7 flex">
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="flex flex-col justify-between space-y-5"
+              >
+                <div className="space-y-5">
+                  <h3 className="text-3xl font-bold text-slate-900">
+                    iFranchise History
+                  </h3>
+                  
+                  <p className="text-base leading-relaxed text-slate-600">
+                    Founded with a vision to revolutionize India's franchise ecosystem, iFranchise emerged from a critical gap in the market — the absence of a structured, transparent, and intelligence-driven platform connecting ambitious entrepreneurs with verified franchise opportunities.
+                  </p>
+                  
+                  <p className="text-base leading-relaxed text-slate-600">
+                    What began as a consulting initiative quickly evolved into India's most comprehensive franchise discovery and growth platform. We recognized that traditional franchise models lacked the strategic infrastructure needed for sustainable expansion. Our response was to build a data-driven ecosystem that combines market intelligence, investor networks, and operational frameworks into a unified growth engine.
+                  </p>
+                  
+                  <p className="text-base leading-relaxed text-slate-600">
+                    Over the years, we've partnered with 350+ established brands and connected 8,000+ verified investors across India and Southeast Asia. Each partnership is built on three pillars: transparency in operations, verified business intelligence, and strategic execution support. We don't just facilitate connections — we architect scalable franchise systems that transform regional brands into category leaders.
+                  </p>
+                  
+                  <p className="text-base leading-relaxed text-slate-600">
+                    Today, iFranchise stands as the trusted bridge between franchise innovation and market execution, empowering entrepreneurs to make informed investment decisions backed by comprehensive due diligence, proven expansion models, and ongoing strategic guidance.
+                  </p>
+                </div>
+              </motion.div>
             </div>
 
-            {/* Gradient Fade Edges */}
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-slate-900 to-transparent" />
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-slate-900 to-transparent" />
           </div>
         </div>
       </section>
 
-      {/* Executive Leadership Section - Unified Premium */}
-      <section className="w-full bg-gradient-to-b from-white to-slate-50/30 pt-12 pb-8 lg:pt-16 lg:pb-10">
-        <div className="mx-auto w-full max-w-[1400px] px-6 md:px-12 lg:px-20">
+      {/* Executive Leadership Section - Unified Premium - REDUCED GAP */}
+      <section className="w-full bg-gradient-to-b from-white to-slate-50/30 py-16">
+        <div className="mx-auto w-full max-w-[1200px] px-6">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -1187,381 +953,219 @@ function AboutPage() {
         </div>
       </section>
 
-      {/* Founder Section */}
-      <section className="w-full bg-gradient-to-b from-white to-slate-50/30 py-10 lg:py-12">
-        <div className="mx-auto w-full max-w-[1280px] px-6 md:px-12 lg:px-20">
-          {/* Balanced 50/50 Layout */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-          >
-            <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
-              {/* LEFT SIDE - Founder Portrait */}
+      {/* LEADERSHIP SECTION - VIEWPORT FIT WITH MODAL - REDUCED GAP */}
+      <section className="w-full bg-white py-12">
+        <div className="mx-auto w-full max-w-[1200px] px-6">
+          
+          {/* FOUNDER BLOCK - VIEWPORT FIT */}
+          <div className="mb-12">
+            <div className="grid gap-6 lg:grid-cols-[35fr_65fr] lg:gap-10 items-start">
+              
+              {/* LEFT — Compact Image */}
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: 0.4 }}
-                className="flex flex-col items-center lg:order-1 lg:items-start"
+                transition={{ duration: 0.6 }}
+                className="relative group mx-auto w-full max-w-[320px] lg:max-w-none"
               >
-                {/* Portrait Image */}
-                <div className="relative w-full max-w-sm">
-                  <div className="relative h-[480px] w-full overflow-hidden rounded-3xl border-[3px] border-slate-200 bg-white shadow-[0_20px_50px_rgba(15,23,42,0.08)] sm:h-[560px]">
-                    <img
-                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80"
-                      alt="Arjun Malhotra - Founder of iFranchise"
-                      className="h-full w-full object-cover transition-all duration-500 hover:scale-105"
-                      loading="lazy"
-                    />
-                  </div>
-                </div>
-
-                {/* Name Stack (Mobile Only - Centered) */}
-                <div className="mt-10 text-center lg:hidden">
-                  <h3 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl md:text-5xl">
-                    Arjun Malhotra
-                  </h3>
-                  <p className="mt-4 text-base font-semibold text-slate-700 sm:text-lg">
-                    Founder & Strategic Growth Architect
-                  </p>
-                  <p className="mt-1 text-sm font-medium text-slate-500">iFranchise</p>
-                  
-                  {/* Social Icons */}
-                  <div className="mt-4 flex items-center justify-center gap-3">
-                    <a
-                      href="#"
-                      aria-label="Arjun Malhotra X"
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-700 transition duration-200 hover:scale-110 hover:border-slate-400 hover:bg-slate-50"
-                    >
-                      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
-                        <path d="M18.9 3h2.92l-6.38 7.3L23 21h-5.88l-4.6-6.01L7.3 21H4.37l6.82-7.8L1 3h6.03l4.15 5.42L18.9 3zm-1.03 16.22h1.62L6.16 4.7H4.42l13.45 14.52z" />
-                      </svg>
-                    </a>
-                    <a
-                      href="#"
-                      aria-label="Arjun Malhotra Instagram"
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-violet-200 bg-violet-50 text-violet-600 transition duration-200 hover:scale-110 hover:bg-violet-100"
-                    >
-                      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
-                        <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5a4.25 4.25 0 0 0 4.25 4.25h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5a4.25 4.25 0 0 0-4.25-4.25h-8.5zm8.95 1.75a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z" />
-                      </svg>
-                    </a>
-                    <a
-                      href="#"
-                      aria-label="Arjun Malhotra LinkedIn"
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-blue-200 bg-blue-50 text-blue-600 transition duration-200 hover:scale-110 hover:bg-blue-100"
-                    >
-                      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
-                        <path d="M6.94 8.5H3.56V20h3.38V8.5zM5.25 3A2.02 2.02 0 1 0 5.3 7.04 2.02 2.02 0 0 0 5.25 3zM20.44 13.26c0-3.04-1.62-4.95-4.37-4.95-1.27 0-2.11.7-2.46 1.2v-1h-3.37c.04.66 0 11.49 0 11.49h3.37v-6.42c0-.34.02-.68.12-.92.27-.68.87-1.39 1.88-1.39 1.32 0 1.85 1 1.85 2.48V20H20.44v-6.74z" />
-                      </svg>
-                    </a>
+                <div className="relative overflow-hidden rounded-2xl shadow-lg" style={{ aspectRatio: '3/4', maxHeight: '380px' }}>
+                  <img
+                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80"
+                    alt="Arjun Malhotra"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4 text-center lg:text-left">
+                    <p className="text-xl font-bold text-white">Arjun Malhotra</p>
+                    <p className="text-xs text-white/90 mt-0.5">Founder</p>
                   </div>
                 </div>
               </motion.div>
 
-              {/* RIGHT SIDE - Bio & Credentials */}
+              {/* RIGHT — Professional Content */}
               <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: 0.3 }}
-                className="flex flex-col justify-center space-y-10 lg:order-2"
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="flex flex-col gap-4 text-center lg:text-left"
               >
-                {/* Name & Title (Desktop Only - Hidden on Mobile) */}
-                <div className="hidden space-y-3 lg:block">
-                  <h3 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl md:text-5xl lg:text-7xl">
+                
+                {/* Name & Role */}
+                <div>
+                  <h3 className="text-3xl font-black tracking-tight text-slate-900 lg:text-4xl">
                     Arjun Malhotra
                   </h3>
-                  <p className="text-base font-semibold text-slate-700 sm:text-lg">
+                  <p className="text-base font-semibold text-slate-600 mt-1">
                     Founder & Strategic Growth Architect
                   </p>
-                  <p className="text-sm font-medium text-slate-500">iFranchise</p>
-                  
-                  {/* Social Icons */}
-                  <div className="flex items-center gap-3">
-                    <a
-                      href="#"
-                      aria-label="Arjun Malhotra X"
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-700 transition duration-200 hover:scale-110 hover:border-slate-400 hover:bg-slate-50"
-                    >
-                      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
-                        <path d="M18.9 3h2.92l-6.38 7.3L23 21h-5.88l-4.6-6.01L7.3 21H4.37l6.82-7.8L1 3h6.03l4.15 5.42L18.9 3zm-1.03 16.22h1.62L6.16 4.7H4.42l13.45 14.52z" />
-                      </svg>
-                    </a>
-                    <a
-                      href="#"
-                      aria-label="Arjun Malhotra Instagram"
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-violet-200 bg-violet-50 text-violet-600 transition duration-200 hover:scale-110 hover:bg-violet-100"
-                    >
-                      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
-                        <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5a4.25 4.25 0 0 0 4.25 4.25h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5a4.25 4.25 0 0 0-4.25-4.25h-8.5zm8.95 1.75a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z" />
-                      </svg>
-                    </a>
-                    <a
-                      href="#"
-                      aria-label="Arjun Malhotra LinkedIn"
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-blue-200 bg-blue-50 text-blue-600 transition duration-200 hover:scale-110 hover:bg-blue-100"
-                    >
-                      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
-                        <path d="M6.94 8.5H3.56V20h3.38V8.5zM5.25 3A2.02 2.02 0 1 0 5.3 7.04 2.02 2.02 0 0 0 5.25 3zM20.44 13.26c0-3.04-1.62-4.95-4.37-4.95-1.27 0-2.11.7-2.46 1.2v-1h-3.37c.04.66 0 11.49 0 11.49h3.37v-6.42c0-.34.02-.68.12-.92.27-.68.87-1.39 1.88-1.39 1.32 0 1.85 1 1.85 2.48V20H20.44v-6.74z" />
-                      </svg>
-                    </a>
+                </div>
+
+                {/* Core Statement - Professional Description */}
+                <div className="text-base text-slate-600 leading-relaxed space-y-2">
+                  <p>
+                    Arjun brings over 15 years of strategic expertise in franchise development and business scaling. His vision transformed iFranchise from a consulting initiative into India's leading franchise intelligence platform.
+                  </p>
+                  <p>
+                    With a proven track record of architecting growth systems for 350+ brands, Arjun specializes in converting traditional franchise models into data-driven, scalable ecosystems that deliver predictable expansion outcomes.
+                  </p>
+                </div>
+
+                {/* Professional Highlights */}
+                <div className="space-y-2">
+                  <div className="flex items-start gap-2 justify-center lg:justify-start">
+                    <span className="text-slate-900 font-bold mt-0.5">•</span>
+                    <p className="text-sm text-slate-600 text-left">15+ years driving franchise expansion across India and Southeast Asia</p>
+                  </div>
+                  <div className="flex items-start gap-2 justify-center lg:justify-start">
+                    <span className="text-slate-900 font-bold mt-0.5">•</span>
+                    <p className="text-sm text-slate-600 text-left">Featured in Forbes India 30 Under 30 (2019)</p>
+                  </div>
+                  <div className="flex items-start gap-2 justify-center lg:justify-start">
+                    <span className="text-slate-900 font-bold mt-0.5">•</span>
+                    <p className="text-sm text-slate-600 text-left">MBA from IIM Ahmedabad, B.Tech from IIT Delhi</p>
                   </div>
                 </div>
 
-                {/* Detailed Bio */}
-                <div className="space-y-5">
-                  <p className="text-lg leading-relaxed text-slate-700 sm:text-xl">
-                    Arjun Malhotra's leadership combines strategic foresight, operational precision, and investor-first execution. Through transparency, scalable systems, and category-defining innovation, he has positioned iFranchise as a trusted force in modern franchise intelligence.
+                {/* View Full Profile Button */}
+                <button
+                  onClick={() => setFounderModalOpen(true)}
+                  className="group mt-2 inline-flex items-center justify-center gap-2 self-center lg:self-start rounded-xl bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 w-full sm:w-auto"
+                >
+                  <span>View Full Profile</span>
+                  <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
+                  </svg>
+                </button>
+
+                {/* Social Links */}
+                <div className="flex items-center gap-2 pt-2 justify-center lg:justify-start">
+                  <a href="#" aria-label="X" className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-600 transition-all duration-200 hover:bg-slate-900 hover:text-white">
+                    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current">
+                      <path d="M18.9 3h2.92l-6.38 7.3L23 21h-5.88l-4.6-6.01L7.3 21H4.37l6.82-7.8L1 3h6.03l4.15 5.42L18.9 3zm-1.03 16.22h1.62L6.16 4.7H4.42l13.45 14.52z" />
+                    </svg>
+                  </a>
+                  <a href="#" aria-label="LinkedIn" className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-600 transition-all duration-200 hover:bg-slate-900 hover:text-white">
+                    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current">
+                      <path d="M6.94 8.5H3.56V20h3.38V8.5zM5.25 3A2.02 2.02 0 1 0 5.3 7.04 2.02 2.02 0 0 0 5.25 3zM20.44 13.26c0-3.04-1.62-4.95-4.37-4.95-1.27 0-2.11.7-2.46 1.2v-1h-3.37c.04.66 0 11.49 0 11.49h3.37v-6.42c0-.34.02-.68.12-.92.27-.68.87-1.39 1.88-1.39 1.32 0 1.85 1 1.85 2.48V20H20.44v-6.74z" />
+                    </svg>
+                  </a>
+                  <a href="#" aria-label="Instagram" className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-600 transition-all duration-200 hover:bg-slate-900 hover:text-white">
+                    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current">
+                      <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5a4.25 4.25 0 0 0 4.25 4.25h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5a4.25 4.25 0 0 0-4.25-4.25h-8.5zm8.95 1.75a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z" />
+                    </svg>
+                  </a>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+
+          {/* CO-FOUNDER BLOCK - VIEWPORT FIT (MIRRORED) */}
+          <div>
+            <div className="grid gap-6 lg:grid-cols-[65fr_35fr] lg:gap-10 items-start">
+              
+              {/* LEFT — Professional Content */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="flex flex-col gap-4 order-2 lg:order-1 text-center lg:text-left"
+              >
+                
+                {/* Name & Role */}
+                <div>
+                  <h3 className="text-3xl font-black tracking-tight text-slate-900 lg:text-4xl">
+                    Daniel Reeves
+                  </h3>
+                  <p className="text-base font-semibold text-slate-600 mt-1">
+                    Co-Founder & Expansion Strategy Director
                   </p>
                 </div>
 
-                {/* Trait Pills */}
-                <div className="flex flex-wrap gap-3">
-                  {[
-                    { icon: '◆', label: 'Visionary Strategist' },
-                    { icon: '✦', label: 'Investor-First Builder' },
-                    { icon: '⬢', label: 'Growth Architect' },
-                    { icon: '↗', label: 'Brand Expansion Leader' },
-                  ].map((trait, idx) => (
-                    <motion.div
-                      key={trait.label}
-                      initial={{ opacity: 0, y: 10 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.4, delay: 0.5 + idx * 0.08 }}
-                      className="group flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2.5 shadow-sm transition-all duration-300 hover:border-slate-300 hover:shadow-md"
-                    >
-                      <span className="text-base text-slate-400 transition-colors duration-300 group-hover:text-slate-600">
-                        {trait.icon}
-                      </span>
-                      <span className="text-sm font-semibold text-slate-700 transition-colors duration-300 group-hover:text-slate-900">
-                        {trait.label}
-                      </span>
-                    </motion.div>
-                  ))}
+                {/* Core Statement - Professional Description */}
+                <div className="text-base text-slate-600 leading-relaxed space-y-2">
+                  <p>
+                    Daniel specializes in operational excellence and franchise system design. His expertise lies in transforming complex business models into streamlined, repeatable frameworks that enable rapid yet sustainable expansion.
+                  </p>
+                  <p>
+                    As Co-Founder and Expansion Strategy Director, he has engineered operational blueprints for hundreds of franchise brands, ensuring each partnership maintains quality standards while achieving aggressive growth targets across diverse markets.
+                  </p>
                 </div>
 
-                {/* Featured In / Trust Signals */}
-                <div className="space-y-5">
-                  <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">
-                    Featured In & Recognized By
-                  </p>
-                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                    {[
-                      'Franchise Media',
-                      'Startup India',
-                      'Growth Networks',
-                    ].map((credential, idx) => (
-                      <motion.div
-                        key={credential}
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.3, delay: 0.6 + idx * 0.04 }}
-                        className="group flex items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-3.5 shadow-sm transition-all duration-300 hover:border-slate-300 hover:shadow-md"
-                      >
-                        <span className="text-center text-xs font-semibold text-slate-600 transition-colors duration-300 group-hover:text-slate-900">
-                          {credential}
-                        </span>
-                      </motion.div>
-                    ))}
+                {/* Professional Highlights */}
+                <div className="space-y-2">
+                  <div className="flex items-start gap-2 justify-center lg:justify-start">
+                    <span className="text-slate-900 font-bold mt-0.5">•</span>
+                    <p className="text-sm text-slate-600 text-left">12+ years in operations scaling and multi-city franchise coordination</p>
+                  </div>
+                  <div className="flex items-start gap-2 justify-center lg:justify-start">
+                    <span className="text-slate-900 font-bold mt-0.5">•</span>
+                    <p className="text-sm text-slate-600 text-left">Recognized by Economic Times as Top 40 Under 40 (2020)</p>
+                  </div>
+                  <div className="flex items-start gap-2 justify-center lg:justify-start">
+                    <span className="text-slate-900 font-bold mt-0.5">•</span>
+                    <p className="text-sm text-slate-600 text-left">MBA from INSEAD, B.Eng from NUS Singapore</p>
+                  </div>
+                </div>
+
+                {/* View Full Profile Button */}
+                <button
+                  onClick={() => setCofounderModalOpen(true)}
+                  className="group mt-2 inline-flex items-center justify-center gap-2 self-center lg:self-start rounded-xl bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 w-full sm:w-auto"
+                >
+                  <span>View Full Profile</span>
+                  <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
+                  </svg>
+                </button>
+
+                {/* Social Links */}
+                <div className="flex items-center gap-2 pt-2 justify-center lg:justify-start">
+                  <a href="#" aria-label="X" className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-600 transition-all duration-200 hover:bg-slate-900 hover:text-white">
+                    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current">
+                      <path d="M18.9 3h2.92l-6.38 7.3L23 21h-5.88l-4.6-6.01L7.3 21H4.37l6.82-7.8L1 3h6.03l4.15 5.42L18.9 3zm-1.03 16.22h1.62L6.16 4.7H4.42l13.45 14.52z" />
+                    </svg>
+                  </a>
+                  <a href="#" aria-label="LinkedIn" className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-600 transition-all duration-200 hover:bg-slate-900 hover:text-white">
+                    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current">
+                      <path d="M6.94 8.5H3.56V20h3.38V8.5zM5.25 3A2.02 2.02 0 1 0 5.3 7.04 2.02 2.02 0 0 0 5.25 3zM20.44 13.26c0-3.04-1.62-4.95-4.37-4.95-1.27 0-2.11.7-2.46 1.2v-1h-3.37c.04.66 0 11.49 0 11.49h3.37v-6.42c0-.34.02-.68.12-.92.27-.68.87-1.39 1.88-1.39 1.32 0 1.85 1 1.85 2.48V20H20.44v-6.74z" />
+                    </svg>
+                  </a>
+                  <a href="#" aria-label="Instagram" className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-600 transition-all duration-200 hover:bg-slate-900 hover:text-white">
+                    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current">
+                      <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5a4.25 4.25 0 0 0 4.25 4.25h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5a4.25 4.25 0 0 0-4.25-4.25h-8.5zm8.95 1.75a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z" />
+                    </svg>
+                  </a>
+                </div>
+              </motion.div>
+
+              {/* RIGHT — Compact Image */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="relative group order-1 lg:order-2 mx-auto w-full max-w-[320px] lg:max-w-none"
+              >
+                <div className="relative overflow-hidden rounded-2xl shadow-lg" style={{ aspectRatio: '3/4', maxHeight: '380px' }}>
+                  <img
+                    src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80"
+                    alt="Daniel Reeves"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4 text-center lg:text-left">
+                    <p className="text-xl font-bold text-white">Daniel Reeves</p>
+                    <p className="text-xs text-white/90 mt-0.5">Co-Founder</p>
                   </div>
                 </div>
               </motion.div>
             </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Co-Founder Section */}
-      <section className="w-full bg-gradient-to-b from-slate-50/30 to-white py-10 lg:py-12">
-        <div className="mx-auto w-full max-w-[1280px] px-6 md:px-12 lg:px-20">
-          {/* Balanced 50/50 Mirrored Layout */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-          >
-            <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
-              {/* LEFT SIDE - Bio & Credentials */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: 0.3 }}
-                className="flex flex-col justify-center space-y-10 lg:order-1"
-              >
-                {/* Name & Title (Desktop Only - Hidden on Mobile) */}
-                <div className="hidden space-y-3 lg:block">
-                  <h3 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl md:text-5xl lg:text-7xl">
-                    Daniel Reeves
-                  </h3>
-                  <p className="text-base font-semibold text-slate-700 sm:text-lg">
-                    Co-Founder & Expansion Strategy Director
-                  </p>
-                  <p className="text-sm font-medium text-slate-500">iFranchise</p>
-                  
-                  {/* Social Icons */}
-                  <div className="flex items-center gap-3">
-                    <a
-                      href="#"
-                      aria-label="Daniel Reeves X"
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-700 transition duration-200 hover:scale-110 hover:border-slate-400 hover:bg-slate-50"
-                    >
-                      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
-                        <path d="M18.9 3h2.92l-6.38 7.3L23 21h-5.88l-4.6-6.01L7.3 21H4.37l6.82-7.8L1 3h6.03l4.15 5.42L18.9 3zm-1.03 16.22h1.62L6.16 4.7H4.42l13.45 14.52z" />
-                      </svg>
-                    </a>
-                    <a
-                      href="#"
-                      aria-label="Daniel Reeves Instagram"
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-violet-200 bg-violet-50 text-violet-600 transition duration-200 hover:scale-110 hover:bg-violet-100"
-                    >
-                      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
-                        <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5a4.25 4.25 0 0 0 4.25 4.25h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5a4.25 4.25 0 0 0-4.25-4.25h-8.5zm8.95 1.75a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z" />
-                      </svg>
-                    </a>
-                    <a
-                      href="#"
-                      aria-label="Daniel Reeves LinkedIn"
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-blue-200 bg-blue-50 text-blue-600 transition duration-200 hover:scale-110 hover:bg-blue-100"
-                    >
-                      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
-                        <path d="M6.94 8.5H3.56V20h3.38V8.5zM5.25 3A2.02 2.02 0 1 0 5.3 7.04 2.02 2.02 0 0 0 5.25 3zM20.44 13.26c0-3.04-1.62-4.95-4.37-4.95-1.27 0-2.11.7-2.46 1.2v-1h-3.37c.04.66 0 11.49 0 11.49h3.37v-6.42c0-.34.02-.68.12-.92.27-.68.87-1.39 1.88-1.39 1.32 0 1.85 1 1.85 2.48V20H20.44v-6.74z" />
-                      </svg>
-                    </a>
-                  </div>
-                </div>
-
-                {/* Detailed Bio */}
-                <div className="space-y-5">
-                  <p className="text-lg leading-relaxed text-slate-700 sm:text-xl">
-                    Daniel Reeves leads operational scaling, strategic alliances, and franchise growth expansion across iFranchise. His expertise in execution systems and market penetration transforms scalable opportunities into category leadership.
-                  </p>
-                </div>
-
-                {/* Trait Pills */}
-                <div className="flex flex-wrap gap-3">
-                  {[
-                    { icon: '◆', label: 'Expansion Strategist' },
-                    { icon: '✦', label: 'Systems Operator' },
-                    { icon: '⬢', label: 'Strategic Alliances' },
-                    { icon: '↗', label: 'Market Growth Leader' },
-                  ].map((trait, idx) => (
-                    <motion.div
-                      key={trait.label}
-                      initial={{ opacity: 0, y: 10 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.4, delay: 0.5 + idx * 0.08 }}
-                      className="group flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2.5 shadow-sm transition-all duration-300 hover:border-slate-300 hover:shadow-md"
-                    >
-                      <span className="text-base text-slate-400 transition-colors duration-300 group-hover:text-slate-600">
-                        {trait.icon}
-                      </span>
-                      <span className="text-sm font-semibold text-slate-700 transition-colors duration-300 group-hover:text-slate-900">
-                        {trait.label}
-                      </span>
-                    </motion.div>
-                  ))}
-                </div>
-
-                {/* Featured In / Trust Signals */}
-                <div className="space-y-5">
-                  <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">
-                    Featured In & Recognized By
-                  </p>
-                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                    {[
-                      'Startup Leadership Media',
-                      'Franchise Expansion Council',
-                      'Strategic Growth Networks',
-                    ].map((credential, idx) => (
-                      <motion.div
-                        key={credential}
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.3, delay: 0.6 + idx * 0.04 }}
-                        className="group flex items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-3.5 shadow-sm transition-all duration-300 hover:border-slate-300 hover:shadow-md"
-                      >
-                        <span className="text-center text-xs font-semibold text-slate-600 transition-colors duration-300 group-hover:text-slate-900">
-                          {credential}
-                        </span>
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* RIGHT SIDE - Co-Founder Portrait */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: 0.4 }}
-                className="flex flex-col items-center lg:order-2 lg:items-end"
-              >
-                {/* Portrait Image */}
-                <div className="relative w-full max-w-sm">
-                  <div className="relative h-[480px] w-full overflow-hidden rounded-3xl border-[3px] border-slate-200 bg-white shadow-[0_20px_50px_rgba(15,23,42,0.08)] sm:h-[560px]">
-                    <img
-                      src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80"
-                      alt="Daniel Reeves - Co-Founder of iFranchise"
-                      className="h-full w-full object-cover transition-all duration-500 hover:scale-105"
-                      loading="lazy"
-                    />
-                  </div>
-                </div>
-
-                {/* Name Stack (Mobile Only - Centered) */}
-                <div className="mt-10 text-center lg:hidden">
-                  <h3 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl md:text-5xl">
-                    Daniel Reeves
-                  </h3>
-                  <p className="mt-4 text-base font-semibold text-slate-700 sm:text-lg">
-                    Co-Founder & Expansion Strategy Director
-                  </p>
-                  <p className="mt-1 text-sm font-medium text-slate-500">iFranchise</p>
-                  
-                  {/* Social Icons */}
-                  <div className="mt-4 flex items-center justify-center gap-3">
-                    <a
-                      href="#"
-                      aria-label="Daniel Reeves X"
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-700 transition duration-200 hover:scale-110 hover:border-slate-400 hover:bg-slate-50"
-                    >
-                      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
-                        <path d="M18.9 3h2.92l-6.38 7.3L23 21h-5.88l-4.6-6.01L7.3 21H4.37l6.82-7.8L1 3h6.03l4.15 5.42L18.9 3zm-1.03 16.22h1.62L6.16 4.7H4.42l13.45 14.52z" />
-                      </svg>
-                    </a>
-                    <a
-                      href="#"
-                      aria-label="Daniel Reeves Instagram"
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-violet-200 bg-violet-50 text-violet-600 transition duration-200 hover:scale-110 hover:bg-violet-100"
-                    >
-                      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
-                        <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5a4.25 4.25 0 0 0 4.25 4.25h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5a4.25 4.25 0 0 0-4.25-4.25h-8.5zm8.95 1.75a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z" />
-                      </svg>
-                    </a>
-                    <a
-                      href="#"
-                      aria-label="Daniel Reeves LinkedIn"
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-blue-200 bg-blue-50 text-blue-600 transition duration-200 hover:scale-110 hover:bg-blue-100"
-                    >
-                      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
-                        <path d="M6.94 8.5H3.56V20h3.38V8.5zM5.25 3A2.02 2.02 0 1 0 5.3 7.04 2.02 2.02 0 0 0 5.25 3zM20.44 13.26c0-3.04-1.62-4.95-4.37-4.95-1.27 0-2.11.7-2.46 1.2v-1h-3.37c.04.66 0 11.49 0 11.49h3.37v-6.42c0-.34.02-.68.12-.92.27-.68.87-1.39 1.88-1.39 1.32 0 1.85 1 1.85 2.48V20H20.44v-6.74z" />
-                      </svg>
-                    </a>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -1636,7 +1240,7 @@ function AboutPage() {
           />
         </div>
 
-        <div className="relative z-10 mx-auto w-full max-w-[1400px] px-6 md:px-12 lg:px-20">
+        <div className="relative z-10 mx-auto w-full max-w-[1200px] px-6">
           {/* Section Header */}
           <div className="flex flex-wrap items-end justify-between gap-8 pb-12">
             {/* Left Side - Title */}
@@ -1778,7 +1382,7 @@ function AboutPage() {
           />
         </div>
 
-        <div className="relative z-10 mx-auto w-full max-w-[1400px] px-6 md:px-12 lg:px-20">
+        <div className="relative z-10 mx-auto w-full max-w-[1200px] px-6">
           {/* Section Header */}
           <div className="mx-auto max-w-4xl text-center">
             {/* Top Pill */}
@@ -2033,11 +1637,262 @@ function AboutPage() {
       </section>
       </div>
 
-      {/* ═══════════════════════════════════════════════════════════
-          PREMIUM CULTURE SECTION — "Where Growth Meets Culture"
-          ═══════════════════════════════════════════════════════════ */}
-      <CultureSection />
     </main>
+
+    {/* FOUNDER MODAL - ENHANCED WITH EXCLUSIVE CONTENT - FULLY RESPONSIVE */}
+    {founderModalOpen && createPortal(
+      <div className="modal-backdrop" style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', overflowY: 'auto' }}
+        onClick={(e) => { if (e.target === e.currentTarget) setFounderModalOpen(false); }}>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }} onClick={() => setFounderModalOpen(false)} />
+        <div className="modal-content" style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '520px', borderRadius: '24px', background: '#fff', overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.35)', margin: 'auto' }}>
+          <div style={{ background: 'linear-gradient(135deg,#1e293b 0%,#312e81 50%,#0f172a 100%)', padding: 'clamp(16px, 4vw, 24px)', position: 'relative' }}>
+            <button type="button" onClick={() => setFounderModalOpen(false)}
+              style={{ position: 'absolute', right: 16, top: 16, width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', cursor: 'pointer', fontSize: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10 }}
+              aria-label="Close">&#x2715;</button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(12px, 3vw, 16px)', paddingTop: 8, flexWrap: 'wrap' }}>
+              <div style={{ width: 'clamp(60px, 15vw, 80px)', height: 'clamp(60px, 15vw, 80px)', borderRadius: 16, background: 'linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'clamp(24px, 6vw, 32px)', fontWeight: 900, color: '#fff', border: '3px solid rgba(255,255,255,0.3)', boxShadow: '0 8px 24px rgba(0,0,0,0.4)', flexShrink: 0 }}>
+                AM
+              </div>
+              <div style={{ flex: 1, minWidth: '150px' }}>
+                <p style={{ margin: 0, fontSize: 'clamp(9px, 2vw, 11px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(255,255,255,0.5)', marginBottom: 4 }}>Founder & Visionary</p>
+                <h3 style={{ margin: 0, fontSize: 'clamp(18px, 4vw, 22px)', fontWeight: 800, color: '#fff', lineHeight: 1.2 }}>Arjun Malhotra</h3>
+                <p style={{ margin: '4px 0 0', fontSize: 'clamp(11px, 2.5vw, 13px)', fontWeight: 600, color: '#a5b4fc' }}>Strategic Growth Architect</p>
+              </div>
+            </div>
+          </div>
+          <div className="modal-scroll" style={{ padding: 'clamp(16px, 4vw, 24px)', maxHeight: '70vh', overflowY: 'auto' }}>
+            <p style={{ fontSize: 'clamp(13px, 3vw, 14.5px)', lineHeight: 1.75, color: '#475569', margin: '0 0 20px' }}>
+              A visionary entrepreneur with 15+ years transforming franchise ecosystems across India and Southeast Asia. Arjun's data-driven approach has revolutionized how brands scale, combining investor intelligence with operational excellence to build category-defining infrastructure.
+            </p>
+
+            {/* Professional Certifications - Responsive */}
+            <p style={{ fontSize: 'clamp(10px, 2vw, 11px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#94a3b8', marginBottom: 12 }}>Certifications & Credentials</p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'clamp(6px, 1.5vw, 8px)', marginBottom: 20 }}>
+              {['Certified Franchise Executive (CFE)', 'Strategic Management (Harvard)', 'Venture Capital Analyst', 'Business Valuation Expert'].map((cert) => (
+                <span key={cert} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%)', border: '1px solid #c4b5fd', borderRadius: 20, padding: '6px 12px', fontSize: 'clamp(10px, 2.5vw, 12px)', fontWeight: 600, color: '#5b21b6' }}>
+                  <span style={{ fontSize: 14 }}>🎖️</span><span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '200px' }}>{cert}</span>
+                </span>
+              ))}
+            </div>
+
+            {/* Key Achievements with Icons - Responsive */}
+            <p style={{ fontSize: 'clamp(10px, 2vw, 11px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#94a3b8', marginBottom: 12 }}>Career Highlights</p>
+            <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {[
+                { icon: '🚀', text: 'Scaled 350+ brands across India and Southeast Asia' },
+                { icon: '💰', text: 'Facilitated ₹500Cr+ in franchise capital deployment' },
+                { icon: '🌍', text: 'Expanded operations to 100+ cities in 8 countries' },
+                { icon: '🤝', text: 'Built network of 8,000+ verified investors' },
+                { icon: '📈', text: 'Achieved 95% franchise success rate (industry avg: 60%)' },
+                { icon: '🎯', text: 'Advised 50+ unicorn-track startups on expansion strategy' },
+              ].map((item) => (
+                <li key={item.text} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 'clamp(12px, 3vw, 14px)', color: '#334155', lineHeight: 1.5 }}>
+                  <span style={{ fontSize: 18, flexShrink: 0 }}>{item.icon}</span>{item.text}
+                </li>
+              ))}
+            </ul>
+
+            {/* Awards & Recognition - Responsive */}
+            <p style={{ fontSize: 'clamp(10px, 2vw, 11px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#94a3b8', marginBottom: 12 }}>Awards & Recognition</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
+              {[
+                { year: '2019', award: 'Forbes India 30 Under 30', color: '#fbbf24' },
+                { year: '2021', award: 'Entrepreneur of the Year - Franchise India', color: '#f59e0b' },
+                { year: '2022', award: 'Best Franchise Consultant - Asia Pacific', color: '#d97706' },
+                { year: '2023', award: 'Business Leader of the Year - ET Now', color: '#b45309' },
+                { year: '2024', award: 'Top 10 Franchise Innovators - Global Summit', color: '#92400e' },
+              ].map((item) => (
+                <div key={item.award} style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#fef3c7', border: '1px solid #fde68a', borderRadius: 12, padding: '10px 12px' }}>
+                  <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 'clamp(35px, 8vw, 40px)', height: 'clamp(35px, 8vw, 40px)', borderRadius: 10, background: item.color, color: '#fff', fontSize: 'clamp(14px, 3.5vw, 18px)', fontWeight: 900, flexShrink: 0 }}>
+                    {item.year.slice(2)}
+                  </span>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <p style={{ margin: 0, fontSize: 'clamp(11px, 2.8vw, 13px)', fontWeight: 700, color: '#78350f', lineHeight: 1.3, overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.award}</p>
+                    <p style={{ margin: '2px 0 0', fontSize: 'clamp(10px, 2.2vw, 11px)', color: '#92400e' }}>{item.year}</p>
+                  </div>
+                  <span style={{ fontSize: 20, flexShrink: 0 }}>🏆</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Speaking Engagements - Responsive */}
+            <p style={{ fontSize: 'clamp(10px, 2vw, 11px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#94a3b8', marginBottom: 12 }}>Speaking & Media</p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'clamp(6px, 1.5vw, 8px)', marginBottom: 20 }}>
+              {['TEDx Speaker', 'CNBC Contributor', 'Economic Times Columnist', 'YourStory Featured'].map((media) => (
+                <span key={media} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#dbeafe', border: '1px solid #93c5fd', borderRadius: 20, padding: '6px 12px', fontSize: 'clamp(10px, 2.5vw, 12px)', fontWeight: 600, color: '#1e40af' }}>
+                  <span style={{ fontSize: 14 }}>🎤</span>{media}
+                </span>
+              ))}
+            </div>
+
+            {/* Stats Grid - Responsive */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(80px, 1fr))', gap: 10, marginBottom: 24 }}>
+              {[{ v: '350+', l: 'Brands Scaled' }, { v: '₹500Cr+', l: 'Capital Facilitated' }, { v: '8,000+', l: 'Investor Network' }].map((s) => (
+                <div key={s.l} style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 14, padding: '14px 8px', textAlign: 'center' }}>
+                  <p style={{ margin: 0, fontSize: 'clamp(16px, 4vw, 20px)', fontWeight: 800, color: '#0f172a' }}>{s.v}</p>
+                  <p style={{ margin: '3px 0 0', fontSize: 'clamp(9px, 2.2vw, 11px)', color: '#94a3b8' }}>{s.l}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Education - Responsive */}
+            <p style={{ fontSize: 'clamp(10px, 2vw, 11px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#94a3b8', marginBottom: 12 }}>Education</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 12, padding: '10px 12px' }}>
+                <span style={{ fontSize: 24, flexShrink: 0 }}>🎓</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ margin: 0, fontSize: 'clamp(11px, 2.8vw, 13px)', fontWeight: 700, color: '#166534', overflow: 'hidden', textOverflow: 'ellipsis' }}>MBA - IIM Ahmedabad</p>
+                  <p style={{ margin: '2px 0 0', fontSize: 'clamp(10px, 2.2vw, 11px)', color: '#15803d' }}>Gold Medalist, Strategy & Entrepreneurship</p>
+                </div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 12, padding: '10px 12px' }}>
+                <span style={{ fontSize: 24, flexShrink: 0 }}>🎓</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ margin: 0, fontSize: 'clamp(11px, 2.8vw, 13px)', fontWeight: 700, color: '#166534', overflow: 'hidden', textOverflow: 'ellipsis' }}>B.Tech - IIT Delhi</p>
+                  <p style={{ margin: '2px 0 0', fontSize: 'clamp(10px, 2.2vw, 11px)', color: '#15803d' }}>Computer Science, Dean's List</p>
+                </div>
+              </div>
+            </div>
+
+            <button type="button" onClick={() => setFounderModalOpen(false)}
+              style={{ width: '100%', padding: 'clamp(12px, 3vw, 14px)', borderRadius: 14, background: '#0f172a', border: 'none', color: '#fff', fontSize: 'clamp(12px, 3vw, 14px)', fontWeight: 700, cursor: 'pointer', touchAction: 'manipulation' }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = '#1e293b'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = '#0f172a'; }}>
+              Close
+            </button>
+          </div>
+        </div>
+      </div>,
+      document.body
+    )}
+
+    {/* CO-FOUNDER MODAL - ENHANCED WITH EXCLUSIVE CONTENT - FULLY RESPONSIVE */}
+    {cofounderModalOpen && createPortal(
+      <div className="modal-backdrop" style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', overflowY: 'auto' }}
+        onClick={(e) => { if (e.target === e.currentTarget) setCofounderModalOpen(false); }}>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }} onClick={() => setCofounderModalOpen(false)} />
+        <div className="modal-content" style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '520px', borderRadius: '24px', background: '#fff', overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.35)', margin: 'auto' }}>
+          <div style={{ background: 'linear-gradient(135deg,#1e293b 0%,#312e81 50%,#0f172a 100%)', padding: 'clamp(16px, 4vw, 24px)', position: 'relative' }}>
+            <button type="button" onClick={() => setCofounderModalOpen(false)}
+              style={{ position: 'absolute', right: 16, top: 16, width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', cursor: 'pointer', fontSize: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10 }}
+              aria-label="Close">&#x2715;</button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(12px, 3vw, 16px)', paddingTop: 8, flexWrap: 'wrap' }}>
+              <div style={{ width: 'clamp(60px, 15vw, 80px)', height: 'clamp(60px, 15vw, 80px)', borderRadius: 16, background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'clamp(24px, 6vw, 32px)', fontWeight: 900, color: '#fff', border: '3px solid rgba(255,255,255,0.3)', boxShadow: '0 8px 24px rgba(0,0,0,0.4)', flexShrink: 0 }}>
+                DR
+              </div>
+              <div style={{ flex: 1, minWidth: '150px' }}>
+                <p style={{ margin: 0, fontSize: 'clamp(9px, 2vw, 11px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(255,255,255,0.5)', marginBottom: 4 }}>Co-Founder & Strategist</p>
+                <h3 style={{ margin: 0, fontSize: 'clamp(18px, 4vw, 22px)', fontWeight: 800, color: '#fff', lineHeight: 1.2 }}>Daniel Reeves</h3>
+                <p style={{ margin: '4px 0 0', fontSize: 'clamp(11px, 2.5vw, 13px)', fontWeight: 600, color: '#a5b4fc' }}>Expansion Strategy Director</p>
+              </div>
+            </div>
+          </div>
+          <div className="modal-scroll" style={{ padding: 'clamp(16px, 4vw, 24px)', maxHeight: '70vh', overflowY: 'auto' }}>
+            <p style={{ fontSize: 'clamp(13px, 3vw, 14.5px)', lineHeight: 1.75, color: '#475569', margin: '0 0 20px' }}>
+              An operations mastermind with 12+ years engineering scalable franchise systems. Daniel's systematic approach to process architecture and multi-city coordination has enabled hundreds of brands to achieve sustainable, profitable expansion across diverse markets.
+            </p>
+
+            {/* Professional Certifications - Responsive */}
+            <p style={{ fontSize: 'clamp(10px, 2vw, 11px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#94a3b8', marginBottom: 12 }}>Certifications & Credentials</p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'clamp(6px, 1.5vw, 8px)', marginBottom: 20 }}>
+              {['Six Sigma Black Belt', 'PMP Certified', 'Lean Operations Expert', 'Supply Chain Management (MIT)'].map((cert) => (
+                <span key={cert} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)', border: '1px solid #93c5fd', borderRadius: 20, padding: '6px 12px', fontSize: 'clamp(10px, 2.5vw, 12px)', fontWeight: 600, color: '#1e40af' }}>
+                  <span style={{ fontSize: 14 }}>🎖️</span><span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '200px' }}>{cert}</span>
+                </span>
+              ))}
+            </div>
+
+            {/* Key Achievements with Icons - Responsive */}
+            <p style={{ fontSize: 'clamp(10px, 2vw, 11px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#94a3b8', marginBottom: 12 }}>Career Highlights</p>
+            <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {[
+                { icon: '🏗️', text: 'Engineered operational blueprints for 200+ franchise brands' },
+                { icon: '🌏', text: 'Expanded franchise networks across 25+ countries' },
+                { icon: '⚡', text: 'Reduced operational costs by 40% through process optimization' },
+                { icon: '📊', text: 'Conducted 150+ conversion rate optimization tests' },
+                { icon: '🤝', text: 'Built 100+ strategic alliances with industry leaders' },
+                { icon: '🎯', text: 'Achieved 98% franchisee satisfaction rate' },
+              ].map((item) => (
+                <li key={item.text} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 'clamp(12px, 3vw, 14px)', color: '#334155', lineHeight: 1.5 }}>
+                  <span style={{ fontSize: 18, flexShrink: 0 }}>{item.icon}</span>{item.text}
+                </li>
+              ))}
+            </ul>
+
+            {/* Awards & Recognition - Responsive */}
+            <p style={{ fontSize: 'clamp(10px, 2vw, 11px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#94a3b8', marginBottom: 12 }}>Awards & Recognition</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
+              {[
+                { year: '2020', award: 'Economic Times Top 40 Under 40', color: '#3b82f6' },
+                { year: '2021', award: 'Excellence in Operations - Franchise Asia', color: '#2563eb' },
+                { year: '2022', award: 'Operations Leader of the Year - Business Today', color: '#1d4ed8' },
+                { year: '2023', award: 'Best Process Architect - Business World', color: '#1e40af' },
+                { year: '2024', award: 'Innovation in Franchise Systems - Global Forum', color: '#1e3a8a' },
+              ].map((item) => (
+                <div key={item.award} style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#dbeafe', border: '1px solid #93c5fd', borderRadius: 12, padding: '10px 12px' }}>
+                  <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 'clamp(35px, 8vw, 40px)', height: 'clamp(35px, 8vw, 40px)', borderRadius: 10, background: item.color, color: '#fff', fontSize: 'clamp(14px, 3.5vw, 18px)', fontWeight: 900, flexShrink: 0 }}>
+                    {item.year.slice(2)}
+                  </span>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <p style={{ margin: 0, fontSize: 'clamp(11px, 2.8vw, 13px)', fontWeight: 700, color: '#1e3a8a', lineHeight: 1.3, overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.award}</p>
+                    <p style={{ margin: '2px 0 0', fontSize: 'clamp(10px, 2.2vw, 11px)', color: '#1e40af' }}>{item.year}</p>
+                  </div>
+                  <span style={{ fontSize: 20, flexShrink: 0 }}>🏆</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Speaking Engagements - Responsive */}
+            <p style={{ fontSize: 'clamp(10px, 2vw, 11px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#94a3b8', marginBottom: 12 }}>Speaking & Advisory</p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'clamp(6px, 1.5vw, 8px)', marginBottom: 20 }}>
+              {['Operations Summit Speaker', 'Franchise Council Advisor', 'Inc42 Contributor', 'Startup Mentor'].map((media) => (
+                <span key={media} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#fef3c7', border: '1px solid #fde68a', borderRadius: 20, padding: '6px 12px', fontSize: 'clamp(10px, 2.5vw, 12px)', fontWeight: 600, color: '#92400e' }}>
+                  <span style={{ fontSize: 14 }}>🎤</span>{media}
+                </span>
+              ))}
+            </div>
+
+            {/* Stats Grid - Responsive */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(80px, 1fr))', gap: 10, marginBottom: 24 }}>
+              {[{ v: '25+', l: 'Countries Reached' }, { v: '150+', l: 'Optimization Tests' }, { v: '100+', l: 'Strategic Alliances' }].map((s) => (
+                <div key={s.l} style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 14, padding: '14px 8px', textAlign: 'center' }}>
+                  <p style={{ margin: 0, fontSize: 'clamp(16px, 4vw, 20px)', fontWeight: 800, color: '#0f172a' }}>{s.v}</p>
+                  <p style={{ margin: '3px 0 0', fontSize: 'clamp(9px, 2.2vw, 11px)', color: '#94a3b8' }}>{s.l}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Education - Responsive */}
+            <p style={{ fontSize: 'clamp(10px, 2vw, 11px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#94a3b8', marginBottom: 12 }}>Education</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 12, padding: '10px 12px' }}>
+                <span style={{ fontSize: 24, flexShrink: 0 }}>🎓</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ margin: 0, fontSize: 'clamp(11px, 2.8vw, 13px)', fontWeight: 700, color: '#166534', overflow: 'hidden', textOverflow: 'ellipsis' }}>MBA - INSEAD, France</p>
+                  <p style={{ margin: '2px 0 0', fontSize: 'clamp(10px, 2.2vw, 11px)', color: '#15803d' }}>Operations & Strategy, Distinction</p>
+                </div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 12, padding: '10px 12px' }}>
+                <span style={{ fontSize: 24, flexShrink: 0 }}>🎓</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ margin: 0, fontSize: 'clamp(11px, 2.8vw, 13px)', fontWeight: 700, color: '#166534', overflow: 'hidden', textOverflow: 'ellipsis' }}>B.Eng - NUS Singapore</p>
+                  <p style={{ margin: '2px 0 0', fontSize: 'clamp(10px, 2.2vw, 11px)', color: '#15803d' }}>Industrial Engineering, First Class Honors</p>
+                </div>
+              </div>
+            </div>
+
+            <button type="button" onClick={() => setCofounderModalOpen(false)}
+              style={{ width: '100%', padding: 'clamp(12px, 3vw, 14px)', borderRadius: 14, background: '#0f172a', border: 'none', color: '#fff', fontSize: 'clamp(12px, 3vw, 14px)', fontWeight: 700, cursor: 'pointer', touchAction: 'manipulation' }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = '#1e293b'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = '#0f172a'; }}>
+              Close
+            </button>
+          </div>
+        </div>
+      </div>,
+      document.body
+    )}
+    </>
   );
 }
 
