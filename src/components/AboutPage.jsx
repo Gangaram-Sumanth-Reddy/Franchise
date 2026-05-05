@@ -1,51 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { createPortal } from 'react-dom';
-import '../styles/about-page-optimizations.css';
-
-// Lazy load images with intersection observer
-function LazyImage({ src, alt, className, style }) {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [isInView, setIsInView] = useState(false);
-  const imgRef = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInView(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: '50px' }
-    );
-
-    if (imgRef.current) {
-      observer.observe(imgRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div ref={imgRef} className={className} style={style}>
-      {isInView && (
-        <img
-          src={src}
-          alt={alt}
-          loading="lazy"
-          onLoad={() => setIsLoaded(true)}
-          style={{
-            ...style,
-            opacity: isLoaded ? 1 : 0,
-            transition: 'opacity 0.3s ease-in-out'
-          }}
-          className={className}
-        />
-      )}
-    </div>
-  );
-}
 
 // Premium Team Card Component with Interactive Social Reveal
 function PremiumTeamCard({ member }) {
@@ -525,7 +480,7 @@ function AboutPage() {
           <div className="grid items-center gap-12 lg:grid-cols-12">
 
             {/* LEFT SIDE — Content (7 cols) */}
-            <div className="lg:col-span-7 flex flex-col gap-6 text-center lg:text-left">
+            <div className="lg:col-span-7 flex flex-col gap-6">
               
               {/* H1 */}
               <h1 className="text-[clamp(32px,8vw,56px)] font-black leading-[1.1] tracking-tight text-slate-900">
@@ -538,10 +493,10 @@ function AboutPage() {
               </p>
 
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row flex-wrap gap-3 pt-4 justify-center lg:justify-start">
+              <div className="flex flex-wrap gap-3 pt-4">
                 <button
                   onClick={() => { window.history.pushState({}, '', '/franchise-opportunities'); window.dispatchEvent(new PopStateEvent('popstate')); }}
-                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-900 px-6 py-3.5 text-[15px] font-semibold text-white transition-all duration-200 hover:bg-slate-800 w-full sm:w-auto"
+                  className="inline-flex items-center gap-2 rounded-lg bg-slate-900 px-6 py-3.5 text-[15px] font-semibold text-white transition-all duration-200 hover:bg-slate-800"
                 >
                   Explore Opportunities
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
@@ -550,7 +505,7 @@ function AboutPage() {
                 </button>
                 <button
                   onClick={openTeamPage}
-                  className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-slate-200 bg-white px-6 py-3.5 text-[15px] font-semibold text-slate-900 transition-all duration-200 hover:border-slate-300 hover:bg-slate-50 w-full sm:w-auto"
+                  className="inline-flex items-center gap-2 rounded-lg border-2 border-slate-200 bg-white px-6 py-3.5 text-[15px] font-semibold text-slate-900 transition-all duration-200 hover:border-slate-300 hover:bg-slate-50"
                 >
                   Meet Leadership
                 </button>
@@ -558,7 +513,7 @@ function AboutPage() {
             </div>
 
             {/* RIGHT SIDE — System Diagram (5 cols) */}
-            <div className="lg:col-span-5 relative w-full mx-auto max-w-[400px] lg:max-w-none" style={{ aspectRatio: '1 / 1' }}>
+            <div className="lg:col-span-5 relative w-full" style={{ aspectRatio: '1 / 1' }}>
               
               {/* Center: iF Engine */}
               <div className="absolute inset-0 flex items-center justify-center">
@@ -967,7 +922,7 @@ function AboutPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
-                className="relative group mx-auto w-full max-w-[320px] lg:max-w-none"
+                className="relative group"
               >
                 <div className="relative overflow-hidden rounded-2xl shadow-lg" style={{ aspectRatio: '3/4', maxHeight: '380px' }}>
                   <img
@@ -977,7 +932,7 @@ function AboutPage() {
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                  <div className="absolute bottom-4 left-4 right-4 text-center lg:text-left">
+                  <div className="absolute bottom-4 left-4">
                     <p className="text-xl font-bold text-white">Arjun Malhotra</p>
                     <p className="text-xs text-white/90 mt-0.5">Founder</p>
                   </div>
@@ -990,7 +945,7 @@ function AboutPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.1 }}
-                className="flex flex-col gap-4 text-center lg:text-left"
+                className="flex flex-col gap-4"
               >
                 
                 {/* Name & Role */}
@@ -1015,24 +970,24 @@ function AboutPage() {
 
                 {/* Professional Highlights */}
                 <div className="space-y-2">
-                  <div className="flex items-start gap-2 justify-center lg:justify-start">
+                  <div className="flex items-start gap-2">
                     <span className="text-slate-900 font-bold mt-0.5">•</span>
-                    <p className="text-sm text-slate-600 text-left">15+ years driving franchise expansion across India and Southeast Asia</p>
+                    <p className="text-sm text-slate-600">15+ years driving franchise expansion across India and Southeast Asia</p>
                   </div>
-                  <div className="flex items-start gap-2 justify-center lg:justify-start">
+                  <div className="flex items-start gap-2">
                     <span className="text-slate-900 font-bold mt-0.5">•</span>
-                    <p className="text-sm text-slate-600 text-left">Featured in Forbes India 30 Under 30 (2019)</p>
+                    <p className="text-sm text-slate-600">Featured in Forbes India 30 Under 30 (2019)</p>
                   </div>
-                  <div className="flex items-start gap-2 justify-center lg:justify-start">
+                  <div className="flex items-start gap-2">
                     <span className="text-slate-900 font-bold mt-0.5">•</span>
-                    <p className="text-sm text-slate-600 text-left">MBA from IIM Ahmedabad, B.Tech from IIT Delhi</p>
+                    <p className="text-sm text-slate-600">MBA from IIM Ahmedabad, B.Tech from IIT Delhi</p>
                   </div>
                 </div>
 
                 {/* View Full Profile Button */}
                 <button
                   onClick={() => setFounderModalOpen(true)}
-                  className="group mt-2 inline-flex items-center justify-center gap-2 self-center lg:self-start rounded-xl bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 w-full sm:w-auto"
+                  className="group mt-2 inline-flex items-center gap-2 self-start rounded-xl bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105"
                 >
                   <span>View Full Profile</span>
                   <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -1041,7 +996,7 @@ function AboutPage() {
                 </button>
 
                 {/* Social Links */}
-                <div className="flex items-center gap-2 pt-2 justify-center lg:justify-start">
+                <div className="flex items-center gap-2 pt-2">
                   <a href="#" aria-label="X" className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-600 transition-all duration-200 hover:bg-slate-900 hover:text-white">
                     <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current">
                       <path d="M18.9 3h2.92l-6.38 7.3L23 21h-5.88l-4.6-6.01L7.3 21H4.37l6.82-7.8L1 3h6.03l4.15 5.42L18.9 3zm-1.03 16.22h1.62L6.16 4.7H4.42l13.45 14.52z" />
@@ -1072,7 +1027,7 @@ function AboutPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
-                className="flex flex-col gap-4 order-2 lg:order-1 text-center lg:text-left"
+                className="flex flex-col gap-4 order-2 lg:order-1"
               >
                 
                 {/* Name & Role */}
@@ -1097,24 +1052,24 @@ function AboutPage() {
 
                 {/* Professional Highlights */}
                 <div className="space-y-2">
-                  <div className="flex items-start gap-2 justify-center lg:justify-start">
+                  <div className="flex items-start gap-2">
                     <span className="text-slate-900 font-bold mt-0.5">•</span>
-                    <p className="text-sm text-slate-600 text-left">12+ years in operations scaling and multi-city franchise coordination</p>
+                    <p className="text-sm text-slate-600">12+ years in operations scaling and multi-city franchise coordination</p>
                   </div>
-                  <div className="flex items-start gap-2 justify-center lg:justify-start">
+                  <div className="flex items-start gap-2">
                     <span className="text-slate-900 font-bold mt-0.5">•</span>
-                    <p className="text-sm text-slate-600 text-left">Recognized by Economic Times as Top 40 Under 40 (2020)</p>
+                    <p className="text-sm text-slate-600">Recognized by Economic Times as Top 40 Under 40 (2020)</p>
                   </div>
-                  <div className="flex items-start gap-2 justify-center lg:justify-start">
+                  <div className="flex items-start gap-2">
                     <span className="text-slate-900 font-bold mt-0.5">•</span>
-                    <p className="text-sm text-slate-600 text-left">MBA from INSEAD, B.Eng from NUS Singapore</p>
+                    <p className="text-sm text-slate-600">MBA from INSEAD, B.Eng from NUS Singapore</p>
                   </div>
                 </div>
 
                 {/* View Full Profile Button */}
                 <button
                   onClick={() => setCofounderModalOpen(true)}
-                  className="group mt-2 inline-flex items-center justify-center gap-2 self-center lg:self-start rounded-xl bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 w-full sm:w-auto"
+                  className="group mt-2 inline-flex items-center gap-2 self-start rounded-xl bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105"
                 >
                   <span>View Full Profile</span>
                   <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -1123,7 +1078,7 @@ function AboutPage() {
                 </button>
 
                 {/* Social Links */}
-                <div className="flex items-center gap-2 pt-2 justify-center lg:justify-start">
+                <div className="flex items-center gap-2 pt-2">
                   <a href="#" aria-label="X" className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-600 transition-all duration-200 hover:bg-slate-900 hover:text-white">
                     <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current">
                       <path d="M18.9 3h2.92l-6.38 7.3L23 21h-5.88l-4.6-6.01L7.3 21H4.37l6.82-7.8L1 3h6.03l4.15 5.42L18.9 3zm-1.03 16.22h1.62L6.16 4.7H4.42l13.45 14.52z" />
@@ -1148,7 +1103,7 @@ function AboutPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.1 }}
-                className="relative group order-1 lg:order-2 mx-auto w-full max-w-[320px] lg:max-w-none"
+                className="relative group order-1 lg:order-2"
               >
                 <div className="relative overflow-hidden rounded-2xl shadow-lg" style={{ aspectRatio: '3/4', maxHeight: '380px' }}>
                   <img
@@ -1158,7 +1113,7 @@ function AboutPage() {
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                  <div className="absolute bottom-4 left-4 right-4 text-center lg:text-left">
+                  <div className="absolute bottom-4 left-4">
                     <p className="text-xl font-bold text-white">Daniel Reeves</p>
                     <p className="text-xs text-white/90 mt-0.5">Co-Founder</p>
                   </div>
