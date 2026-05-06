@@ -193,14 +193,14 @@ function Navbar() {
       }`}
     >
       <nav
-        className={`mx-auto flex w-full max-w-[1200px] items-center justify-between px-4 sm:px-6 lg:px-8 ${
+        className={`mx-auto flex w-full max-w-[1400px] items-center justify-between px-2 sm:px-4 lg:px-6 ${
           isContactPage
             ? 'h-[62px] max-w-[840px] rounded-full border border-white/20 bg-white/10 shadow-[0_14px_40px_rgba(0,0,0,0.42)] backdrop-blur-xl'
             : 'h-full'
         }`}
       >
-        {/* Logo - Responsive Sizing */}
-        <div className="flex flex-col">
+        {/* Logo - Responsive Sizing - Pushed More Left */}
+        <div className="flex flex-col mr-auto">
           <a href="/" onClick={handleHomeClick} className="inline-flex items-center gap-2 sm:gap-3">
             <img 
               src="/logo.png" 
@@ -223,7 +223,7 @@ function Navbar() {
         </div>
 
         {isContactPage ? (
-          <ul className="hidden items-center gap-6 text-sm font-medium text-slate-100 lg:flex">
+          <ul className="hidden items-center gap-6 text-sm font-medium text-slate-100 lg:flex flex-1 justify-center">
             <li>
               <a href="/" onClick={handleHomeClick} className="transition duration-200 hover:text-white">
                 Home
@@ -258,7 +258,7 @@ function Navbar() {
             </li>
           </ul>
         ) : (
-        <ul className="hidden items-center gap-8 text-sm font-medium text-slate-700 lg:flex">
+        <ul className="hidden items-center gap-8 text-sm font-medium text-slate-700 lg:flex flex-1 justify-center">
           <li>
             <a
               href="/"
@@ -466,11 +466,11 @@ function Navbar() {
           <span className="font-medium">Menu</span>
         </button>
 
-        {/* Desktop CTA Button - Hidden on Mobile/Tablet */}
+        {/* Desktop CTA Button - Hidden on Mobile/Tablet - Pushed More Right */}
         <button
           type="button"
           onClick={() => navigateTo('/contact')}
-          className={`hidden items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 lg:inline-flex ${
+          className={`hidden items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 lg:inline-flex ml-auto ${
             isContactPage
               ? 'border border-white/30 bg-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.28)]'
               : 'bg-[#0B1220] hover:shadow-lg hover:shadow-[#0B1220]/25'
