@@ -3290,7 +3290,7 @@ function Hero() {
               {/* Strategic Advisor Image - Contact Page Style */}
               <div className="relative">
                 <img
-                  src="/src/assets/contact.png"
+                  src="/images/contact.png"
                   alt="Strategic Franchise Advisory"
                   className="relative w-[75vw] max-w-[380px] object-contain drop-shadow-[0_24px_48px_rgba(15,23,42,0.14)] sm:w-full lg:max-w-[460px] xl:max-w-[500px]"
                   loading="lazy"

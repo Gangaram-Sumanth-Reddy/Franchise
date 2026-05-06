@@ -18,7 +18,8 @@ export default defineConfig({
     chunkSizeWarningLimit: 1000,
     minify: 'esbuild',
     sourcemap: false,
-    target: 'esnext'
+    target: 'esnext',
+    assetsInlineLimit: 0, // Don't inline assets, keep them as separate files
   },
   optimizeDeps: {
     include: ['react', 'react-dom'],
@@ -28,5 +29,7 @@ export default defineConfig({
     fs: {
       strict: true
     }
-  }
+  },
+  publicDir: 'public', // Explicitly set public directory
+  base: '/', // Ensure base path is root
 })

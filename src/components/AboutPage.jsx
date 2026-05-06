@@ -337,42 +337,42 @@ const teamMembers = [
     role: 'Founder & CEO',
     topLabel: 'Visionary',
     subtitle: 'CEO MASTERMIND',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=80',
+    image: '/images/team/founder.jpg',
   },
   {
     name: 'Daniel Reeves',
     role: 'Co-Founder & Strategy Director',
     topLabel: 'Strategic',
     subtitle: 'EXPANSION ARCHITECT',
-    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=80',
+    image: '/images/team/cofounder.jpg',
   },
   {
     name: 'Neha Sharma',
     role: 'Head of Franchise Strategy',
     topLabel: 'Engaging',
     subtitle: 'FRANCHISE GENIUS',
-    image: 'https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?auto=format&fit=crop&w=900&q=80',
+    image: '/images/team/member1.jpg',
   },
   {
     name: 'Vikram Singh',
     role: 'Investment Advisor',
     topLabel: 'Builder',
     subtitle: 'INVESTMENT LEAD',
-    image: 'https://images.unsplash.com/photo-1507591064344-4c6ce005b128?auto=format&fit=crop&w=900&q=80',
+    image: '/images/team/member2.jpg',
   },
   {
     name: 'Sneha Mehta',
     role: 'Brand Partnerships Lead',
     topLabel: 'Scaling',
     subtitle: 'PARTNERSHIP EXPERT',
-    image: 'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=900&q=80',
+    image: '/images/team/member3.jpg',
   },
   {
     name: 'Kiran Rao',
     role: 'Operations Strategist',
     topLabel: 'Creative',
     subtitle: 'OPERATIONS MASTER',
-    image: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=900&q=80',
+    image: '/images/team/member4.jpg',
   },
 ];
 
@@ -403,7 +403,7 @@ const customerTestimonials = [
   {
     name: 'Emily Johnson',
     company: 'Johnson Marketing',
-    avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&q=80',
+    avatar: '/images/testimonials/avatar1.jpg',
     quote:
       "We've seen measurable growth since using iFranchise solutions. It's intuitive, fast, and integrates seamlessly with our existing workflows.",
     icon: '◎',
@@ -411,7 +411,7 @@ const customerTestimonials = [
   {
     name: 'Sophia Martin',
     company: 'Martin Agency',
-    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=120&q=80',
+    avatar: '/images/testimonials/avatar2.jpg',
     quote:
       'Finally, franchise services designed with users in mind. Everything we need is here: smart automation, insights, and amazing support.',
     icon: '✕',
@@ -419,7 +419,7 @@ const customerTestimonials = [
   {
     name: 'Rohit Verma',
     company: 'ScaleCraft Ventures',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80',
+    avatar: '/images/testimonials/avatar3.jpg',
     quote:
       'Working with iFranchise gave our team the clarity and speed we needed for expansion. The process is transparent and data-driven.',
     icon: '◌',
@@ -428,10 +428,10 @@ const customerTestimonials = [
 
 // Slideshow Images for About Section
 const slideshowImages = [
-  'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80',
-  'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80',
-  'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=80',
-  'https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=1200&q=80',
+  '/images/slideshow/slide1.jpg',
+  '/images/slideshow/slide2.jpg',
+  '/images/slideshow/slide3.jpg',
+  '/images/slideshow/slide4.jpg',
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -833,7 +833,7 @@ function AboutPage() {
                     whileInView={{ scale: 1.05 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8, ease: 'easeOut' }}
-                    src="/src/assets/aboutus.png"
+                    src="/images/aboutus.png"
                     alt="iFranchise History"
                     className="w-full h-full object-cover"
                     loading="lazy"
@@ -926,7 +926,7 @@ function AboutPage() {
               >
                 <div className="relative overflow-hidden rounded-2xl shadow-lg" style={{ aspectRatio: '3/4', maxHeight: '380px' }}>
                   <img
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80"
+                    src="/images/team/founder.jpg"
                     alt="Arjun Malhotra"
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
@@ -1107,7 +1107,7 @@ function AboutPage() {
               >
                 <div className="relative overflow-hidden rounded-2xl shadow-lg" style={{ aspectRatio: '3/4', maxHeight: '380px' }}>
                   <img
-                    src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80"
+                    src="/images/team/cofounder.jpg"
                     alt="Daniel Reeves"
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
