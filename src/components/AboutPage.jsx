@@ -2,6 +2,15 @@ import { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { createPortal } from 'react-dom';
 
+// Import actual images
+import aboutUsImage from '../assets/aboutus.png';
+import teamImage1 from '../assets/about.png';
+import teamImage2 from '../assets/contact.png';
+import teamImage3 from '../assets/contact2.png';
+import teamImage4 from '../assets/contact3.png';
+import teamImage5 from '../assets/hero.png';
+import teamImage6 from '../assets/process.png';
+
 // Premium Team Card Component with Interactive Social Reveal
 function PremiumTeamCard({ member }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -337,42 +346,42 @@ const teamMembers = [
     role: 'Founder & CEO',
     topLabel: 'Visionary',
     subtitle: 'CEO MASTERMIND',
-    image: '/images/team/founder.jpg',
+    image: teamImage1,
   },
   {
     name: 'Daniel Reeves',
     role: 'Co-Founder & Strategy Director',
     topLabel: 'Strategic',
     subtitle: 'EXPANSION ARCHITECT',
-    image: '/images/team/cofounder.jpg',
+    image: teamImage2,
   },
   {
     name: 'Neha Sharma',
     role: 'Head of Franchise Strategy',
     topLabel: 'Engaging',
     subtitle: 'FRANCHISE GENIUS',
-    image: '/images/team/member1.jpg',
+    image: teamImage3,
   },
   {
     name: 'Vikram Singh',
     role: 'Investment Advisor',
     topLabel: 'Builder',
     subtitle: 'INVESTMENT LEAD',
-    image: '/images/team/member2.jpg',
+    image: teamImage4,
   },
   {
     name: 'Sneha Mehta',
     role: 'Brand Partnerships Lead',
     topLabel: 'Scaling',
     subtitle: 'PARTNERSHIP EXPERT',
-    image: '/images/team/member3.jpg',
+    image: teamImage5,
   },
   {
     name: 'Kiran Rao',
     role: 'Operations Strategist',
     topLabel: 'Creative',
     subtitle: 'OPERATIONS MASTER',
-    image: '/images/team/member4.jpg',
+    image: teamImage6,
   },
 ];
 
@@ -403,7 +412,7 @@ const customerTestimonials = [
   {
     name: 'Emily Johnson',
     company: 'Johnson Marketing',
-    avatar: '/images/testimonials/avatar1.jpg',
+    avatar: teamImage1,
     quote:
       "We've seen measurable growth since using iFranchise solutions. It's intuitive, fast, and integrates seamlessly with our existing workflows.",
     icon: '◎',
@@ -411,7 +420,7 @@ const customerTestimonials = [
   {
     name: 'Sophia Martin',
     company: 'Martin Agency',
-    avatar: '/images/testimonials/avatar2.jpg',
+    avatar: teamImage2,
     quote:
       'Finally, franchise services designed with users in mind. Everything we need is here: smart automation, insights, and amazing support.',
     icon: '✕',
@@ -419,7 +428,7 @@ const customerTestimonials = [
   {
     name: 'Rohit Verma',
     company: 'ScaleCraft Ventures',
-    avatar: '/images/testimonials/avatar3.jpg',
+    avatar: teamImage3,
     quote:
       'Working with iFranchise gave our team the clarity and speed we needed for expansion. The process is transparent and data-driven.',
     icon: '◌',
@@ -428,10 +437,10 @@ const customerTestimonials = [
 
 // Slideshow Images for About Section
 const slideshowImages = [
-  '/images/slideshow/slide1.jpg',
-  '/images/slideshow/slide2.jpg',
-  '/images/slideshow/slide3.jpg',
-  '/images/slideshow/slide4.jpg',
+  teamImage1,
+  teamImage2,
+  teamImage3,
+  teamImage4,
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -833,7 +842,7 @@ function AboutPage() {
                     whileInView={{ scale: 1.05 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8, ease: 'easeOut' }}
-                    src="/images/aboutus.png"
+                    src={aboutUsImage}
                     alt="iFranchise History"
                     className="w-full h-full object-cover"
                     loading="lazy"
@@ -926,7 +935,7 @@ function AboutPage() {
               >
                 <div className="relative overflow-hidden rounded-2xl shadow-lg" style={{ aspectRatio: '3/4', maxHeight: '380px' }}>
                   <img
-                    src="/images/team/founder.jpg"
+                    src={teamImage1}
                     alt="Arjun Malhotra"
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
@@ -1107,7 +1116,7 @@ function AboutPage() {
               >
                 <div className="relative overflow-hidden rounded-2xl shadow-lg" style={{ aspectRatio: '3/4', maxHeight: '380px' }}>
                   <img
-                    src="/images/team/cofounder.jpg"
+                    src={teamImage2}
                     alt="Daniel Reeves"
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"

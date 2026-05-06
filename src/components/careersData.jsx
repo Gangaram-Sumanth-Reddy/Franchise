@@ -1,6 +1,8 @@
 // ─── Shared careers data ─────────────────────────────────────────────────────
 // Single source of truth for all role data, used by CareersPage and CareerDetailPage.
 
+import React from 'react';
+
 export const DEPT_COLORS = {
   Design: 'bg-violet-50 text-violet-700',
   Growth: 'bg-emerald-50 text-emerald-700',
@@ -44,6 +46,11 @@ export const ROLES = [
     openings: '1',
     joining: 'Immediate / 30 Days',
     rounds: '3 Rounds',
+    icon: (
+      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+      </svg>
+    ),
     whyJoin: "At iFranchise, the Creative Director role is not a support function — it's a founding-level creative seat. You will shape how an entire category of franchise brands is perceived across India. Your work will be seen by thousands of investors, entrepreneurs, and brand partners every month.",
     about: 'We are looking for a Creative Director to own the visual identity of iFranchise across all touchpoints — digital, print, and motion. You will set the creative standard, mentor the design team, and collaborate directly with founders on brand strategy.',
     responsibilities: [
@@ -77,6 +84,11 @@ export const ROLES = [
     openings: '1',
     joining: 'Immediate / 30 Days',
     rounds: '3 Rounds',
+    icon: (
+      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+      </svg>
+    ),
     whyJoin: "Motion at iFranchise is not an afterthought. We believe animation and motion are core to how premium brands communicate. You'll have creative freedom, a supportive team, and the opportunity to build a motion language from the ground up.",
     about: 'As a Motion Designer at iFranchise, you will create compelling animations, video content, and interactive motion experiences that elevate our brand across social, web, and pitch decks. You will work closely with the Creative Director and content team.',
     responsibilities: [
@@ -108,6 +120,11 @@ export const ROLES = [
     openings: '2',
     joining: 'Immediate',
     rounds: '3 Rounds',
+    icon: (
+      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+      </svg>
+    ),
     whyJoin: "This role sits at the intersection of strategy and execution. You'll work directly with founders, have access to real market data, and see the direct impact of your work as brands scale nationally through iFranchise.",
     about: 'The Franchise Growth Strategist will own the end-to-end growth pipeline for franchise brand partnerships. You will identify expansion opportunities, build relationships with franchise brands, and develop go-to-market strategies that drive platform growth.',
     responsibilities: [
@@ -140,6 +157,11 @@ export const ROLES = [
     openings: '1',
     joining: 'Immediate / 30 Days',
     rounds: '3 Rounds',
+    icon: (
+      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+      </svg>
+    ),
     whyJoin: "You'll be designing for a platform that thousands of entrepreneurs use to make life-changing investment decisions. The design quality here directly affects trust, conversion, and brand perception — your work will matter.",
     about: 'We are hiring a UI/UX Designer to craft beautiful, functional interfaces for the iFranchise web platform and marketing pages. You will work closely with the product and engineering teams to translate user needs into elegant design solutions.',
     responsibilities: [
@@ -171,6 +193,11 @@ export const ROLES = [
     openings: '1',
     joining: 'Immediate / 30 Days',
     rounds: '3 Rounds',
+    icon: (
+      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+      </svg>
+    ),
     whyJoin: "iFranchise is building the definitive content resource for franchise growth in India. As Content Strategist, you'll own that narrative — from SEO to thought leadership to brand storytelling.",
     about: "The Content Strategist will own iFranchise's editorial calendar, blog, social content, and thought leadership output. You will develop content that educates prospective franchisees, builds brand authority, and drives organic growth.",
     responsibilities: [
@@ -203,6 +230,11 @@ export const ROLES = [
     openings: '2',
     joining: 'Immediate',
     rounds: '3 Rounds',
+    icon: (
+      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+      </svg>
+    ),
     whyJoin: "You'll be closing deals that directly shape the iFranchise brand portfolio. With direct access to founders and a fast-moving pipeline, this role offers the kind of ownership and impact that most BD roles never provide.",
     about: "The Business Development Lead will drive iFranchise's revenue growth by identifying new business opportunities, closing strategic partnerships, and expanding our network of franchise brands and investors. You will work directly with the founding team.",
     responsibilities: [

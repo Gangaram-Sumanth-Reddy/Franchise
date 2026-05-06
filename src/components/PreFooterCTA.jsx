@@ -1,7 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
+import FooterBg from '../assets/Footer.png';
 
 // ── Navigation helper ─────────────────────────────────────────────────────────
 function navigateTo(path) {
+  // Save scroll position before navigating away from home
+  if (window.location.pathname === '/') {
+    sessionStorage.setItem('homeScrollPosition', window.scrollY.toString());
+  }
   window.history.pushState({}, '', path);
   window.dispatchEvent(new PopStateEvent('popstate'));
 }
@@ -116,19 +121,34 @@ const FOOTER_COLS = [
   {
     heading: 'Company',
     links: [
-      { label: 'About Us',                path: '/about',                   dot: 'none' },
-      { label: 'Services',                path: '/services',                dot: 'static', dotColor: '#3b82f6' },
-      { label: 'Franchise Opportunities', path: '/franchise-opportunities', dot: 'none' },
-      { label: 'Careers',                 path: '/careers',                 dot: 'none',   badge: true },
+      { label: 'About Us',  path: '/about',   dot: 'none' },
+      { label: 'Contact',   path: '/contact', dot: 'none' },
+      { label: 'Careers',   path: '/careers', dot: 'none', badge: true },
+    ],
+  },
+  {
+    heading: 'For Investors',
+    links: [
+      { label: 'Browse Opportunities', path: '/franchise-opportunities', dot: 'none' },
+      { label: 'Investment Guide',     path: '/blog',                    dot: 'none' },
+      { label: 'Industries',           path: '/franchise-opportunities', dot: 'none' },
+    ],
+  },
+  {
+    heading: 'For Brands',
+    links: [
+      { label: 'List Your Brand',      path: '/for-brand-owners', dot: 'none' },
+      { label: 'Franchise Expansion',  path: '/for-brand-owners', dot: 'none' },
+      { label: 'Lead Generation',      path: '/services',         dot: 'none' },
     ],
   },
   {
     heading: 'Resources',
     links: [
-      { label: 'Blog',             path: '/blog',                dot: 'blink', dotColor: '#f97316' },
-      { label: 'Contact Us',       path: '/contact',             dot: 'none' },
-      { label: 'Privacy Policy',   path: '/privacy-policy',      dot: 'none' },
-      { label: 'Terms of Service', path: '/terms-and-conditions', dot: 'none' },
+      { label: 'Blog',             path: '/blog',                dot: 'none' },
+      { label: 'FAQs',             path: '/#faq',                dot: 'none' },
+      { label: 'Franchise Guides', path: '/blog',                dot: 'none' },
+      { label: 'Industry Reports', path: '/blog',                dot: 'none' },
     ],
   },
 ];
@@ -145,6 +165,15 @@ const SOCIALS = [
     ),
   },
   {
+    label: 'Instagram',
+    href: '#',
+    svg: (
+      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+      </svg>
+    ),
+  },
+  {
     label: 'Twitter / X',
     href: '#',
     svg: (
@@ -154,11 +183,11 @@ const SOCIALS = [
     ),
   },
   {
-    label: 'Instagram',
+    label: 'YouTube',
     href: '#',
     svg: (
       <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
       </svg>
     ),
   },
@@ -264,21 +293,6 @@ export default function PreFooterCTA() {
           }}
         />
 
-        {/* ── Giant watermark ── */}
-        <span
-          aria-hidden="true"
-          style={{
-            position: 'absolute', bottom: '-10px', left: '50%',
-            transform: 'translateX(-50%)',
-            fontSize: 'clamp(80px, 14vw, 160px)', fontWeight: 900,
-            letterSpacing: '-0.04em', color: '#0b0f19', opacity: 0.03,
-            whiteSpace: 'nowrap', pointerEvents: 'none', userSelect: 'none',
-            lineHeight: 1, zIndex: 0,
-          }}
-        >
-          iFranchise
-        </span>
-
         {/* ══════════════════════════════════════════
             TOP — CTA
         ══════════════════════════════════════════ */}
@@ -293,29 +307,26 @@ export default function PreFooterCTA() {
           {/* Heading — staggered transition reveal */}
           <div style={{ marginBottom: '20px' }}>
             <h2 style={{ fontSize: 'clamp(30px, 5vw, 54px)', fontWeight: 700, lineHeight: 1.15, letterSpacing: '-0.025em', color: '#0b0f19', margin: '0 0 6px', ...reveal(0.05) }}>
-              Trusted by 1,200+ founders.
-            </h2>
-            <h2 style={{ fontSize: 'clamp(30px, 5vw, 54px)', fontWeight: 700, lineHeight: 1.15, letterSpacing: '-0.025em', color: '#0b0f19', margin: 0, ...reveal(0.18), ...(visible && { opacity: 0.38 }) }}>
-              Turning ideas into bold brands.
+              Ready to Build, Invest, or Expand?
             </h2>
           </div>
 
           {/* Description */}
-          <p style={{ maxWidth: '520px', margin: '0 auto 28px', fontSize: '16px', lineHeight: 1.65, color: '#64748b', ...reveal(0.28) }}>
-            Book a free discovery call to discuss strategy, set goals, and see how we can help you grow.
+          <p style={{ maxWidth: '620px', margin: '0 auto 28px', fontSize: '16px', lineHeight: 1.65, color: '#64748b', ...reveal(0.28) }}>
+            Whether you are exploring franchise investment opportunities or planning to scale your business, iFranchise helps you move forward with clarity, confidence, and the right connections.
           </p>
 
           {/* Status */}
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', fontSize: '13px', fontWeight: 500, color: '#475569', marginBottom: '28px', ...reveal(0.36) }}>
             <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#22c55e', boxShadow: '0 0 0 3px rgba(34,197,94,0.2)', display: 'inline-block', flexShrink: 0 }} />
-            Powering Franchise Growth Across India
+            Trusted by 1,200+ founders.
           </div>
 
           {/* Buttons */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '14px', flexWrap: 'wrap', marginBottom: '44px', ...reveal(0.44) }}>
-            {/* Primary — glow lift */}
+            {/* Primary — Explore Opportunities */}
             <button
-              onClick={() => navigateTo('/contact')}
+              onClick={() => navigateTo('/franchise-opportunities')}
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: '10px',
                 padding: '13px 26px', borderRadius: '999px',
@@ -333,15 +344,15 @@ export default function PreFooterCTA() {
                 e.currentTarget.style.boxShadow = '0 4px 16px rgba(11,15,25,0.18)';
               }}
             >
-              Book A Call
+              Explore Opportunities
               <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '26px', height: '26px', borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.15)' }}>
                 <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M8 12h9" /></svg>
               </span>
             </button>
 
-            {/* Secondary */}
+            {/* Secondary — List Your Brand */}
             <button
-              onClick={() => navigateTo('/franchise-opportunities')}
+              onClick={() => navigateTo('/for-brand-owners')}
               style={{
                 display: 'inline-flex', alignItems: 'center', padding: '13px 26px',
                 borderRadius: '999px', backgroundColor: 'transparent', color: '#0b0f19',
@@ -359,7 +370,7 @@ export default function PreFooterCTA() {
                 e.currentTarget.style.backgroundColor = 'transparent';
               }}
             >
-              Explore Opportunities
+              List Your Brand
             </button>
           </div>
 
@@ -387,26 +398,25 @@ export default function PreFooterCTA() {
           style={{
             borderTop: '1px solid rgba(11,15,25,0.06)',
             padding: 'clamp(36px, 5vw, 52px) clamp(24px, 6vw, 80px) 0',
-            position: 'relative', zIndex: 1,
+            position: 'relative', 
+            zIndex: 1,
           }}
         >
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '40px 32px', marginBottom: '48px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '40px 32px', marginBottom: '48px', position: 'relative', zIndex: 1 }}>
 
-            {/* ── Col 1: Brand + Quick Connect ── */}
+            {/* ── Col 1: Brand + Address ── */}
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
                 <div style={{ width: '34px', height: '34px', borderRadius: '9px', backgroundColor: '#0b0f19', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <span style={{ color: '#fff', fontWeight: 800, fontSize: '14px' }}>iF</span>
                 </div>
                 <span style={{ fontWeight: 800, fontSize: '17px', color: '#0b0f19', letterSpacing: '-0.02em' }}>iFranchise</span>
               </div>
-              <p style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#94a3b8', margin: '18px 0 12px' }}>Quick Connect</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {QUICK_CONNECT.map((item) => (
                   <div key={item.label} style={{ display: 'flex', alignItems: 'flex-start', gap: '9px' }}>
                     <span style={{ color: '#94a3b8', flexShrink: 0, marginTop: '1px' }}>{item.icon}</span>
                     <div>
-                      <p style={{ fontSize: '11px', fontWeight: 600, color: '#94a3b8', margin: '0 0 2px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{item.label}</p>
                       <p style={{ fontSize: '13px', color: '#475569', margin: 0, lineHeight: 1.5 }}>{item.value}</p>
                     </div>
                   </div>
@@ -424,22 +434,17 @@ export default function PreFooterCTA() {
                       <a
                         href={link.path}
                         onClick={(e) => { e.preventDefault(); navigateTo(link.path); }}
-                        style={{ fontSize: '14px', color: '#475569', textDecoration: 'none', transition: 'color 0.18s ease', display: 'inline-flex', alignItems: 'center', gap: '7px', position: 'relative', paddingBottom: '1px' }}
+                        style={{ fontSize: '14px', color: '#475569', textDecoration: 'none', transition: 'color 0.3s ease', display: 'inline-flex', alignItems: 'center', gap: '7px' }}
                         onMouseEnter={(e) => {
-                          e.currentTarget.style.color = '#0b0f19';
-                          const line = e.currentTarget.querySelector('.lu');
-                          if (line) line.style.transform = 'scaleX(1)';
+                          e.currentTarget.style.color = '#8b5cf6';
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.color = '#475569';
-                          const line = e.currentTarget.querySelector('.lu');
-                          if (line) line.style.transform = 'scaleX(0)';
                         }}
                       >
                         {link.label}
                         {link.dot !== 'none' && <LinkDot type={link.dot} color={link.dotColor} />}
                         {link.badge && <span style={{ marginLeft: '4px' }}><HiringBadge /></span>}
-                        <span className="lu" style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '1px', backgroundColor: '#0b0f19', transform: 'scaleX(0)', transformOrigin: 'left', transition: 'transform 0.22s cubic-bezier(0.22,1,0.36,1)' }} />
                       </a>
                     </li>
                   ))}
@@ -448,38 +453,107 @@ export default function PreFooterCTA() {
             ))}
 
             {/* ── Col 4: Socials ── */}
-            <div>
-              <p style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#94a3b8', marginBottom: '16px' }}>Follow Us</p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <div style={{ position: 'relative', zIndex: 1 }}>
+              <p style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#94a3b8', marginBottom: '16px', textAlign: 'center' }}>Follow Us</p>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
                 {SOCIALS.map((s) => (
                   <a
                     key={s.label}
                     href={s.href}
                     aria-label={s.label}
-                    style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', fontSize: '14px', color: '#475569', textDecoration: 'none', transition: 'color 0.18s ease' }}
+                    style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '40px', height: '40px', borderRadius: '10px', backgroundColor: 'rgba(11,15,25,0.05)', color: '#475569', textDecoration: 'none', transition: 'all 0.3s cubic-bezier(0.22,1,0.36,1)', flexShrink: 0 }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.color = '#0b0f19';
-                      const box = e.currentTarget.querySelector('.sib');
-                      if (box) { box.style.transform = 'scale(1.1)'; box.style.backgroundColor = 'rgba(11,15,25,0.1)'; box.style.boxShadow = '0 4px 12px rgba(11,15,25,0.1)'; }
+                      e.currentTarget.style.transform = 'translateY(-4px) scale(1.1)';
+                      e.currentTarget.style.backgroundColor = '#0b0f19';
+                      e.currentTarget.style.color = '#fff';
+                      e.currentTarget.style.boxShadow = '0 8px 20px rgba(11,15,25,0.15)';
                     }}
                     onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                      e.currentTarget.style.backgroundColor = 'rgba(11,15,25,0.05)';
                       e.currentTarget.style.color = '#475569';
-                      const box = e.currentTarget.querySelector('.sib');
-                      if (box) { box.style.transform = 'scale(1)'; box.style.backgroundColor = 'rgba(11,15,25,0.05)'; box.style.boxShadow = 'none'; }
+                      e.currentTarget.style.boxShadow = 'none';
                     }}
                   >
-                    <span className="sib" style={{ width: '32px', height: '32px', borderRadius: '8px', backgroundColor: 'rgba(11,15,25,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease' }}>
-                      {s.svg}
-                    </span>
-                    {s.label}
+                    {s.svg}
                   </a>
                 ))}
               </div>
             </div>
           </div>
 
+          {/* ── Footer.png Background - Starts from Follow Us section downward ── */}
+          <div
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              bottom: 0,
+              height: '280px',
+              zIndex: 0,
+              pointerEvents: 'none',
+              overflow: 'hidden',
+            }}
+          >
+            {/* Base Image - Anchored bottom, softly faded upward */}
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                backgroundImage: `url(${FooterBg})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center bottom',
+                filter: 'brightness(1.1)',
+                opacity: 0.7,
+              }}
+            />
+            
+            {/* Upward fade mask - image emerges from bottom */}
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,0.8) 20%, rgba(255,255,255,0.4) 50%, transparent 100%)',
+              }}
+            />
+            
+            {/* Radial overlay for soft atmospheric blend */}
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'radial-gradient(ellipse at center bottom, transparent 0%, rgba(255,255,255,0.3) 40%, rgba(255,255,255,0.6) 80%)',
+              }}
+            />
+            
+            {/* Subtle atmospheric glow */}
+            <div
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '600px',
+                height: '200px',
+                background: 'radial-gradient(ellipse, rgba(99,102,241,0.04) 0%, transparent 70%)',
+                filter: 'blur(50px)',
+              }}
+            />
+          </div>
+
           {/* ── Bottom bar ── */}
-          <div style={{ borderTop: '1px solid rgba(11,15,25,0.06)', padding: '18px 0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+          <div style={{ 
+            borderTop: '1px solid rgba(11,15,25,0.06)', 
+            padding: '18px 0 24px', 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'space-between', 
+            flexWrap: 'wrap', 
+            gap: '12px',
+            position: 'relative',
+            zIndex: 1,
+          }}>
             <p style={{ fontSize: '13px', color: '#94a3b8', margin: 0 }}>@ 2026 iFranchise. All rights reserved.</p>
             <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
               {[
@@ -490,8 +564,8 @@ export default function PreFooterCTA() {
                   key={item.label}
                   href={item.path}
                   onClick={(e) => { e.preventDefault(); navigateTo(item.path); }}
-                  style={{ fontSize: '13px', color: '#94a3b8', textDecoration: 'none', transition: 'color 0.18s ease' }}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#0b0f19'; }}
+                  style={{ fontSize: '13px', color: '#94a3b8', textDecoration: 'none', transition: 'color 0.3s ease' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#8b5cf6'; }}
                   onMouseLeave={(e) => { e.currentTarget.style.color = '#94a3b8'; }}
                 >
                   {item.label}

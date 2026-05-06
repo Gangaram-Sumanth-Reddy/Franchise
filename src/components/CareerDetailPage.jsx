@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ROLES, DEPT_COLORS, MODE_COLORS, ROLE_TOOLS, HIRING_STEPS } from './careersData';
+import { ROLES, DEPT_COLORS, MODE_COLORS, ROLE_TOOLS, HIRING_STEPS } from './careersData.jsx';
 
 const fmt = (d) => d.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
 
@@ -62,7 +62,7 @@ function ApplicationForm({ roleTitle }) {
         </div>
         <div>
           <label className={lbl}>Phone</label>
-          <input name="phone" type="tel" value={form.phone} onChange={set} required placeholder="+91 - 98765 43210" pattern="[\+]?[0-9\s\-]{10,15}" inputMode="tel" className={inp} />
+          <input name="phone" type="tel" value={form.phone} onChange={set} required placeholder="(+91) - *********" pattern="[\+]?[0-9\s\-\(\)]{10,20}" inputMode="tel" className={inp} />
         </div>
       </div>
       <div>
@@ -145,11 +145,11 @@ function CareerDetailPage({ roleId }) {
   ];
 
   return (
-    <div className="bg-white min-h-screen">
+    <div className="bg-white min-h-screen pt-20">
 
-      {/* Sticky top bar */}
-      <div className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8 xl:px-12 h-14 flex items-center gap-3">
+      {/* Sticky top bar - Fixed to stay visible while scrolling */}
+      <div className="sticky top-20 z-50 bg-white border-b border-slate-200 shadow-sm">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 xl:px-12 h-16 flex items-center gap-3">
           <button
             onClick={() => navigateTo('/careers')}
             className="flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-violet-700 transition-colors group shrink-0"
@@ -159,10 +159,10 @@ function CareerDetailPage({ roleId }) {
             </svg>
             Back to Careers
           </button>
-          <span className="text-slate-200 hidden sm:block">|</span>
-          <span className="text-sm text-slate-400 truncate hidden sm:block">{role.title}</span>
+          <span className="text-slate-300 hidden sm:block">|</span>
+          <span className="text-sm text-slate-500 truncate hidden sm:block font-medium">{role.title}</span>
           <div className="ml-auto shrink-0">
-            <span className={`text-[11px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full ${DEPT_COLORS[role.dept] || 'bg-slate-50 text-slate-500'}`}>
+            <span className={`text-[11px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full ${DEPT_COLORS[role.dept] || 'bg-slate-50 text-slate-500'}`}>
               {role.dept}
             </span>
           </div>

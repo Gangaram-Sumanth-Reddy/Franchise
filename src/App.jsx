@@ -117,11 +117,47 @@ function App() {
   const [pathname, setPathname] = useState(getPathname);
   const [pagePhase, setPagePhase] = useState('idle');
 
+  // Scroll restoration: save scroll position before navigation
+  useEffect(() => {
+    const saveScrollPosition = () => {
+      if (pathname === '/') {
+        sessionStorage.setItem('homeScrollPosition', window.scrollY.toString());
+      } else if (pathname === '/careers') {
+        sessionStorage.setItem('careersScrollPosition', window.scrollY.toString());
+      }
+    };
+
+    // Save scroll position on any scroll event
+    const handleScroll = () => {
+      if (pathname === '/') {
+        sessionStorage.setItem('homeScrollPosition', window.scrollY.toString());
+      } else if (pathname === '/careers') {
+        sessionStorage.setItem('careersScrollPosition', window.scrollY.toString());
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('beforeunload', saveScrollPosition);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('beforeunload', saveScrollPosition);
+    };
+  }, [pathname]);
+
   useEffect(() => {
     let timerId;
 
     const onRouteChange = () => {
       const nextPath = getPathname();
+      
+      // Save current scroll position before navigating away from home or careers
+      if (pathname === '/') {
+        sessionStorage.setItem('homeScrollPosition', window.scrollY.toString());
+      } else if (pathname === '/careers') {
+        sessionStorage.setItem('careersScrollPosition', window.scrollY.toString());
+      }
+
       setPagePhase('exit');
       timerId = window.setTimeout(() => {
         setPathname(nextPath);
@@ -134,7 +170,26 @@ function App() {
         window.setTimeout(() => {
           const didScrollToHash = scrollToHashSection();
           if (!didScrollToHash) {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            // Restore scroll position if returning to home or careers page
+            if (nextPath === '/') {
+              const savedPosition = sessionStorage.getItem('homeScrollPosition');
+              if (savedPosition) {
+                const scrollY = parseInt(savedPosition, 10);
+                window.scrollTo({ top: scrollY, behavior: 'instant' });
+              } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            } else if (nextPath === '/careers') {
+              const savedPosition = sessionStorage.getItem('careersScrollPosition');
+              if (savedPosition) {
+                const scrollY = parseInt(savedPosition, 10);
+                window.scrollTo({ top: scrollY, behavior: 'instant' });
+              } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            } else {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
           }
         }, 0);
       }, 170);
@@ -147,7 +202,7 @@ function App() {
         window.clearTimeout(timerId);
       }
     };
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -205,7 +260,7 @@ function App() {
       <div className="pointer-events-none absolute inset-0 bg-dot-grid opacity-[0.16]" />
       <Navbar />
       <div
-        className={`pt-20 transition-[opacity,transform,filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+        className={`${isCareerDetailPage ? '' : 'pt-20'} transition-[opacity,transform,filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
           pagePhase === 'exit'
             ? '-translate-x-4 opacity-0 blur-[1px]'
             : pagePhase === 'enter'

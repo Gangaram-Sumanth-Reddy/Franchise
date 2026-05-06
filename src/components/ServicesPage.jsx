@@ -4,8 +4,12 @@ import {
   FiTrendingUp, FiTarget, FiUsers, FiMessageSquare,
   FiHeadphones, FiGlobe, FiArrowRight, FiCheck,
   FiBarChart2, FiZap, FiShield, FiLayers,
-  FiCheckCircle, FiRefreshCw, FiFileText, FiAward, FiActivity
+  FiCheckCircle, FiRefreshCw, FiFileText, FiAward, FiActivity,
+  FiDollarSign
 } from 'react-icons/fi';
+import PremiumHeroBackground from './PremiumHeroBackground';
+import BrandLogo from '../assets/BrandLogo.png';
+import iFranchiseHero from '../assets/iFranchise.png';
 
 function Counter({ target, suffix = '', duration = 2000 }) {
   const [count, setCount] = useState(0);
@@ -64,269 +68,154 @@ export default function ServicesPage() {
   };
 
   return (
-    <div ref={pageRef} className="relative w-full overflow-x-hidden"
-      style={{ background: 'linear-gradient(180deg, #060d1a 0%, #0d1526 18%, #0f172a 32%, #f8fafc 52%, #ffffff 65%, #f8fafc 80%, #ffffff 100%)' }}>
+    <div ref={pageRef} className="relative w-full overflow-x-hidden bg-white">
 
-      {/* Persistent ambient orbs */}
-      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-        <motion.div
-          className="absolute top-[-5%] left-[-8%] w-[min(700px,120vw)] h-[min(700px,120vw)] rounded-full opacity-[0.18] blur-[120px]"
-          animate={{ scale: [1, 1.08, 1], opacity: [0.18, 0.24, 0.18], y: ['0%', '8%', '0%'] }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-          style={{ background: 'radial-gradient(circle, rgba(99,102,241,1) 0%, transparent 70%)' }} />
-        <motion.div
-          className="absolute top-[15%] right-[-5%] w-[min(500px,90vw)] h-[min(500px,90vw)] rounded-full opacity-[0.12] blur-[100px]"
-          animate={{ scale: [1, 1.12, 1], opacity: [0.12, 0.18, 0.12] }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-          style={{ background: 'radial-gradient(circle, rgba(139,92,246,1) 0%, transparent 70%)' }} />
-        <motion.div
-          className="absolute top-[45%] left-[10%] w-[min(400px,80vw)] h-[min(400px,80vw)] rounded-full opacity-[0.07] blur-[80px]"
-          animate={{ scale: [1, 1.15, 1] }}
-          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
-          style={{ background: 'radial-gradient(circle, rgba(59,130,246,1) 0%, transparent 70%)' }} />
-        <motion.div
-          className="absolute top-[70%] right-[5%] w-[min(450px,80vw)] h-[min(450px,80vw)] rounded-full opacity-[0.06] blur-[90px]"
-          animate={{ scale: [1, 1.1, 1] }}
-          transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-          style={{ background: 'radial-gradient(circle, rgba(236,72,153,1) 0%, transparent 70%)' }} />
-      </div>
-
-      {/* Subtle grid */}
-      <div className="pointer-events-none absolute inset-0 z-0 opacity-[0.025]"
-        style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px)', backgroundSize: '64px 64px' }} />
-
-      {/* HERO — Premium centered, network bg */}
-      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8 pt-8 pb-16">
-
-        {/* Animated SVG network intelligence background */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" fill="none">
-            {/* Network connection lines */}
-            <g opacity="0.18">
-              <line x1="120" y1="180" x2="380" y2="320" stroke="rgba(99,102,241,0.6)" strokeWidth="0.8" />
-              <line x1="380" y1="320" x2="720" y2="200" stroke="rgba(99,102,241,0.5)" strokeWidth="0.8" />
-              <line x1="720" y1="200" x2="1060" y2="340" stroke="rgba(99,102,241,0.5)" strokeWidth="0.8" />
-              <line x1="1060" y1="340" x2="1320" y2="220" stroke="rgba(99,102,241,0.4)" strokeWidth="0.8" />
-              <line x1="200" y1="500" x2="480" y2="420" stroke="rgba(139,92,246,0.4)" strokeWidth="0.8" />
-              <line x1="480" y1="420" x2="720" y2="560" stroke="rgba(139,92,246,0.4)" strokeWidth="0.8" />
-              <line x1="720" y1="560" x2="960" y2="440" stroke="rgba(139,92,246,0.4)" strokeWidth="0.8" />
-              <line x1="960" y1="440" x2="1240" y2="580" stroke="rgba(99,102,241,0.3)" strokeWidth="0.8" />
-              <line x1="380" y1="320" x2="480" y2="420" stroke="rgba(99,102,241,0.3)" strokeWidth="0.6" />
-              <line x1="720" y1="200" x2="720" y2="560" stroke="rgba(139,92,246,0.25)" strokeWidth="0.6" />
-              <line x1="1060" y1="340" x2="960" y2="440" stroke="rgba(99,102,241,0.25)" strokeWidth="0.6" />
-              <line x1="120" y1="180" x2="200" y2="500" stroke="rgba(99,102,241,0.2)" strokeWidth="0.6" />
-              <line x1="1320" y1="220" x2="1240" y2="580" stroke="rgba(99,102,241,0.2)" strokeWidth="0.6" />
-              {/* Secondary web */}
-              <line x1="300" y1="720" x2="600" y2="660" stroke="rgba(99,102,241,0.15)" strokeWidth="0.6" />
-              <line x1="600" y1="660" x2="900" y2="740" stroke="rgba(99,102,241,0.15)" strokeWidth="0.6" />
-              <line x1="900" y1="740" x2="1140" y2="680" stroke="rgba(99,102,241,0.15)" strokeWidth="0.6" />
-              <line x1="480" y1="420" x2="600" y2="660" stroke="rgba(139,92,246,0.12)" strokeWidth="0.5" />
-              <line x1="960" y1="440" x2="900" y2="740" stroke="rgba(139,92,246,0.12)" strokeWidth="0.5" />
-            </g>
-
-            {/* Network nodes */}
-            <g>
-              {[
-                [120, 180], [380, 320], [720, 200], [1060, 340], [1320, 220],
-                [200, 500], [480, 420], [720, 560], [960, 440], [1240, 580],
-                [300, 720], [600, 660], [900, 740], [1140, 680],
-              ].map(([cx, cy], i) => (
-                <g key={i}>
-                  <circle cx={cx} cy={cy} r="3" fill="rgba(99,102,241,0.5)" />
-                  <circle cx={cx} cy={cy} r="6" fill="none" stroke="rgba(99,102,241,0.2)" strokeWidth="1" />
-                </g>
-              ))}
-              {/* Larger hub nodes */}
-              {[[720, 200], [480, 420], [960, 440]].map(([cx, cy], i) => (
-                <g key={`hub-${i}`}>
-                  <circle cx={cx} cy={cy} r="5" fill="rgba(139,92,246,0.6)" />
-                  <circle cx={cx} cy={cy} r="10" fill="none" stroke="rgba(139,92,246,0.2)" strokeWidth="1" />
-                  <circle cx={cx} cy={cy} r="16" fill="none" stroke="rgba(139,92,246,0.08)" strokeWidth="1" />
-                </g>
-              ))}
-            </g>
-
-            {/* Animated pulse signals along paths */}
-            <circle r="3" fill="rgba(129,140,248,0.9)">
-              <animateMotion dur="4s" repeatCount="indefinite" path="M120,180 L380,320 L720,200 L1060,340 L1320,220" />
-            </circle>
-            <circle r="2.5" fill="rgba(167,139,250,0.8)">
-              <animateMotion dur="5s" repeatCount="indefinite" begin="1.5s" path="M200,500 L480,420 L720,560 L960,440 L1240,580" />
-            </circle>
-            <circle r="2" fill="rgba(96,165,250,0.7)">
-              <animateMotion dur="6s" repeatCount="indefinite" begin="0.8s" path="M380,320 L480,420 L600,660 L900,740" />
-            </circle>
-            <circle r="2" fill="rgba(129,140,248,0.6)">
-              <animateMotion dur="4.5s" repeatCount="indefinite" begin="2.2s" path="M1320,220 L1060,340 L960,440 L1140,680" />
-            </circle>
-
-            {/* Horizontal scan line */}
-            <line x1="0" y1="450" x2="1440" y2="450" stroke="rgba(99,102,241,0.06)" strokeWidth="1" strokeDasharray="4 8" />
-            <line x1="0" y1="300" x2="1440" y2="300" stroke="rgba(99,102,241,0.04)" strokeWidth="1" strokeDasharray="4 12" />
-          </svg>
-
-          {/* Floating particles */}
-          {[
-            { x: '15%', y: '25%', size: 2, dur: 6 },
-            { x: '75%', y: '15%', size: 1.5, dur: 8 },
-            { x: '85%', y: '60%', size: 2, dur: 7 },
-            { x: '25%', y: '70%', size: 1.5, dur: 9 },
-            { x: '50%', y: '85%', size: 1, dur: 5 },
-            { x: '60%', y: '30%', size: 1.5, dur: 10 },
-          ].map((p, i) => (
-            <motion.div key={i}
-              className="absolute rounded-full bg-indigo-400"
-              style={{ left: p.x, top: p.y, width: p.size * 2, height: p.size * 2, opacity: 0.4 }}
-              animate={{ y: [0, -12, 0], opacity: [0.4, 0.7, 0.4] }}
-              transition={{ duration: p.dur, repeat: Infinity, ease: 'easeInOut', delay: i * 0.8 }}
-            />
-          ))}
-
-          {/* Glassmorphism strategic overlay cards — subtle business signals */}
-          <div className="absolute top-[12%] right-[8%] hidden lg:block">
-            <motion.div
-              initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.6, duration: 0.8 }}
-              className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 backdrop-blur-md"
-              style={{ minWidth: 180 }}>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Active Expansions</p>
-              <p className="text-2xl font-extrabold text-white">247 <span className="text-emerald-400 text-sm">↑ 18%</span></p>
-              <div className="mt-2 flex gap-1">
-                {[40, 65, 45, 80, 55, 90, 70].map((h, i) => (
-                  <div key={i} className="w-1.5 rounded-full bg-indigo-500/60" style={{ height: h * 0.3 }} />
-                ))}
-              </div>
-            </motion.div>
-          </div>
-
-          <div className="absolute bottom-[18%] left-[6%] hidden lg:block">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.7, duration: 0.8 }}
-              className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 backdrop-blur-md"
-              style={{ minWidth: 160 }}>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Cities Covered</p>
-              <p className="text-2xl font-extrabold text-white">40<span className="text-indigo-400">+</span></p>
-              <p className="text-[11px] text-slate-500 mt-1">Pan India Network</p>
-            </motion.div>
-          </div>
-
-          <div className="absolute top-[55%] right-[5%] hidden xl:block">
-            <motion.div
-              initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.8, duration: 0.8 }}
-              className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 backdrop-blur-md"
-              style={{ minWidth: 160 }}>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Satisfaction</p>
-              <p className="text-2xl font-extrabold text-white">98<span className="text-emerald-400">%</span></p>
-              <div className="mt-2 h-1.5 w-full rounded-full bg-white/10">
-                <motion.div className="h-full rounded-full bg-emerald-400"
-                  initial={{ width: 0 }} animate={{ width: '98%' }} transition={{ delay: 0.9, duration: 1.2, ease: 'easeOut' }} />
-              </div>
-            </motion.div>
-          </div>
+      {/* HERO — Premium cinematic background with smooth transitions */}
+      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center overflow-hidden pt-24 pb-32 px-4 sm:px-6 lg:px-8">
+        
+        {/* Extended Cinematic Background Layer with iFranchise.png */}
+        <div className="absolute inset-0 -top-20 -bottom-40 z-0 overflow-hidden">
+          {/* Base Image - Fully visible, extended, and clear */}
+          <div 
+            className="absolute inset-0 opacity-100"
+            style={{
+              backgroundImage: `url(${iFranchiseHero})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center top',
+              filter: 'brightness(1.15)',
+              transform: 'scale(1.05)',
+            }}
+          />
+          
+          {/* Smooth fade to white at bottom - removes hard line */}
+          <div 
+            className="absolute inset-0"
+            style={{
+              background: 'linear-gradient(to bottom, transparent 0%, transparent 60%, rgba(255,255,255,0.3) 75%, rgba(255,255,255,0.7) 85%, rgba(255,255,255,0.95) 95%, white 100%)',
+            }}
+          />
+          
+          {/* Radial gradient for depth and readability */}
+          <div 
+            className="absolute inset-0"
+            style={{
+              background: 'radial-gradient(ellipse at center top, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.5) 80%)',
+            }}
+          />
+          
+          {/* Premium atmospheric mesh gradients */}
+          <div className="absolute top-0 left-1/4 w-[700px] h-[700px] bg-gradient-to-br from-blue-100/15 via-indigo-100/8 to-transparent rounded-full blur-3xl animate-float-slow" />
+          <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-gradient-to-br from-purple-100/15 via-violet-100/8 to-transparent rounded-full blur-3xl animate-float-slower" />
+          
+          {/* Ambient light glow */}
+          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-white/20 via-white/10 to-transparent rounded-full blur-3xl" />
+          
+          {/* Noise texture overlay for premium feel */}
+          <div 
+            className="absolute inset-0 opacity-[0.012]"
+            style={{
+              backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 400 400\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' /%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\' /%3E%3C/svg%3E")',
+            }}
+          />
         </div>
 
-        {/* Hero content — centered */}
+        {/* Hero content with subtle text enhancements - NO large glass card */}
         <div className="relative z-10 mx-auto max-w-[900px] text-center">
-          {/* Badge */}
-          <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}
-            className="inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-5 py-2 mb-10 backdrop-blur-sm">
-            <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 animate-pulse" />
-            <span className="text-xs font-bold uppercase tracking-[0.18em] text-indigo-300">Premium Growth Services</span>
-          </motion.div>
 
-          {/* Headline — stagger reveal, centered */}
+          {/* Headline — stagger reveal, centered with text shadows for readability */}
           <div className="overflow-hidden mb-1">
             <motion.h1 initial={{ y: '110%' }} animate={{ y: 0 }} transition={{ duration: 0.4, delay: 0.05, ease: [0.22,1,0.36,1] }}
-              className="text-[clamp(2rem,8vw,5rem)] font-extrabold leading-[1.04] tracking-[-0.02em] text-white lg:text-[80px]">
+              className="text-[clamp(1.75rem,6vw,3.5rem)] font-extrabold leading-[1.1] tracking-[-0.02em] text-slate-900"
+              style={{ 
+                textShadow: '0 2px 20px rgba(255,255,255,0.9), 0 0 40px rgba(255,255,255,0.6), 0 1px 3px rgba(0,0,0,0.1)',
+              }}>
               Strategic Services That
             </motion.h1>
           </div>
           <div className="overflow-hidden mb-1">
             <motion.h1 initial={{ y: '110%' }} animate={{ y: 0 }} transition={{ duration: 0.4, delay: 0.1, ease: [0.22,1,0.36,1] }}
-              className="text-[clamp(2rem,8vw,5rem)] font-extrabold leading-[1.04] tracking-[-0.02em] lg:text-[80px]"
-              style={{ background: 'linear-gradient(90deg,#818cf8 0%,#a78bfa 45%,#60a5fa 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              className="text-[clamp(1.75rem,6vw,3.5rem)] font-extrabold leading-[1.1] tracking-[-0.02em]"
+              style={{ 
+                background: 'linear-gradient(90deg,#6366f1 0%,#8b5cf6 45%,#3b82f6 100%)', 
+                WebkitBackgroundClip: 'text', 
+                WebkitTextFillColor: 'transparent',
+                filter: 'drop-shadow(0 2px 12px rgba(255,255,255,0.8)) drop-shadow(0 0 30px rgba(255,255,255,0.5))',
+              }}>
               Scale Brands Beyond
             </motion.h1>
           </div>
-          <div className="overflow-hidden mb-8">
+          <div className="overflow-hidden mb-5">
             <motion.h1 initial={{ y: '110%' }} animate={{ y: 0 }} transition={{ duration: 0.4, delay: 0.15, ease: [0.22,1,0.36,1] }}
-              className="text-[clamp(2rem,8vw,5rem)] font-extrabold leading-[1.04] tracking-[-0.02em] text-white lg:text-[80px]">
+              className="text-[clamp(1.75rem,6vw,3.5rem)] font-extrabold leading-[1.1] tracking-[-0.02em] text-slate-900"
+              style={{ 
+                textShadow: '0 2px 20px rgba(255,255,255,0.9), 0 0 40px rgba(255,255,255,0.6), 0 1px 3px rgba(0,0,0,0.1)',
+              }}>
               Competition
             </motion.h1>
           </div>
 
-          {/* Subheadline */}
-          <motion.p initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, delay: 0.25 }}
-            className="mx-auto max-w-[560px] text-base leading-relaxed text-slate-400 mb-10">
-            India's most trusted franchise growth platform. We combine strategic intelligence, operational excellence, and investor-grade positioning to turn your brand into a scalable empire.
-          </motion.p>
+          {/* Subtle backdrop only behind subtext for readability */}
+          <div className="relative mb-6">
+            <div className="absolute inset-0 -inset-x-4 -inset-y-2 bg-white/30 backdrop-blur-sm rounded-2xl -z-10" />
+            <motion.p initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, delay: 0.25 }}
+              className="mx-auto max-w-[560px] text-sm sm:text-base leading-relaxed text-slate-800 font-medium"
+              style={{ 
+                textShadow: '0 1px 8px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.4)',
+              }}>
+              India's most trusted franchise growth platform. We combine strategic intelligence, operational excellence, and investor-grade positioning to turn your brand into a scalable empire.
+            </motion.p>
+          </div>
 
-          {/* CTAs — centered, premium */}
+          {/* CTAs — centered, premium with enhanced shadows */}
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, delay: 0.3 }}
-            className="flex flex-wrap items-center justify-center gap-4 mb-20">
+            className="flex flex-wrap items-center justify-center gap-3 mb-8">
             <button type="button" onClick={() => navigateTo('/contact')}
-              className="group relative overflow-hidden rounded-2xl bg-indigo-600 px-8 py-4 text-sm font-bold text-white shadow-[0_0_0_1px_rgba(99,102,241,0.3)] transition-all duration-300 hover:bg-indigo-500 hover:shadow-[0_0_40px_rgba(99,102,241,0.55),0_0_0_1px_rgba(99,102,241,0.5)] hover:-translate-y-0.5">
-              <span className="relative z-10 flex items-center gap-2.5">
+              className="group relative overflow-hidden rounded-2xl bg-indigo-600 px-6 py-3 text-sm font-bold text-white transition-all duration-300 hover:bg-indigo-500 hover:-translate-y-0.5"
+              style={{
+                boxShadow: '0 4px 20px rgba(99,102,241,0.4), 0 8px 40px rgba(99,102,241,0.2), 0 0 0 1px rgba(255,255,255,0.1)',
+              }}>
+              <span className="relative z-10 flex items-center gap-2">
                 Book a Growth Strategy Call
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20 transition-transform duration-200 group-hover:translate-x-0.5">
-                  <FiArrowRight className="h-3.5 w-3.5" />
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 transition-transform duration-200 group-hover:translate-x-0.5">
+                  <FiArrowRight className="h-3 w-3" />
                 </span>
               </span>
               <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/12 to-transparent transition-transform duration-600 group-hover:translate-x-full" />
             </button>
             <button type="button" onClick={() => document.getElementById('solutions')?.scrollIntoView({ behavior: 'smooth' })}
-              className="group flex items-center gap-2.5 rounded-2xl border border-white/20 bg-white/5 px-8 py-4 text-sm font-bold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/35 hover:bg-white/10 hover:-translate-y-0.5">
+              className="group flex items-center gap-2 rounded-2xl border-2 border-slate-300 bg-white/95 backdrop-blur-sm px-6 py-3 text-sm font-bold text-slate-900 transition-all duration-300 hover:border-slate-400 hover:bg-white hover:-translate-y-0.5"
+              style={{
+                boxShadow: '0 4px 16px rgba(15,23,42,0.12), 0 8px 32px rgba(15,23,42,0.08)',
+              }}>
               Explore Our Solutions
-              <FiArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+              <FiArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
             </button>
           </motion.div>
 
-          {/* Stats — centered glass row */}
+          {/* Stats — centered glass cards with individual backdrops */}
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, delay: 0.35 }}
-            className="grid grid-cols-2 gap-3 sm:grid-cols-4 max-w-2xl mx-auto">
+            className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 max-w-2xl mx-auto">
             {[
               { val: 500, suffix: '+', label: 'Brands Scaled' },
               { val: 98, suffix: '%', label: 'Client Satisfaction' },
               { val: 12, suffix: 'yr', label: 'Industry Experience' },
               { val: 40, suffix: '+', label: 'Cities Covered' },
             ].map((s) => (
-              <div key={s.label} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 backdrop-blur-md text-center">
-                <p className="text-2xl font-extrabold text-white"><Counter target={s.val} suffix={s.suffix} /></p>
-                <p className="mt-0.5 text-[11px] text-slate-400">{s.label}</p>
+              <div key={s.label} 
+                className="rounded-xl border border-slate-200/80 bg-white/95 backdrop-blur-sm px-3 py-3 text-center"
+                style={{
+                  boxShadow: '0 4px 12px rgba(15,23,42,0.08), 0 2px 6px rgba(15,23,42,0.04)',
+                }}>
+                <p className="text-xl font-extrabold text-slate-900"><Counter target={s.val} suffix={s.suffix} /></p>
+                <p className="mt-0.5 text-[10px] text-slate-600 font-medium">{s.label}</p>
               </div>
             ))}
           </motion.div>
         </div>
       </div>
 
-      {/* WHY CHOOSE US */}
-      <div className="relative z-10 mx-auto max-w-[1240px] px-4 sm:px-6 lg:px-8 pb-28">
-        <Reveal className="text-center mb-14">
-          <span className="inline-block rounded-full border border-slate-700/60 bg-white/5 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-slate-300 mb-4 backdrop-blur-sm">
-            Why Choose Us
-          </span>
-          <h2 className="text-4xl font-extrabold text-white md:text-5xl">Why we are your best choice</h2>
-        </Reveal>
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {WHY_CARDS.map((card, i) => (
-            <Reveal key={card.title} delay={i * 0.07}>
-              <motion.div
-                whileHover={{ y: -6, boxShadow: '0 24px 60px rgba(15,23,42,0.13)' }}
-                transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                className="group flex flex-col items-center rounded-2xl border border-slate-100 bg-white p-8 text-center shadow-[0_4px_20px_rgba(15,23,42,0.06)]"
-              >
-                <div className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-xl border border-slate-100 bg-slate-50 transition-all duration-300 group-hover:border-indigo-100 group-hover:bg-indigo-50">
-                  <card.icon className="h-6 w-6 text-slate-700 transition-colors duration-300 group-hover:text-indigo-600" />
-                </div>
-                <h3 className="mb-2 text-base font-bold text-slate-900">{card.title}</h3>
-                <p className="text-sm leading-relaxed text-slate-500">{card.desc}</p>
-              </motion.div>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-
       {/* BENEFITS — More than just a franchise platform */}
-      <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8 pb-8">
+      <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8 pb-8 -mt-24">
         <div className="mx-auto w-full max-w-[1240px] overflow-hidden rounded-[32px] border border-slate-100 bg-white px-6 py-16 shadow-[0_8px_40px_rgba(15,23,42,0.07)] sm:px-10">
           <div className="mx-auto max-w-[640px] text-center">
             <motion.p
@@ -369,6 +258,16 @@ export default function ServicesPage() {
           {/* Desktop — Premium Strategic Ecosystem Layout */}
           <div className="relative mt-12 hidden lg:block" style={{ height: '480px' }}>
 
+            {/* Animated gradient background */}
+            <div className="absolute inset-0 overflow-hidden rounded-3xl">
+              <div className="absolute inset-0 opacity-40">
+                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 animate-gradient-shift" />
+                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-br from-violet-200/40 to-transparent rounded-full blur-3xl animate-float-slow" />
+                <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-br from-blue-200/40 to-transparent rounded-full blur-3xl animate-float-slower" style={{ animationDelay: '1s' }} />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-gradient-to-br from-indigo-200/30 to-transparent rounded-full blur-2xl animate-pulse-slow" />
+              </div>
+            </div>
+
             {/* Center orbit graphic — refined size for better balance */}
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ width: 300, height: 300 }}>
               <svg viewBox="0 0 300 300" width="300" height="300">
@@ -377,9 +276,23 @@ export default function ServicesPage() {
                 <circle cx="150" cy="150" r="65" stroke="rgba(148,163,184,0.11)" strokeWidth="1.5" fill="none" />
                 <circle cx="150" cy="150" r="32" stroke="rgba(148,163,184,0.08)" strokeWidth="1.5" fill="none" />
               </svg>
-              {/* Core glow */}
-              <div className="benefits-core absolute left-1/2 top-1/2 h-[80px] w-[80px] -translate-x-1/2 -translate-y-1/2 rounded-full" />
-              <div className="benefits-core-glow absolute left-1/2 top-1/2 h-[115px] w-[115px] -translate-x-1/2 -translate-y-1/2 rounded-full" />
+              
+              {/* Animated glow rings behind logo */}
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full bg-gradient-to-br from-violet-200/50 via-purple-200/40 to-indigo-200/50 blur-2xl animate-pulse-slow" />
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-28 rounded-full bg-gradient-to-br from-purple-300/40 via-violet-300/30 to-indigo-300/40 blur-xl animate-pulse-glow" />
+              
+              {/* Center logo with purple background and animations */}
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-gradient-to-br from-purple-600 via-violet-600 to-indigo-600 shadow-[0_0_40px_rgba(139,92,246,0.4),0_8px_32px_rgba(124,58,237,0.3)] flex items-center justify-center p-5 animate-logo-float">
+                <img 
+                  src={BrandLogo} 
+                  alt="iFranchise Logo" 
+                  className="w-full h-full object-contain drop-shadow-lg"
+                />
+              </div>
+              
+              {/* Rotating ring around logo */}
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-28 rounded-full border-2 border-dashed border-purple-300/30 animate-spin-slow" />
+              
               {/* Orbit dots */}
               <div className="benefits-orbit-ring absolute left-1/2 top-1/2 h-[180px] w-[180px] -translate-x-1/2 -translate-y-1/2 rounded-full">
                 <span className="absolute left-1/2 top-0 h-2 w-2 -translate-x-1/2 rounded-full bg-violet-500 shadow-[0_0_10px_rgba(124,58,237,0.6)]" />
@@ -572,6 +485,183 @@ export default function ServicesPage() {
             </Reveal>
           ))}
         </div>
+      </div>
+
+      {/* HOW IT WORKS - Success Framework */}
+      <div className="relative z-10 mx-auto max-w-[1240px] px-4 sm:px-6 lg:px-8 py-24">
+        <Reveal className="text-center mb-16">
+          <span className="inline-block rounded-full border border-indigo-200 bg-indigo-50 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-indigo-700 mb-4">
+            How It Works
+          </span>
+          <h2 className="text-4xl font-extrabold text-slate-900 md:text-5xl mb-4">Your Path to Franchise Success</h2>
+          <p className="text-base text-slate-600 max-w-2xl mx-auto">
+            A proven step-by-step framework designed to help brands expand and investors discover the right opportunities with confidence.
+          </p>
+        </Reveal>
+
+        {/* Process Steps */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          
+          {/* Step 1 */}
+          <Reveal delay={0}>
+            <div className="relative group">
+              {/* Connector Line - Hidden on mobile, shown on lg+ */}
+              <div className="hidden lg:block absolute top-16 left-[calc(100%-2rem)] w-[calc(100%-1rem)] h-0.5 bg-gradient-to-r from-blue-200 to-emerald-200 z-0" />
+              
+              <div className="relative bg-white rounded-2xl border border-slate-200/80 p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 z-10">
+                {/* Step Number Badge */}
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 text-white font-bold text-lg mb-4 shadow-lg">
+                  1
+                </div>
+                
+                <h3 className="text-lg font-bold text-slate-900 mb-2">Discovery & Consultation</h3>
+                <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                  We understand your goals, budget, and vision to match you with the perfect franchise opportunities or expansion strategy.
+                </p>
+                
+                {/* Key Features Pills */}
+                <div className="flex flex-wrap gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-700">
+                    <FiCheckCircle className="h-3 w-3 text-blue-600" />
+                    Free Consultation
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-700">
+                    <FiTarget className="h-3 w-3 text-blue-600" />
+                    Goal Mapping
+                  </span>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Step 2 */}
+          <Reveal delay={0.1}>
+            <div className="relative group">
+              {/* Connector Line */}
+              <div className="hidden lg:block absolute top-16 left-[calc(100%-2rem)] w-[calc(100%-1rem)] h-0.5 bg-gradient-to-r from-emerald-200 to-violet-200 z-0" />
+              
+              <div className="relative bg-white rounded-2xl border border-slate-200/80 p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 z-10">
+                {/* Step Number Badge */}
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 text-white font-bold text-lg mb-4 shadow-lg">
+                  2
+                </div>
+                
+                <h3 className="text-lg font-bold text-slate-900 mb-2">Verified Matching</h3>
+                <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                  Access our curated database of verified franchise opportunities with detailed business intelligence and performance data.
+                </p>
+                
+                {/* Key Features Pills */}
+                <div className="flex flex-wrap gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-700">
+                    <FiShield className="h-3 w-3 text-emerald-600" />
+                    Verified Brands
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-700">
+                    <FiBarChart2 className="h-3 w-3 text-emerald-600" />
+                    Data Insights
+                  </span>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Step 3 */}
+          <Reveal delay={0.2}>
+            <div className="relative group">
+              {/* Connector Line */}
+              <div className="hidden lg:block absolute top-16 left-[calc(100%-2rem)] w-[calc(100%-1rem)] h-0.5 bg-gradient-to-r from-violet-200 to-orange-200 z-0" />
+              
+              <div className="relative bg-white rounded-2xl border border-slate-200/80 p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 z-10">
+                {/* Step Number Badge */}
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-violet-600 text-white font-bold text-lg mb-4 shadow-lg">
+                  3
+                </div>
+                
+                <h3 className="text-lg font-bold text-slate-900 mb-2">Due Diligence Support</h3>
+                <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                  Get expert guidance through legal, financial, and operational due diligence to make informed investment decisions.
+                </p>
+                
+                {/* Key Features Pills */}
+                <div className="flex flex-wrap gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-700">
+                    <FiFileText className="h-3 w-3 text-violet-600" />
+                    Legal Review
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-700">
+                    <FiDollarSign className="h-3 w-3 text-violet-600" />
+                    Financial Analysis
+                  </span>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Step 4 */}
+          <Reveal delay={0.3}>
+            <div className="relative group">
+              <div className="relative bg-white rounded-2xl border border-slate-200/80 p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 z-10">
+                {/* Step Number Badge */}
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 text-white font-bold text-lg mb-4 shadow-lg">
+                  4
+                </div>
+                
+                <h3 className="text-lg font-bold text-slate-900 mb-2">Launch & Scale</h3>
+                <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                  Ongoing support for setup, training, marketing, and growth strategies to ensure your franchise success from day one.
+                </p>
+                
+                {/* Key Features Pills */}
+                <div className="flex flex-wrap gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-700">
+                    <FiTrendingUp className="h-3 w-3 text-orange-600" />
+                    Growth Support
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-700">
+                    <FiUsers className="h-3 w-3 text-orange-600" />
+                    Training
+                  </span>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+
+        </div>
+
+        {/* Bottom Stats/Trust Indicators */}
+        <Reveal delay={0.4}>
+          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100">
+              <div className="text-3xl font-extrabold text-blue-600 mb-1">500+</div>
+              <div className="text-sm font-medium text-slate-600">Brands Listed</div>
+            </div>
+            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100">
+              <div className="text-3xl font-extrabold text-emerald-600 mb-1">1000+</div>
+              <div className="text-sm font-medium text-slate-600">Successful Matches</div>
+            </div>
+            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-violet-50 to-purple-50 border border-violet-100">
+              <div className="text-3xl font-extrabold text-violet-600 mb-1">95%</div>
+              <div className="text-sm font-medium text-slate-600">Client Satisfaction</div>
+            </div>
+            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-orange-50 to-amber-50 border border-orange-100">
+              <div className="text-3xl font-extrabold text-orange-600 mb-1">24/7</div>
+              <div className="text-sm font-medium text-slate-600">Expert Support</div>
+            </div>
+          </div>
+        </Reveal>
+
+        {/* CTA */}
+        <Reveal delay={0.5} className="text-center mt-12">
+          <button
+            type="button"
+            onClick={() => navigateTo('/contact')}
+            className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-8 py-4 text-sm font-bold text-white transition-all duration-300 hover:bg-slate-800 hover:shadow-xl hover:-translate-y-1"
+          >
+            Start Your Journey Today
+            <FiArrowRight className="h-4 w-4" />
+          </button>
+        </Reveal>
       </div>
 
 

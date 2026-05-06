@@ -1,7 +1,7 @@
 ﻿import { useRef, useState } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import careerImage from '../assets/carrer.png';
-import { ROLES, DEPT_COLORS, MODE_COLORS } from './careersData';
+import { ROLES, DEPT_COLORS, MODE_COLORS } from './careersData.jsx';
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
@@ -419,29 +419,6 @@ function CareersPage() {
         </div>
       </section>
 
-      {/* ── BOTTOM CTA ── */}
-      <section className="border-t border-slate-100 bg-slate-900">
-        <RevealSection className="max-w-3xl mx-auto px-6 sm:px-8 py-14 sm:py-20 text-center">
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight mb-3">
-            Ready to build something great?
-          </h2>
-          <p className="text-sm sm:text-base text-slate-400 max-w-md mx-auto mb-8">
-            Send us your portfolio, resume, or just a note about what you'd love to build. We read everything.
-          </p>
-          <button
-            onClick={() => {
-              window.history.pushState({}, '', '/contact');
-              window.dispatchEvent(new PopStateEvent('popstate'));
-            }}
-            className="inline-flex items-center gap-2 bg-white text-slate-900 text-sm font-bold px-7 py-3.5 rounded-full hover:bg-violet-50 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 active:scale-95"
-          >
-            Get in Touch
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M8 12h9" />
-            </svg>
-          </button>
-        </RevealSection>
-      </section>
     </div>
   );
 }

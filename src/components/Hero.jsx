@@ -3,6 +3,8 @@ import { createPortal } from 'react-dom';
 import Button from './Button';
 import TestimonialCard from './TestimonialCard';
 import processImg from '../assets/process.png';
+import contactImg from '../assets/contact.png';
+import PremiumHeroBackground from './PremiumHeroBackground';
 
 // ── Lightweight scroll-triggered visibility hook ──────────────────────────────
 // Returns [ref, isVisible] — isVisible toggles true/false on every enter/leave
@@ -2203,11 +2205,11 @@ function MarketIntelligenceSection() {
 // --- Process Timeline Component ----------------------------------------------
 
 const PROCESS_FLOWS = {
-  Franchisors: [
+  Investors: [
     {
       num: '01',
-      title: 'Discovery',
-      desc: 'Analyze your business model, readiness, and category potential to determine if your brand is franchise-expandable.',
+      title: 'Discover Opportunities',
+      desc: 'Browse franchise businesses based on industry, location, and investment range.',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -2216,18 +2218,50 @@ const PROCESS_FLOWS = {
     },
     {
       num: '02',
-      title: 'Franchise Structuring',
-      desc: 'Build your franchise system with pricing, legal frameworks, SOPs, and investor-ready positioning.',
+      title: 'Evaluate the Business',
+      desc: 'Review business models, investment details, support systems, and growth potential.',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
         </svg>
       ),
     },
     {
       num: '03',
-      title: 'Expansion Strategy',
-      desc: 'Identify ideal cities, investor profiles, and market-entry opportunities for scalable expansion.',
+      title: 'Connect & Start',
+      desc: 'Connect directly with brands and take the next step toward franchise ownership.',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+      ),
+    },
+  ],
+  Brands: [
+    {
+      num: '01',
+      title: 'List Your Franchise',
+      desc: 'Showcase your business opportunity with detailed franchise information.',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+      ),
+    },
+    {
+      num: '02',
+      title: 'Reach the Right Investors',
+      desc: 'Get visibility among investors actively searching for franchise opportunities.',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+      ),
+    },
+    {
+      num: '03',
+      title: 'Expand Across Markets',
+      desc: 'Build your franchise presence and grow across new cities and regions.',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
@@ -2235,42 +2269,10 @@ const PROCESS_FLOWS = {
       ),
     },
   ],
-  Franchisees: [
-    {
-      num: '01',
-      title: 'Budget Analysis',
-      desc: 'Assess your capital, risk appetite, and target sectors to define your ideal investment path.',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      ),
-    },
-    {
-      num: '02',
-      title: 'Brand Matching',
-      desc: 'Get matched with relevant franchise opportunities based on budget, geography, and growth potential.',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-        </svg>
-      ),
-    },
-    {
-      num: '03',
-      title: 'Deal Support',
-      desc: 'Receive guidance through evaluation, negotiation, and launch support for smarter ownership decisions.',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-        </svg>
-      ),
-    },
-  ],
 };
 
 function ProcessTimeline() {
-  const [mode, setMode] = useState('Franchisors');
+  const [mode, setMode] = useState('Investors');
   const [visible, setVisible] = useState(false);
   const [lineH, setLineH] = useState(0);
   const ref = useRef(null);
@@ -2312,7 +2314,7 @@ function ProcessTimeline() {
     <div ref={ref}>
       {/* Toggle pills */}
       <div className="flex items-center gap-2 mb-8 bg-slate-50 border border-slate-200 rounded-2xl p-1.5 w-fit">
-        {['Franchisors', 'Franchisees'].map((m) => (
+        {['Investors', 'Brands'].map((m) => (
           <button
             key={m}
             onClick={() => { setMode(m); setLineH(0); setVisible(false); setTimeout(() => setVisible(true), 50); }}
@@ -2386,25 +2388,6 @@ function ProcessTimeline() {
             </div>
           ))}
         </div>
-      </div>
-
-      {/* CTA */}
-      <div className="mt-8 sm:pl-16">
-        <button
-          onClick={() => {
-            const path = mode === 'Franchisors' ? '/services' : '/franchise-opportunities';
-            window.history.pushState({}, '', path);
-            window.dispatchEvent(new PopStateEvent('popstate'));
-          }}
-          className="inline-flex items-center gap-2 bg-[#0b0f19] text-white text-sm font-bold
-            px-6 py-3 rounded-full hover:bg-violet-700 transition-all duration-200
-            hover:shadow-lg hover:shadow-violet-500/25 hover:-translate-y-0.5 active:scale-95"
-        >
-          {mode === 'Franchisors' ? 'Explore Brand Services' : 'Browse Opportunities'}
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M8 12h9" />
-          </svg>
-        </button>
       </div>
     </div>
   );
@@ -2720,88 +2703,189 @@ function Hero() {
   return (
     <main className="relative isolate overflow-x-hidden bg-transparent">
       {/* -- HERO SECTION -- */}
-      <section className="relative w-full min-h-[calc(100vh-80px)] flex items-center pt-16 sm:pt-20 md:pt-24 pb-12 sm:pb-16">
+      <section className="relative w-full min-h-[calc(100vh-80px)] flex items-center justify-center pt-20 sm:pt-24 pb-12 sm:pb-16">
+        {/* Premium Animated Background */}
+        <PremiumHeroBackground />
+        
         <div className="section-container relative">
-          <div className="absolute left-4 top-24 hidden h-[460px] w-56 overflow-hidden xl:block" style={{ maskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)' }}>
-            <div className="animate-scroll-up space-y-5">
-              {leftLoopItems.map((item, idx) => (
-                <TestimonialCard
-                  key={`${item.author}-${idx}`}
-                  quote={item.quote}
-                  author={item.author}
-                  className={idx % 2 === 0 ? 'opacity-70' : 'opacity-60'}
-                />
-              ))}
-            </div>
-          </div>
-
-          <div className="absolute right-4 top-24 hidden h-[460px] w-56 overflow-hidden xl:block" style={{ maskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)' }}>
-            <div className="animate-scroll-down space-y-5">
-              {rightLoopItems.map((item, idx) => (
-                <TestimonialCard
-                  key={`${item.author}-${idx}`}
-                  quote={item.quote}
-                  author={item.author}
-                  className={idx % 2 === 0 ? 'opacity-70' : 'opacity-60'}
-                />
-              ))}
-            </div>
-          </div>
-
-          <div className="relative z-10 flex w-full max-w-[720px] flex-col items-center text-center mx-auto" style={{ animation: 'heroEntrance 0.5s cubic-bezier(0.22,1,0.36,1) both' }}>
-            <span className="mb-4 sm:mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50/80 backdrop-blur-sm px-3 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-xs font-medium text-emerald-800 shadow-sm">
-              <span className="animate-dot-pulse h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-emerald-500" />
+          <div className="relative z-10 flex w-full max-w-[900px] flex-col items-center text-center mx-auto">
+            <span className="mb-4 sm:mb-5 inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50/80 backdrop-blur-sm px-4 py-2 text-xs font-medium text-emerald-800 shadow-sm">
+              <span className="animate-dot-pulse h-1.5 w-1.5 rounded-full bg-emerald-500" />
               10K+ Growing Franchise Networks
             </span>
 
-            <h1 className="mb-4 sm:mb-6 text-[clamp(1.75rem,8vw,3.75rem)] font-extrabold leading-[1.15] tracking-tight text-[#0b0f19] px-2">
-              Discover &amp; Scale Franchise Brands
-              <br className="hidden xs:block" />
-              <span className="xs:inline"> </span>For Ambitious Investors
+            <h1 className="mb-4 sm:mb-5 text-[clamp(1.75rem,6vw,2.75rem)] font-extrabold leading-[1.15] tracking-tight text-[#0b0f19] px-4">
+              Discover Franchise Opportunities That Build Wealth and Scale Brands That Are Ready for Growth
             </h1>
 
-            <p className="max-w-[600px] px-4 text-sm sm:text-base md:text-lg leading-relaxed text-slate-500 mb-8 sm:mb-10">
-              Explore verified franchise opportunities and make smarter investment decisions with real-time insights and growth analytics.
+            <p className="max-w-[720px] px-4 text-[15px] sm:text-base leading-relaxed text-slate-600 mb-7 sm:mb-8">
+              Whether you are an investor looking for the next high-growth franchise opportunity or a brand planning to expand across markets, iFranchise brings both sides together through a structured and trusted marketplace.
             </p>
 
             <div className="flex flex-col xs:flex-row justify-center gap-3 sm:gap-4 w-full px-4 xs:w-auto">
-              <Button 
-                variant="primary" 
-                icon 
-                className="cta-button h-12 sm:h-[56px] w-full xs:w-auto px-6 sm:px-7 py-3 sm:py-[14px] text-sm sm:text-[15px] font-semibold"
-              >
-                Explore Brands
-              </Button>
               <button
                 type="button"
-              onClick={() => {
-                window.history.pushState({}, '', '/franchise-opportunities');
-                window.dispatchEvent(new PopStateEvent('popstate'));
-              }}
-              className="group inline-flex items-center justify-center rounded-full border-2 border-[#0B1220] bg-white w-full xs:w-auto px-6 sm:px-7 py-3 sm:py-[14px] text-sm sm:text-[15px] font-semibold transition-all duration-300 hover:bg-[#0B1220] hover:text-white hover:scale-[1.03] hover:shadow-[0_4px_12px_rgba(12,18,41,0.08)] hover:-translate-y-1 sm:hover:-translate-y-2 h-12 sm:h-[56px]"
-            >
-              Franchise Opportunities
-            </button>
+                onClick={() => {
+                  window.history.pushState({}, '', '/franchise-opportunities');
+                  window.dispatchEvent(new PopStateEvent('popstate'));
+                }}
+                className="group inline-flex items-center justify-center gap-2 rounded-full bg-[#0B1220] text-white w-full xs:w-auto px-6 sm:px-7 py-3 sm:py-3.5 text-[15px] font-semibold transition-all duration-300 hover:bg-[#1a2332] hover:scale-[1.02] hover:shadow-xl hover:shadow-[#0B1220]/25"
+              >
+                Explore Opportunities
+                <svg className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  window.history.pushState({}, '', '/for-brand-owners');
+                  window.dispatchEvent(new PopStateEvent('popstate'));
+                }}
+                className="group inline-flex items-center justify-center gap-2 rounded-full border-2 border-[#0B1220] bg-white text-[#0B1220] w-full xs:w-auto px-6 sm:px-7 py-3 sm:py-3.5 text-[15px] font-semibold transition-all duration-300 hover:bg-[#0B1220] hover:text-white hover:scale-[1.02] hover:shadow-xl"
+              >
+                List Your Brand
+                <svg className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="mt-6 sm:mt-7 flex flex-col xs:flex-row items-center justify-center gap-3 xs:gap-4 px-4">
+              <div className="flex items-center -space-x-2">
+                <Avatar src="https://i.pravatar.cc/40?img=12" alt="Reviewer 1" />
+                <Avatar src="https://i.pravatar.cc/40?img=22" alt="Reviewer 2" />
+                <Avatar src="https://i.pravatar.cc/40?img=32" alt="Reviewer 3" />
+                <Avatar src="https://i.pravatar.cc/40?img=18" alt="Reviewer 4" />
+              </div>
+              <div className="text-center xs:text-left">
+                <p className="flex items-center justify-center xs:justify-start gap-0.5">
+                  <StarIcon />
+                  <StarIcon />
+                  <StarIcon />
+                  <StarIcon />
+                  <StarIcon />
+                </p>
+                <p className="text-xs text-slate-500">From {reviewCount}+ reviews</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* -- OUR SERVICES SECTION -- */}
+      <section className="relative w-full py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-white via-slate-50/30 to-white overflow-hidden">
+        {/* Subtle background pattern */}
+        <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgb(0 0 0) 1px, transparent 0)', backgroundSize: '24px 24px' }} />
+        
+        <div className="section-container relative z-10">
+          {/* Section Header */}
+          <div className="text-center mb-12 sm:mb-16">
+            <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white shadow-sm px-4 py-2 mb-5 text-xs font-semibold uppercase tracking-[0.12em] text-slate-600">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+              Our Services
+            </span>
+            
+            <h2 className="text-[clamp(1.75rem,5vw,2.5rem)] font-extrabold tracking-tight text-[#0b0f19] leading-[1.15] mb-4 px-4 max-w-3xl mx-auto">
+              Built to Simplify Franchise Growth and Investment
+            </h2>
+            
+            <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto px-4">
+              iFranchise is more than a listing platform. We help investors discover the right businesses and support brands in building scalable franchise networks.
+            </p>
           </div>
 
-          <div className="mt-6 flex flex-col xs:flex-row items-center justify-center gap-3 xs:gap-4 px-4">
-            <div className="flex items-center -space-x-2">
-              <Avatar src="https://i.pravatar.cc/40?img=12" alt="Reviewer 1" />
-              <Avatar src="https://i.pravatar.cc/40?img=22" alt="Reviewer 2" />
-              <Avatar src="https://i.pravatar.cc/40?img=32" alt="Reviewer 3" />
-              <Avatar src="https://i.pravatar.cc/40?img=18" alt="Reviewer 4" />
-            </div>
-            <div className="text-center xs:text-left">
-              <p className="flex items-center justify-center xs:justify-start gap-0.5">
-                <StarIcon />
-                <StarIcon />
-                <StarIcon />
-                <StarIcon />
-                <StarIcon />
-              </p>
-              <p className="text-xs text-slate-500">From {reviewCount}+ reviews</p>
-            </div>
-          </div>
+          {/* Service Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+            
+            {/* Service Card 1 - Franchise Discovery */}
+            <Reveal delay={0} className="h-full">
+              <div className="group h-full flex flex-col bg-white rounded-2xl border border-slate-200/60 p-6 sm:p-7 transition-all duration-300 hover:shadow-xl hover:shadow-slate-200/50 hover:-translate-y-1 hover:border-slate-300/60">
+                {/* Icon */}
+                <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-50 to-blue-100/50 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-blue-200/40">
+                  <svg className="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+                
+                {/* Title */}
+                <h3 className="text-lg font-bold text-[#0b0f19] mb-3 leading-tight">
+                  Franchise Discovery
+                </h3>
+                
+                {/* Description */}
+                <p className="text-sm text-slate-600 leading-relaxed flex-1">
+                  Find franchise opportunities that match your investment goals, industry interests, and budget.
+                </p>
+              </div>
+            </Reveal>
+
+            {/* Service Card 2 - Franchise Expansion */}
+            <Reveal delay={0.1} className="h-full">
+              <div className="group h-full flex flex-col bg-white rounded-2xl border border-slate-200/60 p-6 sm:p-7 transition-all duration-300 hover:shadow-xl hover:shadow-slate-200/50 hover:-translate-y-1 hover:border-slate-300/60">
+                {/* Icon */}
+                <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-50 to-emerald-100/50 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-emerald-200/40">
+                  <svg className="h-6 w-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                  </svg>
+                </div>
+                
+                {/* Title */}
+                <h3 className="text-lg font-bold text-[#0b0f19] mb-3 leading-tight">
+                  Franchise Expansion
+                </h3>
+                
+                {/* Description */}
+                <p className="text-sm text-slate-600 leading-relaxed flex-1">
+                  Expand your business into new cities through qualified franchise partnerships and strategic growth support.
+                </p>
+              </div>
+            </Reveal>
+
+            {/* Service Card 3 - Investor Matching */}
+            <Reveal delay={0.2} className="h-full">
+              <div className="group h-full flex flex-col bg-white rounded-2xl border border-slate-200/60 p-6 sm:p-7 transition-all duration-300 hover:shadow-xl hover:shadow-slate-200/50 hover:-translate-y-1 hover:border-slate-300/60">
+                {/* Icon */}
+                <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-violet-50 to-violet-100/50 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-violet-200/40">
+                  <svg className="h-6 w-6 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </div>
+                
+                {/* Title */}
+                <h3 className="text-lg font-bold text-[#0b0f19] mb-3 leading-tight">
+                  Investor Matching
+                </h3>
+                
+                {/* Description */}
+                <p className="text-sm text-slate-600 leading-relaxed flex-1">
+                  Connect investors with brands that align with their growth vision and investment expectations.
+                </p>
+              </div>
+            </Reveal>
+
+            {/* Service Card 4 - Market Insights */}
+            <Reveal delay={0.3} className="h-full">
+              <div className="group h-full flex flex-col bg-white rounded-2xl border border-slate-200/60 p-6 sm:p-7 transition-all duration-300 hover:shadow-xl hover:shadow-slate-200/50 hover:-translate-y-1 hover:border-slate-300/60">
+                {/* Icon */}
+                <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-orange-50 to-orange-100/50 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-orange-200/40">
+                  <svg className="h-6 w-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                </div>
+                
+                {/* Title */}
+                <h3 className="text-lg font-bold text-[#0b0f19] mb-3 leading-tight">
+                  Market Insights & Consulting
+                </h3>
+                
+                {/* Description */}
+                <p className="text-sm text-slate-600 leading-relaxed flex-1">
+                  Access industry insights, market trends, and franchise guidance to make informed business decisions.
+                </p>
+              </div>
+            </Reveal>
+
           </div>
         </div>
       </section>
@@ -2811,39 +2895,192 @@ function Hero() {
         aria-hidden="true"
       />
 
-      {/* -- GROWTH CARDS SECTION -- */}
-      <section className="relative w-full py-12 sm:py-16 lg:py-20 section-reveal" ref={growthRef}>
-        <div className="section-container">
-        {/* ── Who Are You? / Choose Your Path ── */}
-        <div id="who-are-you" className="mb-8 sm:mb-10">
-          {/* Section header */}
-          <div className="text-center mb-6 sm:mb-8">
-            <span className="inline-flex items-center gap-2 bg-white border border-slate-200 shadow-sm rounded-full px-4 py-1.5 mb-4">
+      {/* -- AUDIENCE SPLIT SECTION -- */}
+      <section className="relative w-full py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-white via-slate-50/20 to-white overflow-hidden">
+        {/* Subtle background pattern */}
+        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgb(0 0 0) 1px, transparent 0)', backgroundSize: '32px 32px' }} />
+        
+        {/* Ambient glow effects */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-200/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-violet-200/20 rounded-full blur-3xl pointer-events-none" />
+        
+        <div className="section-container relative z-10">
+          {/* Section Header */}
+          <div className="text-center mb-12 sm:mb-16">
+            <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white shadow-sm px-4 py-2 mb-5 text-xs font-semibold uppercase tracking-[0.12em] text-slate-600">
               <span className="w-1.5 h-1.5 rounded-full bg-violet-500" />
-              <span className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-600">Choose Your Path</span>
+              Who We Serve
             </span>
-            <h2 className="text-[clamp(1.6rem,5vw,2.6rem)] font-extrabold tracking-tight text-[#0b0f19] leading-tight mb-3">
-              Your Franchise Journey Starts Here
+            
+            <h2 className="text-[clamp(1.75rem,5vw,2.5rem)] font-extrabold tracking-tight text-[#0b0f19] leading-[1.15] mb-4 px-4 max-w-3xl mx-auto">
+              Built for Investors and Growing Brands
             </h2>
-            <p className="text-sm sm:text-base text-slate-500 max-w-xl mx-auto leading-relaxed">
-              Whether you're expanding your brand or investing in the right opportunity, iFranchise helps you take the next strategic step with confidence.
+            
+            <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto px-4">
+              Whether you're looking to invest in scalable franchise businesses or expand your brand across new markets, iFranchise provides the infrastructure to support long-term growth.
             </p>
           </div>
 
-          {/* 2-column pathway cards */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
-            {growthCards.map((card) => (
-              <GrowthCard key={card.eyebrow} card={card} />
-            ))}
+          {/* Two-Column Cards */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 max-w-6xl mx-auto">
+            
+            {/* Card 1 - FOR INVESTORS */}
+            <Reveal delay={0} className="h-full">
+              <div className="group relative h-full flex flex-col bg-white rounded-3xl border border-slate-200/60 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-slate-300/30 hover:-translate-y-2 hover:border-slate-300/80">
+                {/* Ambient glow behind card */}
+                <div className="absolute -inset-1 bg-gradient-to-br from-blue-100/40 via-transparent to-violet-100/40 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
+                
+                {/* Image Section */}
+                <div className="relative h-72 sm:h-80 overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
+                  <img
+                    src="https://images.unsplash.com/photo-1551836022-deb4988cc6c0?auto=format&fit=crop&w=1200&q=85"
+                    alt="Investors analyzing business opportunities"
+                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  {/* Dark overlay for readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
+                  
+                  {/* Label Badge - Top Right */}
+                  <div className="absolute top-4 right-4">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-white/90 backdrop-blur-md border border-white/60 shadow-xl px-3.5 py-2 text-[10px] font-bold uppercase tracking-wider text-blue-700">
+                      <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-sm" />
+                      For Investors
+                    </span>
+                  </div>
+                </div>
+
+                {/* Content Section */}
+                <div className="flex-1 flex flex-col p-6 sm:p-8">
+                  <h3 className="text-xl sm:text-2xl font-extrabold text-[#0b0f19] leading-tight mb-4">
+                    Invest in Businesses Built for Long-Term Growth
+                  </h3>
+                  
+                  <ul className="space-y-3 mb-6 flex-1">
+                    <li className="flex items-start gap-3 text-sm text-slate-600">
+                      <svg className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span>Explore verified franchise opportunities</span>
+                    </li>
+                    <li className="flex items-start gap-3 text-sm text-slate-600">
+                      <svg className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span>Compare business models and investment requirements</span>
+                    </li>
+                    <li className="flex items-start gap-3 text-sm text-slate-600">
+                      <svg className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span>Discover opportunities across multiple industries</span>
+                    </li>
+                    <li className="flex items-start gap-3 text-sm text-slate-600">
+                      <svg className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span>Connect directly with franchise brands</span>
+                    </li>
+                  </ul>
+
+                  {/* CTA Button */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      window.history.pushState({}, '', '/franchise-opportunities');
+                      window.dispatchEvent(new PopStateEvent('popstate'));
+                    }}
+                    className="group/btn w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#0B1220] text-white px-6 py-4 text-base font-semibold transition-all duration-300 hover:bg-[#1a2332] hover:shadow-xl hover:shadow-[#0B1220]/30"
+                  >
+                    Explore Opportunities
+                    <svg className="w-5 h-5 transition-transform duration-200 group-hover/btn:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Card 2 - FOR BRANDS */}
+            <Reveal delay={0.15} className="h-full">
+              <div className="group relative h-full flex flex-col bg-white rounded-3xl border border-slate-200/60 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-slate-300/30 hover:-translate-y-2 hover:border-slate-300/80">
+                {/* Ambient glow behind card */}
+                <div className="absolute -inset-1 bg-gradient-to-br from-emerald-100/40 via-transparent to-blue-100/40 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
+                
+                {/* Image Section */}
+                <div className="relative h-72 sm:h-80 overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
+                  <img
+                    src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1200&q=85"
+                    alt="Business team planning franchise expansion"
+                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  {/* Dark overlay for readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
+                  
+                  {/* Label Badge - Top Right */}
+                  <div className="absolute top-4 right-4">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-white/90 backdrop-blur-md border border-white/60 shadow-xl px-3.5 py-2 text-[10px] font-bold uppercase tracking-wider text-emerald-700">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-sm" />
+                      For Brands
+                    </span>
+                  </div>
+                </div>
+
+                {/* Content Section */}
+                <div className="flex-1 flex flex-col p-6 sm:p-8">
+                  <h3 className="text-xl sm:text-2xl font-extrabold text-[#0b0f19] leading-tight mb-4">
+                    Turn Your Brand Into a Scalable Franchise Network
+                  </h3>
+                  
+                  <ul className="space-y-3 mb-6 flex-1">
+                    <li className="flex items-start gap-3 text-sm text-slate-600">
+                      <svg className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span>Reach serious investors actively looking for opportunities</span>
+                    </li>
+                    <li className="flex items-start gap-3 text-sm text-slate-600">
+                      <svg className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span>Expand into new markets and cities</span>
+                    </li>
+                    <li className="flex items-start gap-3 text-sm text-slate-600">
+                      <svg className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span>Generate qualified franchise leads</span>
+                    </li>
+                    <li className="flex items-start gap-3 text-sm text-slate-600">
+                      <svg className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span>Build a stronger brand presence</span>
+                    </li>
+                  </ul>
+
+                  {/* CTA Button */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      window.history.pushState({}, '', '/for-brand-owners');
+                      window.dispatchEvent(new PopStateEvent('popstate'));
+                    }}
+                    className="group/btn w-full inline-flex items-center justify-center gap-2 rounded-full border-2 border-[#0B1220] bg-white text-[#0B1220] px-6 py-4 text-base font-semibold transition-all duration-300 hover:bg-[#0B1220] hover:text-white hover:shadow-xl"
+                  >
+                    List Your Brand
+                    <svg className="w-5 h-5 transition-transform duration-200 group-hover/btn:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </Reveal>
+
           </div>
         </div>
-        {/* -- End Who Are You? -- */}
-        </div>
       </section>
-
-      {/* -- India Franchise Market Intelligence -- */}
-      <MarketIntelligenceSection />
-      {/* -- End Market Intelligence -- */}
 
       <div id="about" ref={processRef} className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
 
@@ -2855,7 +3092,7 @@ function Hero() {
               <span className="relative inline-flex rounded-full h-2 w-2 bg-violet-500" />
             </span>
             <span className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">
-              How iFranchise Works
+              iFRANCHISE PROCESS
             </span>
           </div>
           <h2 className="text-2xl sm:text-3xl lg:text-[2.2rem] font-extrabold tracking-tight text-[#0b0f19] leading-tight mb-2">
@@ -2985,32 +3222,289 @@ function Hero() {
         </div>
       </div>
 
-      <div id="services" ref={modelsRef} className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <div className="mx-auto max-w-[640px] text-center px-4">
-          <span className="inline-flex items-center gap-2 bg-white border border-slate-200 shadow-sm rounded-full px-4 py-1.5 mb-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
-            <span className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-600">Franchise Models</span>
-          </span>
-          <h2 className="mt-3 text-[clamp(1.75rem,7vw,3rem)] font-extrabold tracking-tight text-[#0b0f19] leading-tight">
-            Choose the right franchise model
-          </h2>
-          <p className="mt-3 sm:mt-4 text-sm sm:text-base leading-relaxed text-slate-500">
-            Compare operating structures and select the model that best fits your ownership,
-            execution, and investment goals.
-          </p>
-        </div>
+      {/* -- INDUSTRIES SECTION -- */}
+      <section className="relative w-full py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-white via-slate-50/30 to-white overflow-hidden">
+        {/* Subtle background pattern */}
+        <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgb(0 0 0) 1px, transparent 0)', backgroundSize: '24px 24px' }} />
+        
+        {/* Ambient glow effects */}
+        <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-violet-200/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-1/3 right-1/3 w-96 h-96 bg-blue-200/15 rounded-full blur-3xl pointer-events-none" />
+        
+        <div className="section-container relative z-10">
+          {/* Section Header */}
+          <div className="text-center mb-12 sm:mb-16">
+            <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white shadow-sm px-4 py-2 mb-5 text-xs font-semibold uppercase tracking-[0.12em] text-slate-600">
+              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+              Industries
+            </span>
+            
+            <h2 className="text-[clamp(1.75rem,5vw,2.5rem)] font-extrabold tracking-tight text-[#0b0f19] leading-[1.15] mb-4 px-4 max-w-3xl mx-auto">
+              Opportunities Across High-Growth Industries
+            </h2>
+            
+            <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto px-4">
+              Discover franchise opportunities across industries with growing demand and long-term business potential.
+            </p>
+          </div>
 
-        <div className="mt-8 sm:mt-10 md:mt-12 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6">
-          {franchiseModels.map((model, idx) => (
-            <FranchiseModelCard
-              key={model.code}
-              model={model}
-              visible={modelsVisible}
-              delayMs={idx * 100}
-            />
-          ))}
+          {/* Industry Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7 max-w-6xl mx-auto">
+            
+            {/* Industry Card 1 - Retail & Jewelry */}
+            <Reveal delay={0} className="h-full">
+              <div className="group relative h-full flex flex-col bg-white rounded-3xl border border-slate-200/60 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-slate-300/30 hover:-translate-y-2 hover:border-slate-300/80 cursor-pointer">
+                {/* Ambient glow behind card */}
+                <div className="absolute -inset-1 bg-gradient-to-br from-amber-100/40 via-transparent to-orange-100/40 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
+                
+                {/* Image Section */}
+                <div className="relative h-56 overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
+                  <img
+                    src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=85"
+                    alt="Retail & Jewelry"
+                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
+                    loading="lazy"
+                  />
+                  {/* Overlay gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
+                  
+                  {/* Icon Badge */}
+                  <div className="absolute top-4 left-4">
+                    <div className="w-10 h-10 rounded-xl bg-white/95 backdrop-blur-sm border border-white/60 shadow-lg flex items-center justify-center">
+                      <svg className="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Content Section */}
+                <div className="flex-1 flex flex-col p-6">
+                  <h3 className="text-xl font-extrabold text-[#0b0f19] leading-tight mb-2">
+                    Retail & Jewelry
+                  </h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    Growing consumer demand and scalable business models.
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Industry Card 2 - Food & Beverage */}
+            <Reveal delay={0.1} className="h-full">
+              <div className="group relative h-full flex flex-col bg-white rounded-3xl border border-slate-200/60 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-slate-300/30 hover:-translate-y-2 hover:border-slate-300/80 cursor-pointer">
+                {/* Ambient glow behind card */}
+                <div className="absolute -inset-1 bg-gradient-to-br from-orange-100/40 via-transparent to-red-100/40 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
+                
+                {/* Image Section */}
+                <div className="relative h-56 overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
+                  <img
+                    src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=85"
+                    alt="Food & Beverage"
+                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
+                    loading="lazy"
+                  />
+                  {/* Overlay gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
+                  
+                  {/* Icon Badge */}
+                  <div className="absolute top-4 left-4">
+                    <div className="w-10 h-10 rounded-xl bg-white/95 backdrop-blur-sm border border-white/60 shadow-lg flex items-center justify-center">
+                      <svg className="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Content Section */}
+                <div className="flex-1 flex flex-col p-6">
+                  <h3 className="text-xl font-extrabold text-[#0b0f19] leading-tight mb-2">
+                    Food & Beverage
+                  </h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    Proven concepts with strong customer loyalty and repeat business.
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Industry Card 3 - Healthcare & Wellness */}
+            <Reveal delay={0.2} className="h-full">
+              <div className="group relative h-full flex flex-col bg-white rounded-3xl border border-slate-200/60 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-slate-300/30 hover:-translate-y-2 hover:border-slate-300/80 cursor-pointer">
+                {/* Ambient glow behind card */}
+                <div className="absolute -inset-1 bg-gradient-to-br from-emerald-100/40 via-transparent to-teal-100/40 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
+                
+                {/* Image Section */}
+                <div className="relative h-56 overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
+                  <img
+                    src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=800&q=85"
+                    alt="Healthcare & Wellness"
+                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
+                    loading="lazy"
+                  />
+                  {/* Overlay gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
+                  
+                  {/* Icon Badge */}
+                  <div className="absolute top-4 left-4">
+                    <div className="w-10 h-10 rounded-xl bg-white/95 backdrop-blur-sm border border-white/60 shadow-lg flex items-center justify-center">
+                      <svg className="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Content Section */}
+                <div className="flex-1 flex flex-col p-6">
+                  <h3 className="text-xl font-extrabold text-[#0b0f19] leading-tight mb-2">
+                    Healthcare & Wellness
+                  </h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    Rising health consciousness driving sustainable growth.
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Industry Card 4 - Education & Training */}
+            <Reveal delay={0.3} className="h-full">
+              <div className="group relative h-full flex flex-col bg-white rounded-3xl border border-slate-200/60 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-slate-300/30 hover:-translate-y-2 hover:border-slate-300/80 cursor-pointer">
+                {/* Ambient glow behind card */}
+                <div className="absolute -inset-1 bg-gradient-to-br from-blue-100/40 via-transparent to-indigo-100/40 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
+                
+                {/* Image Section */}
+                <div className="relative h-56 overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
+                  <img
+                    src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=85"
+                    alt="Education & Training"
+                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
+                    loading="lazy"
+                  />
+                  {/* Overlay gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
+                  
+                  {/* Icon Badge */}
+                  <div className="absolute top-4 left-4">
+                    <div className="w-10 h-10 rounded-xl bg-white/95 backdrop-blur-sm border border-white/60 shadow-lg flex items-center justify-center">
+                      <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Content Section */}
+                <div className="flex-1 flex flex-col p-6">
+                  <h3 className="text-xl font-extrabold text-[#0b0f19] leading-tight mb-2">
+                    Education & Training
+                  </h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    Lifelong learning trends creating consistent demand.
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Industry Card 5 - Logistics & Infrastructure */}
+            <Reveal delay={0.4} className="h-full">
+              <div className="group relative h-full flex flex-col bg-white rounded-3xl border border-slate-200/60 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-slate-300/30 hover:-translate-y-2 hover:border-slate-300/80 cursor-pointer">
+                {/* Ambient glow behind card */}
+                <div className="absolute -inset-1 bg-gradient-to-br from-slate-100/40 via-transparent to-gray-100/40 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
+                
+                {/* Image Section */}
+                <div className="relative h-56 overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
+                  <img
+                    src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=85"
+                    alt="Logistics & Infrastructure"
+                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
+                    loading="lazy"
+                  />
+                  {/* Overlay gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
+                  
+                  {/* Icon Badge */}
+                  <div className="absolute top-4 left-4">
+                    <div className="w-10 h-10 rounded-xl bg-white/95 backdrop-blur-sm border border-white/60 shadow-lg flex items-center justify-center">
+                      <svg className="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Content Section */}
+                <div className="flex-1 flex flex-col p-6">
+                  <h3 className="text-xl font-extrabold text-[#0b0f19] leading-tight mb-2">
+                    Logistics & Infrastructure
+                  </h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    E-commerce boom fueling supply chain opportunities.
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Industry Card 6 - Beauty & Lifestyle */}
+            <Reveal delay={0.5} className="h-full">
+              <div className="group relative h-full flex flex-col bg-white rounded-3xl border border-slate-200/60 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-slate-300/30 hover:-translate-y-2 hover:border-slate-300/80 cursor-pointer">
+                {/* Ambient glow behind card */}
+                <div className="absolute -inset-1 bg-gradient-to-br from-pink-100/40 via-transparent to-rose-100/40 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
+                
+                {/* Image Section */}
+                <div className="relative h-56 overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
+                  <img
+                    src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=800&q=85"
+                    alt="Beauty & Lifestyle"
+                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
+                    loading="lazy"
+                  />
+                  {/* Overlay gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
+                  
+                  {/* Icon Badge */}
+                  <div className="absolute top-4 left-4">
+                    <div className="w-10 h-10 rounded-xl bg-white/95 backdrop-blur-sm border border-white/60 shadow-lg flex items-center justify-center">
+                      <svg className="w-5 h-5 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Content Section */}
+                <div className="flex-1 flex flex-col p-6">
+                  <h3 className="text-xl font-extrabold text-[#0b0f19] leading-tight mb-2">
+                    Beauty & Lifestyle
+                  </h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    Premium services with high customer retention rates.
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+
+          </div>
+
+          {/* Bottom CTA */}
+          <div className="mt-12 sm:mt-16 text-center">
+            <button
+              type="button"
+              onClick={() => {
+                window.history.pushState({}, '', '/franchise-opportunities');
+                window.dispatchEvent(new PopStateEvent('popstate'));
+              }}
+              className="group inline-flex items-center justify-center gap-2 rounded-full bg-[#0B1220] text-white px-8 py-4 text-base font-semibold transition-all duration-300 hover:bg-[#1a2332] hover:scale-[1.02] hover:shadow-xl hover:shadow-[#0B1220]/30"
+            >
+              Explore Industries
+              <svg className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
+              </svg>
+            </button>
+          </div>
         </div>
-      </div>
+      </section>
 
       {/* -- FEATURED FRANCHISES SECTION -- */}
       <section className="relative w-full py-12 sm:py-16 lg:py-20 section-reveal">
@@ -3047,6 +3541,236 @@ function Hero() {
             >
               View More
               <span className="transition duration-200 group-hover:translate-x-1">{"\u2192"}</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* -- WHY iFRANCHISE SECTION -- */}
+      <section className="relative w-full py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-white via-slate-50/20 to-white overflow-hidden">
+        {/* Subtle background pattern */}
+        <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgb(0 0 0) 1px, transparent 0)', backgroundSize: '24px 24px' }} />
+        
+        {/* Ambient glow effects */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-200/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-violet-200/15 rounded-full blur-3xl pointer-events-none" />
+        
+        <div className="section-container relative z-10">
+          {/* Section Header */}
+          <div className="text-center mb-8 sm:mb-10">
+            <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white shadow-sm px-4 py-2 mb-4 text-xs font-semibold uppercase tracking-[0.12em] text-slate-600">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              Why iFranchise
+            </span>
+            
+            <h2 className="text-[clamp(1.5rem,4.5vw,2.25rem)] font-extrabold tracking-tight text-[#0b0f19] leading-[1.15] mb-3 px-4 max-w-3xl mx-auto">
+              Why Investors and Brands Choose iFranchise
+            </h2>
+            
+            <p className="text-sm text-slate-600 leading-relaxed max-w-2xl mx-auto px-4">
+              Built to simplify franchise discovery, expansion, and investment through structured business intelligence.
+            </p>
+          </div>
+
+          {/* Feature Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+            
+            {/* Block 1 - Verified Opportunities */}
+            <Reveal delay={0} className="h-full">
+              <div className="group relative h-full flex flex-col bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-700 rounded-3xl overflow-hidden transition-all duration-500 hover:scale-[1.03] hover:shadow-2xl hover:shadow-blue-500/40">
+                {/* Glow effect */}
+                <div className="absolute -inset-1 bg-gradient-to-br from-blue-400 to-indigo-600 rounded-3xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-500 -z-10" />
+                
+                {/* 3D Icon Container */}
+                <div className="relative h-48 flex items-center justify-center overflow-hidden">
+                  {/* Background decorative elements */}
+                  <div className="absolute top-4 right-4 w-24 h-24 bg-white/10 rounded-full blur-2xl" />
+                  <div className="absolute bottom-6 left-6 w-32 h-32 bg-blue-300/20 rounded-full blur-3xl" />
+                  
+                  {/* 3D Icon - Shield with Checkmark */}
+                  <div className="relative z-10 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                    {/* Shadow layer */}
+                    <div className="absolute inset-0 translate-y-2 translate-x-1">
+                      <svg className="w-20 h-20 text-blue-900/40 blur-sm" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+                      </svg>
+                    </div>
+                    {/* Main icon */}
+                    <svg className="w-20 h-20 text-white drop-shadow-2xl" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+                    </svg>
+                    {/* Highlight layer */}
+                    <div className="absolute top-0 left-0 w-full h-full">
+                      <div className="w-6 h-6 bg-white/40 rounded-full blur-md absolute top-2 left-4" />
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Content */}
+                <div className="p-6 pt-2">
+                  <h3 className="text-xl font-bold text-white leading-tight mb-2">
+                    Verified Opportunities
+                  </h3>
+                  <p className="text-sm text-blue-50/90 leading-relaxed">
+                    Every opportunity is reviewed and structured to provide clarity and transparency.
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Block 2 - Faster Brand Expansion */}
+            <Reveal delay={0.1} className="h-full">
+              <div className="group relative h-full flex flex-col bg-gradient-to-br from-emerald-500 via-green-600 to-teal-700 rounded-3xl overflow-hidden transition-all duration-500 hover:scale-[1.03] hover:shadow-2xl hover:shadow-emerald-500/40">
+                {/* Glow effect */}
+                <div className="absolute -inset-1 bg-gradient-to-br from-emerald-400 to-teal-600 rounded-3xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-500 -z-10" />
+                
+                {/* 3D Icon Container */}
+                <div className="relative h-48 flex items-center justify-center overflow-hidden">
+                  {/* Background decorative elements */}
+                  <div className="absolute top-4 left-4 w-28 h-28 bg-white/10 rounded-full blur-2xl" />
+                  <div className="absolute bottom-4 right-4 w-32 h-32 bg-emerald-300/20 rounded-full blur-3xl" />
+                  
+                  {/* 3D Icon - Rocket */}
+                  <div className="relative z-10 transition-transform duration-500 group-hover:scale-110 group-hover:-translate-y-2">
+                    {/* Shadow layer */}
+                    <div className="absolute inset-0 translate-y-2 translate-x-1">
+                      <svg className="w-20 h-20 text-green-900/40 blur-sm" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C12 2 4 6 4 12c0 2.5 1 4.5 2 6l2-2c-1-1-2-2.5-2-4 0-4 5-7 6-7.5V2zm0 0c0 0 8 4 8 10 0 2.5-1 4.5-2 6l-2-2c1-1 2-2.5 2-4 0-4-5-7-6-7.5V2zM9 17l3 5 3-5-3-1-3 1z"/>
+                      </svg>
+                    </div>
+                    {/* Main icon */}
+                    <svg className="w-20 h-20 text-white drop-shadow-2xl" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2C12 2 4 6 4 12c0 2.5 1 4.5 2 6l2-2c-1-1-2-2.5-2-4 0-4 5-7 6-7.5V2zm0 0c0 0 8 4 8 10 0 2.5-1 4.5-2 6l-2-2c1-1 2-2.5 2-4 0-4-5-7-6-7.5V2zM9 17l3 5 3-5-3-1-3 1z"/>
+                    </svg>
+                    {/* Highlight layer */}
+                    <div className="absolute top-0 left-0 w-full h-full">
+                      <div className="w-5 h-5 bg-white/50 rounded-full blur-md absolute top-3 left-5" />
+                    </div>
+                    {/* Flame effect */}
+                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-8 h-8 bg-yellow-300/60 rounded-full blur-lg animate-pulse" />
+                  </div>
+                </div>
+                
+                {/* Content */}
+                <div className="p-6 pt-2">
+                  <h3 className="text-xl font-bold text-white leading-tight mb-2">
+                    Faster Brand Expansion
+                  </h3>
+                  <p className="text-sm text-emerald-50/90 leading-relaxed">
+                    We help brands connect with the right investors to scale faster across markets.
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Block 3 - Investor-Focused Discovery */}
+            <Reveal delay={0.2} className="h-full">
+              <div className="group relative h-full flex flex-col bg-gradient-to-br from-violet-500 via-purple-600 to-fuchsia-700 rounded-3xl overflow-hidden transition-all duration-500 hover:scale-[1.03] hover:shadow-2xl hover:shadow-violet-500/40">
+                {/* Glow effect */}
+                <div className="absolute -inset-1 bg-gradient-to-br from-violet-400 to-fuchsia-600 rounded-3xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-500 -z-10" />
+                
+                {/* 3D Icon Container */}
+                <div className="relative h-48 flex items-center justify-center overflow-hidden">
+                  {/* Background decorative elements */}
+                  <div className="absolute top-6 right-6 w-24 h-24 bg-white/10 rounded-full blur-2xl" />
+                  <div className="absolute bottom-4 left-4 w-28 h-28 bg-purple-300/20 rounded-full blur-3xl" />
+                  
+                  {/* 3D Icon - Compass/Target */}
+                  <div className="relative z-10 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-12">
+                    {/* Shadow layer */}
+                    <div className="absolute inset-0 translate-y-2 translate-x-1">
+                      <svg className="w-20 h-20 text-purple-900/40 blur-sm" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                      </svg>
+                    </div>
+                    {/* Main icon */}
+                    <svg className="w-20 h-20 text-white drop-shadow-2xl" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                      <circle cx="12" cy="12" r="3" fill="currentColor"/>
+                      <path d="M12 8l-1.5 4h3L12 8zm0 8l1.5-4h-3L12 16z"/>
+                    </svg>
+                    {/* Highlight layer */}
+                    <div className="absolute top-0 left-0 w-full h-full">
+                      <div className="w-6 h-6 bg-white/40 rounded-full blur-md absolute top-2 left-3" />
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Content */}
+                <div className="p-6 pt-2">
+                  <h3 className="text-xl font-bold text-white leading-tight mb-2">
+                    Investor-Focused Discovery
+                  </h3>
+                  <p className="text-sm text-violet-50/90 leading-relaxed">
+                    Simplified franchise discovery experience designed around business goals and investment intent.
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Block 4 - Data-Driven Marketplace */}
+            <Reveal delay={0.3} className="h-full">
+              <div className="group relative h-full flex flex-col bg-gradient-to-br from-orange-500 via-amber-600 to-yellow-600 rounded-3xl overflow-hidden transition-all duration-500 hover:scale-[1.03] hover:shadow-2xl hover:shadow-orange-500/40">
+                {/* Glow effect */}
+                <div className="absolute -inset-1 bg-gradient-to-br from-orange-400 to-yellow-600 rounded-3xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-500 -z-10" />
+                
+                {/* 3D Icon Container */}
+                <div className="relative h-48 flex items-center justify-center overflow-hidden">
+                  {/* Background decorative elements */}
+                  <div className="absolute top-4 left-6 w-28 h-28 bg-white/10 rounded-full blur-2xl" />
+                  <div className="absolute bottom-6 right-4 w-32 h-32 bg-orange-300/20 rounded-full blur-3xl" />
+                  
+                  {/* 3D Icon - Chart/Analytics */}
+                  <div className="relative z-10 transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6">
+                    {/* Shadow layer */}
+                    <div className="absolute inset-0 translate-y-2 translate-x-1">
+                      <svg className="w-20 h-20 text-orange-900/40 blur-sm" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M3 13h2v8H3v-8zm4-6h2v14H7V7zm4-4h2v18h-2V3zm4 9h2v9h-2v-9zm4-5h2v14h-2V7z"/>
+                      </svg>
+                    </div>
+                    {/* Main icon */}
+                    <svg className="w-20 h-20 text-white drop-shadow-2xl" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M3 13h2v8H3v-8zm4-6h2v14H7V7zm4-4h2v18h-2V3zm4 9h2v9h-2v-9zm4-5h2v14h-2V7z"/>
+                    </svg>
+                    {/* Highlight layer */}
+                    <div className="absolute top-0 left-0 w-full h-full">
+                      <div className="w-5 h-5 bg-white/50 rounded-full blur-md absolute top-2 left-4" />
+                    </div>
+                    {/* Sparkle effects */}
+                    <div className="absolute top-1 right-2 w-2 h-2 bg-white rounded-full animate-pulse" />
+                    <div className="absolute bottom-3 left-1 w-1.5 h-1.5 bg-white/80 rounded-full animate-pulse delay-150" />
+                  </div>
+                </div>
+                
+                {/* Content */}
+                <div className="p-6 pt-2">
+                  <h3 className="text-xl font-bold text-white leading-tight mb-2">
+                    Data-Driven Marketplace
+                  </h3>
+                  <p className="text-sm text-orange-50/90 leading-relaxed">
+                    Industry-focused insights and structured business information help users make better decisions.
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+
+          </div>
+
+          {/* Bottom CTA */}
+          <div className="mt-10 sm:mt-12 text-center">
+            <button
+              type="button"
+              onClick={() => {
+                window.history.pushState({}, '', '/franchise-opportunities');
+                window.dispatchEvent(new PopStateEvent('popstate'));
+              }}
+              className="group inline-flex items-center justify-center gap-2 rounded-full bg-[#0B1220] text-white px-7 py-3.5 text-sm font-semibold transition-all duration-300 hover:bg-[#1a2332] hover:scale-[1.02] hover:shadow-xl hover:shadow-[#0B1220]/30"
+            >
+              Explore Franchise Opportunities
+              <svg className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
+              </svg>
             </button>
           </div>
         </div>
@@ -3230,6 +3954,9 @@ function Hero() {
         </div>
       </section>
 
+      {/* -- INDIA FRANCHISE MARKET INTELLIGENCE -- */}
+      <MarketIntelligenceSection />
+
       {/* -- FRANCHISE FAQ / DECISION INTELLIGENCE SECTION -- */}
       <section className="relative w-full py-12 sm:py-16 lg:py-20 section-reveal">
         <div className="section-container">
@@ -3290,7 +4017,7 @@ function Hero() {
               {/* Strategic Advisor Image - Contact Page Style */}
               <div className="relative">
                 <img
-                  src="/images/contact.png"
+                  src={contactImg}
                   alt="Strategic Franchise Advisory"
                   className="relative w-[75vw] max-w-[380px] object-contain drop-shadow-[0_24px_48px_rgba(15,23,42,0.14)] sm:w-full lg:max-w-[460px] xl:max-w-[500px]"
                   loading="lazy"
