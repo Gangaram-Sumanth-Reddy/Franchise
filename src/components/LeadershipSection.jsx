@@ -147,15 +147,30 @@ function LeadershipSection() {
                     </p>
                   </div>
                   
-                  <button
-                    onClick={() => setFounderModalOpen(true)}
-                    className="group flex items-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm font-bold text-slate-900 shadow-sm transition-all duration-300 hover:border-violet-400 hover:bg-violet-50 hover:shadow-md cursor-pointer"
-                  >
-                    More About Him
-                    <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
-                    </svg>
-                  </button>
+                  <div className="flex items-center gap-3">
+                    <a
+                      href="#"
+                      className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white transition-all duration-300 hover:bg-blue-700 hover:scale-110"
+                      aria-label="LinkedIn Profile"
+                    >
+                      <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                      </svg>
+                    </a>
+                    
+                    <button
+                      onClick={() => setFounderModalOpen(true)}
+                      className="group relative overflow-hidden rounded-full bg-slate-900 px-6 py-2.5 text-sm font-bold text-white shadow-lg transition-all duration-300 hover:bg-slate-800 hover:shadow-xl hover:-translate-y-0.5 cursor-pointer"
+                    >
+                      <span className="relative z-10 flex items-center gap-2">
+                        More About Him
+                        <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
+                        </svg>
+                      </span>
+                      <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+                    </button>
+                  </div>
                 </motion.div>
               </div>
             </div>
@@ -239,15 +254,30 @@ function LeadershipSection() {
                     </p>
                   </div>
                   
-                  <button
-                    onClick={() => setCofounderModalOpen(true)}
-                    className="group flex items-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm font-bold text-slate-900 shadow-sm transition-all duration-300 hover:border-indigo-400 hover:bg-indigo-50 hover:shadow-md cursor-pointer"
-                  >
-                    More About Him
-                    <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
-                    </svg>
-                  </button>
+                  <div className="flex items-center gap-3">
+                    <a
+                      href="#"
+                      className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white transition-all duration-300 hover:bg-blue-700 hover:scale-110"
+                      aria-label="LinkedIn Profile"
+                    >
+                      <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                      </svg>
+                    </a>
+                    
+                    <button
+                      onClick={() => setCofounderModalOpen(true)}
+                      className="group relative overflow-hidden rounded-full bg-slate-900 px-6 py-2.5 text-sm font-bold text-white shadow-lg transition-all duration-300 hover:bg-slate-800 hover:shadow-xl hover:-translate-y-0.5 cursor-pointer"
+                    >
+                      <span className="relative z-10 flex items-center gap-2">
+                        More About Him
+                        <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
+                        </svg>
+                      </span>
+                      <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+                    </button>
+                  </div>
                 </motion.div>
               </div>
 
@@ -279,33 +309,34 @@ function LeadershipSection() {
 
       {/* FOUNDER MODAL */}
       {founderModalOpen && createPortal(
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
-          onClick={() => setFounderModalOpen(false)}
+        <div 
+          style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', overflowY: 'auto' }}
+          onClick={(e) => { if (e.target === e.currentTarget) setFounderModalOpen(false); }}
         >
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-md" />
+          <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(6px)' }} onClick={() => setFounderModalOpen(false)} />
+          
           <motion.div
-            initial={{ scale: 0.9, y: 20 }}
-            animate={{ scale: 1, y: 0 }}
-            exit={{ scale: 0.9, y: 20 }}
-            transition={{ type: 'spring', duration: 0.5 }}
-            className="relative z-10 w-full max-w-2xl overflow-hidden rounded-3xl bg-white shadow-2xl max-h-[90vh] flex flex-col"
-            onClick={(e) => e.stopPropagation()}
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '560px', borderRadius: '24px', background: '#fff', overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.35)', margin: 'auto' }}
           >
-            <div className="flex-1 overflow-y-auto p-8">
+            <div style={{ background: 'linear-gradient(135deg,#7c3aed 0%,#6366f1 50%,#4f46e5 100%)', padding: '24px 24px 32px', position: 'relative' }}>
               <button
                 onClick={() => setFounderModalOpen(false)}
-                className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-600 transition-colors hover:bg-slate-200 cursor-pointer"
+                style={{ position: 'absolute', right: 16, top: 16, width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', cursor: 'pointer', fontSize: 16, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
               >
                 ✕
               </button>
-              
-              <p className="text-xl font-bold text-slate-900 mb-2">Hello, I'm Arjun Malhotra</p>
-              <p className="text-sm font-semibold uppercase tracking-wider text-slate-500 mb-6">Founder & Director</p>
-              
+              <div style={{ paddingTop: 8 }}>
+                <p style={{ margin: 0, fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(255,255,255,0.6)', marginBottom: 8 }}>About The Founder</p>
+                <h3 style={{ margin: 0, fontSize: 24, fontWeight: 800, color: '#fff', lineHeight: 1.2 }}>Hello, I'm Arjun Malhotra</h3>
+                <p style={{ margin: '6px 0 0', fontSize: 13, fontWeight: 600, color: '#e0e7ff' }}>Founder & Director</p>
+              </div>
+            </div>
+            
+            <div style={{ padding: 24, maxHeight: '60vh', overflowY: 'auto' }}>
               <div className="space-y-6">
                 <p className="text-base leading-relaxed text-slate-700">
                   I started iFranchise with a simple belief: every entrepreneur deserves a fair shot at building something extraordinary. Too many brilliant business ideas die not from lack of potential, but from lack of the right guidance, capital, and strategic support.
@@ -360,41 +391,49 @@ function LeadershipSection() {
                   </p>
                 </div>
               </div>
+              
+              <button
+                onClick={() => setFounderModalOpen(false)}
+                className="w-full mt-6 px-6 py-3 rounded-xl bg-slate-900 text-white text-sm font-bold transition-all duration-300 hover:bg-slate-800"
+              >
+                Close
+              </button>
             </div>
           </motion.div>
-        </motion.div>,
+        </div>,
         document.body
       )}
 
       {/* CO-FOUNDER MODAL */}
       {cofounderModalOpen && createPortal(
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
-          onClick={() => setCofounderModalOpen(false)}
+        <div 
+          style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', overflowY: 'auto' }}
+          onClick={(e) => { if (e.target === e.currentTarget) setCofounderModalOpen(false); }}
         >
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-md" />
+          <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(6px)' }} onClick={() => setCofounderModalOpen(false)} />
+          
           <motion.div
-            initial={{ scale: 0.9, y: 20 }}
-            animate={{ scale: 1, y: 0 }}
-            exit={{ scale: 0.9, y: 20 }}
-            transition={{ type: 'spring', duration: 0.5 }}
-            className="relative z-10 w-full max-w-2xl overflow-hidden rounded-3xl bg-white shadow-2xl max-h-[90vh] flex flex-col"
-            onClick={(e) => e.stopPropagation()}
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '560px', borderRadius: '24px', background: '#fff', overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.35)', margin: 'auto' }}
           >
-            <div className="flex-1 overflow-y-auto p-8">
+            <div style={{ background: 'linear-gradient(135deg,#4f46e5 0%,#6366f1 50%,#7c3aed 100%)', padding: '24px 24px 32px', position: 'relative' }}>
               <button
                 onClick={() => setCofounderModalOpen(false)}
-                className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-600 transition-colors hover:bg-slate-200 cursor-pointer"
+                style={{ position: 'absolute', right: 16, top: 16, width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', cursor: 'pointer', fontSize: 16, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
               >
                 ✕
               </button>
-              
-              <p className="text-xl font-bold text-slate-900 mb-2">Hello, I'm Daniel Reeves</p>
-              <p className="text-sm font-semibold uppercase tracking-wider text-slate-500 mb-6">Co-Founder & Strategy Director</p>
-              
+              <div style={{ paddingTop: 8 }}>
+                <p style={{ margin: 0, fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(255,255,255,0.6)', marginBottom: 8 }}>About The Co-Founder</p>
+                <h3 style={{ margin: 0, fontSize: 24, fontWeight: 800, color: '#fff', lineHeight: 1.2 }}>Hello, I'm Daniel Reeves</h3>
+                <p style={{ margin: '6px 0 0', fontSize: 13, fontWeight: 600, color: '#e0e7ff' }}>Co-Founder & Strategy Director</p>
+              </div>
+            </div>
+            
+            <div style={{ padding: 24, maxHeight: '60vh', overflowY: 'auto' }}>
               <div className="space-y-6">
                 <p className="text-base leading-relaxed text-slate-700">
                   I've spent over a decade watching businesses fail not because their ideas weren't good enough, but because they lacked the operational backbone to scale. That's what drives me every single day at iFranchise.
@@ -449,9 +488,16 @@ function LeadershipSection() {
                   </p>
                 </div>
               </div>
+              
+              <button
+                onClick={() => setCofounderModalOpen(false)}
+                className="w-full mt-6 px-6 py-3 rounded-xl bg-slate-900 text-white text-sm font-bold transition-all duration-300 hover:bg-slate-800"
+              >
+                Close
+              </button>
             </div>
           </motion.div>
-        </motion.div>,
+        </div>,
         document.body
       )}
     </>
