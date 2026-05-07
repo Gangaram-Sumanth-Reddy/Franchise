@@ -302,7 +302,23 @@ function AboutPage() {
                   style={{ boxShadow: '0 6px 24px rgba(11,15,25,0.28)' }}
                 >
                   <span className="relative z-10 flex items-center justify-center gap-2.5">
-                    Book Strategic Call
+                    About iFranchise
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20 transition-all duration-300 group-hover:bg-white/30 group-hover:translate-x-1">
+                      <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
+                      </svg>
+                    </span>
+                  </span>
+                  <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+                </button>
+                
+                <button
+                  onClick={openTeamPage}
+                  className="group relative overflow-hidden rounded-2xl bg-[#0B1220] px-8 py-4 text-sm font-bold text-white transition-all duration-300 hover:bg-[#1a2332] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(11,15,25,0.35)]"
+                  style={{ boxShadow: '0 6px 24px rgba(11,15,25,0.28)' }}
+                >
+                  <span className="relative z-10 flex items-center justify-center gap-2.5">
+                    Meet Leadership
                     <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20 transition-all duration-300 group-hover:bg-white/30 group-hover:translate-x-1">
                       <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />

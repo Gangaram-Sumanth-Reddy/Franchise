@@ -72,8 +72,8 @@ function LeadershipSection() {
 
             <div className="relative flex flex-col lg:flex-row gap-6 p-6 lg:gap-8 lg:p-8">
               {/* LEFT - IMAGE CARD - MATCHES CONTENT HEIGHT */}
-              <div className="relative lg:w-[45%] flex-shrink-0">
-                <div className="relative overflow-hidden rounded-2xl shadow-2xl h-[420px] lg:h-auto">
+              <div className="relative lg:w-[35%] flex-shrink-0">
+                <div className="relative overflow-hidden rounded-2xl shadow-2xl h-[320px] lg:h-full lg:max-h-[480px]">
                   <div className="absolute -inset-4 bg-gradient-to-br from-violet-300/30 via-purple-200/20 to-indigo-300/30 blur-3xl opacity-60" />
                   
                   <div className="relative h-full overflow-hidden rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200">
@@ -103,27 +103,27 @@ function LeadershipSection() {
                     Hello, I'm Arjun Malhotra
                   </p>
 
-                  <p className="text-[15px] leading-[1.7] text-slate-700 lg:text-base lg:leading-[1.75]">
+                  <p className="text-[14px] leading-[1.65] text-slate-700 lg:text-[15px] lg:leading-[1.7]">
                     I started iFranchise with a simple belief: every entrepreneur deserves a fair shot at building something extraordinary. Too many brilliant business ideas die not from lack of potential, but from lack of the right guidance, capital, and strategic support.
                   </p>
-                  <p className="text-[15px] leading-[1.7] text-slate-700 lg:text-base lg:leading-[1.75]">
+                  <p className="text-[14px] leading-[1.65] text-slate-700 lg:text-[15px] lg:leading-[1.7]">
                     We're not just connecting brands with investors — we're building dreams into empires. Every franchise we validate, every partnership we forge, and every expansion we architect is driven by one mission: turning your vision into a legacy that outlasts us all.
                   </p>
-                  <p className="text-[15px] leading-[1.7] text-slate-700 lg:text-base lg:leading-[1.75]">
+                  <p className="text-[14px] leading-[1.65] text-slate-700 lg:text-[15px] lg:leading-[1.7]">
                     Your success is our legacy. Let's build something India will remember.
                   </p>
                   
                   {/* PREMIUM QUOTE CARD */}
                   <motion.div
                     whileHover={{ scale: 1.02 }}
-                    className="relative overflow-hidden rounded-xl border border-violet-200/60 bg-gradient-to-br from-violet-50/50 via-purple-50/30 to-indigo-50/50 p-5 shadow-lg backdrop-blur-sm mt-6"
+                    className="relative overflow-hidden rounded-xl border border-violet-200/60 bg-gradient-to-br from-violet-50/50 via-purple-50/30 to-indigo-50/50 p-4 shadow-lg backdrop-blur-sm mt-4"
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 to-indigo-500/5" />
                     <div className="relative">
-                      <svg className="mb-2 h-5 w-5 text-violet-400" fill="currentColor" viewBox="0 0 24 24">
+                      <svg className="mb-2 h-4 w-4 text-violet-400" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                       </svg>
-                      <p className="text-[15px] font-semibold italic leading-[1.7] text-slate-800 lg:text-base lg:leading-[1.75]">
+                      <p className="text-[14px] font-semibold italic leading-[1.65] text-slate-800 lg:text-[15px] lg:leading-[1.7]">
                         We're not building a marketplace. We're building the operating system for India's next generation of business empires.
                       </p>
                     </div>
@@ -136,7 +136,7 @@ function LeadershipSection() {
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.5 }}
-                  className="flex items-center justify-between border-t border-slate-200 pt-4 mt-6"
+                  className="flex items-center justify-between border-t border-slate-200 pt-4 mt-4"
                 >
                   <div>
                     <p className="text-2xl text-slate-900 lg:text-[28px]" style={{ fontFamily: 'Brush Script MT, cursive' }}>
@@ -160,15 +160,12 @@ function LeadershipSection() {
                     
                     <button
                       onClick={() => setFounderModalOpen(true)}
-                      className="group relative overflow-hidden rounded-full bg-slate-900 px-6 py-2.5 text-sm font-bold text-white shadow-lg transition-all duration-300 hover:bg-slate-800 hover:shadow-xl hover:-translate-y-0.5 cursor-pointer"
+                      className="group flex items-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm font-bold text-slate-900 shadow-sm transition-all duration-300 hover:border-violet-400 hover:bg-violet-50 hover:shadow-md cursor-pointer"
                     >
-                      <span className="relative z-10 flex items-center gap-2">
-                        More About Him
-                        <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
-                        </svg>
-                      </span>
-                      <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+                      More About Him
+                      <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
+                      </svg>
                     </button>
                   </div>
                 </motion.div>
@@ -207,30 +204,30 @@ function LeadershipSection() {
                     Hello, I'm Daniel Reeves
                   </p>
 
-                  <p className="text-[15px] leading-[1.7] text-slate-700 lg:text-base lg:leading-[1.75]">
+                  <p className="text-[14px] leading-[1.65] text-slate-700 lg:text-[15px] lg:leading-[1.7]">
                     I've spent over a decade watching businesses fail not because their ideas weren't good enough, but because they lacked the operational backbone to scale. That's what drives me every single day at iFranchise.
                   </p>
-                  <p className="text-[15px] leading-[1.7] text-slate-700 lg:text-base lg:leading-[1.75]">
+                  <p className="text-[14px] leading-[1.65] text-slate-700 lg:text-[15px] lg:leading-[1.7]">
                     Scaling isn't just about opening more locations. It's about building systems so strong that your brand can thrive in 100 cities without losing its soul. It's about creating frameworks that turn chaos into clarity, and ambition into achievement.
                   </p>
-                  <p className="text-[15px] leading-[1.7] text-slate-700 lg:text-base lg:leading-[1.75]">
+                  <p className="text-[14px] leading-[1.65] text-slate-700 lg:text-[15px] lg:leading-[1.7]">
                     We don't just advise — we roll up our sleeves and build alongside you. From market validation to operational excellence, we're in the trenches with every partner, ensuring no detail is overlooked and no opportunity is wasted.
                   </p>
-                  <p className="text-[15px] leading-[1.7] text-slate-700 lg:text-base lg:leading-[1.75]">
+                  <p className="text-[14px] leading-[1.65] text-slate-700 lg:text-[15px] lg:leading-[1.7]">
                     Your growth is our obsession. Let's turn your brand into an unstoppable force.
                   </p>
                   
                   {/* PREMIUM QUOTE CARD */}
                   <motion.div
                     whileHover={{ scale: 1.02 }}
-                    className="relative overflow-hidden rounded-xl border border-indigo-200/60 bg-gradient-to-br from-indigo-50/50 via-blue-50/30 to-violet-50/50 p-5 shadow-lg backdrop-blur-sm mt-6"
+                    className="relative overflow-hidden rounded-xl border border-indigo-200/60 bg-gradient-to-br from-indigo-50/50 via-blue-50/30 to-violet-50/50 p-4 shadow-lg backdrop-blur-sm mt-4"
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-violet-500/5" />
                     <div className="relative">
-                      <svg className="mb-2 h-5 w-5 text-indigo-400" fill="currentColor" viewBox="0 0 24 24">
+                      <svg className="mb-2 h-4 w-4 text-indigo-400" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                       </svg>
-                      <p className="text-[15px] font-semibold italic leading-[1.7] text-slate-800 lg:text-base lg:leading-[1.75]">
+                      <p className="text-[14px] font-semibold italic leading-[1.65] text-slate-800 lg:text-[15px] lg:leading-[1.7]">
                         Excellence isn't an accident. It's a system. And we're here to build that system with you.
                       </p>
                     </div>
@@ -243,7 +240,7 @@ function LeadershipSection() {
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.5 }}
-                  className="flex items-center justify-between border-t border-slate-200 pt-4 mt-6"
+                  className="flex items-center justify-between border-t border-slate-200 pt-4 mt-4"
                 >
                   <div>
                     <p className="text-2xl text-slate-900 lg:text-[28px]" style={{ fontFamily: 'Brush Script MT, cursive' }}>
@@ -267,23 +264,20 @@ function LeadershipSection() {
                     
                     <button
                       onClick={() => setCofounderModalOpen(true)}
-                      className="group relative overflow-hidden rounded-full bg-slate-900 px-6 py-2.5 text-sm font-bold text-white shadow-lg transition-all duration-300 hover:bg-slate-800 hover:shadow-xl hover:-translate-y-0.5 cursor-pointer"
+                      className="group flex items-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm font-bold text-slate-900 shadow-sm transition-all duration-300 hover:border-indigo-400 hover:bg-indigo-50 hover:shadow-md cursor-pointer"
                     >
-                      <span className="relative z-10 flex items-center gap-2">
-                        More About Him
-                        <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
-                        </svg>
-                      </span>
-                      <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+                      More About Him
+                      <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
+                      </svg>
                     </button>
                   </div>
                 </motion.div>
               </div>
 
               {/* RIGHT - IMAGE CARD - MATCHES CONTENT HEIGHT */}
-              <div className="relative order-1 lg:order-2 lg:w-[45%] flex-shrink-0">
-                <div className="relative overflow-hidden rounded-2xl shadow-2xl h-[420px] lg:h-auto">
+              <div className="relative order-1 lg:order-2 lg:w-[35%] flex-shrink-0">
+                <div className="relative overflow-hidden rounded-2xl shadow-2xl h-[320px] lg:h-full lg:max-h-[480px]">
                   <div className="absolute -inset-4 bg-gradient-to-br from-indigo-300/30 via-blue-200/20 to-violet-300/30 blur-3xl opacity-60" />
                   
                   <div className="relative h-full overflow-hidden rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200">
