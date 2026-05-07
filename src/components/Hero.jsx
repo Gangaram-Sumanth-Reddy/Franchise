@@ -1892,7 +1892,7 @@ function MarketIntelligenceSection() {
   }));
 
   return (
-    <section ref={ref} className="w-full bg-[#f4f6f9]">
+    <section ref={ref} className="w-full bg-white">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
 
         {/* Header */}
@@ -2722,19 +2722,27 @@ function Hero() {
               Whether you are an investor looking for the next high-growth franchise opportunity or a brand planning to expand across markets, iFranchise brings both sides together through a structured and trusted marketplace.
             </p>
 
-            <div className="flex flex-col xs:flex-row justify-center gap-3 sm:gap-4 w-full px-4 xs:w-auto">
+            <div className="flex flex-col xs:flex-row justify-center gap-3 w-full px-4 xs:w-auto">
               <button
                 type="button"
                 onClick={() => {
                   window.history.pushState({}, '', '/franchise-opportunities');
                   window.dispatchEvent(new PopStateEvent('popstate'));
                 }}
-                className="group inline-flex items-center justify-center gap-2 rounded-full bg-[#0B1220] text-white w-full xs:w-auto px-6 sm:px-7 py-3 sm:py-3.5 text-[15px] font-semibold transition-all duration-300 hover:bg-[#1a2332] hover:scale-[1.02] hover:shadow-xl hover:shadow-[#0B1220]/25"
+                className="group relative overflow-hidden rounded-2xl bg-[#0B1220] px-6 py-3 text-sm font-bold text-white transition-all duration-300 hover:bg-[#1a2332] hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(11,15,25,0.3)]"
+                style={{
+                  boxShadow: '0 4px 20px rgba(11,15,25,0.25)',
+                }}
               >
-                Explore Opportunities
-                <svg className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
-                </svg>
+                <span className="relative z-10 flex items-center gap-2">
+                  Explore Opportunities
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 transition-all duration-300 group-hover:bg-white/30 group-hover:translate-x-1">
+                    <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
+                    </svg>
+                  </span>
+                </span>
+                <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/12 to-transparent transition-transform duration-600 group-hover:translate-x-full" />
               </button>
               <button
                 type="button"
@@ -2742,12 +2750,20 @@ function Hero() {
                   window.history.pushState({}, '', '/for-brand-owners');
                   window.dispatchEvent(new PopStateEvent('popstate'));
                 }}
-                className="group inline-flex items-center justify-center gap-2 rounded-full border-2 border-[#0B1220] bg-white text-[#0B1220] w-full xs:w-auto px-6 sm:px-7 py-3 sm:py-3.5 text-[15px] font-semibold transition-all duration-300 hover:bg-[#0B1220] hover:text-white hover:scale-[1.02] hover:shadow-xl"
+                className="group relative overflow-hidden rounded-2xl bg-[#0B1220] px-6 py-3 text-sm font-bold text-white transition-all duration-300 hover:bg-[#1a2332] hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(11,15,25,0.3)]"
+                style={{
+                  boxShadow: '0 4px 20px rgba(11,15,25,0.25)',
+                }}
               >
-                List Your Brand
-                <svg className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
-                </svg>
+                <span className="relative z-10 flex items-center gap-2">
+                  List Your Brand
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 transition-all duration-300 group-hover:bg-white/30 group-hover:translate-x-1">
+                    <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
+                    </svg>
+                  </span>
+                </span>
+                <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/12 to-transparent transition-transform duration-600 group-hover:translate-x-full" />
               </button>
             </div>
 
@@ -2774,7 +2790,7 @@ function Hero() {
       </section>
 
       {/* -- OUR SERVICES SECTION -- */}
-      <section className="relative w-full py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-white via-slate-50/30 to-white overflow-hidden">
+      <section className="relative w-full py-16 sm:py-20 lg:py-24 bg-white overflow-hidden">
         {/* Subtle background pattern */}
         <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgb(0 0 0) 1px, transparent 0)', backgroundSize: '24px 24px' }} />
         
@@ -2896,7 +2912,7 @@ function Hero() {
       />
 
       {/* -- AUDIENCE SPLIT SECTION -- */}
-      <section className="relative w-full py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-white via-slate-50/20 to-white overflow-hidden">
+      <section className="relative w-full py-16 sm:py-20 lg:py-24 bg-white overflow-hidden">
         {/* Subtle background pattern */}
         <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgb(0 0 0) 1px, transparent 0)', backgroundSize: '32px 32px' }} />
         
@@ -2930,12 +2946,12 @@ function Hero() {
                 {/* Ambient glow behind card */}
                 <div className="absolute -inset-1 bg-gradient-to-br from-blue-100/40 via-transparent to-violet-100/40 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
                 
-                {/* Image Section */}
+                {/* Image Section - Fixed for desktop to show full face */}
                 <div className="relative h-72 sm:h-80 overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
                   <img
-                    src="https://images.unsplash.com/photo-1551836022-deb4988cc6c0?auto=format&fit=crop&w=1200&q=85"
-                    alt="Investors analyzing business opportunities"
-                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1200&q=85"
+                    alt="Professional investor reviewing business opportunities"
+                    className="w-full h-full object-cover object-[center_20%] sm:object-center transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
                   />
                   {/* Dark overlay for readability */}
@@ -2983,19 +2999,27 @@ function Hero() {
                     </li>
                   </ul>
 
-                  {/* CTA Button */}
+                  {/* CTA Button - Black with premium animation */}
                   <button
                     type="button"
                     onClick={() => {
                       window.history.pushState({}, '', '/franchise-opportunities');
                       window.dispatchEvent(new PopStateEvent('popstate'));
                     }}
-                    className="group/btn w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#0B1220] text-white px-6 py-4 text-base font-semibold transition-all duration-300 hover:bg-[#1a2332] hover:shadow-xl hover:shadow-[#0B1220]/30"
+                    className="group/btn relative overflow-hidden w-full inline-flex items-center justify-center gap-2 rounded-2xl bg-[#0B1220] text-white px-6 py-3.5 text-sm font-bold transition-all duration-300 hover:bg-[#1a2332] hover:shadow-[0_8px_32px_rgba(11,15,25,0.3)] hover:-translate-y-0.5"
+                    style={{
+                      boxShadow: '0 4px 20px rgba(11,15,25,0.25)',
+                    }}
                   >
-                    Explore Opportunities
-                    <svg className="w-5 h-5 transition-transform duration-200 group-hover/btn:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
-                    </svg>
+                    <span className="relative z-10 flex items-center gap-2">
+                      Explore Opportunities
+                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 transition-all duration-300 group-hover/btn:bg-white/30 group-hover/btn:translate-x-1">
+                        <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
+                        </svg>
+                      </span>
+                    </span>
+                    <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/12 to-transparent transition-transform duration-600 group-hover/btn:translate-x-full" />
                   </button>
                 </div>
               </div>
@@ -3007,12 +3031,12 @@ function Hero() {
                 {/* Ambient glow behind card */}
                 <div className="absolute -inset-1 bg-gradient-to-br from-emerald-100/40 via-transparent to-blue-100/40 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
                 
-                {/* Image Section */}
+                {/* Image Section - Fixed for desktop to show full faces */}
                 <div className="relative h-72 sm:h-80 overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
                   <img
-                    src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1200&q=85"
-                    alt="Business team planning franchise expansion"
-                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                    src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=85"
+                    alt="Business team celebrating franchise expansion success"
+                    className="w-full h-full object-cover object-[center_30%] sm:object-center transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
                   />
                   {/* Dark overlay for readability */}
@@ -3060,19 +3084,27 @@ function Hero() {
                     </li>
                   </ul>
 
-                  {/* CTA Button */}
+                  {/* CTA Button - Black with premium animation */}
                   <button
                     type="button"
                     onClick={() => {
                       window.history.pushState({}, '', '/for-brand-owners');
                       window.dispatchEvent(new PopStateEvent('popstate'));
                     }}
-                    className="group/btn w-full inline-flex items-center justify-center gap-2 rounded-full border-2 border-[#0B1220] bg-white text-[#0B1220] px-6 py-4 text-base font-semibold transition-all duration-300 hover:bg-[#0B1220] hover:text-white hover:shadow-xl"
+                    className="group/btn relative overflow-hidden w-full inline-flex items-center justify-center gap-2 rounded-2xl bg-[#0B1220] text-white px-6 py-3.5 text-sm font-bold transition-all duration-300 hover:bg-[#1a2332] hover:shadow-[0_8px_32px_rgba(11,15,25,0.3)] hover:-translate-y-0.5"
+                    style={{
+                      boxShadow: '0 4px 20px rgba(11,15,25,0.25)',
+                    }}
                   >
-                    List Your Brand
-                    <svg className="w-5 h-5 transition-transform duration-200 group-hover/btn:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
-                    </svg>
+                    <span className="relative z-10 flex items-center gap-2">
+                      List Your Brand
+                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 transition-all duration-300 group-hover/btn:bg-white/30 group-hover/btn:translate-x-1">
+                        <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
+                        </svg>
+                      </span>
+                    </span>
+                    <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/12 to-transparent transition-transform duration-600 group-hover/btn:translate-x-full" />
                   </button>
                 </div>
               </div>
@@ -3223,7 +3255,7 @@ function Hero() {
       </div>
 
       {/* -- INDUSTRIES SECTION -- */}
-      <section className="relative w-full py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-white via-slate-50/30 to-white overflow-hidden">
+      <section className="relative w-full py-16 sm:py-20 lg:py-24 bg-white overflow-hidden">
         {/* Subtle background pattern */}
         <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgb(0 0 0) 1px, transparent 0)', backgroundSize: '24px 24px' }} />
         
@@ -3547,7 +3579,7 @@ function Hero() {
       </section>
 
       {/* -- WHY iFRANCHISE SECTION -- */}
-      <section className="relative w-full py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-white via-slate-50/20 to-white overflow-hidden">
+      <section className="relative w-full py-12 sm:py-16 lg:py-20 bg-white overflow-hidden">
         {/* Subtle background pattern */}
         <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgb(0 0 0) 1px, transparent 0)', backgroundSize: '24px 24px' }} />
         
@@ -4056,22 +4088,7 @@ function Hero() {
 
               {/* Advisory Text & CTA */}
               <div className="text-center mt-8 w-full max-w-md">
-                {/* Premium CTA */}
-                <button
-                  onClick={() => {
-                    window.history.pushState({}, '', '/contact');
-                    window.dispatchEvent(new PopStateEvent('popstate'));
-                  }}
-                  className="group inline-flex items-center gap-2 bg-[#0b0f19] text-white text-sm font-semibold px-6 py-3 rounded-xl hover:bg-slate-800 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 active:scale-95"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                  </svg>
-                  <span>Book Strategic Call</span>
-                  <svg className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M8 12h9" />
-                  </svg>
-                </button>
+                {/* CTA Removed as per user request */}
               </div>
             </div>
 

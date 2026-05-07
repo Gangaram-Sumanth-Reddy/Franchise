@@ -322,55 +322,86 @@ export default function PreFooterCTA() {
             Trusted by 1,200+ founders.
           </div>
 
-          {/* Buttons */}
+          {/* Buttons - Both Black with Premium Animations */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '14px', flexWrap: 'wrap', marginBottom: '44px', ...reveal(0.44) }}>
             {/* Primary — Explore Opportunities */}
             <button
               onClick={() => navigateTo('/franchise-opportunities')}
+              className="cta-button-primary"
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: '10px',
-                padding: '13px 26px', borderRadius: '999px',
-                backgroundColor: '#0b0f19', color: '#fff',
-                fontSize: '15px', fontWeight: 600, border: 'none', cursor: 'pointer',
-                transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                boxShadow: '0 4px 16px rgba(11,15,25,0.18)',
+                padding: '14px 28px', borderRadius: '16px',
+                backgroundColor: '#0B1220', color: '#fff',
+                fontSize: '14px', fontWeight: 700, border: 'none', cursor: 'pointer',
+                transition: 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)',
+                boxShadow: '0 4px 20px rgba(11,15,25,0.25)',
+                position: 'relative',
+                overflow: 'hidden',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px) scale(1.03)';
-                e.currentTarget.style.boxShadow = '0 10px 32px rgba(11,15,25,0.22), 0 0 24px rgba(124,58,237,0.14)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.backgroundColor = '#1a2332';
+                e.currentTarget.style.boxShadow = '0 8px 32px rgba(11,15,25,0.3)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                e.currentTarget.style.boxShadow = '0 4px 16px rgba(11,15,25,0.18)';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.backgroundColor = '#0B1220';
+                e.currentTarget.style.boxShadow = '0 4px 20px rgba(11,15,25,0.25)';
               }}
             >
-              Explore Opportunities
-              <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '26px', height: '26px', borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.15)' }}>
-                <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M8 12h9" /></svg>
+              <span style={{ position: 'relative', zIndex: 10, display: 'flex', alignItems: 'center', gap: '10px' }}>
+                Explore Opportunities
+                <span style={{ 
+                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center', 
+                  width: '20px', height: '20px', borderRadius: '50%', 
+                  backgroundColor: 'rgba(255,255,255,0.2)',
+                  transition: 'all 0.3s ease'
+                }} className="arrow-circle">
+                  <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M8 12h9" />
+                  </svg>
+                </span>
               </span>
             </button>
 
-            {/* Secondary — List Your Brand */}
+            {/* Secondary — Book Strategic Call (Changed from List Your Brand) */}
             <button
-              onClick={() => navigateTo('/for-brand-owners')}
+              onClick={() => navigateTo('/contact')}
+              className="cta-button-secondary"
               style={{
-                display: 'inline-flex', alignItems: 'center', padding: '13px 26px',
-                borderRadius: '999px', backgroundColor: 'transparent', color: '#0b0f19',
-                fontSize: '15px', fontWeight: 600, border: '1.5px solid rgba(11,15,25,0.16)',
-                cursor: 'pointer', transition: 'transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease',
+                display: 'inline-flex', alignItems: 'center', gap: '10px',
+                padding: '14px 28px', borderRadius: '16px',
+                backgroundColor: '#0B1220', color: '#fff',
+                fontSize: '14px', fontWeight: 700, border: 'none', cursor: 'pointer',
+                transition: 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)',
+                boxShadow: '0 4px 20px rgba(11,15,25,0.25)',
+                position: 'relative',
+                overflow: 'hidden',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px) scale(1.03)';
-                e.currentTarget.style.borderColor = 'rgba(11,15,25,0.4)';
-                e.currentTarget.style.backgroundColor = 'rgba(11,15,25,0.04)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.backgroundColor = '#1a2332';
+                e.currentTarget.style.boxShadow = '0 8px 32px rgba(11,15,25,0.3)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                e.currentTarget.style.borderColor = 'rgba(11,15,25,0.16)';
-                e.currentTarget.style.backgroundColor = 'transparent';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.backgroundColor = '#0B1220';
+                e.currentTarget.style.boxShadow = '0 4px 20px rgba(11,15,25,0.25)';
               }}
             >
-              List Your Brand
+              <span style={{ position: 'relative', zIndex: 10, display: 'flex', alignItems: 'center', gap: '10px' }}>
+                Book Strategic Call
+                <span style={{ 
+                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center', 
+                  width: '20px', height: '20px', borderRadius: '50%', 
+                  backgroundColor: 'rgba(255,255,255,0.2)',
+                  transition: 'all 0.3s ease'
+                }} className="arrow-circle">
+                  <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M8 12h9" />
+                  </svg>
+                </span>
+              </span>
             </button>
           </div>
 
@@ -553,9 +584,11 @@ export default function PreFooterCTA() {
             gap: '12px',
             position: 'relative',
             zIndex: 1,
-          }}>
-            <p style={{ fontSize: '13px', color: '#94a3b8', margin: 0 }}>@ 2026 iFranchise. All rights reserved.</p>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+          }}
+          className="footer-bottom-bar"
+          >
+            <p style={{ fontSize: '13px', color: '#94a3b8', margin: 0 }} className="footer-copyright">@ 2026 iFranchise. All rights reserved.</p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }} className="footer-links">
               {[
                 { label: 'Privacy Policy',   path: '/privacy-policy' },
                 { label: 'Terms of Service', path: '/terms-and-conditions' },

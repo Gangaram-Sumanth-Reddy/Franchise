@@ -845,3 +845,35 @@ img.loaded {
   0%   { stroke-dashoffset: 240; }
   100% { stroke-dashoffset: 0;   }
 }
+
+/* ─── Footer Mobile Alignment ──────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .footer-bottom-bar {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+  
+  .footer-copyright {
+    width: 100%;
+    text-align: center !important;
+  }
+  
+  .footer-links {
+    width: 100%;
+    justify-content: center !important;
+  }
+}
+
+/* ─── CTA Button Hover Animations ──────────────────────────────────────────── */
+.cta-button-primary:hover .arrow-circle,
+.cta-button-secondary:hover .arrow-circle {
+  background-color: rgba(255,255,255,0.3) !important;
+  transform: translateX(4px);
+}
+
+.cta-button-primary .arrow-circle,
+.cta-button-secondary .arrow-circle {
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}

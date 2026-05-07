@@ -171,6 +171,7 @@ function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileAccordion, setMobileAccordion] = useState(null);
+  const [scrollPosition, setScrollPosition] = useState(0);
   
   const dropdownTimeoutRef = useRef(null);
   const companyRef = useRef(null);
@@ -185,6 +186,39 @@ function Navbar() {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  // Lock body scroll when mobile menu is open and preserve scroll position
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      // Save current scroll position
+      const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+      setScrollPosition(currentScroll);
+      
+      // Lock body scroll
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${currentScroll}px`;
+      document.body.style.width = '100%';
+    } else {
+      // Restore scroll position
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      
+      // Restore scroll position without triggering navigation
+      if (scrollPosition > 0) {
+        window.scrollTo(0, scrollPosition);
+      }
+    }
+    
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+    };
+  }, [isMobileMenuOpen, scrollPosition]);
 
   const handleMouseEnter = (dropdown) => {
     if (dropdownTimeoutRef.current) {
@@ -594,7 +628,8 @@ function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[9998] bg-black/25 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-[99999] bg-black/25 backdrop-blur-sm lg:hidden"
+            style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
             onClick={() => setIsMobileMenuOpen(false)}
           >
             <motion.div
@@ -602,7 +637,8 @@ function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="fixed right-0 top-0 bottom-0 flex flex-col w-full max-w-sm bg-white shadow-2xl"
+              className="fixed right-0 top-0 h-full flex flex-col w-full max-w-sm bg-white shadow-2xl overflow-hidden"
+              style={{ position: 'fixed', height: '100vh', maxHeight: '100vh' }}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Mobile Header */}
