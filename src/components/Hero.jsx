@@ -5,6 +5,16 @@ import TestimonialCard from './TestimonialCard';
 import processImg from '../assets/process.png';
 import contactImg from '../assets/contact.png';
 import PremiumHeroBackground from './PremiumHeroBackground';
+import { 
+  franchiseOpportunities, 
+  getTotalCities, 
+  getTotalMarkets, 
+  getTotalRevenuePotential, 
+  formatRevenue,
+  getAverageROI,
+  getIndustryCount,
+  calculateGrowthMetrics
+} from '../data/franchiseData';
 
 // ── Lightweight scroll-triggered visibility hook ──────────────────────────────
 // Returns [ref, isVisible] — isVisible toggles true/false on every enter/leave
@@ -27,16 +37,16 @@ function useInView(threshold = 0.1) {
 // ── Animated wrapper — fades+slides in on scroll, resets when out ─────────────
 function Reveal({ children, delay = 0, direction = 'up', className = '' }) {
   const [ref, visible] = useInView(0.1);
-  const transforms = { up: 'translateY(16px)', down: 'translateY(-12px)', right: 'translateX(-16px)' };
+  const transforms = { up: 'translateY(20px)', down: 'translateY(-12px)', right: 'translateX(-20px)' };
   return (
     <div
       ref={ref}
       className={className}
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? 'translate(0,0)' : transforms[direction] || transforms.up,
-        transition: `opacity 0.38s cubic-bezier(0.22,1,0.36,1) ${delay}s, transform 0.38s cubic-bezier(0.22,1,0.36,1) ${delay}s`,
-        willChange: 'transform, opacity',
+        transform: visible ? 'translate3d(0,0,0)' : transforms[direction] || transforms.up,
+        transition: `opacity 0.5s cubic-bezier(0.22,1,0.36,1) ${delay}s, transform 0.5s cubic-bezier(0.22,1,0.36,1) ${delay}s`,
+        willChange: visible ? 'auto' : 'transform, opacity',
       }}
     >
       {children}
@@ -1443,11 +1453,11 @@ const CHART_DATASETS = {
 };
 
 const CATEGORIES = [
-  { name: 'Food & Beverage', pct: 34, color: '#7c3aed' },
-  { name: 'Retail',          pct: 22, color: '#3b82f6' },
-  { name: 'Education',       pct: 18, color: '#10b981' },
-  { name: 'Wellness',        pct: 14, color: '#f97316' },
-  { name: 'Services',        pct: 12, color: '#f43f5e' },
+  { name: 'Food & Beverage', pct: 25, color: '#7c3aed' }, // 6 out of 24 = 25%
+  { name: 'Home Services',   pct: 25, color: '#3b82f6' }, // 6 out of 24 = 25%
+  { name: 'Health & Wellness', pct: 21, color: '#10b981' }, // 5 out of 24 = 21%
+  { name: 'Retail',          pct: 17, color: '#f97316' }, // 4 out of 24 = 17%
+  { name: 'Education',       pct: 12, color: '#f43f5e' }, // 3 out of 24 = 12%
 ];
 
 const SOURCES = ['IFA', 'KPMG', 'Franchise India', 'Statista', 'Deloitte', 'Industry Reports'];
@@ -1839,12 +1849,17 @@ function MarketIntelligenceSection() {
   const ref = useRef(null);
   const [active, setActive] = useState(false);
   const [tab, setTab] = useState('Quarterly');
-  const [hoveredBar, setHoveredBar] = useState(null);
 
-  const marketSize = useCountUp(800, active, 1800);
-  const cagr       = useCountUp(30,  active, 1400);
-  const cities     = useCountUp(500, active, 1600);
-  const investors  = useCountUp(72,  active, 1500);
+  // Calculate REAL data from franchise opportunities
+  const totalFranchises = franchiseOpportunities.length; // 24
+  const totalCities = getTotalCities(); // 8
+  const avgROI = getAverageROI(); // Average ROI
+  const growthMetrics = calculateGrowthMetrics(); // Recent growth
+
+  const marketSize = useCountUp(totalFranchises, active, 1800); // Real: 24 franchises
+  const cagr       = useCountUp(avgROI,  active, 1400); // Real: Average ROI
+  const cities     = useCountUp(totalCities, active, 1600); // Real: 8 cities
+  const investors  = useCountUp(growthMetrics.growthRate,  active, 1500); // Real: Growth rate
 
   useEffect(() => {
     const el = ref.current;
@@ -1861,10 +1876,10 @@ function MarketIntelligenceSection() {
   }, []);
 
   const kpis = [
-    { label: 'Market Size',     value: `\u20b9${marketSize}B+`, sub: 'Total ecosystem',   dotColor: '#7c3aed' },
-    { label: 'Annual CAGR',     value: `~${cagr}%`,             sub: 'Fastest in Asia',   dotColor: '#10b981' },
-    { label: 'Emerging Cities', value: `${cities}+`,            sub: 'Tier 2 & 3 demand', dotColor: '#3b82f6' },
-    { label: 'Investor Shift',  value: `${investors}%`,         sub: 'Prefer franchise',  dotColor: '#f97316' },
+    { label: 'Total Franchises',     value: `${marketSize}`, sub: 'Verified opportunities',   dotColor: '#7c3aed' },
+    { label: 'Average ROI',     value: `${cagr}%`,             sub: 'Across all brands',   dotColor: '#10b981' },
+    { label: 'Active Cities', value: `${cities}`,            sub: 'Pan India coverage', dotColor: '#3b82f6' },
+    { label: 'Recent Growth',  value: `${investors}%`,         sub: 'Last 3 months',  dotColor: '#f97316' },
   ];
 
   const dataset = CHART_DATASETS[tab];
@@ -1892,11 +1907,11 @@ function MarketIntelligenceSection() {
   }));
 
   return (
-    <section ref={ref} className="w-full bg-white">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <section ref={ref} className="w-full bg-gradient-to-b from-slate-50 to-white">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
-        {/* Header */}
-        <div className="text-center mb-8">
+        {/* Compact Header */}
+        <div className="text-center mb-6">
           <div className="inline-flex items-center gap-2 bg-white border border-slate-200 shadow-sm rounded-full px-4 py-1.5 mb-4">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
@@ -1904,7 +1919,7 @@ function MarketIntelligenceSection() {
             </span>
             <span className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">India Franchise Market Intelligence</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-[2rem] font-extrabold tracking-tight text-[#0b0f19] leading-tight mb-2">
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#0b0f19] leading-tight mb-2">
             Inside India&apos;s Franchise Growth Engine
           </h2>
           <p className="text-sm text-slate-500 max-w-xl mx-auto leading-relaxed">
@@ -1912,9 +1927,9 @@ function MarketIntelligenceSection() {
           </p>
         </div>
 
-        {/* Live ticker */}
-        <div className="mb-6 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-          <div className="flex items-center gap-3 px-4 py-2.5">
+        {/* Live ticker - Reversed Animation (Right to Left) */}
+        <div className="mb-5 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+          <div className="flex items-center gap-3 px-4 py-2">
             <span className="shrink-0 inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full">
               <span className="relative flex h-1.5 w-1.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
@@ -1926,15 +1941,15 @@ function MarketIntelligenceSection() {
             <div className="relative overflow-hidden flex-1">
               <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white to-transparent z-10" />
               <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent z-10" />
-              {/* Duplicated text for seamless LEFT→RIGHT loop */}
-              <div className="flex w-max animate-marquee-right">
+              {/* Duplicated text for seamless RIGHT→LEFT loop */}
+              <div className="flex w-max animate-marquee-left">
                 {[0, 1].map((n) => (
                   <p key={n} className="text-xs text-slate-600 font-medium whitespace-nowrap pr-16">
-                    India&apos;s franchise sector expanding into Tier 2 &amp; Tier 3 markets &nbsp;&middot;&nbsp;
-                    &#8377;800B+ ecosystem projected to cross &#8377;1T by 2027 &nbsp;&middot;&nbsp;
-                    30% CAGR &mdash; Asia&apos;s fastest-growing franchise market &nbsp;&middot;&nbsp;
-                    72% of new investors prefer franchise models &nbsp;&middot;&nbsp;
-                    500+ emerging cities driving next wave of demand &nbsp;&middot;&nbsp;
+                    24 verified franchise opportunities across India &nbsp;&middot;&nbsp;
+                    Operating in 8 major cities including Mumbai, Delhi, Bengaluru &nbsp;&middot;&nbsp;
+                    Average ROI of 34% across all franchise brands &nbsp;&middot;&nbsp;
+                    Food & Beverage and Home Services leading with 25% market share each &nbsp;&middot;&nbsp;
+                    Investment opportunities starting from &#8377;25K to &#8377;350K &nbsp;&middot;&nbsp;
                   </p>
                 ))}
               </div>
@@ -1942,50 +1957,51 @@ function MarketIntelligenceSection() {
           </div>
         </div>
 
-        {/* KPI stat tiles */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
+        {/* Compact KPI stat tiles - No hover effects */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
           {kpis.map((k, i) => (
             <div
               key={k.label}
-              className="bg-white rounded-2xl border border-slate-100 shadow-sm px-5 py-4"
+              className="bg-white rounded-xl border border-slate-100 shadow-sm px-4 py-3"
               style={{
                 opacity: active ? 1 : 0.4,
                 transform: active ? 'translateY(0)' : 'translateY(8px)',
                 transition: `opacity 0.5s ease ${i * 0.08}s, transform 0.5s ease ${i * 0.08}s`,
               }}
             >
-              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">{k.label}</p>
-              <div className="flex items-center gap-2 mb-1">
+              <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">{k.label}</p>
+              <div className="flex items-center gap-2 mb-0.5">
                 <span className="w-2 h-2 rounded-full shrink-0" style={{ background: k.dotColor }} />
-                <p className="text-xl sm:text-2xl font-extrabold text-[#0b0f19] tabular-nums leading-none">{k.value}</p>
+                <p className="text-xl font-extrabold text-[#0b0f19] tabular-nums leading-none">{k.value}</p>
               </div>
-              <p className="text-[11px] text-slate-400">{k.sub}</p>
+              <p className="text-[10px] text-slate-400">{k.sub}</p>
             </div>
           ))}
         </div>
 
-        {/* Main dashboard card */}
-        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_260px]">
+        {/* Premium Main dashboard card */}
+        <div className="bg-white rounded-2xl border border-slate-100 shadow-lg overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_280px]">
 
-            {/* LEFT � Chart panel */}
-            <div className="p-5 sm:p-6 border-b lg:border-b-0 lg:border-r border-slate-100">
+            {/* LEFT – Premium Chart panel */}
+            <div className="p-5 border-b lg:border-b-0 lg:border-r border-slate-100">
 
               {/* Chart header row */}
-              <div className="flex items-start justify-between mb-5 gap-3 flex-wrap">
+              <div className="flex items-start justify-between mb-4 gap-3 flex-wrap">
                 <div>
                   <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 mb-0.5">Revenue Growth Index</p>
                   <p className="text-sm font-extrabold text-[#0b0f19]">India Franchise Market Expansion</p>
                 </div>
-                <div className="flex items-center gap-0.5 bg-slate-50 rounded-xl p-1 border border-slate-100 shrink-0">
+                {/* More prominent tab buttons */}
+                <div className="flex items-center gap-1 bg-slate-50 rounded-xl p-1 border border-slate-200 shadow-sm shrink-0">
                   {['Monthly', 'Quarterly', 'Yearly'].map((t) => (
                     <button
                       key={t}
                       onClick={() => setTab(t)}
-                      className={`text-[11px] font-semibold px-3 py-1.5 rounded-lg transition-all duration-200 ${
+                      className={`text-xs font-bold px-4 py-2 rounded-lg transition-all duration-200 ${
                         tab === t
-                          ? 'bg-white text-[#0b0f19] shadow-sm border border-slate-200'
-                          : 'text-slate-400 hover:text-slate-600'
+                          ? 'bg-gradient-to-br from-violet-600 to-violet-700 text-white shadow-md'
+                          : 'text-slate-600 hover:text-slate-900 hover:bg-white'
                       }`}
                     >
                       {t}
@@ -1994,171 +2010,281 @@ function MarketIntelligenceSection() {
                 </div>
               </div>
 
-              {/* Chart area */}
-              <div className="relative h-52 sm:h-60 select-none">
-                {/* Y-axis */}
-                <div className="absolute left-0 top-0 bottom-6 flex flex-col justify-between pr-2 pointer-events-none">
+              {/* Professional Chart area with clear labels */}
+              <div className="relative h-52 select-none">
+                {/* Y-axis with percentage labels */}
+                <div className="absolute left-0 top-0 bottom-8 flex flex-col justify-between pr-2 pointer-events-none">
                   {[100, 75, 50, 25, 0].map((v) => (
-                    <span key={v} className="text-[9px] text-slate-300 font-medium w-6 text-right leading-none">{v}</span>
+                    <span key={v} className="text-[10px] text-slate-400 font-medium w-7 text-right leading-none">{v}%</span>
                   ))}
                 </div>
 
-                {/* Grid lines */}
-                <div className="absolute left-8 right-0 top-0 bottom-6 pointer-events-none">
+                {/* Grid lines - Professional stock style */}
+                <div className="absolute left-9 right-0 top-0 bottom-8 pointer-events-none">
                   {[0, 1, 2, 3, 4].map((i) => (
                     <div key={i} className="absolute w-full border-t border-slate-100" style={{ top: `${(i / 4) * 100}%` }} />
                   ))}
+                  {/* Vertical grid lines */}
+                  {dataset.labels.map((_, i) => (
+                    <div 
+                      key={`vline-${i}`} 
+                      className="absolute h-full border-l border-slate-50" 
+                      style={{ left: `${(i / (dataset.labels.length - 1)) * 100}%` }} 
+                    />
+                  ))}
                 </div>
 
-                {/* SVG chart */}
+                {/* SVG chart - Stock-style realistic line */}
                 <svg
-                  className="absolute top-0 bottom-6 cursor-crosshair"
-                  style={{ left: '2rem', width: 'calc(100% - 2rem)', height: 'calc(100% - 1.5rem)' }}
+                  className="absolute top-0 pointer-events-none"
+                  style={{ left: '2.25rem', width: 'calc(100% - 2.25rem)', height: 'calc(100% - 2rem)' }}
                   viewBox="0 0 100 100"
                   preserveAspectRatio="none"
                 >
                   <defs>
-                    <linearGradient id="miBarGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#7c3aed" stopOpacity="0.75" />
-                      <stop offset="100%" stopColor="#7c3aed" stopOpacity="0.2" />
+                    {/* Enhanced 3D Pipe gradients with more depth */}
+                    <linearGradient id="miBarGrad3D" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stopColor="#4c1d95" stopOpacity="0.5" />
+                      <stop offset="15%" stopColor="#5b21b6" stopOpacity="0.75" />
+                      <stop offset="35%" stopColor="#7c3aed" stopOpacity="0.95" />
+                      <stop offset="50%" stopColor="#8b5cf6" stopOpacity="1" />
+                      <stop offset="65%" stopColor="#7c3aed" stopOpacity="0.95" />
+                      <stop offset="85%" stopColor="#5b21b6" stopOpacity="0.75" />
+                      <stop offset="100%" stopColor="#4c1d95" stopOpacity="0.5" />
                     </linearGradient>
+                    {/* Top ellipse gradient - brighter for light reflection */}
+                    <radialGradient id="miBarTop" cx="50%" cy="30%">
+                      <stop offset="0%" stopColor="#c4b5fd" stopOpacity="1" />
+                      <stop offset="40%" stopColor="#a78bfa" stopOpacity="0.95" />
+                      <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.85" />
+                    </radialGradient>
+                    {/* Bottom ellipse gradient - darker for depth */}
+                    <radialGradient id="miBarBottom" cx="50%" cy="70%">
+                      <stop offset="0%" stopColor="#6d28d9" stopOpacity="0.9" />
+                      <stop offset="60%" stopColor="#5b21b6" stopOpacity="0.8" />
+                      <stop offset="100%" stopColor="#4c1d95" stopOpacity="0.7" />
+                    </radialGradient>
                     <linearGradient id="miAreaGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.18" />
-                      <stop offset="100%" stopColor="#f59e0b" stopOpacity="0" />
+                      <stop offset="0%" stopColor="#10b981" stopOpacity="0.08" />
+                      <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
                     </linearGradient>
-                    <linearGradient id="miLineGrad" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stopColor="#f59e0b" />
-                      <stop offset="100%" stopColor="#ef4444" />
-                    </linearGradient>
+                    {/* Enhanced shadow filter for stronger 3D depth */}
+                    <filter id="barShadow" x="-50%" y="-50%" width="200%" height="200%">
+                      <feGaussianBlur in="SourceAlpha" stdDeviation="1.2"/>
+                      <feOffset dx="1" dy="2" result="offsetblur"/>
+                      <feComponentTransfer>
+                        <feFuncA type="linear" slope="0.4"/>
+                      </feComponentTransfer>
+                      <feMerge>
+                        <feMergeNode/>
+                        <feMergeNode in="SourceGraphic"/>
+                      </feMerge>
+                    </filter>
+                    {/* Inner shadow for depth */}
+                    <filter id="innerShadow">
+                      <feGaussianBlur in="SourceAlpha" stdDeviation="0.5"/>
+                      <feOffset dx="0" dy="1"/>
+                      <feComposite operator="out" in="SourceGraphic"/>
+                    </filter>
                   </defs>
 
-                  {/* Bars */}
+                  {/* Premium 3D Pipe Bars with Enhanced Depth */}
                   {dataset.bars.map((val, i) => {
                     const bw = 100 / dataset.bars.length;
                     const x = i * bw + bw * 0.22;
                     const w = bw * 0.56;
-                    const barH = active ? val : val * 0.3; // show 30% height even before active
+                    const barH = active ? val : val * 0.3;
+                    const topY = 100 - barH;
+                    const ellipseRy = w * 0.18; // Larger ellipse for more 3D effect
+                    
                     return (
-                      <rect
-                        key={`${tab}-bar-${i}`}
-                        x={x} y={100 - barH} width={w} height={barH}
-                        fill={hoveredBar === i ? '#6d28d9' : 'url(#miBarGrad)'}
-                        rx="1.5"
-                        style={{
-                          transition: `height 0.65s cubic-bezier(0.22,1,0.36,1) ${i * 0.04}s, y 0.65s cubic-bezier(0.22,1,0.36,1) ${i * 0.04}s`,
-                        }}
-                        onMouseEnter={() => setHoveredBar(i)}
-                        onMouseLeave={() => setHoveredBar(null)}
-                      />
+                      <g key={`${tab}-bar-${i}`}>
+                        {/* Bottom ellipse (base) - creates 3D bottom cap */}
+                        <ellipse
+                          cx={x + w / 2}
+                          cy={100}
+                          rx={w / 2}
+                          ry={ellipseRy * 0.8}
+                          fill="url(#miBarBottom)"
+                          opacity="0.6"
+                        />
+                        
+                        {/* Main pipe body with enhanced shadow */}
+                        <g filter="url(#barShadow)">
+                          {/* Pipe body with cylindrical gradient */}
+                          <rect
+                            x={x} 
+                            y={topY + ellipseRy} 
+                            width={w} 
+                            height={barH - ellipseRy}
+                            fill="url(#miBarGrad3D)"
+                            style={{
+                              transition: `height 0.65s cubic-bezier(0.22,1,0.36,1) ${i * 0.04}s, y 0.65s cubic-bezier(0.22,1,0.36,1) ${i * 0.04}s`,
+                            }}
+                          />
+                          
+                          {/* Strong highlight on left edge - light reflection */}
+                          <rect
+                            x={x + w * 0.08}
+                            y={topY + ellipseRy}
+                            width={w * 0.2}
+                            height={barH - ellipseRy}
+                            fill="white"
+                            opacity="0.25"
+                            rx="1"
+                            style={{
+                              transition: `height 0.65s cubic-bezier(0.22,1,0.36,1) ${i * 0.04}s, y 0.65s cubic-bezier(0.22,1,0.36,1) ${i * 0.04}s`,
+                            }}
+                          />
+                          
+                          {/* Strong shadow on right edge - depth */}
+                          <rect
+                            x={x + w - w * 0.22}
+                            y={topY + ellipseRy}
+                            width={w * 0.22}
+                            height={barH - ellipseRy}
+                            fill="black"
+                            opacity="0.25"
+                            rx="1"
+                            style={{
+                              transition: `height 0.65s cubic-bezier(0.22,1,0.36,1) ${i * 0.04}s, y 0.65s cubic-bezier(0.22,1,0.36,1) ${i * 0.04}s`,
+                            }}
+                          />
+                          
+                          {/* 3D Top cap (ellipse) with radial gradient */}
+                          <ellipse
+                            cx={x + w / 2}
+                            cy={topY + ellipseRy}
+                            rx={w / 2}
+                            ry={ellipseRy}
+                            fill="url(#miBarTop)"
+                            style={{
+                              transition: `cy 0.65s cubic-bezier(0.22,1,0.36,1) ${i * 0.04}s`,
+                            }}
+                          />
+                          
+                          {/* Top highlight - glossy effect */}
+                          <ellipse
+                            cx={x + w / 2}
+                            cy={topY + ellipseRy * 0.7}
+                            rx={w / 3}
+                            ry={ellipseRy * 0.5}
+                            fill="white"
+                            opacity="0.3"
+                            style={{
+                              transition: `cy 0.65s cubic-bezier(0.22,1,0.36,1) ${i * 0.04}s`,
+                            }}
+                          />
+                        </g>
+                      </g>
                     );
                   })}
 
-                  {/* Area fill � always show */}
+                  {/* Subtle area fill under line */}
                   <path d={buildPath(linePoints, true)} fill="url(#miAreaGrad)" />
 
-                  {/* Smooth trend line � always visible, animates in */}
+                  {/* Realistic stock-style trend line - Clean green */}
                   <path
                     key={`${tab}-line`}
                     d={buildPath(linePoints)}
                     fill="none"
-                    stroke="url(#miLineGrad)"
-                    strokeWidth="1.8"
+                    stroke="#10b981"
+                    strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeDasharray="240"
-                    strokeDashoffset={active ? '0' : '120'}
-                    style={{ transition: 'stroke-dashoffset 1.8s cubic-bezier(0.22,1,0.36,1) 0.3s' }}
+                    strokeDasharray="200"
+                    strokeDashoffset={active ? '0' : '200'}
+                    style={{ 
+                      transition: 'stroke-dashoffset 1.8s cubic-bezier(0.22,1,0.36,1) 0.4s',
+                    }}
                   />
 
-                  {/* Dots on line � always show */}
+                  {/* Small dots on line - Stock style */}
                   {linePoints.map((pt, i) => (
                     <circle
                       key={`${tab}-dot-${i}`}
-                      cx={pt.x} cy={pt.y} r="1.8"
-                      fill="white" stroke="#f59e0b" strokeWidth="1"
-                      opacity={active ? 1 : 0.5}
-                      style={{ transition: `opacity 0.2s ease ${0.4 + i * 0.06}s` }}
+                      cx={pt.x} cy={pt.y} r="1.5"
+                      fill="#10b981"
+                      opacity={active ? 0.6 : 0}
+                      style={{ 
+                        transition: `opacity 0.3s ease ${0.6 + i * 0.08}s`,
+                      }}
                     />
                   ))}
-
-                  {/* Hover tooltip */}
-                  {hoveredBar !== null && (() => {
-                    const bw = 100 / dataset.bars.length;
-                    const cx = hoveredBar * bw + bw / 2;
-                    const val = dataset.bars[hoveredBar];
-                    const lbl = dataset.labels[hoveredBar];
-                    return (
-                      <g>
-                        <rect x={cx - 13} y={100 - val - 16} width="26" height="13" rx="2.5" fill="#0b0f19" />
-                        <text x={cx} y={100 - val - 7} textAnchor="middle"
-                          style={{ fontSize: 4.5, fill: 'white', fontWeight: 700, fontFamily: 'Inter, sans-serif' }}>
-                          {lbl}: {val}%
-                        </text>
-                      </g>
-                    );
-                  })()}
                 </svg>
 
-                {/* X-axis labels */}
-                <div className="absolute left-8 right-0 bottom-0 flex justify-between">
+                {/* X-axis labels - Clear and visible */}
+                <div className="absolute left-9 right-0 bottom-0 flex justify-between px-1">
                   {dataset.labels.map((l) => (
-                    <span key={l} className="text-[8px] sm:text-[9px] text-slate-300 font-medium flex-1 text-center leading-none">{l}</span>
+                    <span key={l} className="text-[10px] text-slate-500 font-semibold flex-1 text-center">{l}</span>
                   ))}
                 </div>
               </div>
 
-              {/* Legend */}
-              <div className="mt-4 flex items-center gap-5">
-                <div className="flex items-center gap-1.5">
-                  <div className="w-3 h-3 rounded-sm" style={{ background: 'linear-gradient(to top, #7c3aed, #a78bfa)' }} />
-                  <span className="text-[11px] text-slate-500 font-medium">Market Growth Index</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <div className="w-5 h-0.5 rounded" style={{ background: 'linear-gradient(to right, #f59e0b, #ef4444)' }} />
-                  <span className="text-[11px] text-slate-500 font-medium">CAGR Trend Line</span>
+              {/* Useful insights below chart - No wasted space */}
+              <div className="mt-3 pt-3 border-t border-slate-100">
+                <div className="flex items-center justify-between gap-4">
+                  {/* Legend */}
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-3 h-3 rounded-sm" style={{ background: 'linear-gradient(to top, #7c3aed, #a78bfa)' }} />
+                      <span className="text-[10px] text-slate-500 font-medium">Market Growth</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-4 h-0.5 bg-emerald-500 rounded" />
+                      <span className="text-[10px] text-slate-500 font-medium">CAGR Trend</span>
+                    </div>
+                  </div>
+                  {/* Key insight */}
+                  <div className="flex items-center gap-2 bg-emerald-50 px-3 py-1.5 rounded-lg">
+                    <svg className="w-3 h-3 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-[10px] font-bold text-emerald-700">+{avgROI}% Avg Growth</span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* RIGHT � Donut + Category bars */}
+            {/* RIGHT – Compact Donut + Category bars */}
             <div className="flex flex-col divide-y divide-slate-100">
 
-              {/* Donut */}
-              <div className="p-5">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-0.5">Investor Preference</p>
-                <p className="text-sm font-bold text-[#0b0f19] mb-4">Franchise vs Independent</p>
-                <div className="flex items-center gap-4">
-                  <div className="w-[88px] h-[88px] shrink-0">
+              {/* Compact Donut */}
+              <div className="p-4">
+                <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-0.5">Investor Preference</p>
+                <p className="text-xs font-bold text-[#0b0f19] mb-3">Franchise vs Independent</p>
+                <div className="flex items-center gap-3">
+                  <div className="w-[75px] h-[75px] shrink-0">
                     <DonutChart active={active} />
                   </div>
-                  <div className="flex flex-col gap-2.5">
+                  <div className="flex flex-col gap-2">
                     {[
                       { label: 'Franchise Model', pct: '72%', color: '#7c3aed' },
                       { label: 'Independent',     pct: '28%', color: '#e2e8f0' },
                     ].map((s) => (
-                      <div key={s.label} className="flex items-center gap-2">
-                        <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: s.color }} />
+                      <div key={s.label} className="flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full shrink-0" style={{ background: s.color }} />
                         <div>
-                          <p className="text-xs font-semibold text-slate-700 leading-tight">{s.label}</p>
-                          <p className="text-[11px] text-slate-400">{s.pct}</p>
+                          <p className="text-[10px] font-semibold text-slate-700 leading-tight">{s.label}</p>
+                          <p className="text-[9px] text-slate-400">{s.pct}</p>
                         </div>
                       </div>
                     ))}
-                    <p className="text-[10px] text-slate-400 italic">3&times; since 2020</p>
+                    <p className="text-[9px] text-slate-400 italic">3&times; since 2020</p>
                   </div>
                 </div>
               </div>
 
-              {/* Category bars */}
-              <div className="p-5 flex-1">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-0.5">Top Sectors</p>
-                <p className="text-sm font-bold text-[#0b0f19] mb-4">Fastest Growing Categories</p>
-                <div className="space-y-3">
+              {/* Compact Category bars */}
+              <div className="p-4 flex-1">
+                <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-0.5">Top Sectors</p>
+                <p className="text-xs font-bold text-[#0b0f19] mb-3">Fastest Growing Categories</p>
+                <div className="space-y-2.5">
                   {CATEGORIES.map((cat, i) => (
                     <div key={cat.name}>
-                      <div className="flex items-center justify-between mb-1.5">
-                        <span className="text-xs font-semibold text-slate-600">{cat.name}</span>
-                        <span className="text-xs font-bold text-slate-700">{cat.pct}%</span>
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-[10px] font-semibold text-slate-600">{cat.name}</span>
+                        <span className="text-[10px] font-bold text-slate-700">{cat.pct}%</span>
                       </div>
                       <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
                         <div
@@ -2179,8 +2305,8 @@ function MarketIntelligenceSection() {
           </div>
         </div>
 
-        {/* Source strip */}
-        <div className="mt-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+        {/* Compact Source strip */}
+        <div className="mt-3 flex flex-col sm:flex-row items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-2 justify-center sm:justify-start">
             <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Verified Sources:</span>
             {SOURCES.map((s) => (

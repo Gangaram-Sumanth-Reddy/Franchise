@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+/* Font loaded via <link> in index.html — non-blocking */
 
 @tailwind base;
 @tailwind components;
@@ -23,7 +23,7 @@
     scroll-behavior: smooth;
     scroll-padding-top: 80px;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
-    /* overflow-x clipped at wrapper level, not html/body — preserves sticky */
+    /* Removed scroll-snap-type — it causes section-to-section jank with Lenis */
   }
 
   body {
@@ -39,10 +39,10 @@
     /* NOTE: overflow-x:hidden removed — it breaks position:sticky on child elements */
   }
 
-  /* Subtle global grain — keeps sections feeling connected */
+  /* Subtle global grain — static, not fixed, so it doesn't repaint on scroll */
   body::before {
     content: '';
-    position: fixed;
+    position: absolute;
     inset: 0;
     background-image: radial-gradient(circle at 1px 1px, rgba(15,23,42,0.012) 1px, transparent 0);
     background-size: 32px 32px;
@@ -876,4 +876,863 @@ img.loaded {
 .cta-button-primary .arrow-circle,
 .cta-button-secondary .arrow-circle {
   transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ─── Flowing wave — opt-in via .btn-wave class only ────────────────────────── */
+/* Use .btn-wave on specific buttons instead of broad attribute selectors */
+.btn-wave {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.btn-wave::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(139, 92, 246, 0) 20%,
+    rgba(139, 92, 246, 0.35) 50%,
+    rgba(139, 92, 246, 0) 80%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  z-index: 0;
+  pointer-events: none;
+}
+.btn-wave:hover::before {
+  opacity: 1;
+  animation: flowingWave 1.4s ease-in-out infinite;
+}
+.btn-wave > * { position: relative; z-index: 1; }
+
+@keyframes flowingWave {
+  0%   { left: -100%; opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+/* ─── Animated Line Flow for Service Cards ──────────────────────────────────── */
+/* Horizontal line animation - flows left to right */
+@keyframes lineFlow {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* Vertical line animation - flows top to bottom */
+@keyframes lineFlowVertical {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+/* Apply animations */
+.animate-lineFlow {
+  animation: lineFlow 2s ease-in-out infinite;
+}
+
+.animate-lineFlowVertical {
+  animation: lineFlowVertical 2s ease-in-out infinite;
+}
+
+/* ─── Card-to-Card Connection Animations ────────────────────────────────────── */
+/* Connection line flow animation */
+@keyframes connectionFlow {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  80% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.animate-connectionFlow {
+  animation: connectionFlow 3s ease-in-out infinite;
+}
+
+/* Particle flow animations - moving dots between cards */
+@keyframes particleFlow1 {
+  0% {
+    left: 0%;
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  10% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  90% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+@keyframes particleFlow2 {
+  0% {
+    left: 0%;
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  15% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  85% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+@keyframes particleFlow3 {
+  0% {
+    left: 0%;
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+.animate-particleFlow1 {
+  animation: particleFlow1 3s ease-in-out infinite;
+}
+
+.animate-particleFlow2 {
+  animation: particleFlow2 3s ease-in-out infinite 0.5s;
+}
+
+.animate-particleFlow3 {
+  animation: particleFlow3 3s ease-in-out infinite 1s;
+}
+
+/* ─── Card Background Animations ────────────────────────────────────────────── */
+/* Gradient shift animation for card backgrounds */
+@keyframes gradientShift {
+  0%, 100% {
+    transform: translate(0%, 0%) scale(1);
+    opacity: 0.5;
+  }
+  33% {
+    transform: translate(5%, -5%) scale(1.1);
+    opacity: 0.7;
+  }
+  66% {
+    transform: translate(-5%, 5%) scale(1.05);
+    opacity: 0.6;
+  }
+}
+
+.animate-gradientShift {
+  animation: gradientShift 8s ease-in-out infinite;
+}
+
+/* ─── Premium Centered Badge Animations ─────────────────────────────────────── */
+/* Pulsing glow that expands outward */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
+
+.animate-pulseGlow {
+  animation: pulseGlow 3s ease-out infinite;
+}
+
+/* Slow rotation for gradient ring */
+@keyframes rotateSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-rotateSlow {
+  animation: rotateSlow 8s linear infinite;
+}
+
+/* Breathing glow for background */
+@keyframes breatheGlow {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(1.1);
+  }
+}
+
+.animate-breatheGlow {
+  animation: breatheGlow 4s ease-in-out infinite;
+}
+
+/* Main badge breathing animation */
+@keyframes breatheBadge {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+  }
+}
+
+.animate-breatheBadge {
+  animation: breatheBadge 3s ease-in-out infinite;
+}
+
+/* Shimmer sweep across badge */
+@keyframes shimmerBadge {
+  0%, 20% {
+    transform: translateX(-100%) rotate(-10deg);
+  }
+  40% {
+    transform: translateX(100%) rotate(-10deg);
+  }
+  100% {
+    transform: translateX(100%) rotate(-10deg);
+  }
+}
+
+.animate-shimmerBadge {
+  animation: shimmerBadge 5s ease-in-out infinite;
+}
+
+/* Orbiting particles around badge */
+@keyframes orbitSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-orbitSlow {
+  animation: orbitSlow 6s linear infinite;
+}
+
+/* Breathing animation for Live pill */
+@keyframes breathePill {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.3);
+  }
+}
+
+.animate-breathePill {
+  animation: breathePill 2.5s ease-in-out infinite;
+}
+
+/* ─── Old Attention-Grabbing Badge Animations (Deprecated) ──────────────────── */
+/* Pulsing ring that expands outward - always visible */
+@keyframes pulseRing {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+.animate-pulseRing {
+  animation: pulseRing 2s ease-out infinite;
+}
+
+/* Progress ring that draws around the badge */
+@keyframes progressRing {
+  0% {
+    stroke-dashoffset: 138;
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0.8;
+  }
+}
+
+.animate-progressRing {
+  animation: progressRing 3s ease-in-out infinite;
+}
+
+/* Breathing animation for the badge itself */
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  }
+}
+
+.animate-breathe {
+  animation: breathe 3s ease-in-out infinite;
+}
+
+/* Shimmer sweep that crosses the badge periodically */
+@keyframes shimmerSweep {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  10% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  30% {
+    transform: translateX(100%) skewX(-15deg);
+  }
+  100% {
+    transform: translateX(100%) skewX(-15deg);
+  }
+}
+
+.animate-shimmerSweep {
+  animation: shimmerSweep 4s ease-in-out infinite;
+}
+
+/* ─── Premium SaaS Connection Animations ────────────────────────────────────── */
+/* Animated dashed line flow */
+@keyframes dashFlow {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -100;
+  }
+}
+
+@keyframes dashFlowReverse {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 100;
+  }
+}
+
+.animate-dashFlow {
+  animation: dashFlow 20s linear infinite;
+}
+
+.animate-dashFlowReverse {
+  animation: dashFlowReverse 20s linear infinite;
+}
+
+/* Pulsing node animation for network connections */
+@keyframes pulseNode {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.6;
+    box-shadow: 0 0 0 0 currentColor;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+    box-shadow: 0 0 0 4px transparent;
+  }
+}
+
+.animate-pulseNode {
+  animation: pulseNode 3s ease-in-out infinite;
+}
+
+/* Floating particle animations */
+@keyframes floatParticle1 {
+  0%, 100% {
+    transform: translate(0, 0);
+    opacity: 0.4;
+  }
+  33% {
+    transform: translate(10px, -15px);
+    opacity: 0.7;
+  }
+  66% {
+    transform: translate(-8px, -10px);
+    opacity: 0.5;
+  }
+}
+
+@keyframes floatParticle2 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.3;
+  }
+  33% {
+    transform: translate(-12px, -18px) scale(1.2);
+    opacity: 0.6;
+  }
+  66% {
+    transform: translate(8px, -12px) scale(0.9);
+    opacity: 0.4;
+  }
+}
+
+@keyframes floatParticle3 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0.4;
+  }
+  33% {
+    transform: translate(15px, -10px) rotate(45deg);
+    opacity: 0.7;
+  }
+  66% {
+    transform: translate(-10px, -15px) rotate(-30deg);
+    opacity: 0.5;
+  }
+}
+
+.animate-floatParticle1 {
+  animation: floatParticle1 6s ease-in-out infinite;
+}
+
+.animate-floatParticle2 {
+  animation: floatParticle2 7s ease-in-out infinite 0.5s;
+}
+
+.animate-floatParticle3 {
+  animation: floatParticle3 8s ease-in-out infinite 1s;
+}
+
+/* ─── Premium Industries Section Animations ─────────────────────────────────── */
+/* Continuous breathing glow - subtle and smooth */
+@keyframes industryBreathe {
+  0%, 100% {
+    opacity: 0.15;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(1.15);
+  }
+}
+
+.animate-industryBreathe {
+  animation: industryBreathe 4s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Pulsing ring that expands and fades */
+@keyframes industryPulse {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.25);
+  }
+}
+
+.animate-industryPulse {
+  animation: industryPulse 3s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Expanding ring on hover - dramatic effect */
+@keyframes industryExpandRing {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.5);
+  }
+}
+
+.animate-industryExpandRing {
+  animation: industryExpandRing 2.5s ease-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Smooth continuous rotation for gradient ring */
+@keyframes industryRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-industryRotate {
+  animation: industryRotate 10s linear infinite;
+  will-change: transform;
+}
+
+/* Orbiting particles around the circle */
+@keyframes industryOrbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-industryOrbit {
+  animation: industryOrbit 8s linear infinite;
+  will-change: transform;
+}
+
+/* Particle pulse - makes orbiting particles breathe */
+@keyframes industryParticlePulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 1;
+  }
+}
+
+.animate-industryParticlePulse {
+  animation: industryParticlePulse 2s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Gentle floating motion */
+@keyframes industryFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-industryFloat {
+  animation: industryFloat 5s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Shimmer sweep effect - periodic shine */
+@keyframes industryShimmer {
+  0%, 20% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  30% {
+    transform: translateX(100%) skewX(-15deg);
+  }
+  100% {
+    transform: translateX(100%) skewX(-15deg);
+  }
+}
+
+.animate-industryShimmer {
+  animation: industryShimmer 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Radial light burst on hover */
+@keyframes industryLightBurst {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+.animate-industryLightBurst {
+  animation: industryLightBurst 2s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Button shine animation */
+@keyframes buttonShine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+.group-hover\:animate-buttonShine {
+  animation: buttonShine 1.5s ease-in-out;
+}
+
+/* Enhanced scale utilities for hover - smooth magnetic effect */
+.group:hover .group-hover\:scale-115 {
+  transform: scale(1.15);
+}
+
+.group:hover .group-hover\:scale-120 {
+  transform: scale(1.20);
+}
+
+
+/* ─── Lenis Smooth Scroll ───────────────────────────────────────────────────── */
+html.lenis {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* ─── GPU-accelerated layers for animated elements ──────────────────────────── */
+.will-change-transform {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+.will-change-opacity {
+  will-change: opacity;
+}
+.will-change-auto {
+  will-change: auto;
+}
+
+/* ─── Premium Framer Motion section entrance variants ───────────────────────── */
+/* Used via data attributes for CSS-only fallback */
+[data-motion="fade-up"] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.55s cubic-bezier(0.22,1,0.36,1),
+              transform 0.55s cubic-bezier(0.22,1,0.36,1);
+  will-change: transform, opacity;
+}
+[data-motion="fade-up"].in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+[data-motion="fade-left"] {
+  opacity: 0;
+  transform: translateX(-28px);
+  transition: opacity 0.55s cubic-bezier(0.22,1,0.36,1),
+              transform 0.55s cubic-bezier(0.22,1,0.36,1);
+  will-change: transform, opacity;
+}
+[data-motion="fade-left"].in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+[data-motion="fade-right"] {
+  opacity: 0;
+  transform: translateX(28px);
+  transition: opacity 0.55s cubic-bezier(0.22,1,0.36,1),
+              transform 0.55s cubic-bezier(0.22,1,0.36,1);
+  will-change: transform, opacity;
+}
+[data-motion="fade-right"].in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+[data-motion="scale-in"] {
+  opacity: 0;
+  transform: scale(0.94);
+  transition: opacity 0.5s cubic-bezier(0.22,1,0.36,1),
+              transform 0.5s cubic-bezier(0.22,1,0.36,1);
+  will-change: transform, opacity;
+}
+[data-motion="scale-in"].in-view {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ─── Page transition ────────────────────────────────────────────────────────── */
+.page-enter {
+  animation: pageEnter 0.35s cubic-bezier(0.22,1,0.36,1) both;
+}
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Stagger children utility ───────────────────────────────────────────────── */
+.stagger-children > *:nth-child(1)  { transition-delay: 0.00s; }
+.stagger-children > *:nth-child(2)  { transition-delay: 0.06s; }
+.stagger-children > *:nth-child(3)  { transition-delay: 0.12s; }
+.stagger-children > *:nth-child(4)  { transition-delay: 0.18s; }
+.stagger-children > *:nth-child(5)  { transition-delay: 0.24s; }
+.stagger-children > *:nth-child(6)  { transition-delay: 0.30s; }
+
+/* ─── Image lazy load fade-in ────────────────────────────────────────────────── */
+img[loading="lazy"] {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+img[loading="lazy"].loaded,
+img[loading="lazy"]:not([src=""]) {
+  opacity: 1;
+}
+
+/* ─── Contain paint for heavy sections ──────────────────────────────────────── */
+.contain-paint {
+  contain: paint;
+}
+.contain-layout {
+  contain: layout;
+}
+.contain-strict {
+  contain: strict;
+}
+
+/* ─── Smooth anchor scroll offset ───────────────────────────────────────────── */
+:target {
+  scroll-margin-top: 88px;
+}
+
+/* ─── Premium Ambient Background Drift Animations ───────────────────────────── */
+/* Slow, cinematic, elegant — like Apple/Stripe/Linear */
+
+@keyframes ambientDrift1 {
+  0%   { transform: translate(0px, 0px) scale(1); }
+  25%  { transform: translate(30px, -20px) scale(1.04); }
+  50%  { transform: translate(15px, -35px) scale(1.02); }
+  75%  { transform: translate(-15px, -15px) scale(1.05); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+@keyframes ambientDrift2 {
+  0%   { transform: translate(0px, 0px) scale(1); }
+  25%  { transform: translate(-25px, 20px) scale(1.03); }
+  50%  { transform: translate(-10px, 30px) scale(1.05); }
+  75%  { transform: translate(20px, 10px) scale(1.02); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+@keyframes ambientDrift3 {
+  0%   { transform: translate(0px, 0px) scale(1); }
+  33%  { transform: translate(20px, -25px) scale(1.04); }
+  66%  { transform: translate(-20px, -10px) scale(1.03); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+/* ─── Premium card glass shimmer on hover ───────────────────────────────────── */
+@keyframes glassShimmer {
+  0%   { transform: translateX(-100%) skewX(-12deg); opacity: 0; }
+  20%  { opacity: 0.6; }
+  80%  { opacity: 0.6; }
+  100% { transform: translateX(200%) skewX(-12deg); opacity: 0; }
+}
+
+.group:hover .glass-shimmer {
+  animation: glassShimmer 1.2s ease-in-out;
+}
+
+/* ─── Ambient glow pulse for section orbs ───────────────────────────────────── */
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.15; }
+  50%       { opacity: 0.28; }
+}
+
+.animate-glow-pulse {
+  animation: glowPulse 6s ease-in-out infinite;
+}
+
+/* ─── Global Living Background Orb Animations ───────────────────────────────── */
+@keyframes globalOrb1 {
+  0%   { transform: translate(0px, 0px) scale(1); }
+  20%  { transform: translate(40px, -30px) scale(1.06); }
+  50%  { transform: translate(20px, -55px) scale(1.03); }
+  75%  { transform: translate(-25px, -25px) scale(1.07); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+@keyframes globalOrb2 {
+  0%   { transform: translate(0px, 0px) scale(1); }
+  25%  { transform: translate(-35px, 30px) scale(1.04); }
+  55%  { transform: translate(-15px, 50px) scale(1.06); }
+  80%  { transform: translate(30px, 15px) scale(1.03); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+@keyframes globalOrb3 {
+  0%   { transform: translate(0px, 0px) scale(1); }
+  30%  { transform: translate(25px, -35px) scale(1.05); }
+  65%  { transform: translate(-30px, -15px) scale(1.04); }
+  100% { transform: translate(0px, 0px) scale(1); }
 }

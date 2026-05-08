@@ -1,4 +1,14 @@
 ﻿import { useEffect, useRef, useState } from "react";
+import {
+  getAverageROI,
+  getMinimumInvestment,
+  formatInvestment,
+  getTopOpportunitiesByROI,
+  getTrendingOpportunities,
+  getMarketTrends,
+  calculateGrowthMetrics,
+  getActiveOpportunities
+} from '../data/franchiseData';
 
 // Scroll-triggered visibility hook
 function useInView(threshold = 0.1) {
@@ -223,12 +233,19 @@ const DECISION_FEATURES = [
   },
 ];
 
-const STATS = [
-  { value: "8000+", label: "Investors Guided" },
-  { value: "72%", label: "Prefer Franchise Models" },
-  { value: "500+", label: "Cities Covered" },
-  { value: "30%", label: "Avg CAGR" },
-];
+// Dynamic stats calculated from live data
+const getDynamicInvestorStats = () => {
+  const activeOpps = getActiveOpportunities().length;
+  const avgROI = getAverageROI();
+  const growth = calculateGrowthMetrics();
+  
+  return [
+    { value: `${activeOpps}+`, label: "Active Opportunities" },
+    { value: `${avgROI}%`, label: "Average ROI" },
+    { value: `${growth.growthRate}%`, label: "Network Growth" },
+    { value: "24/7", label: "Platform Access" },
+  ];
+};
 
 const TESTIMONIALS = [
   {
@@ -254,7 +271,156 @@ const TESTIMONIALS = [
   },
 ];
 
+// ── Investor Dashboard Components ─────────────────────────────────────────────
+
+function InvestorMetricCard({ value, label, sublabel, icon, color }) {
+  const colorClasses = {
+    emerald: 'from-emerald-500 to-teal-600',
+    blue: 'from-blue-500 to-cyan-600',
+    violet: 'from-violet-500 to-purple-600',
+  };
+
+  return (
+    <div className="relative bg-white rounded-2xl border border-slate-200 shadow-sm p-5 overflow-hidden">
+      <div className={`absolute inset-0 bg-gradient-to-br ${colorClasses[color]} opacity-[0.02]`} />
+      <div className="relative">
+        <div className="text-3xl mb-2">{icon}</div>
+        <div className="text-3xl font-extrabold text-slate-900 mb-1">{value}</div>
+        <div className="text-sm font-semibold text-slate-700">{label}</div>
+        <div className="text-xs text-slate-500 mt-0.5">{sublabel}</div>
+      </div>
+    </div>
+  );
+}
+
+function TopOpportunitiesCard() {
+  const topOpportunities = getTopOpportunitiesByROI(3);
+
+  const navigateToOpportunity = (id) => {
+    window.history.pushState({}, '', `/franchise-details?id=${id}`);
+    window.dispatchEvent(new PopStateEvent('popstate'));
+  };
+
+  return (
+    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+      <div className="flex items-center justify-between mb-5">
+        <h3 className="text-lg font-extrabold text-slate-900">Top Opportunities</h3>
+        <span className="text-xs font-semibold text-emerald-600 uppercase tracking-wide">Highest ROI</span>
+      </div>
+
+      <div className="space-y-4">
+        {topOpportunities.map((opp, index) => (
+          <div 
+            key={opp.id}
+            onClick={() => navigateToOpportunity(opp.id)}
+            className="group relative bg-gradient-to-br from-slate-50 to-white rounded-xl border border-slate-200 p-4 hover:border-emerald-300 hover:shadow-md transition-all duration-200 cursor-pointer"
+          >
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white font-extrabold text-lg shadow-lg">
+                {index + 1}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-start justify-between gap-2 mb-2">
+                  <div>
+                    <h4 className="text-base font-extrabold text-slate-900 group-hover:text-emerald-600 transition-colors">
+                      {opp.brandName}
+                    </h4>
+                    <p className="text-xs text-slate-500 mt-0.5">{opp.category}</p>
+                  </div>
+                  <div className="flex-shrink-0 px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-extrabold">
+                    {opp.roi} ROI
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-3 text-xs">
+                  <div>
+                    <span className="text-slate-500">Investment:</span>
+                    <span className="ml-1 font-semibold text-slate-900">{opp.investment}</span>
+                  </div>
+                  <div>
+                    <span className="text-slate-500">Model:</span>
+                    <span className="ml-1 font-semibold text-slate-900">{opp.model}</span>
+                  </div>
+                </div>
+              </div>
+              <svg className="w-5 h-5 text-slate-400 group-hover:text-emerald-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <button
+        onClick={() => {
+          window.history.pushState({}, '', '/franchise-opportunities');
+          window.dispatchEvent(new PopStateEvent('popstate'));
+        }}
+        className="w-full mt-4 py-2.5 rounded-xl border-2 border-emerald-200 text-emerald-700 font-semibold text-sm hover:bg-emerald-50 hover:border-emerald-400 transition-all duration-200"
+      >
+        View All Opportunities
+      </button>
+    </div>
+  );
+}
+
+function MarketTrendsCard() {
+  const trends = getMarketTrends().slice(0, 5);
+  const maxCount = trends[0]?.count || 1;
+
+  return (
+    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 h-full">
+      <div className="mb-5">
+        <h3 className="text-lg font-extrabold text-slate-900 mb-1">Market Trends</h3>
+        <p className="text-sm text-slate-500">Opportunities by sector</p>
+      </div>
+
+      <div className="space-y-4">
+        {trends.map((trend, index) => {
+          const colors = [
+            { bg: 'bg-orange-100', text: 'text-orange-700', bar: 'from-orange-500 to-red-600' },
+            { bg: 'bg-blue-100', text: 'text-blue-700', bar: 'from-blue-500 to-cyan-600' },
+            { bg: 'bg-emerald-100', text: 'text-emerald-700', bar: 'from-emerald-500 to-teal-600' },
+            { bg: 'bg-violet-100', text: 'text-violet-700', bar: 'from-violet-500 to-purple-600' },
+            { bg: 'bg-pink-100', text: 'text-pink-700', bar: 'from-pink-500 to-rose-600' },
+          ];
+          const color = colors[index % colors.length];
+
+          return (
+            <div key={trend.industry} className="space-y-2">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className={`w-2 h-2 rounded-full ${color.bg}`} />
+                  <span className="text-sm font-semibold text-slate-900">{trend.industry}</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-xs font-extrabold text-slate-600">{trend.count}</span>
+                  <span className={`text-xs font-extrabold ${color.text}`}>{trend.avgROI}%</span>
+                </div>
+              </div>
+              <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                <div 
+                  className={`h-full bg-gradient-to-r ${color.bar} rounded-full`}
+                  style={{ width: `${(trend.count / maxCount) * 100}%` }}
+                />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="mt-6 pt-5 border-t border-slate-200">
+        <div className="flex items-center justify-between text-xs">
+          <span className="text-slate-500">Total Active</span>
+          <span className="font-extrabold text-slate-900">{getActiveOpportunities().length} Opportunities</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ForInvestorsPage() {
+  const STATS = getDynamicInvestorStats();
+  
   return (
     <div className="min-h-screen" style={{ backgroundColor: "#f8f8f6" }}>
 
@@ -336,6 +502,64 @@ export default function ForInvestorsPage() {
               ))}
             </div>
           </Reveal>
+        </div>
+      </section>
+
+      {/* ── LIVE INVESTOR DASHBOARD ──────────────────────────────────────── */}
+      <section className="py-16 sm:py-20 relative overflow-hidden">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+          <Reveal>
+            <div className="text-center mb-12">
+              <span className="text-sm font-semibold text-emerald-600 uppercase tracking-widest">Live Investment Intelligence</span>
+              <h2 className="mt-3 text-3xl sm:text-4xl font-extrabold text-slate-900">Real-Time Opportunity Dashboard</h2>
+              <p className="mt-4 text-slate-500 max-w-xl mx-auto">Live data from our active franchise marketplace</p>
+            </div>
+          </Reveal>
+
+          {/* Dashboard Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Left Column - Top Opportunities */}
+            <div className="lg:col-span-2 space-y-6">
+              {/* Top Metrics Row */}
+              <Reveal delay={0.05}>
+                <div className="grid grid-cols-3 gap-4">
+                  <InvestorMetricCard
+                    value={`${getAverageROI()}%`}
+                    label="Avg ROI"
+                    sublabel="Network Average"
+                    icon="📈"
+                    color="emerald"
+                  />
+                  <InvestorMetricCard
+                    value={`+${calculateGrowthMetrics().growthRate}%`}
+                    label="Growth"
+                    sublabel="Quarterly"
+                    icon="🚀"
+                    color="blue"
+                  />
+                  <InvestorMetricCard
+                    value={formatInvestment(getMinimumInvestment())}
+                    label="Min Entry"
+                    sublabel="Starting Investment"
+                    icon="💵"
+                    color="violet"
+                  />
+                </div>
+              </Reveal>
+
+              {/* Top Opportunities */}
+              <Reveal delay={0.1}>
+                <TopOpportunitiesCard />
+              </Reveal>
+            </div>
+
+            {/* Right Column - Market Trends */}
+            <div className="lg:col-span-1">
+              <Reveal delay={0.08}>
+                <MarketTrendsCard />
+              </Reveal>
+            </div>
+          </div>
         </div>
       </section>
 

@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import contactImage from '../assets/contact.png';
 import contactImage2 from '../assets/contact2.png';
-import contactImage3 from '../assets/contact3.png';
 
 function ContactPage() {
   const [formData, setFormData] = useState({
@@ -45,12 +43,8 @@ function ContactPage() {
 
   const FAQ_ITEMS = [
     {
-      question: 'How do I choose the right franchise?',
-      answer: 'We assess your budget, risk profile, location goals, and preferred industry to shortlist the most suitable models.'
-    },
-    {
       question: 'What is the typical investment range?',
-      answer: 'Most opportunities on our platform start around $20K and can go beyond $250K depending on brand category and market potential.'
+      answer: 'Most opportunities on our platform start around ₹20L and can go beyond ₹2.5Cr depending on brand category and market potential.'
     },
     {
       question: 'How long does it take to break even?',
@@ -73,16 +67,13 @@ function ContactPage() {
   return (
     <main className="relative bg-white">
       {/* ═══════════════════════════════════════════════════════════
-          SECTION 1 — PREMIUM HERO (REBUILT)
+          SECTION 1 — HERO (CENTERED, CLEAN)
           ═══════════════════════════════════════════════════════════ */}
-      <section className="relative w-full min-h-[calc(100vh-80px)] flex items-center overflow-hidden bg-white">
+      <section className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center overflow-hidden bg-white" id="hero-section">
 
         {/* ── Background layer ── */}
         <div className="pointer-events-none absolute inset-0">
-          {/* Soft gradient wash */}
           <div className="absolute inset-0 bg-gradient-to-br from-violet-50/40 via-white to-indigo-50/30" />
-
-          {/* Subtle dot grid */}
           <svg className="absolute inset-0 h-full w-full opacity-[0.035]" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <pattern id="hero-grid" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -91,315 +82,133 @@ function ContactPage() {
             </defs>
             <rect width="100%" height="100%" fill="url(#hero-grid)" />
           </svg>
-
-          {/* Large ambient orb — left */}
           <motion.div
-            animate={{ scale: [1, 1.18, 1], opacity: [0.12, 0.22, 0.12] }}
+            animate={{ scale: [1, 1.18, 1], opacity: [0.10, 0.20, 0.10] }}
             transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute -left-32 top-1/4 h-[560px] w-[560px] rounded-full bg-violet-400/20 blur-[120px]"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full bg-violet-400/15 blur-[140px]"
           />
-          {/* Large ambient orb — right */}
-          <motion.div
-            animate={{ scale: [1, 1.22, 1], opacity: [0.08, 0.18, 0.08] }}
-            transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
-            className="absolute -right-40 bottom-0 h-[640px] w-[640px] rounded-full bg-indigo-400/15 blur-[140px]"
-          />
-
-          {/* Particle flow — left to right */}
-          <motion.div
-            animate={{ x: [-80, 1400], opacity: [0, 0.5, 0] }}
-            transition={{ duration: 16, repeat: Infinity, ease: 'linear' }}
-            className="absolute top-[38%] h-px w-28 bg-gradient-to-r from-transparent via-violet-400/50 to-transparent"
-          />
-          <motion.div
-            animate={{ x: [1400, -80], opacity: [0, 0.35, 0] }}
-            transition={{ duration: 20, repeat: Infinity, ease: 'linear', delay: 5 }}
-            className="absolute top-[62%] h-px w-36 bg-gradient-to-r from-transparent via-indigo-400/40 to-transparent"
-          />
-
-          {/* Floating micro-nodes */}
-          {[
-            { left: '8%', top: '20%', size: 'h-2 w-2', color: 'bg-violet-400/40', dur: 7 },
-            { left: '18%', top: '72%', size: 'h-1.5 w-1.5', color: 'bg-indigo-400/35', dur: 9, delay: 1 },
-            { left: '88%', top: '18%', size: 'h-2.5 w-2.5', color: 'bg-violet-500/30', dur: 11, delay: 2 },
-            { left: '78%', top: '78%', size: 'h-2 w-2', color: 'bg-indigo-500/35', dur: 8, delay: 0.5 },
-          ].map((node, i) => (
-            <motion.div
-              key={i}
-              animate={{ y: [0, -18, 0], opacity: [0.3, 0.7, 0.3] }}
-              transition={{ duration: node.dur, repeat: Infinity, ease: 'easeInOut', delay: node.delay ?? 0 }}
-              className={`absolute ${node.size} ${node.color} rounded-full blur-[1px]`}
-              style={{ left: node.left, top: node.top }}
-            />
-          ))}
         </div>
 
-        {/* ── Main content ── */}
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-12 py-10 lg:py-0">
-          <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
+        {/* ── Centered content ── */}
+        <div className="relative z-10 flex flex-col items-center text-center px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto">
 
-            {/* ── LEFT: Text block ── */}
-            <div className="flex flex-col justify-center lg:pl-8 xl:pl-12 text-center lg:text-left items-center lg:items-start">
+          {/* Trust badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="mb-7 inline-flex items-center gap-2 rounded-full border border-violet-200 bg-violet-50 px-4 py-1.5 shadow-sm"
+          >
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-violet-500" />
+            <span className="text-xs font-semibold uppercase tracking-[0.14em] text-violet-700">
+              India's Trusted Franchise Growth Platform
+            </span>
+          </motion.div>
 
-              {/* Trust badge */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: 'easeOut' }}
-                className="mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-violet-200 bg-violet-50 px-4 py-1.5 shadow-sm"
-              >
-                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-violet-500" />
-                <span className="text-xs font-semibold uppercase tracking-[0.14em] text-violet-700">
-                  India's Trusted Franchise Growth Platform
-                </span>
-              </motion.div>
+          {/* Headline — strategic, multi-line */}
+          <motion.h1
+            initial={{ opacity: 0, y: 32 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+            className="text-4xl font-extrabold leading-[1.1] tracking-tight text-slate-900 sm:text-5xl xl:text-6xl mb-4"
+          >
+            Build Smarter.{' '}
+            <span className="relative inline-block">
+              <span className="bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
+                Scale Faster.
+              </span>
+              <motion.span
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 0.7, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute -bottom-1 left-0 h-[3px] w-full origin-left rounded-full bg-gradient-to-r from-violet-500 to-indigo-500"
+              />
+            </span>
+            <br />
+            <span className="text-slate-700">Win with Precision.</span>
+          </motion.h1>
 
-              {/* Headline — staggered word reveal */}
-              <div className="overflow-hidden">
-                <motion.h1
-                  initial={{ opacity: 0, y: 48 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-                  className="text-4xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-5xl xl:text-6xl"
+          {/* Sub-headline */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, delay: 0.3, ease: 'easeOut' }}
+            className="text-base sm:text-lg text-slate-500 max-w-xl leading-relaxed mb-8"
+          >
+            Strategic franchise intelligence for founders who think in systems, move with conviction, and build for legacy.
+          </motion.p>
+
+          {/* Creative animated down arrow pill */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5, ease: 'easeOut' }}
+            className="relative"
+          >
+            {/* Outer pulse rings */}
+            <motion.span
+              animate={{ scale: [1, 1.55, 1], opacity: [0.35, 0, 0.35] }}
+              transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut' }}
+              className="absolute inset-0 rounded-full bg-violet-400/30 pointer-events-none"
+            />
+            <motion.span
+              animate={{ scale: [1, 1.9, 1], opacity: [0.2, 0, 0.2] }}
+              transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut', delay: 0.4 }}
+              className="absolute inset-0 rounded-full bg-violet-300/20 pointer-events-none"
+            />
+
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.93 }}
+              onClick={() => document.getElementById('contact-form').scrollIntoView({ behavior: 'smooth' })}
+              aria-label="Scroll to contact form"
+              className="relative group flex items-center gap-3 rounded-full bg-slate-900 pl-5 pr-4 py-3 shadow-[0_8px_32px_rgba(15,23,42,0.22)] hover:shadow-[0_12px_40px_rgba(99,102,241,0.35)] transition-all duration-300 hover:bg-slate-800"
+            >
+              {/* Label */}
+              <span className="text-sm font-semibold text-white tracking-wide">Start the conversation</span>
+
+              {/* Arrow circle */}
+              <span className="relative flex items-center justify-center w-8 h-8 rounded-full bg-white/10 border border-white/20 overflow-hidden">
+                {/* Shine sweep on hover */}
+                <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-500 group-hover:translate-x-full" />
+                <motion.svg
+                  animate={{ y: [0, 3, 0] }}
+                  transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
+                  className="relative z-10 h-4 w-4 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
                 >
-                  Let's grow your{' '}
-                  <span className="relative inline-block">
-                    <span className="bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
-                      brand
-                    </span>
-                    {/* Animated gradient underline */}
-                    <motion.span
-                      initial={{ scaleX: 0 }}
-                      animate={{ scaleX: 1 }}
-                      transition={{ duration: 0.7, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                      className="absolute -bottom-1 left-0 h-[3px] w-full origin-left rounded-full bg-gradient-to-r from-violet-500 to-indigo-500"
-                    />
-                  </span>{' '}
-                  together.
-                </motion.h1>
-              </div>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                </motion.svg>
+              </span>
+            </motion.button>
+          </motion.div>
 
-              {/* Paragraph */}
-              <motion.p
-                initial={{ opacity: 0, y: 24 }}
+          {/* Floating micro-stats below arrow */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.9 }}
+            className="mt-10 flex items-center gap-6 text-center"
+          >
+            {[
+              { value: '200+', label: 'Brands Scaled' },
+              { value: '₹500Cr+', label: 'Capital Deployed' },
+              { value: '15+', label: 'Industries' },
+            ].map((stat, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.3, ease: 'easeOut' }}
-                className="mt-6 max-w-[480px] text-lg leading-relaxed text-slate-600"
+                transition={{ duration: 0.5, delay: 1 + i * 0.1 }}
+                className="flex flex-col items-center"
               >
-                Positioning for founders, franchise brands, and expansion leaders through strategy, intelligence, and scalable growth.
-              </motion.p>
-
-              {/* CTA */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.45, ease: 'easeOut' }}
-                className="mt-8"
-              >
-                <motion.button
-                  whileHover={{ scale: 1.04, y: -2 }}
-                  whileTap={{ scale: 0.97 }}
-                  onClick={() => document.getElementById('contact-form').scrollIntoView({ behavior: 'smooth' })}
-                  className="group relative inline-flex items-center gap-3 overflow-hidden rounded-xl bg-slate-900 px-8 py-4 font-semibold text-white shadow-[0_8px_32px_rgba(15,23,42,0.18)] transition-all duration-300 hover:bg-slate-800 hover:shadow-[0_12px_40px_rgba(15,23,42,0.28)]"
-                >
-                  {/* Shine sweep */}
-                  <span className="absolute inset-0 -translate-x-full skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-
-                  <span className="relative z-10">Start Your Growth Journey</span>
-
-                  {/* Arrow micro-slide */}
-                  <motion.svg
-                    animate={{ x: [0, 3, 0] }}
-                    transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-                    className="relative z-10 h-5 w-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </motion.svg>
-                </motion.button>
+                <span className="text-xl font-extrabold text-slate-900">{stat.value}</span>
+                <span className="text-xs text-slate-400 font-medium mt-0.5">{stat.label}</span>
               </motion.div>
-
-              {/* Soft connector beam toward image */}
-              <motion.div
-                initial={{ opacity: 0, scaleX: 0 }}
-                animate={{ opacity: 1, scaleX: 1 }}
-                transition={{ duration: 1.2, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
-                className="mt-12 hidden origin-left lg:block"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="h-px flex-1 bg-gradient-to-r from-violet-300/60 via-indigo-300/40 to-transparent" />
-                  <motion.div
-                    animate={{ scale: [1, 1.4, 1], opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
-                    className="h-2 w-2 rounded-full bg-violet-400"
-                  />
-                  <motion.div
-                    animate={{ scale: [1, 1.3, 1], opacity: [0.4, 0.9, 0.4] }}
-                    transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
-                    className="h-1.5 w-1.5 rounded-full bg-indigo-400"
-                  />
-                  <motion.div
-                    animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.7, 0.3] }}
-                    transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
-                    className="h-1 w-1 rounded-full bg-violet-300"
-                  />
-                </div>
-              </motion.div>
-            </div>
-
-            {/* ── RIGHT: Image block — clean orbit system ── */}
-            <div className="relative flex items-center justify-center lg:-ml-8 xl:-ml-16 mt-4 lg:mt-0">
-
-              {/* ── LAYER 0: Deep spotlight glow behind image ── */}
-              <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                <motion.div
-                  animate={{ scale: [1, 1.14, 1], opacity: [0.14, 0.26, 0.14] }}
-                  transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
-                  className="h-[380px] w-[380px] rounded-full bg-gradient-to-br from-violet-400/25 via-indigo-300/15 to-transparent blur-[80px] lg:h-[480px] lg:w-[480px]"
-                />
-              </div>
-
-              {/* ── LAYER 1: Rotating orbit rings (CSS transform, no overlap) ── */}
-              {/* Outer ring — slowest */}
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 28, repeat: Infinity, ease: 'linear' }}
-                className="pointer-events-none absolute h-[min(520px,80vw)] w-[min(520px,80vw)] rounded-full border border-violet-300/20 lg:h-[600px] lg:w-[600px]"
-                aria-hidden="true"
-              />
-              {/* Mid ring — medium, reverse */}
-              <motion.div
-                animate={{ rotate: -360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-                className="pointer-events-none absolute h-[min(420px,65vw)] w-[min(420px,65vw)] rounded-full border border-indigo-300/20 lg:h-[490px] lg:w-[490px]"
-                style={{ borderStyle: 'dashed' }}
-                aria-hidden="true"
-              />
-              {/* Inner ring — fastest, hidden on small mobile */}
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 14, repeat: Infinity, ease: 'linear' }}
-                className="pointer-events-none absolute hidden h-[330px] w-[330px] rounded-full border border-purple-200/22 sm:block lg:h-[390px] lg:w-[390px]"
-                aria-hidden="true"
-              />
-
-              {/* ── LAYER 2: Perimeter icon nodes — OUTSIDE image safe zone ── */}
-
-              {/* TOP-RIGHT corner node — Growth arrow */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.7 }}
-                animate={{ opacity: 1, scale: 1, y: [0, -7, 0] }}
-                transition={{
-                  opacity: { duration: 0.5, delay: 0.7 },
-                  scale: { duration: 0.5, delay: 0.7 },
-                  y: { duration: 5, repeat: Infinity, ease: 'easeInOut' },
-                }}
-                className="absolute right-0 top-4 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-violet-200/70 bg-white/80 shadow-[0_4px_20px_rgba(124,58,237,0.12)] backdrop-blur-sm lg:-right-6 lg:top-8"
-                aria-hidden="true"
-              >
-                <svg className="h-5 w-5 text-violet-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
-                </svg>
-              </motion.div>
-
-              {/* UPPER-LEFT corner node — Globe */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.7 }}
-                animate={{ opacity: 1, scale: 1, y: [0, -6, 0] }}
-                transition={{
-                  opacity: { duration: 0.5, delay: 0.9 },
-                  scale: { duration: 0.5, delay: 0.9 },
-                  y: { duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 0.5 },
-                }}
-                className="absolute left-0 top-12 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-indigo-200/70 bg-white/80 shadow-[0_4px_20px_rgba(99,102,241,0.12)] backdrop-blur-sm lg:-left-4 lg:top-16"
-                aria-hidden="true"
-              >
-                <svg className="h-5 w-5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </motion.div>
-
-              {/* BOTTOM-RIGHT corner node — Network pulse */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.7 }}
-                animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
-                transition={{
-                  opacity: { duration: 0.5, delay: 1.1 },
-                  scale: { duration: 0.5, delay: 1.1 },
-                  y: { duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 1 },
-                }}
-                className="absolute bottom-12 right-0 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-purple-200/70 bg-white/80 shadow-[0_4px_20px_rgba(168,85,247,0.12)] backdrop-blur-sm lg:-right-4 lg:bottom-16"
-                aria-hidden="true"
-              >
-                <svg className="h-5 w-5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </motion.div>
-
-              {/* BOTTOM-LEFT corner node — Strategy */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.7 }}
-                animate={{ opacity: 1, scale: 1, y: [0, -6, 0] }}
-                transition={{
-                  opacity: { duration: 0.5, delay: 1.3 },
-                  scale: { duration: 0.5, delay: 1.3 },
-                  y: { duration: 5.5, repeat: Infinity, ease: 'easeInOut', delay: 1.5 },
-                }}
-                className="absolute bottom-8 left-0 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-slate-200/80 bg-white/80 shadow-[0_4px_20px_rgba(15,23,42,0.08)] backdrop-blur-sm lg:-left-4 lg:bottom-12"
-                aria-hidden="true"
-              >
-                <svg className="h-5 w-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
-              </motion.div>
-
-              {/* ── LAYER 3: Floating particles ── */}
-              {[
-                { top: '15%', left: '12%', size: 'h-1.5 w-1.5', color: 'bg-violet-400/50', dur: 6 },
-                { top: '80%', left: '15%', size: 'h-1 w-1', color: 'bg-indigo-400/40', dur: 8, delay: 1 },
-                { top: '10%', right: '12%', size: 'h-2 w-2', color: 'bg-purple-400/35', dur: 7, delay: 0.5 },
-                { top: '75%', right: '10%', size: 'h-1.5 w-1.5', color: 'bg-violet-300/45', dur: 9, delay: 2 },
-              ].map((p, i) => (
-                <motion.div
-                  key={i}
-                  animate={{ y: [0, -12, 0], opacity: [0.4, 0.9, 0.4] }}
-                  transition={{ duration: p.dur, repeat: Infinity, ease: 'easeInOut', delay: p.delay ?? 0 }}
-                  className={`pointer-events-none absolute ${p.size} ${p.color} rounded-full blur-[0.5px]`}
-                  style={{ top: p.top, left: p.left, right: p.right }}
-                  aria-hidden="true"
-                />
-              ))}
-
-
-              {/* ── Main image — clean, unobstructed ── */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.92, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                className="relative z-10 mx-8 my-10"
-              >
-                <motion.img
-                  animate={{
-                    y: [0, -10, 0],
-                    scale: [1, 1.018, 1],
-                  }}
-                  transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-                  src={contactImage}
-                  alt="Professional workspace — iFranchise"
-                  className="relative w-[75vw] max-w-[380px] object-contain drop-shadow-[0_24px_48px_rgba(15,23,42,0.14)] sm:w-full lg:max-w-[460px] xl:max-w-[500px]"
-                />
-
-                {/* Ground shadow pulse */}
-                <motion.div
-                  animate={{ scaleX: [1, 1.08, 1], opacity: [0.15, 0.25, 0.15] }}
-                  transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-                  className="absolute -bottom-4 left-1/2 h-10 w-3/4 -translate-x-1/2 rounded-full bg-slate-400/20 blur-xl"
-                />
-              </motion.div>
-            </div>
-          </div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
@@ -683,7 +492,7 @@ function ContactPage() {
         </div>
       </section>
 
-      {/* SECTION 4 - FAQ (CLEAN SPACING) */}
+      {/* SECTION 4 - FAQ WITH CONTACT CARD (BALANCED LAYOUT) */}
       <section className="w-full bg-slate-50 py-12 md:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -700,78 +509,21 @@ function ContactPage() {
             </p>
           </motion.div>
 
-          <div className="max-w-4xl mx-auto grid gap-4 md:grid-cols-2">
-            {FAQ_ITEMS.map((item, index) => {
-              const isOpen = openFaq === index;
-              return (
-                <motion.button
-                  key={item.question}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  onClick={() => setOpenFaq(prev => prev === index ? -1 : index)}
-                  className="text-left rounded-xl border border-slate-200 bg-white p-5 transition duration-300 hover:border-slate-300 hover:shadow-md"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <p className="font-semibold text-slate-900 pr-2">{item.question}</p>
-                    <span className="text-lg font-semibold text-purple-600 flex-shrink-0">
-                      {isOpen ? '−' : '+'}
-                    </span>
-                  </div>
-                  <div className={`grid transition-all duration-300 ease-out ${
-                    isOpen ? 'mt-3 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
-                  }`}>
-                    <div className="overflow-hidden">
-                      <p className="text-sm leading-relaxed text-slate-600">{item.answer}</p>
-                    </div>
-                  </div>
-                </motion.button>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+          {/* Two-column: Contact card left, FAQs right */}
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-stretch">
 
-      {/* SECTION 5 - PREMIUM "GET IN TOUCH" TRUST BLOCK (FULL SCREEN) */}
-      <section className="w-full bg-white min-h-screen flex items-center overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16">
-          {/* Section Header - Tight Spacing */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-center mb-16"
-          >
-            <div className="inline-flex items-center px-4 py-2 bg-slate-100 rounded-full text-sm font-medium text-slate-600 mb-6">
-              CONFUSED ABOUT SCALING?
-            </div>
-            
-            <h2 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-slate-900 mb-4 leading-tight">
-              Confused about business growth, branding, or franchise expansion?
-            </h2>
-            
-            <p className="text-lg lg:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-              Let iFranchise guide your next move with strategic clarity, market intelligence, and founder-first execution.
-            </p>
-          </motion.div>
-
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            {/* Left Side - Contact Info Card */}
+            {/* LEFT — Contact Info Card */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              className="order-last lg:order-first"
+              className="h-full"
             >
-              <div className="relative group">
-                <div className="relative bg-white rounded-3xl p-8 lg:p-10 shadow-[0_4px_32px_rgba(11,15,25,0.08)] group-hover:shadow-[0_8px_48px_rgba(11,15,25,0.12)] transition-all duration-500 border border-slate-100">
+              <div className="relative group h-full">
+                <div className="relative bg-white rounded-3xl p-8 lg:p-10 shadow-[0_4px_32px_rgba(11,15,25,0.08)] group-hover:shadow-[0_8px_48px_rgba(11,15,25,0.12)] transition-all duration-500 border border-slate-100 h-full flex flex-col justify-between">
                   <div className="space-y-2">
-                    {/* Email - Interactive */}
-                    <motion.a
-                      href="mailto:hello@ifranchise.in"
-                      whileHover={{ x: 4 }}
-                      className="group/item cursor-pointer block"
-                    >
+                    {/* Email */}
+                    <motion.a href="mailto:hello@ifranchise.in" whileHover={{ x: 4 }} className="group/item cursor-pointer block">
                       <div className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-50 transition-all duration-300 border border-transparent hover:border-slate-200">
                         <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center border border-slate-200">
                           <svg className="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -790,12 +542,8 @@ function ContactPage() {
                       </div>
                     </motion.a>
 
-                    {/* Phone - Interactive */}
-                    <motion.a
-                      href="tel:+919876543210"
-                      whileHover={{ x: 4 }}
-                      className="group/item cursor-pointer block"
-                    >
+                    {/* Phone */}
+                    <motion.a href="tel:+919876543210" whileHover={{ x: 4 }} className="group/item cursor-pointer block">
                       <div className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-50 transition-all duration-300 border border-transparent hover:border-slate-200">
                         <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center border border-slate-200">
                           <svg className="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -814,14 +562,8 @@ function ContactPage() {
                       </div>
                     </motion.a>
 
-                    {/* Address - Interactive */}
-                    <motion.a
-                      href="https://maps.google.com/?q=Bangalore,Karnataka,India"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      whileHover={{ x: 4 }}
-                      className="group/item cursor-pointer block"
-                    >
+                    {/* Address */}
+                    <motion.a href="https://maps.google.com/?q=Bangalore,Karnataka,India" target="_blank" rel="noopener noreferrer" whileHover={{ x: 4 }} className="group/item cursor-pointer block">
                       <div className="flex items-center gap-4 p-4 rounded-xl hover:bg-slate-50 transition-all duration-300 border border-transparent hover:border-slate-200">
                         <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center border border-slate-200">
                           <svg className="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -860,248 +602,46 @@ function ContactPage() {
               </div>
             </motion.div>
 
-            {/* Right Side — Premium Visible Animation System */}
+            {/* RIGHT — FAQ accordion */}
             <motion.div
-              initial={{ opacity: 0, x: 30, scale: 0.95 }}
-              whileInView={{ opacity: 1, x: 0, scale: 1 }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-              className="relative flex items-center justify-center lg:justify-end order-first lg:order-last"
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
+              className="flex flex-col gap-3"
             >
-              <div className="relative flex items-center justify-center" style={{ width: 'min(480px, 90vw)', height: 'min(480px, 90vw)' }}>
-
-                {/* ── LAYER 0: Glow blobs — visible on white ── */}
-                {/* Lavender radial glow */}
-                <motion.div
-                  animate={{ scale: [1, 1.18, 1], opacity: [0.22, 0.38, 0.22] }}
-                  transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-                  className="pointer-events-none absolute h-72 w-72 rounded-full bg-purple-400/20 blur-[60px]"
-                />
-                {/* Gray spotlight */}
-                <motion.div
-                  animate={{ scale: [1, 1.12, 1], opacity: [0.18, 0.30, 0.18] }}
-                  transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-                  className="pointer-events-none absolute h-56 w-56 rounded-full bg-slate-300/30 blur-[50px]"
-                />
-
-                {/* ── LAYER 1: SVG Radar / radial grid ── */}
-                <svg
-                  className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.18]"
-                  viewBox="0 0 480 480"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  {/* Radial spokes */}
-                  {[0, 30, 60, 90, 120, 150].map((deg) => (
-                    <line
-                      key={deg}
-                      x1="240" y1="240"
-                      x2={240 + Math.cos((deg * Math.PI) / 180) * 220}
-                      y2={240 + Math.sin((deg * Math.PI) / 180) * 220}
-                      stroke="#a78bfa"
-                      strokeWidth="0.6"
-                      strokeDasharray="4 6"
-                    />
-                  ))}
-                  {/* Concentric guide circles */}
-                  <circle cx="240" cy="240" r="80"  stroke="#c4b5fd" strokeWidth="0.8" strokeDasharray="3 5" />
-                  <circle cx="240" cy="240" r="140" stroke="#a78bfa" strokeWidth="0.6" strokeDasharray="2 6" />
-                  <circle cx="240" cy="240" r="200" stroke="#818cf8" strokeWidth="0.5" strokeDasharray="2 8" />
-                </svg>
-
-                {/* ── LAYER 2: Rotating orbit rings — higher contrast ── */}
-                {/* Outer ring — smooth, slowest */}
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 26, repeat: Infinity, ease: 'linear' }}
-                  className="pointer-events-none absolute rounded-full"
-                  style={{
-                    width: 420, height: 420,
-                    border: '1px solid',
-                    borderColor: 'rgba(167,139,250,0.35)',
-                    boxShadow: '0 0 32px rgba(139,92,246,0.08)',
-                  }}
-                  aria-hidden="true"
-                />
-                {/* Mid ring — dashed, reverse */}
-                <motion.div
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
-                  className="pointer-events-none absolute rounded-full"
-                  style={{
-                    width: 330, height: 330,
-                    border: '1px dashed rgba(148,163,184,0.45)',
-                  }}
-                  aria-hidden="true"
-                />
-                {/* Inner ring — dotted, fastest */}
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
-                  className="pointer-events-none absolute rounded-full"
-                  style={{
-                    width: 240, height: 240,
-                    border: '1.5px solid rgba(196,181,253,0.50)',
-                    boxShadow: '0 0 20px rgba(139,92,246,0.10)',
-                  }}
-                  aria-hidden="true"
-                />
-
-                {/* ── LAYER 3: Floating business signal nodes — perimeter only ── */}
-                {/* Top — Growth arrow */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.7 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  animate={{ y: [0, -8, 0] }}
-                  transition={{
-                    opacity: { duration: 0.4, delay: 0.5 },
-                    scale: { duration: 0.4, delay: 0.5 },
-                    y: { duration: 5, repeat: Infinity, ease: 'easeInOut' },
-                  }}
-                  className="absolute top-4 left-1/2 z-20 -translate-x-1/2 flex h-11 w-11 items-center justify-center rounded-full border border-violet-300/80 bg-white shadow-[0_4px_20px_rgba(124,58,237,0.18),0_1px_4px_rgba(15,23,42,0.08)] backdrop-blur-sm"
-                  aria-hidden="true"
-                >
-                  <svg className="h-5 w-5 text-violet-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
-                  </svg>
-                </motion.div>
-
-                {/* Right — Globe */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.7 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  animate={{ y: [0, -6, 0] }}
-                  transition={{
-                    opacity: { duration: 0.4, delay: 0.7 },
-                    scale: { duration: 0.4, delay: 0.7 },
-                    y: { duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 0.8 },
-                  }}
-                  className="absolute right-4 top-1/2 z-20 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full border border-indigo-300/80 bg-white shadow-[0_4px_20px_rgba(99,102,241,0.18),0_1px_4px_rgba(15,23,42,0.08)] backdrop-blur-sm"
-                  aria-hidden="true"
-                >
-                  <svg className="h-5 w-5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </motion.div>
-
-                {/* Bottom — Strategy bar chart */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.7 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  animate={{ y: [0, -7, 0] }}
-                  transition={{
-                    opacity: { duration: 0.4, delay: 0.9 },
-                    scale: { duration: 0.4, delay: 0.9 },
-                    y: { duration: 5.5, repeat: Infinity, ease: 'easeInOut', delay: 1.2 },
-                  }}
-                  className="absolute bottom-4 left-1/2 z-20 -translate-x-1/2 flex h-11 w-11 items-center justify-center rounded-full border border-purple-300/80 bg-white shadow-[0_4px_20px_rgba(168,85,247,0.18),0_1px_4px_rgba(15,23,42,0.08)] backdrop-blur-sm"
-                  aria-hidden="true"
-                >
-                  <svg className="h-5 w-5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                </motion.div>
-
-                {/* Left — Lightning / scale */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.7 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  animate={{ y: [0, -6, 0] }}
-                  transition={{
-                    opacity: { duration: 0.4, delay: 1.1 },
-                    scale: { duration: 0.4, delay: 1.1 },
-                    y: { duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 0.4 },
-                  }}
-                  className="absolute left-4 top-1/2 z-20 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full border border-slate-300/80 bg-white shadow-[0_4px_20px_rgba(15,23,42,0.12),0_1px_4px_rgba(15,23,42,0.06)] backdrop-blur-sm"
-                  aria-hidden="true"
-                >
-                  <svg className="h-5 w-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                </motion.div>
-
-                {/* ── LAYER 4: Pulse wave rings — visible on white ── */}
-                {[0, 1.4, 2.8].map((delay, i) => (
-                  <motion.div
-                    key={i}
-                    className="pointer-events-none absolute rounded-full"
-                    initial={{ scale: 0.3, opacity: 0 }}
-                    animate={{ scale: [0.3, 1.6], opacity: [0.5, 0] }}
-                    transition={{
-                      duration: 4,
-                      repeat: Infinity,
-                      delay,
-                      ease: 'easeOut',
-                    }}
-                    style={{
-                      width: 160, height: 160,
-                      border: '1.5px solid rgba(167,139,250,0.45)',
-                    }}
-                    aria-hidden="true"
-                  />
-                ))}
-
-                {/* ── CENTER: Question mark — floating, glowing ── */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                  animate={{ y: [0, -10, 0] }}
-                  className="relative z-10 flex flex-col items-center"
-                >
-                  {/* Soft spotlight behind the image */}
-                  <div className="absolute inset-0 -z-10 flex items-center justify-center">
-                    <div className="h-64 w-64 rounded-full bg-purple-500/10 blur-3xl" />
-                  </div>
-
-                  <motion.img
-                    animate={{ y: [0, -10, 0] }}
-                    transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
-                    src={contactImage3}
-                    alt="Strategic business clarity"
-                    className="relative w-full max-w-[280px] object-contain drop-shadow-[0_20px_40px_rgba(139,92,246,0.18)] lg:max-w-[320px]"
-                  />
-
-                  {/* Ground shadow */}
-                  <motion.div
-                    animate={{ scaleX: [1, 1.1, 1], opacity: [0.18, 0.28, 0.18] }}
-                    transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
-                    className="absolute -bottom-4 left-1/2 h-8 w-3/4 -translate-x-1/2 rounded-full bg-purple-400/20 blur-xl"
-                  />
-                </motion.div>
-
-                {/* ── Floating micro-particles ── */}
-                {[
-                  { top: '18%', left: '22%', size: 8, color: 'rgba(167,139,250,0.6)', dur: 5 },
-                  { top: '72%', left: '20%', size: 6, color: 'rgba(129,140,248,0.5)', dur: 7, delay: 1 },
-                  { top: '15%', right: '22%', size: 7, color: 'rgba(196,181,253,0.65)', dur: 6, delay: 0.5 },
-                  { top: '78%', right: '18%', size: 5, color: 'rgba(167,139,250,0.5)', dur: 8, delay: 2 },
-                  { top: '45%', left: '8%',  size: 5, color: 'rgba(148,163,184,0.5)', dur: 6.5, delay: 1.5 },
-                  { top: '50%', right: '8%', size: 6, color: 'rgba(167,139,250,0.45)', dur: 7.5, delay: 0.8 },
-                ].map((p, i) => (
-                  <motion.div
-                    key={i}
-                    animate={{ y: [0, -10, 0], opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: p.dur, repeat: Infinity, ease: 'easeInOut', delay: p.delay ?? 0 }}
-                    className="pointer-events-none absolute rounded-full"
-                    style={{
-                      top: p.top, left: p.left, right: p.right,
-                      width: p.size, height: p.size,
-                      background: p.color,
-                      boxShadow: `0 0 ${p.size * 2}px ${p.color}`,
-                    }}
-                    aria-hidden="true"
-                  />
-                ))}
-              </div>
+              {FAQ_ITEMS.map((item, index) => {
+                const isOpen = openFaq === index;
+                return (
+                  <motion.button
+                    key={item.question}
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: index * 0.07 }}
+                    onClick={() => setOpenFaq(prev => prev === index ? -1 : index)}
+                    className="text-left rounded-xl border border-slate-200 bg-white p-5 transition duration-300 hover:border-slate-300 hover:shadow-md"
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <p className="font-semibold text-slate-900 pr-2">{item.question}</p>
+                      <span className="text-lg font-semibold text-purple-600 flex-shrink-0">
+                        {isOpen ? '−' : '+'}
+                      </span>
+                    </div>
+                    <div className={`grid transition-all duration-300 ease-out ${
+                      isOpen ? 'mt-3 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                    }`}>
+                      <div className="overflow-hidden">
+                        <p className="text-sm leading-relaxed text-slate-600">{item.answer}</p>
+                      </div>
+                    </div>
+                  </motion.button>
+                );
+              })}
             </motion.div>
+
           </div>
         </div>
       </section>
+
     </main>
   );
 }

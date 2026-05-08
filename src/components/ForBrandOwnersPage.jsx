@@ -1,4 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
+import {
+  getTotalCities,
+  getTotalMarkets,
+  getTotalRevenuePotential,
+  formatRevenue,
+  getTopCities,
+  calculateGrowthMetrics,
+  getActiveOpportunities
+} from '../data/franchiseData';
 
 // ── Scroll-triggered visibility hook ─────────────────────────────────────────
 function useInView(threshold = 0.1) {
@@ -197,12 +206,20 @@ const PROCESS_STEPS = [
   },
 ];
 
-const STATS = [
-  { value: '350+', label: 'Brands Structured' },
-  { value: '₹800Cr+', label: 'Ecosystem Value' },
-  { value: '40+', label: 'Cities Expanded' },
-  { value: '92%', label: 'Investor Match Rate' },
-];
+// Dynamic stats calculated from live data
+const getDynamicStats = () => {
+  const totalCities = getTotalCities();
+  const totalMarkets = getTotalMarkets();
+  const revenuePotential = getTotalRevenuePotential();
+  const activeOpps = getActiveOpportunities().length;
+  
+  return [
+    { value: `${activeOpps}+`, label: 'Active Opportunities' },
+    { value: formatRevenue(revenuePotential), label: 'Total Investment Potential' },
+    { value: `${totalCities}+`, label: 'Cities Covered' },
+    { value: `${totalMarkets}`, label: 'Industry Sectors' },
+  ];
+};
 
 const CASE_STUDIES = [
   {
@@ -245,8 +262,156 @@ const BENEFITS = [
   },
 ];
 
+// ── Dashboard Components ──────────────────────────────────────────────────────
+
+function DashboardMetricCard({ value, label, sublabel, icon, color }) {
+  const colorClasses = {
+    violet: 'from-violet-500 to-purple-600',
+    blue: 'from-blue-500 to-cyan-600',
+    emerald: 'from-emerald-500 to-teal-600',
+  };
+
+  return (
+    <div className="relative bg-white rounded-2xl border border-slate-200 shadow-sm p-5 overflow-hidden">
+      <div className={`absolute inset-0 bg-gradient-to-br ${colorClasses[color]} opacity-[0.02]`} />
+      <div className="relative">
+        <div className="text-3xl mb-2">{icon}</div>
+        <div className="text-3xl font-extrabold text-slate-900 mb-1">{value}</div>
+        <div className="text-sm font-semibold text-slate-700">{label}</div>
+        <div className="text-xs text-slate-500 mt-0.5">{sublabel}</div>
+      </div>
+    </div>
+  );
+}
+
+function GrowthTrajectoryCard() {
+  const growth = calculateGrowthMetrics();
+  const growthRate = growth.growthRate;
+
+  return (
+    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+      <div className="flex items-start justify-between mb-4">
+        <div>
+          <h3 className="text-lg font-extrabold text-slate-900 mb-1">Growth Trajectory</h3>
+          <p className="text-sm text-slate-500">Network expansion rate</p>
+        </div>
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-100">
+          <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+          </svg>
+          <span className="text-sm font-extrabold text-emerald-700">+{growthRate}%</span>
+        </div>
+      </div>
+      
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-slate-600">Recent Additions</span>
+          <span className="text-base font-extrabold text-slate-900">{growth.recentCount} opportunities</span>
+        </div>
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-slate-600">Total Network</span>
+          <span className="text-base font-extrabold text-slate-900">{growth.totalCount} brands</span>
+        </div>
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-slate-600">Expansion Rate</span>
+          <span className="text-base font-extrabold text-emerald-600">{growthRate}% growth</span>
+        </div>
+      </div>
+
+      {/* Growth Bar */}
+      <div className="mt-4 h-2 bg-slate-100 rounded-full overflow-hidden">
+        <div 
+          className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full"
+          style={{ width: `${Math.min(growthRate * 3, 100)}%` }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function TopCitiesCard() {
+  const topCities = getTopCities(5);
+
+  return (
+    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+      <h3 className="text-lg font-extrabold text-slate-900 mb-4">Top Expansion Cities</h3>
+      <div className="space-y-3">
+        {topCities.map((city, index) => (
+          <div key={city.city} className="flex items-center gap-4">
+            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-violet-100 flex items-center justify-center">
+              <span className="text-sm font-extrabold text-violet-700">{index + 1}</span>
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-sm font-semibold text-slate-900">{city.city}</span>
+                <span className="text-sm font-extrabold text-violet-600">{city.count} brands</span>
+              </div>
+              <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-gradient-to-r from-violet-500 to-purple-600 rounded-full"
+                  style={{ width: `${(city.count / topCities[0].count) * 100}%` }}
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function IndiaExpansionMap() {
+  const topCities = getTopCities(8);
+  const totalCities = getTotalCities();
+
+  return (
+    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 h-full">
+      <div className="mb-4">
+        <h3 className="text-lg font-extrabold text-slate-900 mb-1">India Expansion Map</h3>
+        <p className="text-sm text-slate-500">{totalCities} cities with active franchises</p>
+      </div>
+
+      {/* Simplified India Map Visualization */}
+      <div className="relative bg-gradient-to-br from-violet-50 to-purple-50 rounded-xl p-6 min-h-[300px] flex items-center justify-center">
+        <div className="absolute inset-0 opacity-10">
+          <svg viewBox="0 0 200 200" className="w-full h-full">
+            <circle cx="100" cy="100" r="80" fill="currentColor" className="text-violet-300" />
+            <circle cx="100" cy="100" r="60" fill="currentColor" className="text-violet-200" />
+            <circle cx="100" cy="100" r="40" fill="currentColor" className="text-violet-100" />
+          </svg>
+        </div>
+
+        <div className="relative z-10 text-center">
+          <div className="text-5xl font-extrabold text-violet-600 mb-2">{totalCities}</div>
+          <div className="text-sm font-semibold text-slate-700 mb-4">Active Cities</div>
+          
+          {/* Static indicator */}
+          <div className="flex items-center justify-center gap-2">
+            <div className="w-2 h-2 bg-emerald-500 rounded-full" />
+            <span className="text-xs font-medium text-slate-600">Live Network</span>
+          </div>
+        </div>
+      </div>
+
+      {/* City List */}
+      <div className="mt-4 space-y-2">
+        <div className="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Key Markets</div>
+        <div className="flex flex-wrap gap-2">
+          {topCities.slice(0, 6).map(city => (
+            <div key={city.city} className="px-3 py-1.5 rounded-full bg-violet-100 text-violet-700 text-xs font-semibold">
+              {city.city}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Component ─────────────────────────────────────────────────────────────────
 export default function ForBrandOwnersPage() {
+  const STATS = getDynamicStats();
+  
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#f8f8f6' }}>
 
@@ -331,6 +496,69 @@ export default function ForBrandOwnersPage() {
               ))}
             </div>
           </Reveal>
+        </div>
+      </section>
+
+      {/* ── LIVE EXPANSION DASHBOARD ─────────────────────────────────────── */}
+      <section className="py-16 sm:py-20 relative overflow-hidden">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+          <Reveal>
+            <div className="text-center mb-12">
+              <span className="text-sm font-semibold text-violet-600 uppercase tracking-widest">Live Network Intelligence</span>
+              <h2 className="mt-3 text-3xl sm:text-4xl font-extrabold text-slate-900">Real-Time Expansion Metrics</h2>
+              <p className="mt-4 text-slate-500 max-w-xl mx-auto">Live data from our active franchise network across India</p>
+            </div>
+          </Reveal>
+
+          {/* Dashboard Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Left Column - Key Metrics */}
+            <div className="lg:col-span-2 space-y-6">
+              {/* Top Metrics Row */}
+              <Reveal delay={0.05}>
+                <div className="grid grid-cols-3 gap-4">
+                  <DashboardMetricCard
+                    value={getTotalCities()}
+                    label="Active Cities"
+                    sublabel="Franchise Locations"
+                    icon="📍"
+                    color="violet"
+                  />
+                  <DashboardMetricCard
+                    value={getTotalMarkets()}
+                    label="Markets"
+                    sublabel="Industry Sectors"
+                    icon="🏢"
+                    color="blue"
+                  />
+                  <DashboardMetricCard
+                    value={formatRevenue(getTotalRevenuePotential())}
+                    label="Investment Pool"
+                    sublabel="Total Potential"
+                    icon="💰"
+                    color="emerald"
+                  />
+                </div>
+              </Reveal>
+
+              {/* Growth Trajectory */}
+              <Reveal delay={0.1}>
+                <GrowthTrajectoryCard />
+              </Reveal>
+
+              {/* Top Cities Grid */}
+              <Reveal delay={0.15}>
+                <TopCitiesCard />
+              </Reveal>
+            </div>
+
+            {/* Right Column - India Map */}
+            <div className="lg:col-span-1">
+              <Reveal delay={0.08}>
+                <IndiaExpansionMap />
+              </Reveal>
+            </div>
+          </div>
         </div>
       </section>
 
