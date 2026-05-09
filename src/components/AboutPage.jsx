@@ -46,7 +46,12 @@ function PremiumTeamCard({ member }) {
         </div>
 
         {/* Scrollable Content Area */}
-        <div className="flex-1 overflow-y-auto p-5">
+        <div
+          className="flex-1 overflow-y-auto p-5"
+          style={{ overscrollBehavior: 'contain', WebkitOverflowScrolling: 'touch' }}
+          onWheel={(e) => e.stopPropagation()}
+          onTouchMove={(e) => e.stopPropagation()}
+        >
           <div className="space-y-4">
             <div>
               <p className="text-base font-bold text-slate-900">{member.intro}</p>

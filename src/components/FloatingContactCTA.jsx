@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { FiPhoneCall } from 'react-icons/fi';
 
 export default function FloatingContactCTA({ franchiseName = 'this opportunity' }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -80,114 +81,97 @@ export default function FloatingContactCTA({ franchiseName = 'this opportunity' 
     setIsOpen(true);
   };
 
-  // Debug logging + body scroll lock
+  // Debug logging + body scroll lock — also stops Lenis
   useEffect(() => {
     if (isOpen) {
-      console.log('Modal is now OPEN');
+      const scrollY = window.scrollY;
       document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+      if (window.__lenis) window.__lenis.stop();
     } else {
-      console.log('Modal is now CLOSED');
-      document.body.style.overflow = 'unset';
+      const scrollY = document.body.style.top;
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      if (scrollY) window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+      if (window.__lenis) window.__lenis.start();
     }
-    
     return () => {
-      document.body.style.overflow = 'unset';
+      const scrollY = document.body.style.top;
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      if (scrollY) window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+      if (window.__lenis) window.__lenis.start();
     };
   }, [isOpen]);
 
   return (
     <>
-      {/* Premium Animated Advisor Button - GLOBAL FIXED */}
+      {/* Premium Floating Contact Button */}
       <AnimatePresence>
         {isVisible && !isOpen && (
           <motion.button
-            initial={{ opacity: 0, scale: 0.5, x: 100 }}
-            animate={{ opacity: 1, scale: 1, x: 0 }}
-            exit={{ opacity: 0, scale: 0.5, x: 100 }}
-            whileHover={{ scale: 1.08, y: -2 }}
-            whileTap={{ scale: 0.96 }}
+            initial={{ opacity: 0, scale: 0.6, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.6, y: 20 }}
+            transition={{ type: 'spring', stiffness: 380, damping: 28 }}
+            whileHover={{ scale: 1.06, y: -3 }}
+            whileTap={{ scale: 0.94 }}
             onClick={handleButtonClick}
             style={{
               position: 'fixed',
-              bottom: '24px',
-              right: '24px',
+              bottom: '28px',
+              right: '28px',
               zIndex: 999999,
               pointerEvents: 'auto',
             }}
-            className="group relative flex h-[72px] w-[72px] items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-indigo-600 via-violet-600 to-purple-700 shadow-[0_12px_32px_rgba(99,102,241,0.4)] transition-all duration-300 hover:shadow-[0_16px_48px_rgba(99,102,241,0.5)] sm:h-20 sm:w-20"
             aria-label="Talk to Franchise Strategist"
           >
-            {/* Animated Background Rings */}
-            <motion.span
-              animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0, 0.3] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute inset-0 rounded-full bg-violet-400"
-            />
-            <motion.span
-              animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0, 0.2] }}
-              transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-              className="absolute inset-0 rounded-full bg-indigo-400"
-            />
+            {/* Ripple rings — staggered, fade out */}
+            {[0, 0.6, 1.2].map((delay, i) => (
+              <motion.span
+                key={i}
+                className="absolute inset-0 rounded-full bg-violet-500"
+                animate={{ scale: [1, 1.7], opacity: [0.28, 0] }}
+                transition={{ duration: 1.8, repeat: Infinity, ease: 'easeOut', delay }}
+                style={{ pointerEvents: 'none' }}
+              />
+            ))}
 
-            {/* Orbiting Particles */}
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
-              className="absolute inset-0"
-            >
-              <span className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-white/60" />
-              <span className="absolute bottom-0 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-white/60" />
-            </motion.div>
-
-            {/* Premium Advisor Icon - Human with Headset */}
-            <motion.div
-              animate={{ y: [0, -2, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-              className="relative z-10"
-            >
-              <svg 
-                className="h-10 w-10 text-white drop-shadow-lg sm:h-11 sm:w-11" 
-                fill="none" 
-                viewBox="0 0 24 24" 
-                stroke="currentColor"
-                strokeWidth={2}
+            {/* Main pill */}
+            <div className="relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-indigo-600 via-violet-600 to-purple-700 shadow-[0_8px_24px_rgba(99,102,241,0.45)] transition-shadow duration-300 hover:shadow-[0_12px_32px_rgba(99,102,241,0.55)]">
+              {/* Shimmer sweep */}
+              <motion.span
+                className="absolute inset-0 rounded-full overflow-hidden"
+                style={{ pointerEvents: 'none' }}
               >
-                {/* Head */}
-                <circle cx="12" cy="7" r="3.5" strokeLinecap="round" />
-                {/* Body/Shoulders */}
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6" 
+                <motion.span
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full"
+                  animate={{ translateX: ['-100%', '200%'] }}
+                  transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut', repeatDelay: 1.2 }}
                 />
-                {/* Headset Left */}
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  d="M7 9c-1.5 0-2 1-2 2v2c0 .5.5 1 1 1s1-.5 1-1v-2c0-.5 0-1 0-2z" 
-                />
-                {/* Headset Right */}
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  d="M17 9c1.5 0 2 1 2 2v2c0 .5-.5 1-1 1s-1-.5-1-1v-2c0-.5 0-1 0-2z" 
-                />
-                {/* Microphone */}
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  d="M15 13h2" 
-                />
-              </svg>
-            </motion.div>
+              </motion.span>
 
-            {/* Glow Effect */}
-            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-violet-400/30 to-purple-600/30 blur-2xl transition-all duration-300 group-hover:blur-3xl" />
+              {/* Icon — phone call, crisp and small */}
+              <motion.div
+                animate={{ rotate: [0, -12, 12, -8, 8, 0] }}
+                transition={{ duration: 0.6, repeat: Infinity, repeatDelay: 3.5, ease: 'easeInOut' }}
+                className="relative z-10"
+              >
+                <FiPhoneCall className="h-5 w-5 text-white drop-shadow" strokeWidth={2.2} />
+              </motion.div>
+            </div>
 
-            {/* Tooltip on Hover */}
+            {/* Tooltip */}
             <motion.div
-              initial={{ opacity: 0, x: 10 }}
-              whileHover={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, x: 8, scale: 0.95 }}
+              whileHover={{ opacity: 1, x: 0, scale: 1 }}
+              transition={{ duration: 0.18 }}
               className="pointer-events-none absolute right-full mr-3 hidden whitespace-nowrap rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-xl lg:block"
             >
               Talk to Franchise Strategist
@@ -212,14 +196,17 @@ export default function FloatingContactCTA({ franchiseName = 'this opportunity' 
             />
 
             {/* Modal Content - Crystal Clear */}
-            <div className="absolute inset-0 flex items-end justify-center p-4 sm:items-center" style={{ zIndex: 1000000 }}>
+            <div className="absolute inset-0 flex items-end justify-center p-4 sm:items-center sm:p-6" style={{ zIndex: 1000000 }}>
               <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
                 transition={{ type: 'spring', damping: 30, stiffness: 400 }}
                 onClick={(e) => e.stopPropagation()}
-                className="relative w-full max-w-2xl overflow-hidden rounded-3xl bg-white shadow-[0_24px_60px_rgba(0,0,0,0.25)] sm:max-h-[90vh]"
+                onWheel={(e) => e.stopPropagation()}
+                onTouchMove={(e) => e.stopPropagation()}
+                className="relative w-full max-w-2xl overflow-hidden rounded-3xl bg-white shadow-[0_32px_80px_rgba(0,0,0,0.28)]"
+                style={{ maxHeight: 'calc(100vh - 48px)', display: 'flex', flexDirection: 'column' }}
               >
                 {/* Close Button */}
                 <button
@@ -233,19 +220,16 @@ export default function FloatingContactCTA({ franchiseName = 'this opportunity' 
                 </button>
 
                 {/* Scrollable Content */}
-                <div className="max-h-[85vh] overflow-y-auto p-6 sm:p-8 lg:p-10">
+                <div
+                  className="overflow-y-auto p-6 sm:p-8 lg:p-10"
+                  style={{ flex: 1, minHeight: 0, overscrollBehavior: 'contain', WebkitOverflowScrolling: 'touch' }}
+                >
                   {!isSubmitted ? (
                     <>
                       {/* Header */}
                       <div className="mb-8 text-center">
                         <div className="mb-4 inline-flex rounded-full bg-gradient-to-br from-violet-100 to-purple-100 p-4">
-                          <svg className="h-10 w-10 text-violet-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                            <circle cx="12" cy="7" r="3.5" strokeLinecap="round" />
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6" />
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M7 9c-1.5 0-2 1-2 2v2c0 .5.5 1 1 1s1-.5 1-1v-2c0-.5 0-1 0-2z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M17 9c1.5 0 2 1 2 2v2c0 .5-.5 1-1 1s-1-.5-1-1v-2c0-.5 0-1 0-2z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 13h2" />
-                          </svg>
+                          <FiPhoneCall className="h-9 w-9 text-violet-600" strokeWidth={2} />
                         </div>
                         <h3 className="text-3xl font-bold tracking-tight text-slate-900">
                           Talk to Franchise Strategist

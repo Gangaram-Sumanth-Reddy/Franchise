@@ -1,21 +1,44 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import React from 'react';
+import BrandLogo from '../assets/BrandLogo.png';
 
 function LeadershipSection() {
   const [founderModalOpen, setFounderModalOpen] = useState(false);
   const [cofounderModalOpen, setCofounderModalOpen] = useState(false);
 
-  // Prevent body scroll when modal is open
+  // Prevent body scroll when modal is open — also stops Lenis smooth scroll
   React.useEffect(() => {
-    if (founderModalOpen || cofounderModalOpen) {
+    const isOpen = founderModalOpen || cofounderModalOpen;
+    if (isOpen) {
+      // Lock native scroll
+      const scrollY = window.scrollY;
       document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+      // Pause Lenis if available
+      if (window.__lenis) window.__lenis.stop();
     } else {
-      document.body.style.overflow = 'unset';
+      // Restore native scroll position
+      const scrollY = document.body.style.top;
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      if (scrollY) window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+      // Resume Lenis
+      if (window.__lenis) window.__lenis.start();
     }
     return () => {
-      document.body.style.overflow = 'unset';
+      const scrollY = document.body.style.top;
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      if (scrollY) window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+      if (window.__lenis) window.__lenis.start();
     };
   }, [founderModalOpen, cofounderModalOpen]);
 
@@ -138,13 +161,19 @@ function LeadershipSection() {
                   transition={{ duration: 0.6, delay: 0.5 }}
                   className="flex items-center justify-between border-t border-slate-200 pt-4 mt-4"
                 >
-                  <div>
-                    <p className="text-2xl text-slate-900 lg:text-[28px]" style={{ fontFamily: 'Brush Script MT, cursive' }}>
-                      Arjun Malhotra
-                    </p>
-                    <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-slate-500">
-                      Founder & Director
-                    </p>
+                  <div className="flex items-center gap-3">
+                    {/* iFranchise logo box */}
+                    <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+                      <img src={BrandLogo} alt="iFranchise" className="h-9 w-9 object-contain" />
+                    </div>
+                    <div>
+                      <p className="text-2xl text-slate-900 lg:text-[28px]" style={{ fontFamily: 'Brush Script MT, cursive' }}>
+                        Arjun Malhotra
+                      </p>
+                      <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                        Founder & Director
+                      </p>
+                    </div>
                   </div>
                   
                   <div className="flex items-center gap-3">
@@ -162,7 +191,7 @@ function LeadershipSection() {
                       onClick={() => setFounderModalOpen(true)}
                       className="group flex items-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm font-bold text-slate-900 shadow-sm transition-all duration-300 hover:border-violet-400 hover:bg-violet-50 hover:shadow-md cursor-pointer"
                     >
-                      More About Him
+                      Explore His Journey
                       <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
                       </svg>
@@ -242,13 +271,19 @@ function LeadershipSection() {
                   transition={{ duration: 0.6, delay: 0.5 }}
                   className="flex items-center justify-between border-t border-slate-200 pt-4 mt-4"
                 >
-                  <div>
-                    <p className="text-2xl text-slate-900 lg:text-[28px]" style={{ fontFamily: 'Brush Script MT, cursive' }}>
-                      Daniel Reeves
-                    </p>
-                    <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-slate-500">
-                      Co-Founder
-                    </p>
+                  <div className="flex items-center gap-3">
+                    {/* iFranchise logo box */}
+                    <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+                      <img src={BrandLogo} alt="iFranchise" className="h-9 w-9 object-contain" />
+                    </div>
+                    <div>
+                      <p className="text-2xl text-slate-900 lg:text-[28px]" style={{ fontFamily: 'Brush Script MT, cursive' }}>
+                        Daniel Reeves
+                      </p>
+                      <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                        Co-Founder
+                      </p>
+                    </div>
                   </div>
                   
                   <div className="flex items-center gap-3">
@@ -266,7 +301,7 @@ function LeadershipSection() {
                       onClick={() => setCofounderModalOpen(true)}
                       className="group flex items-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm font-bold text-slate-900 shadow-sm transition-all duration-300 hover:border-indigo-400 hover:bg-indigo-50 hover:shadow-md cursor-pointer"
                     >
-                      More About Him
+                      Explore His Journey
                       <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
                       </svg>
@@ -304,7 +339,7 @@ function LeadershipSection() {
       {/* FOUNDER MODAL */}
       {founderModalOpen && createPortal(
         <div 
-          style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', overflowY: 'auto' }}
+          style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}
           onClick={(e) => { if (e.target === e.currentTarget) setFounderModalOpen(false); }}
         >
           <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(6px)' }} onClick={() => setFounderModalOpen(false)} />
@@ -314,9 +349,11 @@ function LeadershipSection() {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '560px', borderRadius: '24px', background: '#fff', overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.35)', margin: 'auto' }}
+            style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '560px', maxHeight: 'calc(100vh - 32px)', borderRadius: '24px', background: '#fff', overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.35)', margin: 'auto', display: 'flex', flexDirection: 'column' }}
+            onWheel={(e) => e.stopPropagation()}
+            onTouchMove={(e) => e.stopPropagation()}
           >
-            <div style={{ background: 'linear-gradient(135deg,#7c3aed 0%,#6366f1 50%,#4f46e5 100%)', padding: '24px 24px 32px', position: 'relative' }}>
+            <div style={{ background: 'linear-gradient(135deg,#7c3aed 0%,#6366f1 50%,#4f46e5 100%)', padding: '24px 24px 32px', position: 'relative', flexShrink: 0 }}>
               <button
                 onClick={() => setFounderModalOpen(false)}
                 style={{ position: 'absolute', right: 16, top: 16, width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', cursor: 'pointer', fontSize: 16, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
@@ -330,7 +367,7 @@ function LeadershipSection() {
               </div>
             </div>
             
-            <div style={{ padding: 24, maxHeight: '60vh', overflowY: 'auto' }}>
+            <div style={{ padding: 24, flex: 1, overflowY: 'auto', minHeight: 0, overscrollBehavior: 'contain', WebkitOverflowScrolling: 'touch' }}>
               <div className="space-y-6">
                 <p className="text-base leading-relaxed text-slate-700">
                   I started iFranchise with a simple belief: every entrepreneur deserves a fair shot at building something extraordinary. Too many brilliant business ideas die not from lack of potential, but from lack of the right guidance, capital, and strategic support.
@@ -401,7 +438,7 @@ function LeadershipSection() {
       {/* CO-FOUNDER MODAL */}
       {cofounderModalOpen && createPortal(
         <div 
-          style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', overflowY: 'auto' }}
+          style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}
           onClick={(e) => { if (e.target === e.currentTarget) setCofounderModalOpen(false); }}
         >
           <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(6px)' }} onClick={() => setCofounderModalOpen(false)} />
@@ -411,9 +448,11 @@ function LeadershipSection() {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '560px', borderRadius: '24px', background: '#fff', overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.35)', margin: 'auto' }}
+            style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '560px', maxHeight: 'calc(100vh - 32px)', borderRadius: '24px', background: '#fff', overflow: 'hidden', boxShadow: '0 40px 100px rgba(0,0,0,0.35)', margin: 'auto', display: 'flex', flexDirection: 'column' }}
+            onWheel={(e) => e.stopPropagation()}
+            onTouchMove={(e) => e.stopPropagation()}
           >
-            <div style={{ background: 'linear-gradient(135deg,#4f46e5 0%,#6366f1 50%,#7c3aed 100%)', padding: '24px 24px 32px', position: 'relative' }}>
+            <div style={{ background: 'linear-gradient(135deg,#4f46e5 0%,#6366f1 50%,#7c3aed 100%)', padding: '24px 24px 32px', position: 'relative', flexShrink: 0 }}>
               <button
                 onClick={() => setCofounderModalOpen(false)}
                 style={{ position: 'absolute', right: 16, top: 16, width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', cursor: 'pointer', fontSize: 16, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
@@ -427,7 +466,7 @@ function LeadershipSection() {
               </div>
             </div>
             
-            <div style={{ padding: 24, maxHeight: '60vh', overflowY: 'auto' }}>
+            <div style={{ padding: 24, flex: 1, overflowY: 'auto', minHeight: 0, overscrollBehavior: 'contain', WebkitOverflowScrolling: 'touch' }}>
               <div className="space-y-6">
                 <p className="text-base leading-relaxed text-slate-700">
                   I've spent over a decade watching businesses fail not because their ideas weren't good enough, but because they lacked the operational backbone to scale. That's what drives me every single day at iFranchise.
