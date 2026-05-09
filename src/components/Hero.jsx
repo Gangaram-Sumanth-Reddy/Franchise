@@ -1004,7 +1004,7 @@ function FranchiseModelCard({ model, visible, delayMs }) {
                 window.history.pushState({}, '', `/franchise/${model.slug}`);
                 window.dispatchEvent(new PopStateEvent('popstate'));
               }}
-              className="flex-1 rounded-xl bg-[#0B1220] px-4 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-[#1a2332] hover:shadow-lg hover:-translate-y-0.5"
+              className="flex-1 rounded-xl btn-wave bg-[#0B1220] px-4 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-[#1a2332] hover:shadow-lg hover:-translate-y-0.5"
             >
               Explore
             </button>
@@ -1176,7 +1176,7 @@ function FranchiseCard({ franchise }) {
               window.history.pushState({}, '', `/franchise/${franchise.slug}`);
               window.dispatchEvent(new PopStateEvent('popstate'));
             }}
-            className="w-full rounded-full bg-[#0B1220] px-6 py-3 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#0B1220]/25"
+            className="w-full rounded-full btn-wave bg-[#0B1220] px-6 py-3 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#0B1220]/25"
           >
             View Details
           </button>
@@ -2855,7 +2855,7 @@ function Hero() {
                   window.history.pushState({}, '', '/franchise-opportunities');
                   window.dispatchEvent(new PopStateEvent('popstate'));
                 }}
-                className="group relative overflow-hidden rounded-2xl bg-[#0B1220] px-6 py-3 text-sm font-bold text-white transition-all duration-300 hover:bg-[#1a2332] hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(11,15,25,0.3)]"
+                className="group relative overflow-hidden rounded-2xl btn-wave bg-[#0B1220] px-6 py-3 text-sm font-bold text-white transition-all duration-300 hover:bg-[#1a2332] hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(11,15,25,0.3)]"
                 style={{
                   boxShadow: '0 4px 20px rgba(11,15,25,0.25)',
                 }}
@@ -2876,7 +2876,7 @@ function Hero() {
                   window.history.pushState({}, '', '/for-brand-owners');
                   window.dispatchEvent(new PopStateEvent('popstate'));
                 }}
-                className="group relative overflow-hidden rounded-2xl bg-[#0B1220] px-6 py-3 text-sm font-bold text-white transition-all duration-300 hover:bg-[#1a2332] hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(11,15,25,0.3)]"
+                className="group relative overflow-hidden rounded-2xl btn-wave bg-[#0B1220] px-6 py-3 text-sm font-bold text-white transition-all duration-300 hover:bg-[#1a2332] hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(11,15,25,0.3)]"
                 style={{
                   boxShadow: '0 4px 20px rgba(11,15,25,0.25)',
                 }}
@@ -3132,7 +3132,7 @@ function Hero() {
                       window.history.pushState({}, '', '/franchise-opportunities');
                       window.dispatchEvent(new PopStateEvent('popstate'));
                     }}
-                    className="group/btn relative overflow-hidden w-full inline-flex items-center justify-center gap-2 rounded-2xl bg-[#0B1220] text-white px-6 py-3.5 text-sm font-bold transition-all duration-300 hover:bg-[#1a2332] hover:shadow-[0_8px_32px_rgba(11,15,25,0.3)] hover:-translate-y-0.5"
+                    className="group/btn relative overflow-hidden w-full inline-flex items-center justify-center gap-2 rounded-2xl btn-wave bg-[#0B1220] text-white px-6 py-3.5 text-sm font-bold transition-all duration-300 hover:bg-[#1a2332] hover:shadow-[0_8px_32px_rgba(11,15,25,0.3)] hover:-translate-y-0.5"
                     style={{
                       boxShadow: '0 4px 20px rgba(11,15,25,0.25)',
                     }}
@@ -3217,7 +3217,7 @@ function Hero() {
                       window.history.pushState({}, '', '/for-brand-owners');
                       window.dispatchEvent(new PopStateEvent('popstate'));
                     }}
-                    className="group/btn relative overflow-hidden w-full inline-flex items-center justify-center gap-2 rounded-2xl bg-[#0B1220] text-white px-6 py-3.5 text-sm font-bold transition-all duration-300 hover:bg-[#1a2332] hover:shadow-[0_8px_32px_rgba(11,15,25,0.3)] hover:-translate-y-0.5"
+                    className="group/btn relative overflow-hidden w-full inline-flex items-center justify-center gap-2 rounded-2xl btn-wave bg-[#0B1220] text-white px-6 py-3.5 text-sm font-bold transition-all duration-300 hover:bg-[#1a2332] hover:shadow-[0_8px_32px_rgba(11,15,25,0.3)] hover:-translate-y-0.5"
                     style={{
                       boxShadow: '0 4px 20px rgba(11,15,25,0.25)',
                     }}
@@ -3653,7 +3653,7 @@ function Hero() {
                 window.history.pushState({}, '', '/franchise-opportunities');
                 window.dispatchEvent(new PopStateEvent('popstate'));
               }}
-              className="group inline-flex items-center justify-center gap-2 rounded-full bg-[#0B1220] text-white px-8 py-4 text-base font-semibold transition-all duration-300 hover:bg-[#1a2332] hover:scale-[1.02] hover:shadow-xl hover:shadow-[#0B1220]/30"
+              className="group inline-flex items-center justify-center gap-2 rounded-full btn-wave bg-[#0B1220] text-white px-8 py-4 text-base font-semibold transition-all duration-300 hover:bg-[#1a2332] hover:scale-[1.02] hover:shadow-xl hover:shadow-[#0B1220]/30"
             >
               Explore Industries
               <svg className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
@@ -3923,7 +3923,7 @@ function Hero() {
                 window.history.pushState({}, '', '/franchise-opportunities');
                 window.dispatchEvent(new PopStateEvent('popstate'));
               }}
-              className="group inline-flex items-center justify-center gap-2 rounded-full bg-[#0B1220] text-white px-7 py-3.5 text-sm font-semibold transition-all duration-300 hover:bg-[#1a2332] hover:scale-[1.02] hover:shadow-xl hover:shadow-[#0B1220]/30"
+              className="group inline-flex items-center justify-center gap-2 rounded-full btn-wave bg-[#0B1220] text-white px-7 py-3.5 text-sm font-semibold transition-all duration-300 hover:bg-[#1a2332] hover:scale-[1.02] hover:shadow-xl hover:shadow-[#0B1220]/30"
             >
               Explore Franchise Opportunities
               <svg className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>

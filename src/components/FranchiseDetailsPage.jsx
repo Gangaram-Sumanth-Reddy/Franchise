@@ -2454,7 +2454,7 @@ function FranchiseDetailsPage() {
                 download
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex w-fit items-center gap-2.5 rounded-xl bg-[#0B1220] px-6 py-3 text-sm font-semibold text-white shadow-[0_4px_16px_rgba(11,18,32,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#111827] hover:shadow-[0_8px_28px_rgba(11,18,32,0.28)] active:scale-[0.98] lg:w-auto"
+                className="group inline-flex w-fit items-center gap-2.5 rounded-xl btn-wave bg-[#0B1220] px-6 py-3 text-sm font-semibold text-white shadow-[0_4px_16px_rgba(11,18,32,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#111827] hover:shadow-[0_8px_28px_rgba(11,18,32,0.28)] active:scale-[0.98] lg:w-auto"
               >
                 {/* Download icon */}
                 <svg
@@ -2497,7 +2497,7 @@ function FranchiseDetailsPage() {
                   type="button"
                   onClick={() => setActiveTab(tab)}
                   className={`rounded-full px-5 py-2.5 text-sm font-semibold transition ${
-                    activeTab === tab ? 'bg-[#0B1220] text-white' : 'border border-slate-300 bg-white text-slate-700 hover:bg-slate-100'
+                    activeTab === tab ? 'btn-wave bg-[#0B1220] text-white' : 'border border-slate-300 bg-white text-slate-700 hover:bg-slate-100'
                   }`}
                 >
                   {tab}
@@ -2721,7 +2721,7 @@ function FranchiseDetailsPage() {
                         event.stopPropagation();
                         handleRelatedDetails(franchise.id);
                       }}
-                      className="mt-4 w-full rounded-full bg-[#0B1220] px-4 py-2.5 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#0B1220]/25"
+                      className="mt-4 w-full rounded-full btn-wave bg-[#0B1220] px-4 py-2.5 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#0B1220]/25"
                     >
                       View Details
                     </button>

@@ -398,7 +398,7 @@ function Navbar() {
                       <button
                         type="button"
                         onClick={() => navigateTo('/contact')}
-                        className="group mt-6 w-full flex items-center justify-center gap-2 rounded-2xl bg-[#0B1220] px-4 py-4 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:bg-[#1a2332] hover:shadow-xl hover:-translate-y-0.5"
+                        className="group mt-6 w-full flex items-center justify-center gap-2 rounded-2xl btn-wave bg-[#0B1220] px-4 py-4 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:bg-[#1a2332] hover:shadow-xl hover:-translate-y-0.5"
                       >
                         Book A Call
                         <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/20 transition-transform duration-200 group-hover:translate-x-1">
@@ -810,7 +810,7 @@ function Navbar() {
                 <button
                   type="button"
                   onClick={() => navigateTo('/for-brand-owners')}
-                  className="group flex w-full items-center justify-center gap-2.5 rounded-2xl bg-[#0B1220] px-6 py-4 text-base font-semibold text-white shadow-lg transition-all hover:bg-[#1a2332] active:scale-[0.98]"
+                  className="group flex w-full items-center justify-center gap-2.5 rounded-2xl btn-wave bg-[#0B1220] px-6 py-4 text-base font-semibold text-white shadow-lg transition-all hover:bg-[#1a2332] active:scale-[0.98]"
                 >
                   List Your Brand
                   <motion.div

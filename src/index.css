@@ -878,14 +878,18 @@ img.loaded {
   transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* ─── Flowing wave — opt-in via .btn-wave class only ────────────────────────── */
-/* Use .btn-wave on specific buttons instead of broad attribute selectors */
-.btn-wave {
+/* ─── Flowing wave — dark CTA buttons site-wide ─────────────────────────────── */
+/* Targets bg-slate-900 buttons + opt-in .btn-wave class */
+
+.btn-wave,
+button.bg-slate-900:not([class*="border-"]):not([class*="outline"]):not([class*="bg-white"]) {
   position: relative;
   overflow: hidden;
   isolation: isolate;
 }
-.btn-wave::before {
+
+.btn-wave::before,
+button.bg-slate-900:not([class*="border-"]):not([class*="outline"]):not([class*="bg-white"])::before {
   content: '';
   position: absolute;
   top: 0;
@@ -895,21 +899,28 @@ img.loaded {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(139, 92, 246, 0) 20%,
-    rgba(139, 92, 246, 0.35) 50%,
-    rgba(139, 92, 246, 0) 80%,
+    rgba(139, 92, 246, 0) 15%,
+    rgba(139, 92, 246, 0.38) 50%,
+    rgba(139, 92, 246, 0) 85%,
     transparent 100%
   );
   opacity: 0;
-  transition: opacity 0.25s ease;
+  transition: opacity 0.2s ease;
   z-index: 0;
   pointer-events: none;
 }
-.btn-wave:hover::before {
+
+.btn-wave:hover::before,
+button.bg-slate-900:not([class*="border-"]):not([class*="outline"]):not([class*="bg-white"]):hover::before {
   opacity: 1;
   animation: flowingWave 1.4s ease-in-out infinite;
 }
-.btn-wave > * { position: relative; z-index: 1; }
+
+.btn-wave > *,
+button.bg-slate-900:not([class*="border-"]):not([class*="outline"]):not([class*="bg-white"]) > * {
+  position: relative;
+  z-index: 1;
+}
 
 @keyframes flowingWave {
   0%   { left: -100%; opacity: 0; }

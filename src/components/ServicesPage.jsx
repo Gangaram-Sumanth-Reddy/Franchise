@@ -428,7 +428,7 @@ function InvestorDashboardContent({ navigateTo }) {
         {[
           { icon: FiBarChart2, label: 'Avg ROI', value: '31%', color: 'from-violet-500 to-purple-600' },
           { icon: FiTrendingUp, label: 'CAGR', value: '~30%', color: 'from-blue-500 to-cyan-600' },
-          { icon: FiDollarSign, label: 'Min Inv', value: '?95K', color: 'from-emerald-500 to-teal-600' }
+          { icon: FiDollarSign, label: 'Min Inv', value: '₹95K', color: 'from-emerald-500 to-teal-600' }
         ].map((metric, i) => (
           <div
             key={i}
@@ -958,19 +958,19 @@ export default function ServicesPage() {
           
           {/* Connection Lines Between Cards - Desktop Only */}
           <div className="hidden lg:block absolute inset-0 pointer-events-none">
-            {/* Connection 1?2 */}
+            {/* Connection 1→2 */}
             <div className="absolute top-1/2 left-[calc(25%-1.5rem)] w-[3rem] h-px overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-400 via-emerald-400 to-transparent animate-connectionFlow" />
               <div className="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-blue-400 animate-particleFlow1" />
             </div>
             
-            {/* Connection 2?3 */}
+            {/* Connection 2→3 */}
             <div className="absolute top-1/2 left-[calc(50%-1.5rem)] w-[3rem] h-px overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 via-violet-400 to-transparent animate-connectionFlow" style={{ animationDelay: '0.5s' }} />
               <div className="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-emerald-400 animate-particleFlow2" />
             </div>
             
-            {/* Connection 3?4 */}
+            {/* Connection 3→4 */}
             <div className="absolute top-1/2 left-[calc(75%-1.5rem)] w-[3rem] h-px overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-r from-violet-400 via-orange-400 to-transparent animate-connectionFlow" style={{ animationDelay: '1s' }} />
               <div className="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-violet-400 animate-particleFlow3" />
@@ -1387,7 +1387,7 @@ export default function ServicesPage() {
                       <div className="rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 p-2.5 shadow-lg relative overflow-hidden">
                         <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
                         <FiDollarSign className="h-3.5 w-3.5 text-white/80 mb-1" />
-                        <div className="text-lg font-bold text-white">?6.8M</div>
+                        <div className="text-lg font-bold text-white">₹6.8M</div>
                         <div className="text-[9px] text-white/70">Revenue</div>
                       </div>
                     </div>
@@ -2047,7 +2047,7 @@ export default function ServicesPage() {
               className="mt-8 flex flex-wrap items-center justify-center gap-4"
             >
               <button type="button" onClick={() => navigateTo('/contact')}
-                className="rounded-full bg-[#0B1220] px-8 py-3.5 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(15,23,42,0.22)]">
+                className="rounded-full btn-wave bg-[#0B1220] px-8 py-3.5 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(15,23,42,0.22)]">
                 Book a Call
               </button>
               <button type="button" onClick={() => navigateTo('/franchise-opportunities')}

@@ -298,7 +298,7 @@ function AboutPage() {
                       nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }
                   }}
-                  className="group relative overflow-hidden rounded-2xl bg-[#0B1220] px-8 py-4 text-sm font-bold text-white transition-all duration-300 hover:bg-[#1a2332] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(11,15,25,0.35)]"
+                  className="group relative overflow-hidden rounded-2xl btn-wave bg-[#0B1220] px-8 py-4 text-sm font-bold text-white transition-all duration-300 hover:bg-[#1a2332] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(11,15,25,0.35)]"
                   style={{ boxShadow: '0 6px 24px rgba(11,15,25,0.28)' }}
                 >
                   <span className="relative z-10 flex items-center justify-center gap-2.5">
@@ -314,7 +314,7 @@ function AboutPage() {
                 
                 <button
                   onClick={openTeamPage}
-                  className="group relative overflow-hidden rounded-2xl bg-[#0B1220] px-8 py-4 text-sm font-bold text-white transition-all duration-300 hover:bg-[#1a2332] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(11,15,25,0.35)]"
+                  className="group relative overflow-hidden rounded-2xl btn-wave bg-[#0B1220] px-8 py-4 text-sm font-bold text-white transition-all duration-300 hover:bg-[#1a2332] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(11,15,25,0.35)]"
                   style={{ boxShadow: '0 6px 24px rgba(11,15,25,0.28)' }}
                 >
                   <span className="relative z-10 flex items-center justify-center gap-2.5">
