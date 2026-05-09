@@ -117,9 +117,9 @@ const WHY_CARDS = [
   { icon: FiTrendingUp, title: 'Proven Track Record', desc: 'We have built a reputation as a trusted and reliable partner in achieving business success across 200+ brands.' },
   { icon: FiTarget, title: 'Tailored Solutions', desc: 'We offer personalized solutions tailored to your specific goals, audience, and industry for maximum impact.' },
   { icon: FiUsers, title: 'Client-Centric Focus', desc: 'Your success is our priority. We prioritize understanding your business goals before recommending any strategy.' },
-  { icon: FiMessageSquare, title: 'Transparent Communication', desc: 'We believe in open and honest communication every step of the way � no surprises, no hidden agendas.' },
+  { icon: FiMessageSquare, title: 'Transparent Communication', desc: 'We believe in open and honest communication every step of the way — no surprises, no hidden agendas.' },
   { icon: FiHeadphones, title: 'Dedicated Support', desc: "Your success is our priority, and we're here to support you every step of the way with a dedicated team." },
-  { icon: FiGlobe, title: 'Cross-Industry Expertise', desc: 'Our team has extensive experience working across various industries � from F&B to tech to wellness.' },
+  { icon: FiGlobe, title: 'Cross-Industry Expertise', desc: 'Our team has extensive experience working across various industries — from F&B to tech to wellness.' },
 ];
 
 const FEATURES = [
@@ -410,7 +410,7 @@ function InvestorDashboardContent({ navigateTo }) {
                 </div>
                 <div className="flex items-center gap-1.5 mb-0.5">
                   <span className="text-[9px] text-slate-500">{opp.industry}</span>
-                  <span className="text-[9px] text-slate-300">�</span>
+                  <span className="text-[9px] text-slate-300">·</span>
                   <span className="text-[9px] font-semibold text-emerald-600">{opp.roi}</span>
                 </div>
                 <div className="flex items-center justify-between">
@@ -542,7 +542,7 @@ export default function ServicesPage() {
           opacity: 0.95
         }} />
 
-        {/* Orb 1 � top-left violet */}
+        {/* Orb 1 — top-left violet */}
         <div className="absolute" style={{
           top: '-5%', left: '-8%',
           width: '70vw', height: '70vw',
@@ -552,7 +552,7 @@ export default function ServicesPage() {
           willChange: 'transform',
         }} />
 
-        {/* Orb 2 � top-right indigo */}
+        {/* Orb 2 — top-right indigo */}
         <div className="absolute" style={{
           top: '3%', right: '-8%',
           width: '60vw', height: '60vw',
@@ -562,7 +562,7 @@ export default function ServicesPage() {
           willChange: 'transform',
         }} />
 
-        {/* Orb 3 � mid-page center */}
+        {/* Orb 3 — mid-page center */}
         <div className="absolute" style={{
           top: '28%', left: '15%',
           width: '65vw', height: '55vw',
@@ -572,7 +572,7 @@ export default function ServicesPage() {
           willChange: 'transform',
         }} />
 
-        {/* Orb 4 � lower-left blue */}
+        {/* Orb 4 — lower-left blue */}
         <div className="absolute" style={{
           top: '52%', left: '-6%',
           width: '55vw', height: '55vw',
@@ -582,7 +582,7 @@ export default function ServicesPage() {
           willChange: 'transform',
         }} />
 
-        {/* Orb 5 � lower-right purple */}
+        {/* Orb 5 — lower-right purple */}
         <div className="absolute" style={{
           top: '60%', right: '-6%',
           width: '58vw', height: '58vw',
@@ -592,7 +592,7 @@ export default function ServicesPage() {
           willChange: 'transform',
         }} />
 
-        {/* Orb 6 � bottom center */}
+        {/* Orb 6 — bottom center */}
         <div className="absolute" style={{
           bottom: '0%', left: '25%',
           width: '50vw', height: '40vw',
@@ -602,7 +602,7 @@ export default function ServicesPage() {
           willChange: 'transform',
         }} />
 
-        {/* Global dot grid � full page, fades at edges */}
+        {/* Global dot grid — full page, fades at edges */}
         <div className="absolute inset-0" style={{
           backgroundImage: 'radial-gradient(circle, rgba(109,40,217,0.14) 1px, transparent 1px)',
           backgroundSize: '44px 44px',
@@ -808,7 +808,7 @@ export default function ServicesPage() {
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mx-auto max-w-3xl text-base leading-relaxed text-slate-600 sm:text-lg">
-              We provide end-to-end franchise services designed to help businesses scale efficiently and connect with the right investors. Our process covers every stage of franchise growth � from strategy and documentation to investor onboarding and brand positioning.
+              We provide end-to-end franchise services designed to help businesses scale efficiently and connect with the right investors. Our process covers every stage of franchise growth — from strategy and documentation to investor onboarding and brand positioning.
             </p>
           </Reveal>
         </div>
@@ -2057,7 +2057,7 @@ export default function ServicesPage() {
             </motion.div>
           </div>
 
-          {/* Desktop � Premium Strategic Ecosystem Layout */}
+          {/* Desktop — Premium Strategic Ecosystem Layout */}
           <div className="relative mt-16 hidden lg:block" style={{ height: '480px' }}>
 
             {/* Animated gradient background */}
@@ -2069,7 +2069,7 @@ export default function ServicesPage() {
               }} />
             </div>
 
-            {/* Center orbit graphic � refined size for better balance */}
+            {/* Center orbit graphic — refined size for better balance */}
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ width: 300, height: 300 }}>
               <svg viewBox="0 0 300 300" width="300" height="300">
                 <circle cx="150" cy="150" r="140" stroke="rgba(148,163,184,0.18)" strokeWidth="1.5" fill="none" />
@@ -2103,9 +2103,9 @@ export default function ServicesPage() {
               </div>
             </div>
 
-            {/* Premium Pills � Perfect Circular Arrangement (8 pills, 45� apart) */}
+            {/* Premium Pills — Perfect Circular Arrangement (8 pills, 45° apart) */}
             
-            {/* Position 1: TOP CENTER (0�) - Moved further left */}
+            {/* Position 1: TOP CENTER (0°) - Moved further left */}
             <motion.div className="absolute top-[6%] left-[40%]"
               initial={{ opacity: 0, y: -12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.25, delay: 0.2 }}>
               <motion.div animate={{ y: [0, -8, 0] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
@@ -2119,7 +2119,7 @@ export default function ServicesPage() {
               </motion.div>
             </motion.div>
 
-            {/* Position 2: TOP RIGHT (45�) */}
+            {/* Position 2: TOP RIGHT (45°) */}
             <motion.div className="absolute top-[16%] right-[12%]"
               initial={{ opacity: 0, x: 12 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.25, delay: 0.25 }}>
               <motion.div animate={{ y: [0, -7, 0] }} transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
@@ -2133,7 +2133,7 @@ export default function ServicesPage() {
               </motion.div>
             </motion.div>
 
-            {/* Position 3: MIDDLE RIGHT (90�) */}
+            {/* Position 3: MIDDLE RIGHT (90°) */}
             <motion.div className="absolute top-[50%] -translate-y-1/2 right-[6%]"
               initial={{ opacity: 0, x: 12 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.25, delay: 0.3 }}>
               <motion.div animate={{ y: [0, -6, 0] }} transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
@@ -2147,7 +2147,7 @@ export default function ServicesPage() {
               </motion.div>
             </motion.div>
 
-            {/* Position 4: BOTTOM RIGHT (135�) */}
+            {/* Position 4: BOTTOM RIGHT (135°) */}
             <motion.div className="absolute bottom-[16%] right-[12%]"
               initial={{ opacity: 0, x: 12 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.25, delay: 0.35 }}>
               <motion.div animate={{ y: [0, -7, 0] }} transition={{ duration: 4.4, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
@@ -2161,7 +2161,7 @@ export default function ServicesPage() {
               </motion.div>
             </motion.div>
 
-            {/* Position 5: BOTTOM CENTER (180�) - Moved further left */}
+            {/* Position 5: BOTTOM CENTER (180°) - Moved further left */}
             <motion.div className="absolute bottom-[6%] left-[37%]"
               initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.25, delay: 0.4 }}>
               <motion.div animate={{ y: [0, -8, 0] }} transition={{ duration: 4.6, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
@@ -2175,7 +2175,7 @@ export default function ServicesPage() {
               </motion.div>
             </motion.div>
 
-            {/* Position 6: BOTTOM LEFT (225�) */}
+            {/* Position 6: BOTTOM LEFT (225°) */}
             <motion.div className="absolute bottom-[16%] left-[12%]"
               initial={{ opacity: 0, x: -12 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.25, delay: 0.45 }}>
               <motion.div animate={{ y: [0, -7, 0] }} transition={{ duration: 4.1, repeat: Infinity, ease: 'easeInOut', delay: 2.5 }}
@@ -2189,7 +2189,7 @@ export default function ServicesPage() {
               </motion.div>
             </motion.div>
 
-            {/* Position 7: MIDDLE LEFT (270�) */}
+            {/* Position 7: MIDDLE LEFT (270°) */}
             <motion.div className="absolute top-[50%] -translate-y-1/2 left-[6%]"
               initial={{ opacity: 0, x: -12 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.25, delay: 0.5 }}>
               <motion.div animate={{ y: [0, -6, 0] }} transition={{ duration: 3.9, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
@@ -2203,7 +2203,7 @@ export default function ServicesPage() {
               </motion.div>
             </motion.div>
 
-            {/* Position 8: TOP LEFT (315�) */}
+            {/* Position 8: TOP LEFT (315°) */}
             <motion.div className="absolute top-[16%] left-[12%]"
               initial={{ opacity: 0, x: -12 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.25, delay: 0.55 }}>
               <motion.div animate={{ y: [0, -7, 0] }} transition={{ duration: 4.3, repeat: Infinity, ease: 'easeInOut', delay: 3.5 }}
@@ -2219,7 +2219,7 @@ export default function ServicesPage() {
 
           </div>
 
-          {/* Mobile � grid */}
+          {/* Mobile — grid */}
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:hidden">
             {[
               { title: 'Verified Franchise Listings', Icon: FiCheckCircle, color: 'emerald' },

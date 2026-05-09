@@ -1331,7 +1331,7 @@ function FranchiseEduCard({ card, index }) {
   const [fallbackIdx, setFallbackIdx] = useState(0);
 
   // Force-trigger load: if the browser already cached the image,
-  // onLoad won't fire � so we check naturalWidth after mount.
+  // onLoad won't fire — so we check naturalWidth after mount.
   const imgRef = useRef(null);
   useEffect(() => {
     if (imgRef.current && imgRef.current.complete && imgRef.current.naturalWidth > 0) {
@@ -1352,7 +1352,7 @@ function FranchiseEduCard({ card, index }) {
 
   return (
     <Reveal delay={index * 0.06} className="group bg-white rounded-[28px] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden flex flex-col">
-      {/* Image container � fixed height, consistent ratio */}
+      {/* Image container — fixed height, consistent ratio */}
       <div className="relative h-48 sm:h-52 overflow-hidden shrink-0 bg-slate-100">
         {/* Skeleton shimmer shown while loading */}
         {!imgLoaded && !imgError && (
@@ -1656,7 +1656,7 @@ function NodeGraph({ active }) {
   );
 }
 
-/* Card 2 � Opportunity Gauge */
+/* Card 2 — Opportunity Gauge */
 function OpportunityGauge({ active }) {
   const [angle, setAngle] = useState(0);
   const targetAngle = 210; // ~70% of 300deg arc
@@ -1729,7 +1729,7 @@ function OpportunityGauge({ active }) {
   );
 }
 
-/* Card 3 � Benchmark Speedometer bars */
+/* Card 3 — Benchmark Speedometer bars */
 function BenchmarkBars({ active }) {
   const segments = [
     { label: 'Food & Bev',  score: 88, color: '#7c3aed' },
@@ -1760,14 +1760,14 @@ function BenchmarkBars({ active }) {
       <div className="flex items-center justify-between pt-1">
         <span className="text-[10px] text-slate-400 font-medium">Scalability Index</span>
         <span className="text-[11px] font-bold text-violet-600">
-          {active ? '? Optimised' : '�'}
+          {active ? '✓ Optimised' : '—'}
         </span>
       </div>
     </div>
   );
 }
 
-/* Card 4 � Investor Signal Stream */
+/* Card 4 — Investor Signal Stream */
 function InvestorSignals({ active }) {
   const signals = [
     {
@@ -1866,7 +1866,7 @@ function MarketIntelligenceSection() {
     if (!el) return;
     const obs = new IntersectionObserver(
       ([e]) => {
-        // Toggle active on every enter/leave � animations replay each time
+        // Toggle active on every enter/leave — animations replay each time
         setActive(e.isIntersecting);
       },
       { threshold: 0.15 }
@@ -2673,7 +2673,7 @@ function Hero() {
     };
   }, []);
 
-  // Section reveal � replays every time section enters viewport
+  // Section reveal — replays every time section enters viewport
   useEffect(() => {
     const obs = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -3264,7 +3264,7 @@ function Hero() {
         {/* -- Two-column layout -- */}
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-8 lg:gap-12 items-start">
 
-          {/* LEFT � Living Visual with Growth Signal */}
+          {/* LEFT — Living Visual with Growth Signal */}
           <div className="lg:sticky lg:top-28 self-start flex flex-col items-center gap-6">
 
             {/* Living Process Visual */}
@@ -3374,7 +3374,7 @@ function Hero() {
 
           </div>
 
-          {/* RIGHT � toggle + timeline */}
+          {/* RIGHT — toggle + timeline */}
           <ProcessTimeline />
 
         </div>
