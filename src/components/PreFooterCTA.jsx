@@ -137,8 +137,8 @@ const FOOTER_COLS = [
   {
     heading: 'For Brands',
     links: [
-      { label: 'List Your Brand',      path: '/for-brand-owners', dot: 'none' },
-      { label: 'Franchise Expansion',  path: '/for-brand-owners', dot: 'none' },
+      { label: 'List Your Brand',      path: '/list-your-brand', dot: 'none' },
+      { label: 'Franchise Expansion',  path: '/contact', dot: 'none' },
       { label: 'Lead Generation',      path: '/services',         dot: 'none' },
     ],
   },

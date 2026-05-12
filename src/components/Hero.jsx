@@ -4,7 +4,6 @@ import Button from './Button';
 import TestimonialCard from './TestimonialCard';
 import processImg from '../assets/process.png';
 import contactImg from '../assets/contact.png';
-import PremiumHeroBackground from './PremiumHeroBackground';
 import { 
   franchiseOpportunities, 
   getTotalCities, 
@@ -76,7 +75,7 @@ const growthCards = [
     description:
       'Turn your successful business into a scalable franchise model. We help brand owners structure, launch, and grow through strategic franchising systems, legal frameworks, and investor connections.',
     linkText: 'For Brand Owners',
-    href: '/for-brand-owners',
+    href: '/contact',
     image:
       'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1200&q=85',
     fallbackImage:
@@ -94,7 +93,7 @@ const growthCards = [
     description:
       'Discover vetted franchise businesses across high-growth industries. Find the right investment based on your budget, goals, and market demand — with clarity and confidence.',
     linkText: 'For Investors',
-    href: '/for-investors',
+    href: '/contact',
     image:
       'https://images.unsplash.com/photo-1551836022-deb4988cc6c0?auto=format&fit=crop&w=1200&q=85',
     fallbackImage:
@@ -2830,8 +2829,36 @@ function Hero() {
     <main className="relative isolate overflow-x-hidden bg-transparent">
       {/* -- HERO SECTION -- */}
       <section className="relative w-full min-h-[calc(100vh-80px)] flex items-center justify-center pt-20 sm:pt-24 pb-12 sm:pb-16">
-        {/* Premium Animated Background */}
-        <PremiumHeroBackground />
+        {/* Clean gradient background */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div
+            className="absolute inset-0"
+            style={{
+              background: `
+                radial-gradient(ellipse at 20% 40%, rgba(219,234,254,0.55) 0%, transparent 55%),
+                radial-gradient(ellipse at 80% 20%, rgba(237,233,254,0.50) 0%, transparent 55%),
+                radial-gradient(ellipse at 50% 80%, rgba(224,242,254,0.40) 0%, transparent 50%),
+                linear-gradient(160deg, #f0f7ff 0%, #fafbff 40%, #f5f3ff 100%)
+              `,
+            }}
+          />
+          {/* Subtle grid */}
+          <div
+            className="absolute inset-0 opacity-[0.025]"
+            style={{
+              backgroundImage: `
+                linear-gradient(to right, rgba(99,102,241,0.2) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(99,102,241,0.2) 1px, transparent 1px)
+              `,
+              backgroundSize: '80px 80px',
+            }}
+          />
+          {/* Soft orbs */}
+          <div className="absolute top-1/4 left-1/5 w-[500px] h-[500px] bg-gradient-to-br from-blue-200/40 to-indigo-200/25 rounded-full blur-3xl" />
+          <div className="absolute top-1/3 right-1/5 w-[440px] h-[440px] bg-gradient-to-br from-violet-200/35 to-purple-200/20 rounded-full blur-3xl" />
+          {/* Bottom fade */}
+          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-white via-white/60 to-transparent" />
+        </div>
         
         <div className="section-container relative">
           <div className="relative z-10 flex w-full max-w-[900px] flex-col items-center text-center mx-auto">
@@ -2873,7 +2900,7 @@ function Hero() {
               <button
                 type="button"
                 onClick={() => {
-                  window.history.pushState({}, '', '/for-brand-owners');
+                  window.history.pushState({}, '', '/list-your-brand');
                   window.dispatchEvent(new PopStateEvent('popstate'));
                 }}
                 className="group relative overflow-hidden rounded-2xl btn-wave bg-[#0B1220] px-6 py-3 text-sm font-bold text-white transition-all duration-300 hover:bg-[#1a2332] hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(11,15,25,0.3)]"
@@ -3214,7 +3241,7 @@ function Hero() {
                   <button
                     type="button"
                     onClick={() => {
-                      window.history.pushState({}, '', '/for-brand-owners');
+                      window.history.pushState({}, '', '/list-your-brand');
                       window.dispatchEvent(new PopStateEvent('popstate'));
                     }}
                     className="group/btn relative overflow-hidden w-full inline-flex items-center justify-center gap-2 rounded-2xl btn-wave bg-[#0B1220] text-white px-6 py-3.5 text-sm font-bold transition-all duration-300 hover:bg-[#1a2332] hover:shadow-[0_8px_32px_rgba(11,15,25,0.3)] hover:-translate-y-0.5"

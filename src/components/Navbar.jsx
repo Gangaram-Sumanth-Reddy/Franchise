@@ -175,7 +175,6 @@ function Navbar() {
   
   const dropdownTimeoutRef = useRef(null);
   const companyRef = useRef(null);
-  const servicesRef = useRef(null);
   const resourcesRef = useRef(null);
 
   useEffect(() => {
@@ -414,94 +413,15 @@ function Navbar() {
             </AnimatePresence>
           </li>
 
-          {/* Services Dropdown */}
-          <li 
-            className="relative"
-            onMouseEnter={() => handleMouseEnter('services')}
-            onMouseLeave={handleMouseLeave}
-            ref={servicesRef}
-          >
-            <button
-              className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg transition-all duration-200 ${
-                activeDropdown === 'services'
-                  ? 'text-[#0b0f19] bg-slate-50'
-                  : 'hover:text-[#0b0f19] hover:bg-slate-50'
-              }`}
+          {/* Services — direct link */}
+          <li>
+            <a
+              href="/services"
+              onClick={(e) => { e.preventDefault(); navigateTo('/services'); }}
+              className="inline-flex items-center px-4 py-2 rounded-lg transition-all duration-200 hover:text-[#0b0f19] hover:bg-slate-50"
             >
               Services
-              <ChevronIcon className={activeDropdown === 'services' ? 'rotate-180' : ''} />
-            </button>
-
-            <AnimatePresence>
-              {activeDropdown === 'services' && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.2, ease: 'easeOut' }}
-                  className="absolute -left-64 top-full mt-2 w-[720px] rounded-2xl border border-slate-200/60 bg-white shadow-2xl"
-                >
-                  {/* Header Section */}
-                  <div className="border-b border-slate-100 p-4">
-                    <h3 className="text-sm font-semibold text-slate-900">Services</h3>
-                    <p className="text-xs text-slate-500 mt-1">Helping brands grow and investors discover the right opportunities.</p>
-                  </div>
-
-                  {/* Content Section - 2 Columns */}
-                  <div className="grid grid-cols-2 gap-12 p-6 items-start">
-                    {/* Left Column - First 3 Services */}
-                    <div className="space-y-1">
-                      {SERVICES_ITEMS.slice(0, 3).map((item) => (
-                        <a
-                          key={item.title}
-                          href={item.path}
-                          onClick={(e) => { e.preventDefault(); navigateTo(item.path); }}
-                          className="group flex items-center gap-3 rounded-xl px-3 py-3 transition-all duration-200 hover:bg-slate-50"
-                        >
-                          <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 transition-all duration-200 group-hover:bg-slate-900">
-                            <svg viewBox="0 0 24 24" className="h-5 w-5 stroke-slate-500 group-hover:stroke-white transition-colors duration-200" fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                              {item.Icon === FranchiseIcon && <path d="M3 17l4-4 4 4 4-6 4 2M3 21h18" />}
-                              {item.Icon === ExpansionIcon && <path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />}
-                              {item.Icon === InvestorIcon && <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />}
-                            </svg>
-                          </span>
-                          <div className="flex-1">
-                            <span className="block text-sm font-medium text-slate-800 group-hover:text-slate-900">{item.title}</span>
-                            <span className="mt-0.5 block text-xs text-slate-500">{item.description}</span>
-                          </div>
-                          <span className="text-base leading-none text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200">→</span>
-                        </a>
-                      ))}
-                    </div>
-
-                    {/* Right Column - Last 3 Services */}
-                    <div className="space-y-1">
-                      {SERVICES_ITEMS.slice(3, 6).map((item) => (
-                        <a
-                          key={item.title}
-                          href={item.path}
-                          onClick={(e) => { e.preventDefault(); navigateTo(item.path); }}
-                          className="group flex items-center gap-3 rounded-xl px-3 py-3 transition-all duration-200 hover:bg-slate-50"
-                        >
-                          <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 transition-all duration-200 group-hover:bg-slate-900">
-                            <svg viewBox="0 0 24 24" className="h-5 w-5 stroke-slate-500 group-hover:stroke-white transition-colors duration-200" fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                              {item.Icon === ConsultingIcon && <path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />}
-                              {item.Icon === ResearchIcon && <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />}
-                              {item.Icon === LeadGenIcon && <path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />}
-                            </svg>
-                          </span>
-                          <div className="flex-1">
-                            <span className="block text-sm font-medium text-slate-800 group-hover:text-slate-900">{item.title}</span>
-                            <span className="mt-0.5 block text-xs text-slate-500">{item.description}</span>
-                          </div>
-                          <span className="text-base leading-none text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200">→</span>
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            </a>
           </li>
 
           {/* About Us */}
@@ -606,7 +526,7 @@ function Navbar() {
         {/* Desktop CTA Button */}
         <button
           type="button"
-          onClick={() => navigateTo('/for-brand-owners')}
+          onClick={() => navigateTo('/list-your-brand')}
           className="group hidden items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold text-white transition-all duration-300 lg:inline-flex ml-auto bg-[#0B1220] hover:bg-[#1a2332] hover:shadow-lg hover:shadow-[#0B1220]/25 hover:scale-105"
         >
           List Your Brand
@@ -709,43 +629,14 @@ function Navbar() {
                     </AnimatePresence>
                   </div>
 
-                  {/* Services Accordion */}
-                  <div className="rounded-xl border border-slate-200">
-                    <button
-                      onClick={() => setMobileAccordion(mobileAccordion === 'services' ? null : 'services')}
-                      className="flex w-full items-center justify-between px-4 py-3 text-left"
-                    >
-                      <span className="text-base font-semibold text-slate-900">Services</span>
-                      <ChevronIcon className={mobileAccordion === 'services' ? 'rotate-180' : ''} />
-                    </button>
-                    <AnimatePresence>
-                      {mobileAccordion === 'services' && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className="overflow-hidden border-t border-slate-100"
-                        >
-                          <div className="space-y-1 p-2">
-                            {SERVICES_ITEMS.map((item) => (
-                              <a
-                                key={item.title}
-                                href={item.path}
-                                onClick={(e) => { e.preventDefault(); navigateTo(item.path); }}
-                                className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
-                              >
-                                <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-slate-50">
-                                  <item.Icon />
-                                </span>
-                                <span>{item.title}</span>
-                              </a>
-                            ))}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
+                  {/* Services — direct link */}
+                  <a
+                    href="/services"
+                    onClick={(e) => { e.preventDefault(); navigateTo('/services'); }}
+                    className="flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 text-base font-semibold text-slate-900 hover:bg-slate-50"
+                  >
+                    Services
+                  </a>
 
                   {/* About Us */}
                   <a
@@ -809,7 +700,7 @@ function Navbar() {
               <div className="border-t border-slate-100 p-4">
                 <button
                   type="button"
-                  onClick={() => navigateTo('/for-brand-owners')}
+                  onClick={() => navigateTo('/list-your-brand')}
                   className="group flex w-full items-center justify-center gap-2.5 rounded-2xl btn-wave bg-[#0B1220] px-6 py-4 text-base font-semibold text-white shadow-lg transition-all hover:bg-[#1a2332] active:scale-[0.98]"
                 >
                   List Your Brand

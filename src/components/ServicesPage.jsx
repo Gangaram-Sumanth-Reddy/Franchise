@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+﻿import { useEffect, useRef, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   FiTrendingUp, FiTarget, FiUsers, FiMessageSquare,
@@ -17,7 +17,7 @@ import processImg from '../assets/process.png';
 import service4 from '../assets/service4.png';
 import service5 from '../assets/service5.png';
 
-// ── Lightweight CSS-only reveal — no framer-motion per element ────────────────
+// â”€â”€ Lightweight CSS-only reveal â€” no framer-motion per element â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function Reveal({ children, delay = 0, className = '' }) {
   const ref = useRef(null);
   useEffect(() => {
@@ -51,7 +51,7 @@ function Reveal({ children, delay = 0, className = '' }) {
   );
 }
 
-// ── Lightweight counter — uses rAF, no setInterval ────────────────────────────
+// â”€â”€ Lightweight counter â€” uses rAF, no setInterval â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function Counter({ target, suffix = '', duration = 1800 }) {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
@@ -83,7 +83,7 @@ function Counter({ target, suffix = '', duration = 1800 }) {
   return <span ref={ref}>{count}{suffix}</span>;
 }
 
-// ── Lightweight step badge — 1 CSS animation instead of 8 ────────────────────
+// â”€â”€ Lightweight step badge â€” 1 CSS animation instead of 8 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function StepBadge({ number, color }) {
   const colors = {
     blue:   { bg: 'from-blue-500 via-indigo-600 to-blue-700',   ring: 'rgba(59,130,246,0.3)',  glow: 'rgba(99,102,241,0.15)' },
@@ -117,9 +117,9 @@ const WHY_CARDS = [
   { icon: FiTrendingUp, title: 'Proven Track Record', desc: 'We have built a reputation as a trusted and reliable partner in achieving business success across 200+ brands.' },
   { icon: FiTarget, title: 'Tailored Solutions', desc: 'We offer personalized solutions tailored to your specific goals, audience, and industry for maximum impact.' },
   { icon: FiUsers, title: 'Client-Centric Focus', desc: 'Your success is our priority. We prioritize understanding your business goals before recommending any strategy.' },
-  { icon: FiMessageSquare, title: 'Transparent Communication', desc: 'We believe in open and honest communication every step of the way — no surprises, no hidden agendas.' },
+  { icon: FiMessageSquare, title: 'Transparent Communication', desc: 'We believe in open and honest communication every step of the way â€” no surprises, no hidden agendas.' },
   { icon: FiHeadphones, title: 'Dedicated Support', desc: "Your success is our priority, and we're here to support you every step of the way with a dedicated team." },
-  { icon: FiGlobe, title: 'Cross-Industry Expertise', desc: 'Our team has extensive experience working across various industries — from F&B to tech to wellness.' },
+  { icon: FiGlobe, title: 'Cross-Industry Expertise', desc: 'Our team has extensive experience working across various industries â€” from F&B to tech to wellness.' },
 ];
 
 const FEATURES = [
@@ -410,7 +410,7 @@ function InvestorDashboardContent({ navigateTo }) {
                 </div>
                 <div className="flex items-center gap-1.5 mb-0.5">
                   <span className="text-[9px] text-slate-500">{opp.industry}</span>
-                  <span className="text-[9px] text-slate-300">·</span>
+                  <span className="text-[9px] text-slate-300">Â·</span>
                   <span className="text-[9px] font-semibold text-emerald-600">{opp.roi}</span>
                 </div>
                 <div className="flex items-center justify-between">
@@ -428,7 +428,7 @@ function InvestorDashboardContent({ navigateTo }) {
         {[
           { icon: FiBarChart2, label: 'Avg ROI', value: '31%', color: 'from-violet-500 to-purple-600' },
           { icon: FiTrendingUp, label: 'CAGR', value: '~30%', color: 'from-blue-500 to-cyan-600' },
-          { icon: FiDollarSign, label: 'Min Inv', value: '₹95K', color: 'from-emerald-500 to-teal-600' }
+          { icon: FiDollarSign, label: 'Min Inv', value: 'â‚¹95K', color: 'from-emerald-500 to-teal-600' }
         ].map((metric, i) => (
           <div
             key={i}
@@ -511,6 +511,120 @@ function InvestorDashboardContent({ navigateTo }) {
   );
 }
 
+// ── What We Deliver — expandable service cards ────────────────────────────────
+const WD_SERVICES = [
+  {
+    id: 1, title: 'Franchise Onboarding', color: 'violet',
+    short: 'End-to-end onboarding systems that set every franchisee up for success from day one.',
+    detail: 'We build complete onboarding playbooks, training modules, launch checklists, and operational SOPs tailored to your brand — so every new unit opens consistently and confidently.',
+    gradient: 'from-violet-500 to-indigo-500',
+    bg: 'bg-violet-50', border: 'border-violet-200', icon_cls: 'bg-violet-100 text-violet-600', tag: 'bg-violet-100 text-violet-700',
+    icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>,
+  },
+  {
+    id: 2, title: 'Franchise Documentation', color: 'indigo',
+    short: 'Legal-grade franchise agreements, disclosure documents, and compliance frameworks.',
+    detail: 'From FDD preparation to franchise agreements, territory rights, and IP protection — we handle all documentation so your expansion is legally sound and investor-ready.',
+    gradient: 'from-indigo-500 to-violet-500',
+    bg: 'bg-indigo-50', border: 'border-indigo-200', icon_cls: 'bg-indigo-100 text-indigo-600', tag: 'bg-indigo-100 text-indigo-700',
+    icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>,
+  },
+  {
+    id: 3, title: 'Investor Acquisition', color: 'emerald',
+    short: 'Structured funnels that attract, qualify, and convert high-intent franchise investors.',
+    detail: 'Performance-driven investor acquisition campaigns — targeted outreach, lead scoring, qualification calls, and conversion systems delivering only serious, capital-ready investors.',
+    gradient: 'from-emerald-500 to-teal-500',
+    bg: 'bg-emerald-50', border: 'border-emerald-200', icon_cls: 'bg-emerald-100 text-emerald-600', tag: 'bg-emerald-100 text-emerald-700',
+    icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-5-3.87M9 20H4v-2a4 4 0 015-3.87m6-4.13a4 4 0 11-8 0 4 4 0 018 0zm6 0a3 3 0 11-6 0 3 3 0 016 0z"/></svg>,
+  },
+  {
+    id: 4, title: 'Franchise Branding & Positioning', color: 'pink',
+    short: 'Investor-grade brand identity and positioning that makes your franchise irresistible.',
+    detail: 'Premium brand decks, investor pitch materials, visual identity systems, and market positioning strategies that communicate your brand\'s value with clarity and conviction.',
+    gradient: 'from-pink-500 to-rose-500',
+    bg: 'bg-pink-50', border: 'border-pink-200', icon_cls: 'bg-pink-100 text-pink-600', tag: 'bg-pink-100 text-pink-700',
+    icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>,
+  },
+  {
+    id: 5, title: 'Franchise Expansion Strategy', color: 'amber',
+    short: 'Data-driven territory planning and phased rollout maps for controlled, scalable growth.',
+    detail: 'We analyse market demand, competitor density, and demographic data to build city-level expansion roadmaps — so every new territory you enter is a calculated, high-probability win.',
+    gradient: 'from-amber-500 to-orange-500',
+    bg: 'bg-amber-50', border: 'border-amber-200', icon_cls: 'bg-amber-100 text-amber-600', tag: 'bg-amber-100 text-amber-700',
+    icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>,
+  },
+  {
+    id: 6, title: 'Investor Onboarding Support', color: 'teal',
+    short: 'Structured post-match support that turns signed investors into successful operators.',
+    detail: 'After investor matching, we manage the full onboarding journey — site selection guidance, setup support, operational handover, and 90-day performance monitoring.',
+    gradient: 'from-teal-500 to-emerald-500',
+    bg: 'bg-teal-50', border: 'border-teal-200', icon_cls: 'bg-teal-100 text-teal-600', tag: 'bg-teal-100 text-teal-700',
+    icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg>,
+  },
+];
+
+function WDCard({ svc, index }) {
+  const [expanded, setExpanded] = useState(false);
+  return (
+    <Reveal delay={index * 0.07}>
+      <div
+        onClick={() => setExpanded(e => !e)}
+        className={`group relative bg-white rounded-2xl border ${svc.border} shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden cursor-pointer`}
+      >
+        {/* animated top border */}
+        <div className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r ${svc.gradient} scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500`} />
+        {/* hover bg */}
+        <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br ${svc.bg} pointer-events-none`} />
+        <div className="relative p-5">
+          {/* icon + title + chevron */}
+          <div className="flex items-start gap-3 mb-3">
+            <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${svc.icon_cls} group-hover:scale-110 transition-transform duration-300`}>
+              {svc.icon}
+            </div>
+            <div className="flex-1 min-w-0 pt-0.5">
+              <h3 className="text-[0.92rem] font-bold text-slate-900 leading-snug">{svc.title}</h3>
+            </div>
+            <motion.div animate={{ rotate: expanded ? 180 : 0 }} transition={{ duration: 0.25 }} className="shrink-0 mt-1">
+              <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </motion.div>
+          </div>
+          {/* short desc */}
+          <p className="text-[0.8rem] text-slate-500 leading-relaxed mb-3">{svc.short}</p>
+          {/* expandable detail */}
+          <motion.div
+            initial={false}
+            animate={{ height: expanded ? 'auto' : 0, opacity: expanded ? 1 : 0 }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden"
+          >
+            <div className={`pt-3 border-t ${svc.border} mt-1`}>
+              <p className="text-[0.78rem] text-slate-600 leading-relaxed">{svc.detail}</p>
+            </div>
+          </motion.div>
+          {/* tag + hint */}
+          <div className="mt-3 flex items-center justify-between">
+            <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[0.62rem] font-bold uppercase tracking-wide ${svc.tag}`}>
+              <span className="w-1 h-1 rounded-full bg-current" />
+              iFranchise Service
+            </span>
+            <span className="text-[0.65rem] text-slate-400">{expanded ? 'Click to collapse' : 'Click to expand'}</span>
+          </div>
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
+function WhatWeDeliverCards() {
+  return (
+    <>
+      {WD_SERVICES.map((svc, i) => <WDCard key={svc.id} svc={svc} index={i} />)}
+    </>
+  );
+}
+
 export default function ServicesPage() {
   const pageRef = useRef(null);
 
@@ -531,7 +645,7 @@ export default function ServicesPage() {
     >
 
       {/* -----------------------------------------------------------------------
-          GLOBAL LIVING BACKGROUND – One continuous animated ecosystem
+          GLOBAL LIVING BACKGROUND â€“ One continuous animated ecosystem
           Absolute positioned, full page height, behind all content
           Seamlessly integrated with Hero atmosphere
       ----------------------------------------------------------------------- */}
@@ -542,7 +656,7 @@ export default function ServicesPage() {
           opacity: 0.95
         }} />
 
-        {/* Orb 1 — top-left violet */}
+        {/* Orb 1 â€” top-left violet */}
         <div className="absolute" style={{
           top: '-5%', left: '-8%',
           width: '70vw', height: '70vw',
@@ -552,7 +666,7 @@ export default function ServicesPage() {
           willChange: 'transform',
         }} />
 
-        {/* Orb 2 — top-right indigo */}
+        {/* Orb 2 â€” top-right indigo */}
         <div className="absolute" style={{
           top: '3%', right: '-8%',
           width: '60vw', height: '60vw',
@@ -562,7 +676,7 @@ export default function ServicesPage() {
           willChange: 'transform',
         }} />
 
-        {/* Orb 3 — mid-page center */}
+        {/* Orb 3 â€” mid-page center */}
         <div className="absolute" style={{
           top: '28%', left: '15%',
           width: '65vw', height: '55vw',
@@ -572,7 +686,7 @@ export default function ServicesPage() {
           willChange: 'transform',
         }} />
 
-        {/* Orb 4 — lower-left blue */}
+        {/* Orb 4 â€” lower-left blue */}
         <div className="absolute" style={{
           top: '52%', left: '-6%',
           width: '55vw', height: '55vw',
@@ -582,7 +696,7 @@ export default function ServicesPage() {
           willChange: 'transform',
         }} />
 
-        {/* Orb 5 — lower-right purple */}
+        {/* Orb 5 â€” lower-right purple */}
         <div className="absolute" style={{
           top: '60%', right: '-6%',
           width: '58vw', height: '58vw',
@@ -592,7 +706,7 @@ export default function ServicesPage() {
           willChange: 'transform',
         }} />
 
-        {/* Orb 6 — bottom center */}
+        {/* Orb 6 â€” bottom center */}
         <div className="absolute" style={{
           bottom: '0%', left: '25%',
           width: '50vw', height: '40vw',
@@ -602,7 +716,7 @@ export default function ServicesPage() {
           willChange: 'transform',
         }} />
 
-        {/* Global dot grid — full page, fades at edges */}
+        {/* Global dot grid â€” full page, fades at edges */}
         <div className="absolute inset-0" style={{
           backgroundImage: 'radial-gradient(circle, rgba(109,40,217,0.14) 1px, transparent 1px)',
           backgroundSize: '44px 44px',
@@ -611,7 +725,7 @@ export default function ServicesPage() {
         }} />
       </div>
 
-      {/* HERO – Clean immersive layout with serviceHero.png background */}
+      {/* HERO â€“ Clean immersive layout with serviceHero.png background */}
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8 pb-8">
         
         {/* Background Layer - serviceHero.png clearly visible */}
@@ -808,7 +922,7 @@ export default function ServicesPage() {
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mx-auto max-w-3xl text-base leading-relaxed text-slate-600 sm:text-lg">
-              We provide end-to-end franchise services designed to help businesses scale efficiently and connect with the right investors. Our process covers every stage of franchise growth — from strategy and documentation to investor onboarding and brand positioning.
+              We provide end-to-end franchise services designed to help businesses scale efficiently and connect with the right investors. Our process covers every stage of franchise growth â€” from strategy and documentation to investor onboarding and brand positioning.
             </p>
           </Reveal>
         </div>
@@ -896,346 +1010,70 @@ export default function ServicesPage() {
         {/* End Content Container */}
       </div>
 
-      {/* HOW OUR PROCESS WORKS */}
-      <div className="relative z-10 py-12">
+      {/* WHAT WE DELIVER — expandable service cards */}
+      <div className="relative z-10 overflow-hidden py-12">
         
-        {/* Background Layer - service2.png full width coverage (same as Services Overview) */}
+        {/* Background Layer - service2.png */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          
-          {/* Service2 Image - Full coverage, no white sides */}
           <div className="absolute inset-0 w-full h-full">
-            <img 
-              src={service2} 
-              alt="" 
-              className="w-full h-full"
-              style={{
-                opacity: 0.65,
-                filter: 'brightness(1.08)',
-                objectFit: 'cover',
-                objectPosition: 'center'
-              }}
+            <img src={service2} alt="" className="w-full h-full"
+              style={{ opacity: 0.65, filter: 'brightness(1.08)', objectFit: 'cover', objectPosition: 'center' }}
             />
-            
-            {/* Light gradient overlay - minimal to keep image visible */}
             <div className="absolute inset-0 bg-gradient-to-b from-[#f5f3ff]/50 via-transparent to-[#eef4ff]/40" />
-            
-            {/* Soft fade at top and bottom for seamless transitions */}
             <div className="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-[#f5f3ff] via-[#f5f3ff]/90 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-[#eef4ff] via-[#eef4ff]/90 to-transparent" />
           </div>
-
-          {/* Subtle ambient glow */}
           <div className="absolute top-[20%] left-[10%] w-[30vw] h-[30vw] opacity-10"
-            style={{
-              background: 'radial-gradient(circle, rgba(139,92,246,0.15) 0%, transparent 70%)',
-              filter: 'blur(40px)'
-            }} />
+            style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.15) 0%, transparent 70%)', filter: 'blur(40px)' }} />
         </div>
 
-        {/* Content Container */}
         <div className="relative z-10 mx-auto max-w-[1240px] px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Header */}
-        <div className="relative z-10 text-center mb-16">
-          <Reveal>
-            <span className="inline-block rounded-full border border-slate-200 bg-white px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-slate-700 mb-5 shadow-sm">
-              <span className="inline-block w-1.5 h-1.5 rounded-full bg-slate-700 mr-2"></span>
-              How It Works
-            </span>
-            <h2 className="text-4xl font-extrabold text-slate-900 md:text-5xl mb-5">
-              Your Path to Franchise Success
-            </h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <p className="mx-auto max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg">
-              A proven step-by-step framework designed to help brands expand and investors discover the right opportunities with confidence.
-            </p>
-          </Reveal>
-        </div>
 
-        {/* Process Steps Grid */}
-        <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          
-          {/* Connection Lines Between Cards - Desktop Only */}
-          <div className="hidden lg:block absolute inset-0 pointer-events-none">
-            {/* Connection 1→2 */}
-            <div className="absolute top-1/2 left-[calc(25%-1.5rem)] w-[3rem] h-px overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-400 via-emerald-400 to-transparent animate-connectionFlow" />
-              <div className="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-blue-400 animate-particleFlow1" />
-            </div>
-            
-            {/* Connection 2→3 */}
-            <div className="absolute top-1/2 left-[calc(50%-1.5rem)] w-[3rem] h-px overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 via-violet-400 to-transparent animate-connectionFlow" style={{ animationDelay: '0.5s' }} />
-              <div className="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-emerald-400 animate-particleFlow2" />
-            </div>
-            
-            {/* Connection 3→4 */}
-            <div className="absolute top-1/2 left-[calc(75%-1.5rem)] w-[3rem] h-px overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-violet-400 via-orange-400 to-transparent animate-connectionFlow" style={{ animationDelay: '1s' }} />
-              <div className="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-violet-400 animate-particleFlow3" />
-            </div>
+          {/* Section Header */}
+          <div className="text-center mb-12">
+            <Reveal>
+              <span className="inline-block rounded-full border border-slate-200 bg-white px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-slate-700 mb-5 shadow-sm">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-slate-700 mr-2 align-middle" />
+                What We Deliver
+              </span>
+              <h2 className="text-4xl font-extrabold text-slate-900 md:text-5xl mb-4">
+                Complete Franchise Growth &{' '}
+                <span className="bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
+                  Expansion Services
+                </span>
+              </h2>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p className="mx-auto max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg">
+                Every service is engineered to remove friction, attract the right investors, and build a franchise system that scales without breaking.
+              </p>
+            </Reveal>
           </div>
-          
-          {/* Step 1 */}
-          <Reveal delay={0}>
-            <div className="group relative bg-white/55 backdrop-blur-md rounded-2xl border border-white/60 p-6 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(59,130,246,0.15)] hover:border-blue-300 overflow-hidden h-full flex flex-col">
-              
-              {/* Animated gradient background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-indigo-50/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradientShift" />
-              
-              {/* Floating particles */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                <div className="absolute top-[20%] left-[15%] w-1 h-1 rounded-full bg-blue-400/40 animate-floatParticle1" />
-                <div className="absolute top-[60%] right-[20%] w-1.5 h-1.5 rounded-full bg-indigo-400/30 animate-floatParticle2" />
-                <div className="absolute bottom-[30%] left-[70%] w-1 h-1 rounded-full bg-blue-300/40 animate-floatParticle3" />
-              </div>
-              
-              {/* Animated line background - flows on hover */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                {/* Horizontal lines */}
-                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-300 to-transparent animate-lineFlow" />
-                <div className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-300 to-transparent animate-lineFlow" style={{ animationDelay: '0.3s' }} />
-                <div className="absolute top-2/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-300 to-transparent animate-lineFlow" style={{ animationDelay: '0.6s' }} />
-                <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-300 to-transparent animate-lineFlow" style={{ animationDelay: '0.9s' }} />
-                
-                {/* Vertical lines */}
-                <div className="absolute top-0 left-0 w-px h-full bg-gradient-to-b from-transparent via-blue-300 to-transparent animate-lineFlowVertical" />
-                <div className="absolute top-0 left-1/3 w-px h-full bg-gradient-to-b from-transparent via-blue-300 to-transparent animate-lineFlowVertical" style={{ animationDelay: '0.3s' }} />
-                <div className="absolute top-0 left-2/3 w-px h-full bg-gradient-to-b from-transparent via-blue-300 to-transparent animate-lineFlowVertical" style={{ animationDelay: '0.6s' }} />
-                <div className="absolute top-0 right-0 w-px h-full bg-gradient-to-b from-transparent via-blue-300 to-transparent animate-lineFlowVertical" style={{ animationDelay: '0.9s' }} />
-              </div>
-              
-              {/* Glow effect on hover */}
-              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-br from-blue-400/10 via-transparent to-transparent blur-xl" />
-              
-              <div className="relative z-10 flex flex-col h-full">
-                <StepBadge number="1" color="blue" />
 
-                {/* Step Title */}
-                <h3 className="text-lg font-bold text-slate-900 mb-3">
-                  Discovery & Consultation
-                </h3>
+          {/* 3x2 expandable service cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <WhatWeDeliverCards />
+          </div>
 
-                {/* Step Description */}
-                <p className="text-sm text-slate-600 leading-relaxed mb-4">
-                  We understand your goals, budget, and vision to match you with the perfect franchise opportunities or expansion strategy.
-                </p>
-
-                {/* Features List */}
-                <div className="space-y-2 flex-1">
-                  <div className="flex items-center gap-2 text-xs text-slate-600">
-                    <FiCheck className="h-3.5 w-3.5 text-blue-600 flex-shrink-0" />
-                    <span>Free Consultation</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-slate-600">
-                    <FiTarget className="h-3.5 w-3.5 text-blue-600 flex-shrink-0" />
-                    <span>Goal Mapping</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Reveal>
-
-          {/* Step 2 */}
-          <Reveal delay={0.1}>
-            <div className="group relative bg-white/55 backdrop-blur-md rounded-2xl border border-white/60 p-6 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(16,185,129,0.15)] hover:border-emerald-300 overflow-hidden h-full flex flex-col">
-              
-              {/* Animated gradient background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/50 via-teal-50/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradientShift" />
-              
-              {/* Floating particles */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                <div className="absolute top-[25%] left-[20%] w-1 h-1 rounded-full bg-emerald-400/40 animate-floatParticle1" />
-                <div className="absolute top-[55%] right-[15%] w-1.5 h-1.5 rounded-full bg-teal-400/30 animate-floatParticle2" />
-                <div className="absolute bottom-[35%] left-[65%] w-1 h-1 rounded-full bg-emerald-300/40 animate-floatParticle3" />
-              </div>
-              
-              {/* Animated line background - flows on hover */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                {/* Horizontal lines */}
-                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-emerald-300 to-transparent animate-lineFlow" />
-                <div className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-emerald-300 to-transparent animate-lineFlow" style={{ animationDelay: '0.3s' }} />
-                <div className="absolute top-2/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-emerald-300 to-transparent animate-lineFlow" style={{ animationDelay: '0.6s' }} />
-                <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-emerald-300 to-transparent animate-lineFlow" style={{ animationDelay: '0.9s' }} />
-                
-                {/* Vertical lines */}
-                <div className="absolute top-0 left-0 w-px h-full bg-gradient-to-b from-transparent via-emerald-300 to-transparent animate-lineFlowVertical" />
-                <div className="absolute top-0 left-1/3 w-px h-full bg-gradient-to-b from-transparent via-emerald-300 to-transparent animate-lineFlowVertical" style={{ animationDelay: '0.3s' }} />
-                <div className="absolute top-0 left-2/3 w-px h-full bg-gradient-to-b from-transparent via-emerald-300 to-transparent animate-lineFlowVertical" style={{ animationDelay: '0.6s' }} />
-                <div className="absolute top-0 right-0 w-px h-full bg-gradient-to-b from-transparent via-emerald-300 to-transparent animate-lineFlowVertical" style={{ animationDelay: '0.9s' }} />
-              </div>
-              
-              {/* Glow effect on hover */}
-              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-br from-emerald-400/10 via-transparent to-transparent blur-xl" />
-              
-              <div className="relative z-10 flex flex-col h-full">
-                <StepBadge number="2" color="green" />
-
-                {/* Step Title */}
-                <h3 className="text-lg font-bold text-slate-900 mb-3">
-                  Verified Matching
-                </h3>
-
-                {/* Step Description */}
-                <p className="text-sm text-slate-600 leading-relaxed mb-4">
-                  Access our curated database of verified franchise opportunities with detailed business intelligence and performance data.
-                </p>
-
-                {/* Features List */}
-                <div className="space-y-2 flex-1">
-                  <div className="flex items-center gap-2 text-xs text-slate-600">
-                    <FiCheckCircle className="h-3.5 w-3.5 text-emerald-600 flex-shrink-0" />
-                    <span>Verified Brands</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-slate-600">
-                    <FiBarChart2 className="h-3.5 w-3.5 text-emerald-600 flex-shrink-0" />
-                    <span>Data Insights</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Reveal>
-
-          {/* Step 3 */}
-          <Reveal delay={0.2}>
-            <div className="group relative bg-white/55 backdrop-blur-md rounded-2xl border border-white/60 p-6 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(139,92,246,0.15)] hover:border-violet-300 overflow-hidden h-full flex flex-col">
-              
-              {/* Animated gradient background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-violet-50/50 via-purple-50/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradientShift" />
-              
-              {/* Floating particles */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                <div className="absolute top-[30%] left-[25%] w-1 h-1 rounded-full bg-violet-400/40 animate-floatParticle1" />
-                <div className="absolute top-[50%] right-[25%] w-1.5 h-1.5 rounded-full bg-purple-400/30 animate-floatParticle2" />
-                <div className="absolute bottom-[40%] left-[60%] w-1 h-1 rounded-full bg-violet-300/40 animate-floatParticle3" />
-              </div>
-              
-              {/* Animated line background - flows on hover */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                {/* Horizontal lines */}
-                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-violet-300 to-transparent animate-lineFlow" />
-                <div className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-violet-300 to-transparent animate-lineFlow" style={{ animationDelay: '0.3s' }} />
-                <div className="absolute top-2/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-violet-300 to-transparent animate-lineFlow" style={{ animationDelay: '0.6s' }} />
-                <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-violet-300 to-transparent animate-lineFlow" style={{ animationDelay: '0.9s' }} />
-                
-                {/* Vertical lines */}
-                <div className="absolute top-0 left-0 w-px h-full bg-gradient-to-b from-transparent via-violet-300 to-transparent animate-lineFlowVertical" />
-                <div className="absolute top-0 left-1/3 w-px h-full bg-gradient-to-b from-transparent via-violet-300 to-transparent animate-lineFlowVertical" style={{ animationDelay: '0.3s' }} />
-                <div className="absolute top-0 left-2/3 w-px h-full bg-gradient-to-b from-transparent via-violet-300 to-transparent animate-lineFlowVertical" style={{ animationDelay: '0.6s' }} />
-                <div className="absolute top-0 right-0 w-px h-full bg-gradient-to-b from-transparent via-violet-300 to-transparent animate-lineFlowVertical" style={{ animationDelay: '0.9s' }} />
-              </div>
-              
-              {/* Glow effect on hover */}
-              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-br from-violet-400/10 via-transparent to-transparent blur-xl" />
-              
-              <div className="relative z-10 flex flex-col h-full">
-                <StepBadge number="3" color="violet" />
-
-                {/* Step Title */}
-                <h3 className="text-lg font-bold text-slate-900 mb-3">
-                  Due Diligence Support
-                </h3>
-
-                {/* Step Description */}
-                <p className="text-sm text-slate-600 leading-relaxed mb-4">
-                  Get expert guidance through legal, financial, and operational due diligence to make informed investment decisions.
-                </p>
-
-                {/* Features List */}
-                <div className="space-y-2 flex-1">
-                  <div className="flex items-center gap-2 text-xs text-slate-600">
-                    <FiFileText className="h-3.5 w-3.5 text-violet-600 flex-shrink-0" />
-                    <span>Legal Review</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-slate-600">
-                    <FiDollarSign className="h-3.5 w-3.5 text-violet-600 flex-shrink-0" />
-                    <span>Financial Analysis</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Reveal>
-
-          {/* Step 4 */}
-          <Reveal delay={0.3}>
-            <div className="group relative bg-white/55 backdrop-blur-md rounded-2xl border border-white/60 p-6 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(249,115,22,0.15)] hover:border-orange-300 overflow-hidden h-full flex flex-col">
-              
-              {/* Animated gradient background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-50/50 via-amber-50/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradientShift" />
-              
-              {/* Floating particles */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                <div className="absolute top-[35%] left-[30%] w-1 h-1 rounded-full bg-orange-400/40 animate-floatParticle1" />
-                <div className="absolute top-[45%] right-[30%] w-1.5 h-1.5 rounded-full bg-amber-400/30 animate-floatParticle2" />
-                <div className="absolute bottom-[45%] left-[55%] w-1 h-1 rounded-full bg-orange-300/40 animate-floatParticle3" />
-              </div>
-              
-              {/* Animated line background - flows on hover */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                {/* Horizontal lines */}
-                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-300 to-transparent animate-lineFlow" />
-                <div className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-300 to-transparent animate-lineFlow" style={{ animationDelay: '0.3s' }} />
-                <div className="absolute top-2/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-300 to-transparent animate-lineFlow" style={{ animationDelay: '0.6s' }} />
-                <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-300 to-transparent animate-lineFlow" style={{ animationDelay: '0.9s' }} />
-                
-                {/* Vertical lines */}
-                <div className="absolute top-0 left-0 w-px h-full bg-gradient-to-b from-transparent via-orange-300 to-transparent animate-lineFlowVertical" />
-                <div className="absolute top-0 left-1/3 w-px h-full bg-gradient-to-b from-transparent via-orange-300 to-transparent animate-lineFlowVertical" style={{ animationDelay: '0.3s' }} />
-                <div className="absolute top-0 left-2/3 w-px h-full bg-gradient-to-b from-transparent via-orange-300 to-transparent animate-lineFlowVertical" style={{ animationDelay: '0.6s' }} />
-                <div className="absolute top-0 right-0 w-px h-full bg-gradient-to-b from-transparent via-orange-300 to-transparent animate-lineFlowVertical" style={{ animationDelay: '0.9s' }} />
-              </div>
-              
-              {/* Glow effect on hover */}
-              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-br from-orange-400/10 via-transparent to-transparent blur-xl" />
-              
-              <div className="relative z-10 flex flex-col h-full">
-                <StepBadge number="4" color="orange" />
-
-                {/* Step Title */}
-                <h3 className="text-lg font-bold text-slate-900 mb-3">
-                  Launch & Scale
-                </h3>
-
-                {/* Step Description */}
-                <p className="text-sm text-slate-600 leading-relaxed mb-4">
-                  Ongoing support for setup, training, marketing, and growth strategies to ensure your franchise success from day one.
-                </p>
-
-                {/* Features List */}
-                <div className="space-y-2 flex-1">
-                  <div className="flex items-center gap-2 text-xs text-slate-600">
-                    <FiTrendingUp className="h-3.5 w-3.5 text-orange-600 flex-shrink-0" />
-                    <span>Growth Support</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-slate-600">
-                    <FiUsers className="h-3.5 w-3.5 text-orange-600 flex-shrink-0" />
-                    <span>Training</span>
-                  </div>
-                </div>
-              </div>
+          {/* CTA */}
+          <Reveal delay={0.4}>
+            <div className="text-center mt-12">
+              <button
+                type="button"
+                onClick={() => navigateTo('/contact')}
+                className="group relative overflow-hidden rounded-xl bg-slate-900 px-8 py-4 text-base font-bold text-white shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+              >
+                <span className="relative z-10 flex items-center gap-2.5">
+                  Explore All Services
+                  <FiArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+                </span>
+              </button>
             </div>
           </Reveal>
 
         </div>
-
-        {/* Bottom CTA */}
-        <Reveal delay={0.4} className="text-center mt-12">
-          <button
-            type="button"
-            onClick={() => navigateTo('/contact')}
-            className="group inline-flex items-center gap-2.5 rounded-full bg-slate-900 px-8 py-4 text-sm font-bold text-white transition-all duration-300 hover:bg-slate-800 hover:shadow-[0_12px_40px_rgba(15,23,42,0.25)] hover:-translate-y-1"
-          >
-            <span>Start Your Expansion Journey</span>
-            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 transition-transform duration-200 group-hover:translate-x-1">
-              <FiArrowRight className="h-3 w-3" />
-            </span>
-          </button>
-        </Reveal>
-        
-        </div>
-        {/* End Content Container */}
       </div>
+
 
       {/* SERVICES FOR BRANDS */}
       <div className="relative z-10 overflow-hidden py-12">
@@ -1321,7 +1159,7 @@ export default function ServicesPage() {
               <Reveal delay={0.4}>
                 <button
                   type="button"
-                  onClick={() => navigateTo('/for-brand-owners')}
+                  onClick={() => navigateTo('/contact')}
                   className="group relative overflow-hidden rounded-xl bg-slate-900 px-8 py-4 text-base font-bold text-white shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
                 >
                   <span className="relative z-10 flex items-center gap-2.5">
@@ -1387,7 +1225,7 @@ export default function ServicesPage() {
                       <div className="rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 p-2.5 shadow-lg relative overflow-hidden">
                         <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
                         <FiDollarSign className="h-3.5 w-3.5 text-white/80 mb-1" />
-                        <div className="text-lg font-bold text-white">₹6.8M</div>
+                        <div className="text-lg font-bold text-white">â‚¹6.8M</div>
                         <div className="text-[9px] text-white/70">Revenue</div>
                       </div>
                     </div>
@@ -1981,7 +1819,7 @@ export default function ServicesPage() {
         </div>
       </div>
 
-      {/* BENEFITS – More than just a franchise platform */}
+      {/* BENEFITS â€“ More than just a franchise platform */}
       <div className="relative z-10 w-full py-12 overflow-hidden">
         
         {/* Background Layer - service5.png full width coverage */}
@@ -2057,7 +1895,7 @@ export default function ServicesPage() {
             </motion.div>
           </div>
 
-          {/* Desktop — Premium Strategic Ecosystem Layout */}
+          {/* Desktop â€” Premium Strategic Ecosystem Layout */}
           <div className="relative mt-16 hidden lg:block" style={{ height: '480px' }}>
 
             {/* Animated gradient background */}
@@ -2069,7 +1907,7 @@ export default function ServicesPage() {
               }} />
             </div>
 
-            {/* Center orbit graphic — refined size for better balance */}
+            {/* Center orbit graphic â€” refined size for better balance */}
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ width: 300, height: 300 }}>
               <svg viewBox="0 0 300 300" width="300" height="300">
                 <circle cx="150" cy="150" r="140" stroke="rgba(148,163,184,0.18)" strokeWidth="1.5" fill="none" />
@@ -2103,9 +1941,9 @@ export default function ServicesPage() {
               </div>
             </div>
 
-            {/* Premium Pills — Perfect Circular Arrangement (8 pills, 45° apart) */}
+            {/* Premium Pills â€” Perfect Circular Arrangement (8 pills, 45Â° apart) */}
             
-            {/* Position 1: TOP CENTER (0°) - Moved further left */}
+            {/* Position 1: TOP CENTER (0Â°) - Moved further left */}
             <motion.div className="absolute top-[6%] left-[40%]"
               initial={{ opacity: 0, y: -12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.25, delay: 0.2 }}>
               <motion.div animate={{ y: [0, -8, 0] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
@@ -2119,7 +1957,7 @@ export default function ServicesPage() {
               </motion.div>
             </motion.div>
 
-            {/* Position 2: TOP RIGHT (45°) */}
+            {/* Position 2: TOP RIGHT (45Â°) */}
             <motion.div className="absolute top-[16%] right-[12%]"
               initial={{ opacity: 0, x: 12 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.25, delay: 0.25 }}>
               <motion.div animate={{ y: [0, -7, 0] }} transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
@@ -2133,7 +1971,7 @@ export default function ServicesPage() {
               </motion.div>
             </motion.div>
 
-            {/* Position 3: MIDDLE RIGHT (90°) */}
+            {/* Position 3: MIDDLE RIGHT (90Â°) */}
             <motion.div className="absolute top-[50%] -translate-y-1/2 right-[6%]"
               initial={{ opacity: 0, x: 12 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.25, delay: 0.3 }}>
               <motion.div animate={{ y: [0, -6, 0] }} transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
@@ -2147,7 +1985,7 @@ export default function ServicesPage() {
               </motion.div>
             </motion.div>
 
-            {/* Position 4: BOTTOM RIGHT (135°) */}
+            {/* Position 4: BOTTOM RIGHT (135Â°) */}
             <motion.div className="absolute bottom-[16%] right-[12%]"
               initial={{ opacity: 0, x: 12 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.25, delay: 0.35 }}>
               <motion.div animate={{ y: [0, -7, 0] }} transition={{ duration: 4.4, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
@@ -2161,7 +1999,7 @@ export default function ServicesPage() {
               </motion.div>
             </motion.div>
 
-            {/* Position 5: BOTTOM CENTER (180°) - Moved further left */}
+            {/* Position 5: BOTTOM CENTER (180Â°) - Moved further left */}
             <motion.div className="absolute bottom-[6%] left-[37%]"
               initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.25, delay: 0.4 }}>
               <motion.div animate={{ y: [0, -8, 0] }} transition={{ duration: 4.6, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
@@ -2175,7 +2013,7 @@ export default function ServicesPage() {
               </motion.div>
             </motion.div>
 
-            {/* Position 6: BOTTOM LEFT (225°) */}
+            {/* Position 6: BOTTOM LEFT (225Â°) */}
             <motion.div className="absolute bottom-[16%] left-[12%]"
               initial={{ opacity: 0, x: -12 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.25, delay: 0.45 }}>
               <motion.div animate={{ y: [0, -7, 0] }} transition={{ duration: 4.1, repeat: Infinity, ease: 'easeInOut', delay: 2.5 }}
@@ -2189,7 +2027,7 @@ export default function ServicesPage() {
               </motion.div>
             </motion.div>
 
-            {/* Position 7: MIDDLE LEFT (270°) */}
+            {/* Position 7: MIDDLE LEFT (270Â°) */}
             <motion.div className="absolute top-[50%] -translate-y-1/2 left-[6%]"
               initial={{ opacity: 0, x: -12 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.25, delay: 0.5 }}>
               <motion.div animate={{ y: [0, -6, 0] }} transition={{ duration: 3.9, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
@@ -2203,7 +2041,7 @@ export default function ServicesPage() {
               </motion.div>
             </motion.div>
 
-            {/* Position 8: TOP LEFT (315°) */}
+            {/* Position 8: TOP LEFT (315Â°) */}
             <motion.div className="absolute top-[16%] left-[12%]"
               initial={{ opacity: 0, x: -12 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.25, delay: 0.55 }}>
               <motion.div animate={{ y: [0, -7, 0] }} transition={{ duration: 4.3, repeat: Infinity, ease: 'easeInOut', delay: 3.5 }}
@@ -2219,7 +2057,7 @@ export default function ServicesPage() {
 
           </div>
 
-          {/* Mobile — grid */}
+          {/* Mobile â€” grid */}
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:hidden">
             {[
               { title: 'Verified Franchise Listings', Icon: FiCheckCircle, color: 'emerald' },

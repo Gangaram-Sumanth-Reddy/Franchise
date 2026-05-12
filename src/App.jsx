@@ -21,7 +21,6 @@ const LicensesPage            = lazy(() => import('./components/LicensesPage'));
 const CareersPage             = lazy(() => import('./components/CareersPage'));
 const CareerDetailPage        = lazy(() => import('./components/CareerDetailPage'));
 const ForBrandOwnersPage      = lazy(() => import('./components/ForBrandOwnersPage'));
-const ForInvestorsPage        = lazy(() => import('./components/ForInvestorsPage'));
 
 // ── Minimal page-level skeleton ───────────────────────────────────────────────
 function PageSkeleton() {
@@ -64,14 +63,13 @@ const getPathname = () => {
   if (pathname === '/blog') return '/blog';
   if (pathname === '/services') return '/services';
   if (pathname === '/careers') return '/careers';
+  if (['/list-your-brand', '/for-brand-owners', '/brand-owners'].includes(pathname)) return '/list-your-brand';
   if (pathname.startsWith('/careers/') && pathname.split('/').filter(Boolean).length === 2) return '/career-detail';
   if (pathname.startsWith('/blog/') && pathname.split('/').filter(Boolean).length >= 2) return '/blog-detail';
-  if (pathname === '/for-brand-owners') return '/for-brand-owners';
-  if (pathname === '/for-investors') return '/for-investors';
   if (pathname.startsWith('/franchise/') && pathname.length > 12) return '/franchise-details';
   const knownPaths = ['/', '/about', '/team', '/franchise-details', '/franchise-opportunities',
     '/privacy-policy', '/terms-and-conditions', '/licenses', '/contact', '/blog',
-    '/services', '/careers', '/for-brand-owners', '/for-investors'];
+    '/services', '/careers', '/list-your-brand'];
   if (!knownPaths.includes(pathname)) return '/404';
   return pathname;
 };
@@ -168,8 +166,7 @@ function App() {
   const isNotFoundPage            = pathname === '/404';
   const isBlogPage                = pathname === '/blog';
   const isBlogDetailPage          = pathname === '/blog-detail';
-  const isForBrandOwnersPage      = pathname === '/for-brand-owners';
-  const isForInvestorsPage        = pathname === '/for-investors';
+  const isListYourBrandPage       = pathname === '/list-your-brand';
 
   if (isNotFoundPage) {
     return (
@@ -208,8 +205,7 @@ function App() {
           : isContactPage ? <ContactPage />
           : isBlogPage ? <BlogPage />
           : isBlogDetailPage ? <BlogDetailPage />
-          : isForBrandOwnersPage ? <ForBrandOwnersPage />
-          : isForInvestorsPage ? <ForInvestorsPage />
+          : isListYourBrandPage ? <ForBrandOwnersPage />
           : <Hero />}
         </Suspense>
       </div>
