@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import notFoundImage from '../assets/404.png';
 
 function NotFoundPage() {
@@ -72,3 +72,4 @@ function NotFoundPage() {
 }
 
 export default NotFoundPage;
+

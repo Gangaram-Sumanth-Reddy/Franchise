@@ -366,7 +366,7 @@ export default function PreFooterCTA() {
 
             {/* Secondary — Book Strategic Call (Changed from List Your Brand) */}
             <button
-              onClick={() => navigateTo('/contact')}
+              onClick={() => window.open('https://cal.com/ifranchise/30min', '_blank')}
               className="cta-button-secondary"
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: '10px',

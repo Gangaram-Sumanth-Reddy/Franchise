@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ROLES, DEPT_COLORS, MODE_COLORS, ROLE_TOOLS, HIRING_STEPS } from './careersData.jsx';
 
@@ -185,13 +185,13 @@ function CareerDetailPage({ roleId }) {
                 { d: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', label: `Deadline: ${fmt(deadline)}` },
                 { d: 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0zM15 11a3 3 0 11-6 0 3 3 0 016 0z', label: role.location },
               ].map(({ d, label }) => (
-                <span key={label} className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 bg-white border border-slate-200 px-3 py-1.5 rounded-full shadow-sm">
+                <span key={label} className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 bg-white/70 backdrop-blur-sm border border-slate-200/50 px-3 py-1.5 rounded-full shadow-sm">
                   <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d={d} /></svg>
                   {label}
                 </span>
               ))}
               <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full border shadow-sm ${MODE_COLORS[role.mode]}`}>{role.mode}</span>
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-900 bg-white border border-slate-200 px-3 py-1.5 rounded-full shadow-sm">{role.salary}</span>
+              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-900 bg-white/70 backdrop-blur-sm border border-slate-200/50 px-3 py-1.5 rounded-full shadow-sm">{role.salary}</span>
             </div>
           </motion.div>
         </div>
@@ -307,7 +307,7 @@ function CareerDetailPage({ roleId }) {
 
           {/* RIGHT — Sticky form */}
           <div className="lg:sticky lg:top-[136px] self-start">
-            <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-xl shadow-slate-100/80">
+            <div className="bg-white/70 backdrop-blur-sm border border-slate-200/50 rounded-3xl p-6 shadow-xl shadow-slate-100/80">
               <div className="mb-5">
                 <h3 className="text-base font-bold text-slate-900 mb-1">Apply for this role</h3>
                 <p className="text-xs text-slate-400">Takes under 3 minutes · We read every application</p>

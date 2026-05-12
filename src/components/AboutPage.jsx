@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+﻿import { motion } from 'framer-motion';
 import { useState } from 'react';
 import PremiumHeroBackground from './PremiumHeroBackground';
 import AboutHeroImage from '../assets/AboutHero.png';
@@ -272,7 +272,7 @@ function AboutPage() {
   return (
     <main className="w-full bg-white">
       {/* HERO SECTION */}
-      <section className="relative w-full bg-white py-20 sm:py-28 lg:py-32 overflow-hidden min-h-[85vh] flex items-center">
+      <section className="relative w-full py-20 sm:py-28 lg:py-32 overflow-hidden min-h-[85vh] flex items-center">
         <PremiumHeroBackground />
         
         <div className="relative z-10 mx-auto w-full max-w-[1280px] px-6 lg:px-8">
@@ -366,7 +366,7 @@ function AboutPage() {
       </section>
 
       {/* HISTORY + 4 GRID CARDS SECTION */}
-      <section className="w-full bg-slate-50 py-16">
+      <section className="w-full py-16">
         <div className="mx-auto w-full max-w-[1280px] px-6 lg:px-8">
           <div className="grid gap-12 lg:grid-cols-2 items-center mb-12">
             <motion.div

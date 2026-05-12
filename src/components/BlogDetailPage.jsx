@@ -1,4 +1,4 @@
-import { createPortal } from 'react-dom';
+﻿import { createPortal } from 'react-dom';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import BlogCard from './blog/BlogCard';
 import ShareIcons from './blog/ShareIcons';
@@ -430,7 +430,7 @@ function BlogDetailPage() {
       </div>
 
       {/* ══ PREV / NEXT — animated attention cards ══ */}
-      <div className="border-t border-slate-100 bg-slate-50">
+      <div className="border-t border-slate-100">
         <div className="mx-auto max-w-[1240px] px-4 py-10 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {prevPost ? (

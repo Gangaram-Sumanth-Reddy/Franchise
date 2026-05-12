@@ -381,7 +381,7 @@ function InvestorDashboardContent({ navigateTo }) {
             className={`px-2.5 py-1 rounded-lg text-[10px] font-medium transition-all cursor-pointer hover:scale-105 ${
               selectedFilter === tag.value
                 ? 'bg-violet-600 text-white shadow-md' 
-                : 'bg-white border border-slate-200 text-slate-600 hover:border-violet-300 hover:text-violet-600'
+                : 'bg-white/70 backdrop-blur-sm border border-slate-200/50 text-slate-600 hover:border-violet-300 hover:text-violet-600'
             }`}
           >
             {tag.label}
@@ -443,7 +443,7 @@ function InvestorDashboardContent({ navigateTo }) {
       </div>
 
       {/* Market Trends Chart - Larger & Better Visible */}
-      <div className="rounded-lg bg-white border border-slate-200/60 p-3 shadow-lg">
+      <div className="rounded-lg bg-white/70 backdrop-blur-sm border border-slate-200/50/60 p-3 shadow-lg">
         <div className="flex items-center justify-between mb-2.5">
           <div className="flex items-center gap-1.5">
             <div className="h-5 w-5 rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center">
@@ -622,6 +622,121 @@ function WhatWeDeliverCards() {
     <>
       {WD_SERVICES.map((svc, i) => <WDCard key={svc.id} svc={svc} index={i} />)}
     </>
+  );
+}
+
+// ── Process Steps — franchise expansion flow ─────────────────────────────────
+const PROCESS_STEPS = [
+  {
+    number: '01', title: 'Understand Your Brand', color: 'violet',
+    desc: 'Deep-dive discovery — we map your business model, unit economics, target markets, and growth ambitions.',
+    icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>,
+  },
+  {
+    number: '02', title: 'Build Franchise Foundation', color: 'indigo',
+    desc: 'We architect your franchise model — SOPs, legal docs, brand guidelines, and operational systems.',
+    icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>,
+  },
+  {
+    number: '03', title: 'Attract Investors', color: 'emerald',
+    desc: 'Performance campaigns and lead qualification funnels bring capital-ready partners to your brand.',
+    icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>,
+  },
+  {
+    number: '04', title: 'Match & Onboard', color: 'amber',
+    desc: 'We match the right investor to the right territory, manage agreements, and execute structured onboarding.',
+    icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-5-3.87M9 20H4v-2a4 4 0 015-3.87m6-4.13a4 4 0 11-8 0 4 4 0 018 0zm6 0a3 3 0 11-6 0 3 3 0 016 0z"/></svg>,
+  },
+  {
+    number: '05', title: 'Scale Across Markets', color: 'teal',
+    desc: 'With proven units live, we activate the next wave — new territories, new investors, compounding growth.',
+    icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>,
+  },
+];
+
+const STEP_COLORS = {
+  violet: { bg: 'bg-violet-600', ring: 'ring-violet-200', text: 'text-violet-600', bar: 'from-violet-400 to-indigo-400', glow: 'shadow-violet-500/30' },
+  indigo: { bg: 'bg-indigo-600', ring: 'ring-indigo-200', text: 'text-indigo-600', bar: 'from-indigo-400 to-violet-400', glow: 'shadow-indigo-500/30' },
+  emerald:{ bg: 'bg-emerald-600', ring: 'ring-emerald-200', text: 'text-emerald-600', bar: 'from-emerald-400 to-teal-400', glow: 'shadow-emerald-500/30' },
+  amber:  { bg: 'bg-amber-500', ring: 'ring-amber-200', text: 'text-amber-600', bar: 'from-amber-400 to-orange-400', glow: 'shadow-amber-500/30' },
+  teal:   { bg: 'bg-teal-600', ring: 'ring-teal-200', text: 'text-teal-600', bar: 'from-teal-400 to-cyan-400', glow: 'shadow-teal-500/30' },
+};
+
+function ProcessStepNode({ step, index, total }) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } }, { threshold: 0.2, rootMargin: '-40px' });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  const c = STEP_COLORS[step.color];
+  const isLast = index === total - 1;
+
+  return (
+    <div ref={ref} className="flex flex-col items-center flex-1 min-w-0 relative">
+      {/* connector line */}
+      {!isLast && (
+        <div className="absolute top-[22px] left-[calc(50%+22px)] right-[calc(-50%+22px)] h-px z-0 overflow-hidden">
+          <div className="absolute inset-0 bg-slate-200" />
+          <div
+            className={`absolute inset-0 bg-gradient-to-r ${c.bar} transition-all duration-700`}
+            style={{ width: visible ? '100%' : '0%', transitionDelay: `${index * 180 + 400}ms` }}
+          />
+          {/* travelling light */}
+          {visible && (
+            <motion.div
+              initial={{ x: '-100%' }}
+              animate={{ x: '200%' }}
+              transition={{ duration: 1.8, delay: index * 0.18 + 1, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }}
+              className="absolute top-1/2 -translate-y-1/2 w-6 h-1.5 rounded-full bg-white/80 blur-[2px]"
+            />
+          )}
+        </div>
+      )}
+
+      {/* node */}
+      <div
+        className={`relative z-10 mb-4 transition-all duration-500 ${visible ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`}
+        style={{ transitionDelay: `${index * 120}ms` }}
+      >
+        {visible && (
+          <motion.div
+            animate={{ scale: [1, 1.5, 1], opacity: [0.4, 0, 0.4] }}
+            transition={{ duration: 2.5, repeat: Infinity, delay: index * 0.3 }}
+            className={`absolute inset-0 rounded-full ${c.bg} opacity-30`}
+          />
+        )}
+        <div className={`relative w-11 h-11 rounded-full ${c.bg} flex items-center justify-center text-white shadow-lg ${c.glow} ring-2 ring-white`}>
+          {step.icon}
+        </div>
+        <div className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-white/70 backdrop-blur-sm border border-slate-200/50 flex items-center justify-center shadow-sm">
+          <span className={`text-[0.55rem] font-extrabold ${c.text}`}>{step.number}</span>
+        </div>
+      </div>
+
+      {/* content */}
+      <div
+        className={`text-center px-2 transition-all duration-500 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}
+        style={{ transitionDelay: `${index * 120 + 150}ms` }}
+      >
+        <p className="text-[0.82rem] font-bold text-slate-900 mb-1.5 leading-snug">{step.title}</p>
+        <p className="text-[0.72rem] text-slate-500 leading-relaxed">{step.desc}</p>
+      </div>
+    </div>
+  );
+}
+
+function ProcessSteps() {
+  return (
+    <div className="flex items-start gap-0 lg:gap-2">
+      {PROCESS_STEPS.map((step, i) => (
+        <ProcessStepNode key={i} step={step} index={i} total={PROCESS_STEPS.length} />
+      ))}
+    </div>
   );
 }
 
@@ -804,7 +919,7 @@ export default function ServicesPage() {
           >
             <button 
               type="button" 
-              onClick={() => navigateTo('/contact')}
+              onClick={() => window.open('https://cal.com/ifranchise/30min', '_blank')}
               className="group relative overflow-hidden rounded-2xl bg-slate-900 px-8 py-4 text-sm font-bold text-white transition-all duration-300 hover:bg-slate-800 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(15,23,42,0.25)]"
             >
               <span className="relative z-10 flex items-center gap-2">
@@ -1074,6 +1189,81 @@ export default function ServicesPage() {
         </div>
       </div>
 
+      {/* HOW IT WORKS — franchise expansion process flow */}
+      <div className="relative z-10 py-16 overflow-hidden">
+
+        {/* service2.png background — same as surrounding sections */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute inset-0 w-full h-full">
+            <img src={service2} alt="" className="w-full h-full"
+              style={{ opacity: 0.65, filter: 'brightness(1.08)', objectFit: 'cover', objectPosition: 'center' }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#f5f3ff]/50 via-transparent to-[#eef4ff]/40" />
+            <div className="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-[#f5f3ff] via-[#f5f3ff]/90 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-[#eef4ff] via-[#eef4ff]/90 to-transparent" />
+          </div>
+          <div className="absolute top-[20%] left-[10%] w-[30vw] h-[30vw] opacity-10"
+            style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.15) 0%, transparent 70%)', filter: 'blur(40px)' }} />
+        </div>
+
+        <div className="relative z-10 mx-auto max-w-[1240px] px-4 sm:px-6 lg:px-8">
+
+          {/* header */}
+          <div className="text-center mb-14">
+            <Reveal>
+              <span className="inline-block rounded-full border border-slate-200 bg-white px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-slate-700 mb-5 shadow-sm">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-slate-700 mr-2 align-middle" />
+                How It Works
+              </span>
+              <h2 className="text-4xl font-extrabold text-slate-900 md:text-5xl mb-4">
+                Our Franchise Expansion Process
+              </h2>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p className="mx-auto max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg">
+                A structured, repeatable system engineered to take your brand from concept to scaled franchise network.
+              </p>
+            </Reveal>
+          </div>
+
+          {/* horizontal process steps */}
+          <ProcessSteps navigateTo={navigateTo} />
+
+          {/* outcome strip */}
+          <Reveal delay={0.5}>
+            <div className="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {[
+                { value: '30 Days',   label: 'To Franchise-Ready'   },
+                { value: '90 Days',   label: 'First Investor Matched'},
+                { value: '6 Months',  label: 'First Unit Live'       },
+                { value: '12 Months', label: 'Multi-City Expansion'  },
+              ].map((m, i) => (
+                <div key={i} className="flex flex-col items-center py-4 px-3 rounded-xl bg-slate-50 border border-slate-200 text-center">
+                  <p className="text-lg font-extrabold text-slate-900 mb-0.5">{m.value}</p>
+                  <p className="text-[0.68rem] text-slate-500 font-medium">{m.label}</p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+
+          {/* CTA */}
+          <Reveal delay={0.6}>
+            <div className="text-center mt-10">
+              <button
+                type="button"
+                onClick={() => navigateTo('/contact')}
+                className="group relative overflow-hidden rounded-xl bg-slate-900 px-8 py-4 text-base font-bold text-white shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+              >
+                <span className="relative z-10 flex items-center gap-2.5">
+                  Start Your Expansion Journey
+                  <FiArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+                </span>
+              </button>
+            </div>
+          </Reveal>
+
+        </div>
+      </div>
 
       {/* SERVICES FOR BRANDS */}
       <div className="relative z-10 overflow-hidden py-12">
@@ -1242,7 +1432,7 @@ export default function ServicesPage() {
                         </div>
                         
                         {/* City Dropdown */}
-                        <select className="text-[10px] font-medium text-slate-600 bg-white border border-slate-200 rounded px-2 py-0.5 focus:outline-none focus:ring-1 focus:ring-indigo-500 cursor-pointer">
+                        <select className="text-[10px] font-medium text-slate-600 bg-white/70 backdrop-blur-sm border border-slate-200/50 rounded px-2 py-0.5 focus:outline-none focus:ring-1 focus:ring-indigo-500 cursor-pointer">
                           <option value="">View All (8)</option>
                           <option value="mumbai">Mumbai - 12 locations</option>
                           <option value="delhi">Delhi - 10 locations</option>
@@ -1351,7 +1541,7 @@ export default function ServicesPage() {
                     </div>
 
                     {/* Live Growth Chart - Properly Aligned Bars */}
-                    <div className="rounded-lg bg-white border border-slate-200/60 p-3 shadow-lg">
+                    <div className="rounded-lg bg-white/70 backdrop-blur-sm border border-slate-200/50/60 p-3 shadow-lg">
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-1.5">
                           <div className="h-6 w-6 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
@@ -1728,7 +1918,7 @@ export default function ServicesPage() {
               <Reveal key={industry.title} delay={industry.delay}>
                 <div className="group relative h-full">
                   {/* Main Card */}
-                  <div className="relative h-full overflow-hidden rounded-2xl bg-white border border-slate-200/60 transition-all duration-500 hover:border-slate-300 hover:shadow-[0_20px_60px_rgba(15,23,42,0.15)] hover:-translate-y-2">
+                  <div className="relative h-full overflow-hidden rounded-2xl bg-white/70 backdrop-blur-sm border border-slate-200/50/60 transition-all duration-500 hover:border-slate-300 hover:shadow-[0_20px_60px_rgba(15,23,42,0.15)] hover:-translate-y-2">
                     
                     {/* Image Container */}
                     <div className="relative h-48 overflow-hidden">
@@ -1884,7 +2074,7 @@ export default function ServicesPage() {
               viewport={{ once: true }} transition={{ duration: 0.3, delay: 0.15 }}
               className="mt-8 flex flex-wrap items-center justify-center gap-4"
             >
-              <button type="button" onClick={() => navigateTo('/contact')}
+              <button type="button" onClick={() => window.open('https://cal.com/ifranchise/30min', '_blank')}
                 className="rounded-full btn-wave bg-[#0B1220] px-8 py-3.5 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(15,23,42,0.22)]">
                 Book a Call
               </button>
@@ -2019,7 +2209,7 @@ export default function ServicesPage() {
               <motion.div animate={{ y: [0, -7, 0] }} transition={{ duration: 4.1, repeat: Infinity, ease: 'easeInOut', delay: 2.5 }}
                 className="whitespace-nowrap rounded-full border border-slate-200/80 bg-white px-5 py-2.5 shadow-[0_4px_16px_rgba(15,23,42,0.06)]">
                 <div className="flex items-center gap-2.5">
-                  <span className="inline-flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-slate-50">
+                  <span className="inline-flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full">
                     <FiFileText className="h-3.5 w-3.5 text-slate-600" />
                   </span>
                   <p className="text-sm font-medium text-slate-800">Transparent Deal Information</p>

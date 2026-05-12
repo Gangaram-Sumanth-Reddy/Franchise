@@ -7,7 +7,7 @@ import CaseStudiesSection from './sections/CaseStudiesSection';
 import BrandApplicationForm from './sections/BrandApplicationForm';
 import FAQSection from './sections/FAQSection';
 
-// â”€â”€ Count-up hook â€” runs once on mount, number always visible after â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€ Count-up hook â€" runs once on mount, number always visible after â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 function useCountUp(target, duration = 1200) {
   const [count, setCount] = useState(0);
   const rafRef = useRef(null);
@@ -40,7 +40,7 @@ import {
   calculateGrowthMetrics,
 } from '../data/franchiseData';
 
-// â”€â”€ Inline SVG icons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€ Inline SVG icons â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 const IcoUsers   = () => <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-5-3.87M9 20H4v-2a4 4 0 015-3.87m6-4.13a4 4 0 11-8 0 4 4 0 018 0zm6 0a3 3 0 11-6 0 3 3 0 016 0z"/></svg>;
 const IcoBar     = () => <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>;
 const IcoTrend   = () => <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>;
@@ -67,7 +67,7 @@ const DOT_POS = [
   { x: '43%', y: '60%' }, // Pune
 ];
 
-// â”€â”€ Fallback images by category â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€ Fallback images by category â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 const FALLBACKS = {
   'Food & Beverage': 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=120&q=80',
   'Health & Wellness': 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=120&q=80',
@@ -79,7 +79,7 @@ const FALLBACKS = {
 };
 const DEFAULT_FALLBACK = 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?auto=format&fit=crop&w=120&q=80';
 
-// â”€â”€ Opportunity image with fallback â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€ Opportunity image with fallback â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 function OppImage({ src, alt, category }) {
   const [imgSrc, setImgSrc] = useState(src);
   const [tried, setTried] = useState(false);
@@ -98,7 +98,7 @@ function OppImage({ src, alt, category }) {
   );
 }
 
-// â”€â”€ Metric card â€” number always visible, count-up on mount only â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€ Metric card â€" number always visible, count-up on mount only â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 function MetricCard({ metric, active, onClick }) {
   const counted = useCountUp(metric.isNum ? metric.raw : 0, 1200);
 
@@ -114,7 +114,7 @@ function MetricCard({ metric, active, onClick }) {
           : 'border-slate-200 bg-white hover:border-violet-200'
       }`}
     >
-      {/* sliding highlight bar â€” top edge */}
+      {/* sliding highlight bar â€" top edge */}
       <motion.div
         initial={false}
         animate={{ scaleX: active ? 1 : 0, opacity: active ? 1 : 0 }}
@@ -141,7 +141,7 @@ function MetricCard({ metric, active, onClick }) {
         {metric.label}
       </p>
 
-      {/* value â€” always visible */}
+      {/* value â€" always visible */}
       <p className={`relative text-[1.05rem] font-extrabold leading-none tabular-nums transition-colors duration-300 ${
         active ? 'text-violet-700' : 'text-slate-800'
       }`}>
@@ -154,7 +154,7 @@ function MetricCard({ metric, active, onClick }) {
   );
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 export default function ForBrandOwnersPage() {
   const [activeMetric, setActiveMetric] = useState(0);
 
@@ -191,7 +191,7 @@ export default function ForBrandOwnersPage() {
 
   return (
     <main className="relative bg-white overflow-x-hidden">
-      {/* â”€â”€ single continuous ambient background that spans the whole page â”€â”€ */}
+      {/* â"€â"€ single continuous ambient background that spans the whole page â"€â"€ */}
       <div className="pointer-events-none fixed inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-br from-white via-violet-50/20 to-indigo-50/20" />
         <div className="absolute -left-40 top-1/4 h-[500px] w-[500px] rounded-full bg-violet-200/20 blur-[120px]" />
@@ -207,18 +207,18 @@ export default function ForBrandOwnersPage() {
       </div>
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          HERO â€” locked to viewport height, no scroll needed
+          HERO â€" locked to viewport height, no scroll needed
           â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <section
         className="relative w-full overflow-hidden"
         style={{ height: 'calc(100vh - 80px)' }}
       >
-        {/* â”€â”€ two-column layout, vertically centred, fills height â”€â”€ */}
+        {/* â"€â"€ two-column layout, vertically centred, fills height â"€â"€ */}
         <div className="relative z-10 h-full flex items-center">
           <div className="w-full max-w-[1280px] mx-auto px-6 lg:px-10">
             <div className="grid lg:grid-cols-[1fr_400px] xl:grid-cols-[1fr_430px] gap-10 xl:gap-14 items-center">
 
-              {/* â”€â”€ LEFT â”€â”€ */}
+              {/* â"€â"€ LEFT â"€â"€ */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -277,7 +277,7 @@ export default function ForBrandOwnersPage() {
                 </motion.div>
               </motion.div>
 
-              {/* â”€â”€ RIGHT â€” compact dashboard â”€â”€ */}
+              {/* â"€â"€ RIGHT â€" compact dashboard â"€â"€ */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -314,7 +314,7 @@ export default function ForBrandOwnersPage() {
                       ))}
                     </div>
 
-                    {/* map panel â€” structured city pills, no free-floating */}
+                    {/* map panel â€" structured city pills, no free-floating */}
                     <div className="rounded-xl bg-gradient-to-br from-slate-50 to-indigo-50/30 border border-slate-200 overflow-hidden">
                       {/* top bar */}
                       <div className="flex items-center justify-between px-3 py-2 border-b border-slate-200/70">
@@ -407,83 +407,83 @@ export default function ForBrandOwnersPage() {
         </div>
       </section>
 
-      {/* â”€â”€ heroâ†’trust separator â”€â”€ */}
+      {/* â"€â"€ hero<-'trust separator â"€â"€ */}
       <div className="h-px bg-slate-100" />
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          SECTION 2 â€” TRUST & SCALE STRIP
+          SECTION 2 â€" TRUST & SCALE STRIP
           â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <TrustStrip />
 
-      {/* â”€â”€ separator â”€â”€ */}
+      {/* â"€â"€ separator â"€â"€ */}
       <div className="h-px bg-slate-100" />
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          SECTION 3 â€” BRAND EXPANSION PROBLEMS
+          SECTION 3 â€" BRAND EXPANSION PROBLEMS
           â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <ProblemsSection />
 
-      {/* â”€â”€ separator â”€â”€ */}
+      {/* â"€â"€ separator â"€â"€ */}
       <div className="h-px bg-slate-100" />
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          SECTION 4 â€” SERVICES OVERVIEW
+          SECTION 4 â€" SERVICES OVERVIEW
           â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
 
-      {/* â”€â”€ separator â”€â”€ */}
+      {/* â"€â"€ separator â"€â"€ */}
       <div className="h-px bg-slate-100" />
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          SECTION 5 â€” PROCESS FLOW
+          SECTION 5 â€" PROCESS FLOW
           â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
 
-      {/* â”€â”€ separator â”€â”€ */}
+      {/* â"€â"€ separator â"€â"€ */}
       <div className="h-px bg-slate-100" />
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          SECTION 6 â€” SERVICES FOR BRANDS
+          SECTION 6 â€" SERVICES FOR BRANDS
           â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <BrandsSection />
 
-      {/* â”€â”€ separator â”€â”€ */}
+      {/* â"€â"€ separator â"€â"€ */}
       <div className="h-px bg-slate-100" />
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          SECTION 8 â€” INDUSTRIES WE SUPPORT
+          SECTION 8 â€" INDUSTRIES WE SUPPORT
           â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <IndustriesSection />
 
-      {/* â”€â”€ separator â”€â”€ */}
+      {/* â"€â"€ separator â"€â"€ */}
       <div className="h-px bg-slate-100" />
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          SECTION 9 â€” WHY CHOOSE iFRANCHISE
+          SECTION 9 â€" WHY CHOOSE iFRANCHISE
           â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <WhyChooseSection />
 
-      {/* â”€â”€ separator â”€â”€ */}
+      {/* â"€â"€ separator â"€â"€ */}
       <div className="h-px bg-slate-100" />
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          SECTION 10 â€” CASE STUDIES
+          SECTION 10 â€" CASE STUDIES
           â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <CaseStudiesSection />
 
-      {/* â”€â”€ separator â”€â”€ */}
+      {/* â"€â"€ separator â"€â"€ */}
       <div className="h-px bg-slate-100" />
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          SECTION 11 â€” BRAND APPLICATION FORM
+          SECTION 11 â€" BRAND APPLICATION FORM
           â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <div id="brand-application">
         <BrandApplicationForm />
       </div>
 
-      {/* â”€â”€ separator â”€â”€ */}
+      {/* â"€â"€ separator â"€â"€ */}
       <div className="h-px bg-slate-100" />
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          SECTION 12 â€” FAQ
+          SECTION 12 â€" FAQ
           â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <FAQSection />
 
@@ -491,9 +491,9 @@ export default function ForBrandOwnersPage() {
   );
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// SECTION 2 â€” TRUST & SCALE STRIP
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+// SECTION 2 â€" TRUST & SCALE STRIP
+// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 
 const TRUST_STATS = [
   { value: 200,  suffix: '+', label: 'Brands Scaled'           },
@@ -539,8 +539,8 @@ function TrustCounter({ target, suffix, duration = 1800 }) {
 
 function TrustStrip() {
   return (
-    <section className="relative overflow-hidden bg-slate-900 py-16">
-      {/* animated gradient mesh â€” no solid bg override, flows from bridge */}
+    <section className="relative overflow-hidden bg-white py-16">
+      {/* animated gradient mesh â€" no solid bg override, flows from bridge */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-violet-900/40 via-slate-900 to-indigo-900/40" />
         <motion.div
@@ -581,7 +581,7 @@ function TrustStrip() {
         </motion.div>
 
         {/* animated stat counters */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-white/10 rounded-2xl overflow-hidden mb-12">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-slate-100 rounded-2xl overflow-hidden mb-12">
           {TRUST_STATS.map((s, i) => (
             <motion.div
               key={i}
@@ -589,12 +589,12 @@ function TrustStrip() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="flex flex-col items-center justify-center py-7 px-4 bg-white/5 hover:bg-white/10 transition-colors duration-300"
+              className="flex flex-col items-center justify-center py-7 px-4 bg-white hover:bg-violet-50/40 transition-colors duration-300"
             >
-              <p className="text-3xl font-extrabold text-white mb-1">
+              <p className="text-3xl font-extrabold text-slate-900 mb-1">
                 <TrustCounter target={s.value} suffix={s.suffix} />
               </p>
-              <p className="text-[0.7rem] font-medium text-slate-400 text-center">{s.label}</p>
+              <p className="text-[0.7rem] font-medium text-slate-500 text-center">{s.label}</p>
             </motion.div>
           ))}
         </div>
@@ -608,22 +608,22 @@ function TrustStrip() {
           className="flex flex-wrap items-center justify-center gap-4 mb-12"
         >
           {[
-            { icon: 'âœ“', text: 'SEBI Compliant Framework'     },
-            { icon: 'âœ“', text: 'Verified Investor Network'    },
-            { icon: 'âœ“', text: 'Structured Due Diligence'     },
-            { icon: 'âœ“', text: 'Transparent ROI Reporting'    },
+            { icon: null, text: 'SEBI Compliant Framework'     },
+            { icon: null, text: 'Verified Investor Network'    },
+            { icon: null, text: 'Structured Due Diligence'     },
+            { icon: null, text: 'Transparent ROI Reporting'    },
           ].map((t, i) => (
-            <div key={i} className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/8 border border-white/15">
-              <span className="text-emerald-400 text-xs font-bold">{t.icon}</span>
-              <span className="text-[0.75rem] font-semibold text-slate-300">{t.text}</span>
+            <div key={i} className="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-50 border border-slate-200">
+              <span className="text-emerald-600 text-xs font-bold">{t.icon}</span>
+              <span className="text-[0.75rem] font-semibold text-slate-700">{t.text}</span>
             </div>
           ))}
         </motion.div>
 
         {/* scrolling marquee of partner logos */}
         <div className="relative overflow-hidden">
-          <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-slate-900 to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-slate-900 to-transparent z-10 pointer-events-none" />
+          <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
           <motion.div
             animate={{ x: ['0%', '-50%'] }}
             transition={{ duration: 22, repeat: Infinity, ease: 'linear' }}
@@ -632,9 +632,9 @@ function TrustStrip() {
             {[...PARTNER_LOGOS, ...PARTNER_LOGOS].map((name, i) => (
               <div
                 key={i}
-                className="flex items-center justify-center px-6 py-3 rounded-xl bg-white/8 border border-white/12 min-w-[140px]"
+                className="flex items-center justify-center px-6 py-3 rounded-xl bg-white border border-slate-200 shadow-sm min-w-[140px]"
               >
-                <span className="text-[0.75rem] font-bold text-slate-400 whitespace-nowrap">{name}</span>
+                <span className="text-[0.75rem] font-bold text-slate-700 whitespace-nowrap">{name}</span>
               </div>
             ))}
           </motion.div>
@@ -645,58 +645,72 @@ function TrustStrip() {
   );
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// SECTION 3 â€” PROBLEMS vs SOLUTIONS  (user-driven, continuous flow)
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
+// SECTION 3 â€" PROBLEMS vs SOLUTIONS  (user-driven, continuous flow)
+// â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 
 const ITEMS = [
   {
     problem:     'Weak Onboarding Systems',
-    problemDesc: 'No SOPs or training â€” franchisees fail from day one.',
+    problemDesc: 'No SOPs or training. Franchisees fail from day one.',
     solution:    'Structured SOP Frameworks',
-    solutionDesc:'Complete onboarding playbooks, training modules & launch checklists built for every unit.',
+    solutionDesc:'Complete onboarding playbooks, training modules and launch checklists built for every unit.',
+    tags: ['SOP Library', 'Training Modules', 'Launch Checklist'],
+    tagColor: 'bg-blue-50 border-blue-200 text-blue-700',
     icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>,
   },
   {
     problem:     'Poor Franchise Architecture',
-    problemDesc: 'Expanding without a model causes unit failures & legal gaps.',
+    problemDesc: 'Expanding without a model causes unit failures and legal gaps.',
     solution:    'Scalable Franchise Model Design',
-    solutionDesc:'Legal-ready franchise architecture â€” FOCO, FOFO, FICO â€” built for multi-unit growth.',
+    solutionDesc:'Legal-ready franchise architecture covering FOCO, FOFO and FICO built for multi-unit growth.',
+    tags: ['Legal Framework', 'Model Design', 'Multi-Unit Ready'],
+    tagColor: 'bg-violet-50 border-violet-200 text-violet-700',
     icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>,
   },
   {
     problem:     'Low-Quality Investor Pipeline',
     problemDesc: 'Unqualified leads waste months and drain marketing budgets.',
     solution:    'Verified Investor Network',
-    solutionDesc:'Pre-screened, high-intent investors matched to your brand profile, budget & market.',
+    solutionDesc:'Pre-screened, high-intent investors matched to your brand profile, budget and market.',
+    tags: ['1800+ Investors', 'Capital Verified', 'Intent Matched'],
+    tagColor: 'bg-emerald-50 border-emerald-200 text-emerald-700',
     icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-5-3.87M9 20H4v-2a4 4 0 015-3.87m6-4.13a4 4 0 11-8 0 4 4 0 018 0zm6 0a3 3 0 11-6 0 3 3 0 016 0z"/></svg>,
   },
   {
     problem:     'No Expansion Strategy',
     problemDesc: 'Reactive growth with no territory planning leads to chaos.',
     solution:    'Data-Driven Territory Planning',
-    solutionDesc:'Market analysis, phased rollout maps & city-level targeting for controlled expansion.',
+    solutionDesc:'Market analysis, phased rollout maps and city-level targeting for controlled expansion.',
+    tags: ['Territory Maps', 'Market Analysis', 'Phased Rollout'],
+    tagColor: 'bg-amber-50 border-amber-200 text-amber-700',
     icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>,
   },
   {
     problem:     'Inconsistent Operations',
-    problemDesc: 'Every unit runs differently â€” brand equity erodes fast.',
+    problemDesc: 'Every unit runs differently. Brand equity erodes fast.',
     solution:    'Centralized Operations Systems',
-    solutionDesc:'Unified quality controls, performance audits & real-time dashboards across all units.',
+    solutionDesc:'Unified quality controls, performance audits and real-time dashboards across all units.',
+    tags: ['Quality Audits', 'Live Dashboards', 'Standardized Ops'],
+    tagColor: 'bg-teal-50 border-teal-200 text-teal-700',
     icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>,
   },
   {
     problem:     'Weak Brand Positioning',
-    problemDesc: 'Failing to communicate value â€” investors look elsewhere.',
+    problemDesc: 'Failing to communicate value. Investors look elsewhere.',
     solution:    'Premium Brand Storytelling',
-    solutionDesc:'Investor-grade brand decks, pitch materials & positioning strategy that converts.',
+    solutionDesc:'Investor-grade brand decks, pitch materials and positioning strategy that converts.',
+    tags: ['Investor Decks', 'Pitch Materials', 'Brand Strategy'],
+    tagColor: 'bg-pink-50 border-pink-200 text-pink-700',
     icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>,
   },
   {
     problem:     'Random Lead Generation',
-    problemDesc: 'No funnel = wasted spend & zero qualified pipeline.',
+    problemDesc: 'No funnel means wasted spend and zero qualified pipeline.',
     solution:    'Performance Investor Acquisition',
-    solutionDesc:'Structured lead funnels with qualified investor conversion systems & ROI tracking.',
+    solutionDesc:'Structured lead funnels with qualified investor conversion systems and ROI tracking.',
+    tags: ['Lead Funnels', 'ROI Tracking', 'Conversion Systems'],
+    tagColor: 'bg-indigo-50 border-indigo-200 text-indigo-700',
     icon: <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>,
   },
 ];
@@ -708,7 +722,7 @@ function ProblemsSection() {
   return (
     <section className="relative overflow-hidden bg-white py-20 lg:py-28">
 
-      {/* soft red + violet ambient â€” blends with page background */}
+      {/* soft red + violet ambient â€" blends with page background */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute top-0 left-1/4 h-72 w-72 rounded-full bg-red-100/30 blur-[90px]" />
         <div className="absolute bottom-0 right-1/4 h-72 w-72 rounded-full bg-violet-100/30 blur-[90px]" />
@@ -716,7 +730,7 @@ function ProblemsSection() {
 
       <div className="relative z-10 max-w-[1280px] mx-auto px-6 lg:px-10">
 
-        {/* â”€â”€ section header â€” same style as home sections â”€â”€ */}
+        {/* â"€â"€ section header â€" same style as home sections â"€â"€ */}
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -729,20 +743,20 @@ function ProblemsSection() {
               <span className="w-1.5 h-1.5 rounded-full bg-red-400" />
               The Hard Truth
             </span>
-            <span className="hidden sm:block text-[0.72rem] text-slate-400">â† tap a problem to reveal the fix</span>
+            <span className="hidden sm:block text-[0.72rem] text-slate-400">Select a problem to reveal the fix</span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-[2.6rem] font-extrabold tracking-tight text-slate-900 leading-[1.1] max-w-3xl">
-            Why Most Brands Fail to Scale Through Franchising â€”{' '}
+            Why Most Brands Fail to Scale Through Franchising.{' '}
             <span className="bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
-              And How iFranchise Fixes Every One
+              Here is How iFranchise Fixes Each One.
             </span>
           </h2>
         </motion.div>
 
-        {/* â”€â”€ two-column body â”€â”€ */}
+        {/* â"€â"€ two-column body â"€â"€ */}
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
 
-          {/* LEFT â€” 7 problem rows */}
+          {/* LEFT â€" 7 problem rows */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -797,7 +811,7 @@ function ProblemsSection() {
             ))}
           </motion.div>
 
-          {/* RIGHT â€” solution panel */}
+          {/* RIGHT â€" solution panel */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -870,11 +884,11 @@ function ProblemsSection() {
                   {/* solution description */}
                   <p className="text-[0.88rem] text-slate-600 leading-relaxed">{item.solutionDesc}</p>
 
-                  {/* outcome tags */}
+                  {/* outcome tags   unique per item */}
                   <div className="flex flex-wrap gap-2">
-                    {['Proven Framework', 'Expert-Led', 'Scalable', 'Results-Driven'].map((tag, t) => (
-                      <span key={t} className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-violet-50 border border-violet-200 text-[0.68rem] font-semibold text-violet-700">
-                        <span className="w-1 h-1 rounded-full bg-violet-400" />
+                    {item.tags.map((tag, t) => (
+                      <span key={t} className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[0.68rem] font-semibold ${item.tagColor}`}>
+                        <span className="w-1 h-1 rounded-full bg-current" />
                         {tag}
                       </span>
                     ))}
@@ -911,5 +925,6 @@ function ProblemsSection() {
     </section>
   );
 }
+
 
 

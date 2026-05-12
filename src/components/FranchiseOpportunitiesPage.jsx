@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+﻿import { useEffect, useMemo, useState } from 'react';
 import { franchiseOpportunities } from '../data/franchiseData';
 
 // Use centralized data source
@@ -35,7 +35,7 @@ const parseSelectedRange = (selectedRange) => {
 // Skeleton Loading Component
 function OpportunityCardSkeleton() {
   return (
-    <article className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+    <article className="bg-white/70 backdrop-blur-sm rounded-xl border border-slate-200/50 overflow-hidden">
       {/* Image Skeleton */}
       <div className="h-48 bg-slate-200 animate-pulse"></div>
       
@@ -97,7 +97,7 @@ function OpportunityCard({ opportunity }) {
   return (
     <article 
       onClick={handleViewDetails}
-      className="bg-white rounded-xl border border-slate-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer"
+      className="bg-white/70 backdrop-blur-sm rounded-xl border border-slate-200/50 overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer"
     >
       {/* Image with Badge */}
       <div className="relative h-48 overflow-hidden">
@@ -372,7 +372,7 @@ function FranchiseOpportunitiesPage() {
   }, [currentPage, totalPages]);
 
   return (
-    <main className="min-h-screen bg-slate-50">
+    <main className="min-h-screen">
       {/* Header */}
       <div className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-10">
@@ -394,7 +394,7 @@ function FranchiseOpportunitiesPage() {
           {/* sticky + self-start: sidebar stays pinned while right column scrolls.
               No overflow, no max-height — filter expands naturally with content. */}
           <div className="sticky top-24 self-start">
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm">
+            <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-slate-200/50 shadow-sm">
               {/* Header */}
               <div className="border-b border-slate-200 p-5">
                 <div className="flex items-center justify-between">
@@ -536,7 +536,7 @@ function FranchiseOpportunitiesPage() {
           <div className="min-w-0">
             {/* Search and Sort */}
             <div className="pb-3 mb-1">
-              <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-4">
+              <div className="bg-white/70 backdrop-blur-sm rounded-xl border border-slate-200/50 shadow-sm p-4">
                 <div className="flex gap-3">
                   {/* Search Bar */}
                   <div className="flex-1 relative">

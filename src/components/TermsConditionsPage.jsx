@@ -1,4 +1,4 @@
-import LegalPageLayout from './LegalPageLayout';
+﻿import LegalPageLayout from './LegalPageLayout';
 
 const sections = [
   {
@@ -75,3 +75,4 @@ function TermsConditionsPage() {
 }
 
 export default TermsConditionsPage;
+

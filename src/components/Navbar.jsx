@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Premium Icon Components
@@ -396,7 +396,7 @@ function Navbar() {
                       {/* CTA Button */}
                       <button
                         type="button"
-                        onClick={() => navigateTo('/contact')}
+                        onClick={() => window.open('https://cal.com/ifranchise/30min', '_blank')}
                         className="group mt-6 w-full flex items-center justify-center gap-2 rounded-2xl btn-wave bg-[#0B1220] px-4 py-4 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:bg-[#1a2332] hover:shadow-xl hover:-translate-y-0.5"
                       >
                         Book A Call

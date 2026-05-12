@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+﻿import { useEffect, useRef, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import Button from './Button';
 import TestimonialCard from './TestimonialCard';
@@ -920,7 +920,7 @@ function FranchiseModelModal({ model, onClose }) {
             Compare Models
           </button>
           <button
-            onClick={() => navigateTo('/contact')}
+            onClick={() => window.open('https://cal.com/ifranchise/30min', '_blank')}
             className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg active:scale-95"
             style={{ backgroundColor: details.accentColor, boxShadow: `0 4px 14px ${details.accentColor}40` }}
           >

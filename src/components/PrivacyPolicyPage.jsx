@@ -1,4 +1,4 @@
-import LegalPageLayout from './LegalPageLayout';
+﻿import LegalPageLayout from './LegalPageLayout';
 
 const sections = [
   {
@@ -63,3 +63,4 @@ function PrivacyPolicyPage() {
 }
 
 export default PrivacyPolicyPage;
+

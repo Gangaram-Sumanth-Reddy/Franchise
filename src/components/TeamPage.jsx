@@ -1,4 +1,4 @@
-const teamGridMembers = [
+﻿const teamGridMembers = [
   {
     name: 'John Doe',
     role: 'Founder & CEO',

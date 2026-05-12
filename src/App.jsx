@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import FloatingContactCTA from './components/FloatingContactCTA';
 import PreFooterCTA from './components/PreFooterCTA';
+import ExpansionAssistant from './components/ExpansionAssistant';
 
 // ── Lazy-load all pages — only load what's needed ─────────────────────────────
 const Hero                    = lazy(() => import('./components/Hero'));
@@ -216,6 +217,8 @@ function App() {
       {(isFranchiseDetailsPage || isFranchiseOpportunitiesPage) && (
         <FloatingContactCTA franchiseName="franchise opportunities" />
       )}
+
+      {!isContactPage && !isFranchiseOpportunitiesPage && <ExpansionAssistant />}
     </div>
   );
 }

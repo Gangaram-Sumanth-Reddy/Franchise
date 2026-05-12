@@ -1,4 +1,4 @@
-/**
+﻿/**
  * LegalPageLayout
  * Shared layout for Privacy Policy, Terms & Conditions, and Licenses pages.
  * Apple / Google documentation style — single-column, clean, enterprise-grade.
@@ -26,9 +26,9 @@ function LegalSection({ index, title, body }) {
 
 function LegalPageLayout({ title, subtitle, sections, badge }) {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       {/* Page Header */}
-      <div className="border-b border-slate-100 bg-slate-50">
+      <div className="border-b border-slate-100">
         <div className="max-w-3xl mx-auto px-5 sm:px-8 py-14 sm:py-20">
           {badge && (
             <span className="inline-block text-xs font-semibold uppercase tracking-widest text-slate-400 mb-5">

@@ -1,4 +1,4 @@
-/* Font loaded via <link> in index.html — non-blocking */
+﻿/* Font loaded via <link> in index.html — non-blocking */
 
 @tailwind base;
 @tailwind components;
@@ -42,7 +42,7 @@
   /* Subtle global grain — static, not fixed, so it doesn't repaint on scroll */
   body::before {
     content: '';
-    position: absolute;
+    position: fixed;
     inset: 0;
     background-image: radial-gradient(circle at 1px 1px, rgba(15,23,42,0.012) 1px, transparent 0);
     background-size: 32px 32px;
