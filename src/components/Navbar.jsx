@@ -295,6 +295,7 @@ function Navbar() {
             ref={companyRef}
           >
             <button
+              onClick={() => navigateTo('/about')}
               className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg transition-all duration-200 ${
                 activeDropdown === 'company'
                   ? 'text-[#0b0f19] bg-slate-50'

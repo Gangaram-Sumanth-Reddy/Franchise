@@ -32,18 +32,23 @@ export default defineConfig({
           if (id.includes('node_modules/swiper')) {
             return 'swiper';
           }
+          if (id.includes('node_modules/lottie-react')) {
+            return 'lottie';
+          }
           if (id.includes('node_modules')) {
             return 'vendor';
           }
         },
       },
     },
-    chunkSizeWarningLimit: 800,
+    chunkSizeWarningLimit: 500,
     minify: 'esbuild',
     sourcemap: false,
     target: 'esnext',
-    assetsInlineLimit: 4096,
+    assetsInlineLimit: 8192,
     cssCodeSplit: true,
+    cssMinify: true,
+    reportCompressedSize: false,
   },
   optimizeDeps: {
     include: ['react', 'react-dom', 'framer-motion', '@studio-freight/lenis'],

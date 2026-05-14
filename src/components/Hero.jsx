@@ -4,6 +4,16 @@ import Button from './Button';
 import TestimonialCard from './TestimonialCard';
 import processImg from '../assets/process.png';
 import contactImg from '../assets/contact.png';
+import homeHeroBg from '../assets/HomeHero.png';
+import homeBg from '../assets/HomeBG.png';
+import industriesBg from '../assets/Industries.png';
+import brandLogo from '../assets/BrandLogo.png';
+import home2Bg from '../assets/Home2.png';
+import home3Bg from '../assets/Home3.png';
+import {
+  FiUserCheck, FiBookOpen, FiUserPlus, FiTarget, FiMap, FiCompass,
+  FiCheck, FiArrowRight,
+} from 'react-icons/fi';
 import { 
   franchiseOpportunities, 
   getTotalCities, 
@@ -44,7 +54,7 @@ function Reveal({ children, delay = 0, direction = 'up', className = '' }) {
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? 'translate3d(0,0,0)' : transforms[direction] || transforms.up,
-        transition: `opacity 0.5s cubic-bezier(0.22,1,0.36,1) ${delay}s, transform 0.5s cubic-bezier(0.22,1,0.36,1) ${delay}s`,
+        transition: `opacity 0.3s cubic-bezier(0.22,1,0.36,1) ${delay}s, transform 0.3s cubic-bezier(0.22,1,0.36,1) ${delay}s`,
         willChange: visible ? 'auto' : 'transform, opacity',
       }}
     >
@@ -624,7 +634,7 @@ function StatCard({ stat, active }) {
 
   return (
     <div className="inline-block">
-      <p className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-[#0b0f19] tabular-nums mb-1">
+      <p className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white tabular-nums mb-1">
         {count.toLocaleString()}
         {stat.suffix}
       </p>
@@ -1064,8 +1074,14 @@ function FranchiseCard({ franchise }) {
   return (
     <article 
       onClick={handleCardClick}
-      className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-[0_4px_20px_rgba(15,23,42,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(15,23,42,0.15)] cursor-pointer"
+      className="group flex h-full flex-col overflow-hidden rounded-2xl cursor-pointer"
+      style={{ background: 'linear-gradient(145deg, #12082a 0%, #0e0620 50%, #0a0618 100%)', border: '1px solid rgba(139,92,246,0.18)', boxShadow: '0 4px 24px rgba(0,0,0,0.4)', transition: 'transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease, border-color 0.35s ease' }}
+      onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-6px)'; e.currentTarget.style.boxShadow = '0 20px 50px rgba(109,40,217,0.3)'; e.currentTarget.style.borderColor = 'rgba(139,92,246,0.45)'; }}
+      onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.4)'; e.currentTarget.style.borderColor = 'rgba(139,92,246,0.18)'; }}
     >
+      {/* Top glow line on hover */}
+      <div className="absolute top-0 left-0 right-0 h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+        style={{ background: 'linear-gradient(90deg, transparent, rgba(139,92,246,0.7), transparent)' }} />
       {/* Image with Badge */}
       <div className="relative overflow-hidden rounded-t-2xl">
         <img
@@ -1117,51 +1133,51 @@ function FranchiseCard({ franchise }) {
       {/* Content */}
       <div className="flex flex-1 flex-col p-5">
         {/* Title and Description */}
-        <h3 className="text-xl font-bold tracking-tight text-[#0b0f19]">{franchise.title}</h3>
-        <p className="mt-2 text-sm leading-relaxed text-slate-600">{franchise.description}</p>
+        <h3 className="text-xl font-bold tracking-tight text-white">{franchise.title}</h3>
+        <p className="mt-2 text-sm leading-relaxed text-white/65">{franchise.description}</p>
 
         {/* Tags Row */}
         <div className="mt-4 flex flex-wrap gap-2">
-          <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
+          <span className="rounded-full px-3 py-1 text-xs font-semibold text-violet-300" style={{ background: 'rgba(139,92,246,0.2)', border: '1px solid rgba(139,92,246,0.3)' }}>
             {franchise.tags.investment}
           </span>
-          <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+          <span className="rounded-full px-3 py-1 text-xs font-semibold text-white/70" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }}>
             {franchise.tags.model}
           </span>
-          <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
+          <span className="rounded-full px-3 py-1 text-xs font-semibold text-white/70" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }}>
             {franchise.tags.expansion}
           </span>
         </div>
 
         {/* Metrics Row */}
         <div className="mt-4 grid grid-cols-2 gap-4">
-          <div className="rounded-lg bg-slate-50 p-3">
-            <p className="text-xs font-medium text-slate-500">ROI</p>
-            <p className="text-lg font-bold text-[#0b0f19]">{franchise.metrics.roi}</p>
+          <div className="rounded-lg p-3" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}>
+            <p className="text-xs font-medium text-white/45">ROI</p>
+            <p className="text-lg font-bold text-white">{franchise.metrics.roi}</p>
           </div>
-          <div className="rounded-lg bg-slate-50 p-3">
-            <p className="text-xs font-medium text-slate-500">Payback</p>
-            <p className="text-lg font-bold text-[#0b0f19]">{franchise.metrics.payback}</p>
+          <div className="rounded-lg p-3" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}>
+            <p className="text-xs font-medium text-white/45">Payback</p>
+            <p className="text-lg font-bold text-white">{franchise.metrics.payback}</p>
           </div>
         </div>
 
         {/* Details Grid */}
         <div className="mt-4 grid grid-cols-2 gap-2 text-xs">
           <div>
-            <p className="font-medium text-slate-500">Industry</p>
-            <p className="text-slate-800">{franchise.details.industry}</p>
+            <p className="font-medium text-white/40">Industry</p>
+            <p className="text-white/80">{franchise.details.industry}</p>
           </div>
           <div>
-            <p className="font-medium text-slate-500">Segment</p>
-            <p className="text-slate-800">{franchise.details.segment}</p>
+            <p className="font-medium text-white/40">Segment</p>
+            <p className="text-white/80">{franchise.details.segment}</p>
           </div>
           <div>
-            <p className="font-medium text-slate-500">Investment</p>
-            <p className="text-slate-800">{franchise.details.investment}</p>
+            <p className="font-medium text-white/40">Investment</p>
+            <p className="text-white/80">{franchise.details.investment}</p>
           </div>
           <div>
-            <p className="font-medium text-slate-500">Space</p>
-            <p className="text-slate-800">{franchise.details.space}</p>
+            <p className="font-medium text-white/40">Space</p>
+            <p className="text-white/80">{franchise.details.space}</p>
           </div>
         </div>
 
@@ -1171,13 +1187,17 @@ function FranchiseCard({ franchise }) {
             type="button"
             onClick={(e) => {
               e.stopPropagation();
-              console.log('View Details clicked - navigating to franchise page:', franchise.slug);
               window.history.pushState({}, '', `/franchise/${franchise.slug}`);
               window.dispatchEvent(new PopStateEvent('popstate'));
             }}
-            className="w-full rounded-full btn-wave bg-[#0B1220] px-6 py-3 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#0B1220]/25"
+            className="group/btn relative w-full overflow-hidden rounded-xl py-3 text-sm font-bold text-white"
+            style={{ background: 'linear-gradient(135deg, #6d28d9 0%, #4f46e5 100%)', boxShadow: '0 4px 16px rgba(109,40,217,0.35)', transition: 'box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.22,1,0.36,1)' }}
+            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 10px 30px rgba(109,40,217,0.55)'; }}
+            onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(109,40,217,0.35)'; }}
           >
-            View Details
+            <div className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700 pointer-events-none"
+              style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)' }} />
+            <span className="relative z-10">View Details</span>
           </button>
         </div>
       </div>
@@ -1374,7 +1394,7 @@ function FranchiseEduCard({ card, index }) {
             decoding="async"
             onLoad={() => setImgLoaded(true)}
             onError={handleError}
-            className={`w-full h-full object-cover object-center transition-opacity duration-500 group-hover:scale-105 transition-transform ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
+            className={`w-full h-full object-cover object-center transition-opacity duration-200 group-hover:scale-105 transition-transform ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
           />
         )}
         {/* Bottom gradient overlay */}
@@ -1525,7 +1545,7 @@ function BarLineChart({ dataset, active }) {
       {/* Grid */}
       <div className="absolute left-7 right-0 top-0 bottom-6 pointer-events-none">
         {yTicks.map((_, i) => (
-          <div key={i} className="absolute w-full border-t border-slate-100"
+          <div key={i} className="absolute w-full border-t border-white/8"
             style={{ top: `${(i / (yTicks.length - 1)) * 100}%` }} />
         ))}
       </div>
@@ -1745,7 +1765,7 @@ function BenchmarkBars({ active }) {
             <span className="text-[11px] font-bold text-slate-800">{s.score}</span>
           </div>
           <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
-            <div className="h-full rounded-full transition-all duration-700"
+            <div className="h-full rounded-full transition-all duration-200"
               style={{
                 width: active ? `${s.score}%` : '0%',
                 background: s.color,
@@ -1819,7 +1839,7 @@ function InvestorSignals({ active }) {
       {signals.map((s, i) => (
         <div
           key={i}
-          className={`flex items-center gap-2.5 rounded-xl border px-3 py-2 ${s.color} transition-all duration-500`}
+          className={`flex items-center gap-2.5 rounded-xl border px-3 py-2 ${s.color} transition-all duration-200`}
           style={{
             opacity: active ? 1 : 0,
             transform: active ? 'translateX(0)' : 'translateX(-12px)',
@@ -1906,7 +1926,7 @@ function MarketIntelligenceSection() {
   }));
 
   return (
-    <section ref={ref} className="w-full bg-gradient-to-b from-slate-50 to-white">
+    <section ref={ref} className="w-full">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
         {/* Compact Header */}
@@ -1918,16 +1938,16 @@ function MarketIntelligenceSection() {
             </span>
             <span className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">India Franchise Market Intelligence</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#0b0f19] leading-tight mb-2">
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white leading-tight mb-2">
             Inside India&apos;s Franchise Growth Engine
           </h2>
-          <p className="text-sm text-slate-500 max-w-xl mx-auto leading-relaxed">
+          <p className="text-sm text-white/60 max-w-xl mx-auto leading-relaxed">
             Real-time market insights, investor patterns, and expansion trends shaping India&apos;s franchise future.
           </p>
         </div>
 
         {/* Live ticker - Reversed Animation (Right to Left) */}
-        <div className="mb-5 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+        <div className="mb-5 overflow-hidden rounded-xl border border-white/10 shadow-sm">
           <div className="flex items-center gap-3 px-4 py-2">
             <span className="shrink-0 inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full">
               <span className="relative flex h-1.5 w-1.5">
@@ -1938,12 +1958,12 @@ function MarketIntelligenceSection() {
             </span>
             {/* Fade edges */}
             <div className="relative overflow-hidden flex-1">
-              <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white to-transparent z-10" />
-              <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent z-10" />
+              <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-transparent to-transparent z-10" />
+              <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-transparent to-transparent z-10" />
               {/* Duplicated text for seamless RIGHT→LEFT loop */}
               <div className="flex w-max animate-marquee-left">
                 {[0, 1].map((n) => (
-                  <p key={n} className="text-xs text-slate-600 font-medium whitespace-nowrap pr-16">
+                  <p key={n} className="text-xs text-white/70 font-medium whitespace-nowrap pr-16">
                     24 verified franchise opportunities across India &nbsp;&middot;&nbsp;
                     Operating in 8 major cities including Mumbai, Delhi, Bengaluru &nbsp;&middot;&nbsp;
                     Average ROI of 34% across all franchise brands &nbsp;&middot;&nbsp;
@@ -1961,17 +1981,19 @@ function MarketIntelligenceSection() {
           {kpis.map((k, i) => (
             <div
               key={k.label}
-              className="bg-white rounded-xl border border-slate-100 shadow-sm px-4 py-3"
+              className="rounded-xl px-4 py-3"
               style={{
+                background: "rgba(255,255,255,0.07)",
+                border: "1px solid rgba(255,255,255,0.1)",
                 opacity: active ? 1 : 0.4,
                 transform: active ? 'translateY(0)' : 'translateY(8px)',
                 transition: `opacity 0.5s ease ${i * 0.08}s, transform 0.5s ease ${i * 0.08}s`,
               }}
             >
-              <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">{k.label}</p>
+              <p className="text-[9px] font-bold uppercase tracking-widest text-white/40 mb-1.5">{k.label}</p>
               <div className="flex items-center gap-2 mb-0.5">
                 <span className="w-2 h-2 rounded-full shrink-0" style={{ background: k.dotColor }} />
-                <p className="text-xl font-extrabold text-[#0b0f19] tabular-nums leading-none">{k.value}</p>
+                <p className="text-xl font-extrabold text-white tabular-nums leading-none">{k.value}</p>
               </div>
               <p className="text-[10px] text-slate-400">{k.sub}</p>
             </div>
@@ -1979,20 +2001,20 @@ function MarketIntelligenceSection() {
         </div>
 
         {/* Premium Main dashboard card */}
-        <div className="bg-white rounded-2xl border border-slate-100 shadow-lg overflow-hidden">
+        <div className="rounded-2xl overflow-hidden" style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)" }}>
           <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_280px]">
 
             {/* LEFT – Premium Chart panel */}
-            <div className="p-5 border-b lg:border-b-0 lg:border-r border-slate-100">
+            <div className="p-5 border-b lg:border-b-0 lg:border-r border-white/10">
 
               {/* Chart header row */}
               <div className="flex items-start justify-between mb-4 gap-3 flex-wrap">
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 mb-0.5">Revenue Growth Index</p>
-                  <p className="text-sm font-extrabold text-[#0b0f19]">India Franchise Market Expansion</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-white/40 mb-0.5">Revenue Growth Index</p>
+                  <p className="text-sm font-extrabold text-white">India Franchise Market Expansion</p>
                 </div>
                 {/* More prominent tab buttons */}
-                <div className="flex items-center gap-1 bg-slate-50 rounded-xl p-1 border border-slate-200 shadow-sm shrink-0">
+                <div className="flex items-center gap-1 rounded-xl p-1 shrink-0" style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)" }}>
                   {['Monthly', 'Quarterly', 'Yearly'].map((t) => (
                     <button
                       key={t}
@@ -2000,7 +2022,7 @@ function MarketIntelligenceSection() {
                       className={`text-xs font-bold px-4 py-2 rounded-lg transition-all duration-200 ${
                         tab === t
                           ? 'bg-gradient-to-br from-violet-600 to-violet-700 text-white shadow-md'
-                          : 'text-slate-600 hover:text-slate-900 hover:bg-white'
+                          : 'text-white/60 hover:text-white hover:bg-white/10'
                       }`}
                     >
                       {t}
@@ -2021,13 +2043,13 @@ function MarketIntelligenceSection() {
                 {/* Grid lines - Professional stock style */}
                 <div className="absolute left-9 right-0 top-0 bottom-8 pointer-events-none">
                   {[0, 1, 2, 3, 4].map((i) => (
-                    <div key={i} className="absolute w-full border-t border-slate-100" style={{ top: `${(i / 4) * 100}%` }} />
+                    <div key={i} className="absolute w-full border-t border-white/8" style={{ top: `${(i / 4) * 100}%` }} />
                   ))}
                   {/* Vertical grid lines */}
                   {dataset.labels.map((_, i) => (
                     <div 
                       key={`vline-${i}`} 
-                      className="absolute h-full border-l border-slate-50" 
+                      className="absolute h-full border-l border-white/5" 
                       style={{ left: `${(i / (dataset.labels.length - 1)) * 100}%` }} 
                     />
                   ))}
@@ -2041,27 +2063,27 @@ function MarketIntelligenceSection() {
                   preserveAspectRatio="none"
                 >
                   <defs>
-                    {/* Enhanced 3D Pipe gradients with more depth */}
+                    {/* 3D Pipe gradients — white/silver */}
                     <linearGradient id="miBarGrad3D" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stopColor="#4c1d95" stopOpacity="0.5" />
-                      <stop offset="15%" stopColor="#5b21b6" stopOpacity="0.75" />
-                      <stop offset="35%" stopColor="#7c3aed" stopOpacity="0.95" />
-                      <stop offset="50%" stopColor="#8b5cf6" stopOpacity="1" />
-                      <stop offset="65%" stopColor="#7c3aed" stopOpacity="0.95" />
-                      <stop offset="85%" stopColor="#5b21b6" stopOpacity="0.75" />
-                      <stop offset="100%" stopColor="#4c1d95" stopOpacity="0.5" />
+                      <stop offset="0%" stopColor="#94a3b8" stopOpacity="0.5" />
+                      <stop offset="15%" stopColor="#cbd5e1" stopOpacity="0.75" />
+                      <stop offset="35%" stopColor="#f1f5f9" stopOpacity="0.95" />
+                      <stop offset="50%" stopColor="#ffffff" stopOpacity="1" />
+                      <stop offset="65%" stopColor="#f1f5f9" stopOpacity="0.95" />
+                      <stop offset="85%" stopColor="#cbd5e1" stopOpacity="0.75" />
+                      <stop offset="100%" stopColor="#94a3b8" stopOpacity="0.5" />
                     </linearGradient>
-                    {/* Top ellipse gradient - brighter for light reflection */}
+                    {/* Top ellipse gradient - bright white reflection */}
                     <radialGradient id="miBarTop" cx="50%" cy="30%">
-                      <stop offset="0%" stopColor="#c4b5fd" stopOpacity="1" />
-                      <stop offset="40%" stopColor="#a78bfa" stopOpacity="0.95" />
-                      <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.85" />
+                      <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
+                      <stop offset="40%" stopColor="#f1f5f9" stopOpacity="0.95" />
+                      <stop offset="100%" stopColor="#e2e8f0" stopOpacity="0.85" />
                     </radialGradient>
-                    {/* Bottom ellipse gradient - darker for depth */}
+                    {/* Bottom ellipse gradient - darker silver for depth */}
                     <radialGradient id="miBarBottom" cx="50%" cy="70%">
-                      <stop offset="0%" stopColor="#6d28d9" stopOpacity="0.9" />
-                      <stop offset="60%" stopColor="#5b21b6" stopOpacity="0.8" />
-                      <stop offset="100%" stopColor="#4c1d95" stopOpacity="0.7" />
+                      <stop offset="0%" stopColor="#94a3b8" stopOpacity="0.9" />
+                      <stop offset="60%" stopColor="#64748b" stopOpacity="0.8" />
+                      <stop offset="100%" stopColor="#475569" stopOpacity="0.7" />
                     </radialGradient>
                     <linearGradient id="miAreaGrad" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="0%" stopColor="#10b981" stopOpacity="0.08" />
@@ -2215,43 +2237,43 @@ function MarketIntelligenceSection() {
                 {/* X-axis labels - Clear and visible */}
                 <div className="absolute left-9 right-0 bottom-0 flex justify-between px-1">
                   {dataset.labels.map((l) => (
-                    <span key={l} className="text-[10px] text-slate-500 font-semibold flex-1 text-center">{l}</span>
+                    <span key={l} className="text-[10px] text-white/40 font-semibold flex-1 text-center">{l}</span>
                   ))}
                 </div>
               </div>
 
               {/* Useful insights below chart - No wasted space */}
-              <div className="mt-3 pt-3 border-t border-slate-100">
+              <div className="mt-3 pt-3 border-t border-white/10">
                 <div className="flex items-center justify-between gap-4">
                   {/* Legend */}
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-1.5">
                       <div className="w-3 h-3 rounded-sm" style={{ background: 'linear-gradient(to top, #7c3aed, #a78bfa)' }} />
-                      <span className="text-[10px] text-slate-500 font-medium">Market Growth</span>
+                      <span className="text-[10px] text-white/50 font-medium">Market Growth</span>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <div className="w-4 h-0.5 bg-emerald-500 rounded" />
-                      <span className="text-[10px] text-slate-500 font-medium">CAGR Trend</span>
+                      <span className="text-[10px] text-white/50 font-medium">CAGR Trend</span>
                     </div>
                   </div>
                   {/* Key insight */}
-                  <div className="flex items-center gap-2 bg-emerald-50 px-3 py-1.5 rounded-lg">
+                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg" style={{ background: "rgba(16,185,129,0.15)" }}>
                     <svg className="w-3 h-3 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clipRule="evenodd" />
                     </svg>
-                    <span className="text-[10px] font-bold text-emerald-700">+{avgROI}% Avg Growth</span>
+                    <span className="text-[10px] font-bold text-emerald-400">+{avgROI}% Avg Growth</span>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* RIGHT – Compact Donut + Category bars */}
-            <div className="flex flex-col divide-y divide-slate-100">
+            <div className="flex flex-col divide-y divide-white/10">
 
               {/* Compact Donut */}
               <div className="p-4">
-                <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-0.5">Investor Preference</p>
-                <p className="text-xs font-bold text-[#0b0f19] mb-3">Franchise vs Independent</p>
+                <p className="text-[9px] font-bold uppercase tracking-widest text-white/40 mb-0.5">Investor Preference</p>
+                <p className="text-xs font-bold text-white mb-3">Franchise vs Independent</p>
                 <div className="flex items-center gap-3">
                   <div className="w-[75px] h-[75px] shrink-0">
                     <DonutChart active={active} />
@@ -2264,20 +2286,20 @@ function MarketIntelligenceSection() {
                       <div key={s.label} className="flex items-center gap-1.5">
                         <span className="w-2 h-2 rounded-full shrink-0" style={{ background: s.color }} />
                         <div>
-                          <p className="text-[10px] font-semibold text-slate-700 leading-tight">{s.label}</p>
+                          <p className="text-[10px] font-semibold text-white/80 leading-tight">{s.label}</p>
                           <p className="text-[9px] text-slate-400">{s.pct}</p>
                         </div>
                       </div>
                     ))}
-                    <p className="text-[9px] text-slate-400 italic">3&times; since 2020</p>
+                    <p className="text-[9px] text-white/40 italic">3&times; since 2020</p>
                   </div>
                 </div>
               </div>
 
               {/* Compact Category bars */}
               <div className="p-4 flex-1">
-                <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-0.5">Top Sectors</p>
-                <p className="text-xs font-bold text-[#0b0f19] mb-3">Fastest Growing Categories</p>
+                <p className="text-[9px] font-bold uppercase tracking-widest text-white/40 mb-0.5">Top Sectors</p>
+                <p className="text-xs font-bold text-white mb-3">Fastest Growing Categories</p>
                 <div className="space-y-2.5">
                   {CATEGORIES.map((cat, i) => (
                     <div key={cat.name}>
@@ -2285,9 +2307,9 @@ function MarketIntelligenceSection() {
                         <span className="text-[10px] font-semibold text-slate-600">{cat.name}</span>
                         <span className="text-[10px] font-bold text-slate-700">{cat.pct}%</span>
                       </div>
-                      <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                      <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.1)" }}>
                         <div
-                          className="h-full rounded-full transition-all duration-700"
+                          className="h-full rounded-full transition-all duration-200"
                           style={{
                             width: active ? `${cat.pct}%` : `${cat.pct * 0.25}%`,
                             background: cat.color,
@@ -2309,7 +2331,7 @@ function MarketIntelligenceSection() {
           <div className="flex flex-wrap items-center gap-2 justify-center sm:justify-start">
             <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Verified Sources:</span>
             {SOURCES.map((s) => (
-              <span key={s} className="text-[11px] font-semibold text-slate-500 bg-white border border-slate-200 px-2.5 py-1 rounded-full shadow-sm">{s}</span>
+              <span key={s} className="text-[11px] font-semibold text-white/60 px-2.5 py-1 rounded-full" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }}>{s}</span>
             ))}
           </div>
           <div className="flex items-center gap-1.5 shrink-0">
@@ -2399,7 +2421,7 @@ const PROCESS_FLOWS = {
 function ProcessTimeline() {
   const [mode, setMode] = useState('Investors');
   const [visible, setVisible] = useState(false);
-  const [lineH, setLineH] = useState(0);
+  const [activeStep, setActiveStep] = useState(0);
   const ref = useRef(null);
   const hasShown = useRef(false);
 
@@ -2411,107 +2433,165 @@ function ProcessTimeline() {
         if (e.isIntersecting && !hasShown.current) {
           hasShown.current = true;
           setVisible(true);
-          obs.disconnect();
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.15 }
     );
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
 
-  // Animate the connector line height
+  // Auto-advance active step
   useEffect(() => {
     if (!visible) return;
-    let start;
-    const tick = (ts) => {
-      if (!start) start = ts;
-      const p = Math.min((ts - start) / 1200, 1);
-      setLineH(Math.floor(100 * (1 - Math.pow(1 - p, 3))));
-      if (p < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
+    setActiveStep(0);
+    const steps = PROCESS_FLOWS[mode];
+    let i = 0;
+    const id = setInterval(() => {
+      i = (i + 1) % steps.length;
+      setActiveStep(i);
+    }, 2200);
+    return () => clearInterval(id);
   }, [visible, mode]);
 
   const steps = PROCESS_FLOWS[mode];
 
   return (
-    <div ref={ref}>
-      {/* Toggle pills */}
-      <div className="flex items-center gap-2 mb-8 bg-slate-50 border border-slate-200 rounded-2xl p-1.5 w-fit">
-        {['Investors', 'Brands'].map((m) => (
-          <button
-            key={m}
-            onClick={() => { setMode(m); setLineH(0); setVisible(false); setTimeout(() => setVisible(true), 50); }}
-            className={`text-sm font-bold px-5 py-2.5 rounded-xl transition-all duration-250 ${
-              mode === m
-                ? 'bg-white text-[#0b0f19] shadow-sm border border-slate-200'
-                : 'text-slate-400 hover:text-slate-600'
-            }`}
-          >
-            For {m}
-          </button>
-        ))}
+    <div ref={ref} className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-start">
+
+      {/* LEFT — Visual panel (no tab, no number counter) */}
+      <div className="flex flex-col gap-0">
+        {/* Visual card with process image */}
+        <div className="relative overflow-hidden rounded-2xl"
+          style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(139,92,246,0.2)', minHeight: '340px' }}>
+          {/* Ambient glow */}
+          <div className="absolute inset-0 pointer-events-none"
+            style={{ background: 'radial-gradient(ellipse at 30% 50%, rgba(139,92,246,0.2) 0%, transparent 65%)' }} />
+
+          {/* Process image — static, no animation */}
+          <div className="relative z-10 flex items-center justify-center p-8 h-full">
+            <img src={processImg} alt="iFranchise Process"
+              className="w-full max-w-[300px] object-contain"
+              style={{ filter: 'drop-shadow(0 20px 40px rgba(139,92,246,0.3))' }}
+              loading="eager"
+            />
+          </div>
+
+          {/* Floating badge */}
+          <div className="absolute top-5 left-5 inline-flex items-center gap-2 rounded-full px-3 py-1.5"
+            style={{ background: 'rgba(139,92,246,0.25)', border: '1px solid rgba(167,139,250,0.4)', backdropFilter: 'blur(8px)' }}>
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-violet-400" />
+            </span>
+            <span className="text-[10px] font-bold text-violet-300 uppercase tracking-wider">Growth Signal</span>
+          </div>
+
+          {/* Progress bar */}
+          <div className="absolute bottom-5 left-5 right-5">
+            <div className="flex gap-1.5">
+              {steps.map((_, i) => (
+                <div key={i} className="h-1 rounded-full transition-all duration-500 cursor-pointer"
+                  style={{ background: i === activeStep ? '#a78bfa' : 'rgba(255,255,255,0.2)', flex: i === activeStep ? 2 : 1 }}
+                  onClick={() => setActiveStep(i)} />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Timeline */}
-      <div className="relative">
-        {/* Vertical connector track */}
-        <div className="absolute left-5 top-10 bottom-10 w-px bg-slate-100 hidden sm:block" />
-        {/* Animated fill */}
-        <div
-          className="absolute left-5 top-10 w-px bg-gradient-to-b from-violet-500 to-indigo-400 hidden sm:block origin-top transition-none"
-          style={{ height: `${lineH}%`, transition: 'height 0.05s linear' }}
-        />
-
-        <div className="space-y-5">
-          {steps.map((step, i) => (
-            <div
-              key={`${mode}-${step.num}`}
-              className="relative sm:pl-16"
+      {/* RIGHT — Tab toggle + Steps */}
+      <div className="flex flex-col gap-5">
+        {/* Tab toggle — right side only */}
+        <div className="inline-flex items-center gap-1 p-1 rounded-2xl w-fit"
+          style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }}>
+          {['Investors', 'Brands'].map((m) => (
+            <button key={m}
+              onClick={() => { setMode(m); setActiveStep(0); }}
+              className="relative text-sm font-bold px-6 py-2.5 rounded-xl transition-all duration-300"
               style={{
-                opacity: visible ? 1 : 0,
-                transform: visible ? 'translateY(0)' : 'translateY(20px)',
-                transition: `opacity 0.5s ease ${i * 0.15}s, transform 0.5s ease ${i * 0.15}s`,
+                background: mode === m ? 'linear-gradient(135deg, #6d28d9, #4f46e5)' : 'transparent',
+                color: mode === m ? '#ffffff' : 'rgba(255,255,255,0.45)',
+                boxShadow: mode === m ? '0 4px 16px rgba(109,40,217,0.4)' : 'none',
               }}
             >
-              {/* Step node */}
-              <div className={`hidden sm:flex absolute left-0 top-5 w-10 h-10 rounded-full items-center justify-center
-                border-2 bg-white z-10 transition-all duration-500 ${
-                  visible
-                    ? 'border-violet-400 shadow-[0_0_0_4px_rgba(139,92,246,0.12)]'
-                    : 'border-slate-200'
-                }`}>
-                <span className="text-xs font-extrabold text-violet-600">{step.num}</span>
-              </div>
+              For {m}
+            </button>
+          ))}
+        </div>
+        {/* Vertical connector */}
+        <div className="absolute left-5 top-6 bottom-6 w-px hidden sm:block"
+          style={{ background: 'linear-gradient(to bottom, rgba(139,92,246,0.5), rgba(99,102,241,0.2), transparent)' }} />
 
-              {/* Card */}
-              <div className="group bg-white rounded-[20px] border border-slate-100 shadow-sm
-                hover:shadow-lg hover:-translate-y-1 hover:border-violet-200 transition-all duration-300 p-5">
-                <div className="flex items-start gap-4">
-                  {/* Mobile step number */}
-                  <div className="sm:hidden flex-shrink-0 w-9 h-9 rounded-full bg-violet-50 border border-violet-200
-                    flex items-center justify-center">
-                    <span className="text-xs font-extrabold text-violet-600">{step.num}</span>
-                  </div>
-                  {/* Icon */}
-                  <div className="hidden sm:flex w-10 h-10 rounded-xl bg-violet-50 border border-violet-100
-                    items-center justify-center text-violet-600 shrink-0 group-hover:bg-violet-100 transition-colors duration-200">
-                    {step.icon}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-base font-extrabold text-[#0b0f19] mb-1.5 leading-snug">
-                      {step.title}
-                    </h3>
-                    <p className="text-sm text-slate-500 leading-relaxed">{step.desc}</p>
+        <div className="space-y-4">
+          {steps.map((step, i) => {
+            const isActive = i === activeStep;
+            return (
+              <div key={`${mode}-${step.num}`} className="relative sm:pl-16 cursor-pointer"
+                style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)', transition: `opacity 0.4s ease ${i * 0.12}s, transform 0.4s ease ${i * 0.12}s` }}
+                onClick={() => setActiveStep(i)}
+              >
+                {/* Step node */}
+                <div className="hidden sm:flex absolute left-0 top-5 w-10 h-10 rounded-full items-center justify-center z-10 transition-all duration-300"
+                  style={{
+                    background: isActive ? 'linear-gradient(135deg, #7c3aed, #4f46e5)' : 'rgba(255,255,255,0.06)',
+                    border: isActive ? '2px solid rgba(167,139,250,0.6)' : '2px solid rgba(255,255,255,0.12)',
+                    boxShadow: isActive ? '0 0 0 4px rgba(139,92,246,0.2), 0 4px 16px rgba(109,40,217,0.4)' : 'none',
+                  }}>
+                  <span className="text-xs font-extrabold" style={{ color: isActive ? '#ffffff' : 'rgba(255,255,255,0.4)' }}>{step.num}</span>
+                </div>
+
+                {/* Card */}
+                <div className="group relative overflow-hidden rounded-2xl p-5 transition-all duration-300"
+                  style={{
+                    background: isActive ? 'rgba(109,40,217,0.2)' : 'rgba(255,255,255,0.04)',
+                    border: isActive ? '1px solid rgba(167,139,250,0.4)' : '1px solid rgba(255,255,255,0.08)',
+                    boxShadow: isActive ? '0 8px 32px rgba(109,40,217,0.25)' : 'none',
+                    backdropFilter: 'blur(12px)',
+                  }}>
+                  {/* Active glow */}
+                  {isActive && (
+                    <div className="absolute inset-0 pointer-events-none rounded-2xl"
+                      style={{ background: 'linear-gradient(135deg, rgba(139,92,246,0.15) 0%, transparent 60%)' }} />
+                  )}
+                  {/* Active top border */}
+                  {isActive && (
+                    <div className="absolute top-0 left-0 right-0 h-[1px]"
+                      style={{ background: 'linear-gradient(90deg, transparent, rgba(167,139,250,0.8), transparent)' }} />
+                  )}
+
+                  <div className="relative z-10 flex items-start gap-4">
+                    {/* Mobile number */}
+                    <div className="sm:hidden flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center"
+                      style={{ background: isActive ? 'linear-gradient(135deg,#7c3aed,#4f46e5)' : 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)' }}>
+                      <span className="text-xs font-extrabold text-white">{step.num}</span>
+                    </div>
+
+                    {/* Icon */}
+                    <div className="hidden sm:flex w-10 h-10 rounded-xl items-center justify-center shrink-0 transition-all duration-300"
+                      style={{
+                        background: isActive ? 'rgba(139,92,246,0.3)' : 'rgba(255,255,255,0.07)',
+                        border: isActive ? '1px solid rgba(167,139,250,0.4)' : '1px solid rgba(255,255,255,0.1)',
+                        color: isActive ? '#c4b5fd' : 'rgba(255,255,255,0.4)',
+                      }}>
+                      {step.icon}
+                    </div>
+
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-[0.95rem] font-bold mb-1.5 leading-snug transition-colors duration-300"
+                        style={{ color: isActive ? '#ffffff' : 'rgba(255,255,255,0.6)' }}>
+                        {step.title}
+                      </h3>
+                      <p className="text-[0.78rem] leading-relaxed transition-colors duration-300"
+                        style={{ color: isActive ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.35)' }}>
+                        {step.desc}
+                      </p>
+                    </div>
                   </div>
                 </div>
-                {/* Hover accent line */}
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 rounded-b-[20px] bg-gradient-to-r
-                  from-violet-500 to-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>
@@ -2558,7 +2638,7 @@ function FAQAccordionItem({ faq, index }) {
       
       {/* Answer Content */}
       <div 
-        className={`overflow-hidden transition-all duration-500 ease-in-out ${
+        className={`overflow-hidden transition-all duration-200 ease-in-out ${
           isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
@@ -2610,7 +2690,7 @@ function PremiumFAQItem({ faq, index }) {
       </button>
       
       {/* Answer Content */}
-      <div className={`overflow-hidden transition-all duration-400 ease-out ${isOpen ? 'max-h-32 pb-4' : 'max-h-0'}`}>
+      <div className={`overflow-hidden transition-all duration-200 ease-out ${isOpen ? 'max-h-32 pb-4' : 'max-h-0'}`}>
         <div className="px-4">
           <div className="pl-11 pr-2">
             <p className="text-xs text-slate-600 leading-relaxed">
@@ -2620,6 +2700,45 @@ function PremiumFAQItem({ faq, index }) {
         </div>
       </div>
     </Reveal>
+  );
+}
+
+// ── Hero CTA Button — white bg, purple on hover ───────────────────────────────
+function HeroCtaButton({ label, path }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        window.history.pushState({}, '', path);
+        window.dispatchEvent(new PopStateEvent('popstate'));
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        backgroundColor: hovered ? '#7c3aed' : '#ffffff',
+        color: hovered ? '#ffffff' : '#0b0f19',
+        boxShadow: hovered
+          ? '0 6px 24px rgba(124,58,237,0.45)'
+          : '0 4px 16px rgba(0,0,0,0.25)',
+        transform: hovered ? 'translateY(-2px)' : 'translateY(0)',
+        transition: 'background-color 0.22s ease, color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease',
+        borderRadius: '10px',
+        padding: '10px 24px',
+        fontSize: '14px',
+        fontWeight: 700,
+        border: 'none',
+        cursor: 'pointer',
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '8px',
+      }}
+    >
+      {label}
+      <svg style={{ width: 16, height: 16 }} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
+      </svg>
+    </button>
   );
 }
 
@@ -2828,1134 +2947,673 @@ function Hero() {
   return (
     <main className="relative isolate overflow-x-hidden bg-transparent">
       {/* -- HERO SECTION -- */}
-      <section className="relative w-full min-h-[calc(100vh-80px)] flex items-center justify-center pt-20 sm:pt-24 pb-12 sm:pb-16">
-        {/* Clean gradient background */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div
-            className="absolute inset-0"
-            style={{
-              background: `
-                radial-gradient(ellipse at 20% 40%, rgba(219,234,254,0.55) 0%, transparent 55%),
-                radial-gradient(ellipse at 80% 20%, rgba(237,233,254,0.50) 0%, transparent 55%),
-                radial-gradient(ellipse at 50% 80%, rgba(224,242,254,0.40) 0%, transparent 50%),
-                linear-gradient(160deg, #f0f7ff 0%, #fafbff 40%, #f5f3ff 100%)
-              `,
-            }}
-          />
-          {/* Subtle grid */}
-          <div
-            className="absolute inset-0 opacity-[0.025]"
-            style={{
-              backgroundImage: `
-                linear-gradient(to right, rgba(99,102,241,0.2) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(99,102,241,0.2) 1px, transparent 1px)
-              `,
-              backgroundSize: '80px 80px',
-            }}
-          />
-          {/* Soft orbs */}
-          <div className="absolute top-1/4 left-1/5 w-[500px] h-[500px] bg-gradient-to-br from-blue-200/40 to-indigo-200/25 rounded-full blur-3xl" />
-          <div className="absolute top-1/3 right-1/5 w-[440px] h-[440px] bg-gradient-to-br from-violet-200/35 to-purple-200/20 rounded-full blur-3xl" />
-          {/* Bottom fade */}
-          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-white via-white/60 to-transparent" />
-        </div>
-        
-        <div className="section-container relative">
-          <div className="relative z-10 flex w-full max-w-[900px] flex-col items-center text-center mx-auto">
-            <span className="mb-4 sm:mb-5 inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50/80 backdrop-blur-sm px-4 py-2 text-xs font-medium text-emerald-800 shadow-sm">
-              <span className="animate-dot-pulse h-1.5 w-1.5 rounded-full bg-emerald-500" />
-              10K+ Growing Franchise Networks
-            </span>
+      <section
+        className="relative w-full flex flex-col overflow-hidden"
+        style={{
+          height: 'calc(100dvh - 80px)',
+          backgroundImage: `url(${homeHeroBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
+      >
+        {/* Centre content — slightly above center */}
+        <div className="flex-1 flex items-center justify-center min-h-0" style={{ paddingBottom: '8%' }}>
+          <div className="relative z-10 flex w-full max-w-[900px] flex-col items-center text-center px-8 mx-auto">
 
-            <h1 className="mb-4 sm:mb-5 text-[clamp(1.75rem,6vw,2.75rem)] font-extrabold leading-[1.15] tracking-tight text-[#0b0f19] px-4">
-              Discover Franchise Opportunities That Build Wealth and Scale Brands That Are Ready for Growth
-            </h1>
-
-            <p className="max-w-[720px] px-4 text-[15px] sm:text-base leading-relaxed text-slate-600 mb-7 sm:mb-8">
-              Whether you are an investor looking for the next high-growth franchise opportunity or a brand planning to expand across markets, iFranchise brings both sides together through a structured and trusted marketplace.
-            </p>
-
-            <div className="flex flex-col xs:flex-row justify-center gap-3 w-full px-4 xs:w-auto">
-              <button
-                type="button"
-                onClick={() => {
-                  window.history.pushState({}, '', '/franchise-opportunities');
-                  window.dispatchEvent(new PopStateEvent('popstate'));
-                }}
-                className="group relative overflow-hidden rounded-2xl btn-wave bg-[#0B1220] px-6 py-3 text-sm font-bold text-white transition-all duration-300 hover:bg-[#1a2332] hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(11,15,25,0.3)]"
-                style={{
-                  boxShadow: '0 4px 20px rgba(11,15,25,0.25)',
-                }}
-              >
-                <span className="relative z-10 flex items-center gap-2">
-                  Explore Opportunities
-                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 transition-all duration-300 group-hover:bg-white/30 group-hover:translate-x-1">
-                    <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
-                    </svg>
-                  </span>
-                </span>
-                <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/12 to-transparent transition-transform duration-600 group-hover:translate-x-full" />
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  window.history.pushState({}, '', '/list-your-brand');
-                  window.dispatchEvent(new PopStateEvent('popstate'));
-                }}
-                className="group relative overflow-hidden rounded-2xl btn-wave bg-[#0B1220] px-6 py-3 text-sm font-bold text-white transition-all duration-300 hover:bg-[#1a2332] hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(11,15,25,0.3)]"
-                style={{
-                  boxShadow: '0 4px 20px rgba(11,15,25,0.25)',
-                }}
-              >
-                <span className="relative z-10 flex items-center gap-2">
-                  List Your Brand
-                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 transition-all duration-300 group-hover:bg-white/30 group-hover:translate-x-1">
-                    <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
-                    </svg>
-                  </span>
-                </span>
-                <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/12 to-transparent transition-transform duration-600 group-hover:translate-x-full" />
-              </button>
-            </div>
-
-            <div className="mt-6 sm:mt-7 flex flex-col xs:flex-row items-center justify-center gap-3 xs:gap-4 px-4">
-              <div className="flex items-center -space-x-2">
-                <Avatar src="https://i.pravatar.cc/40?img=12" alt="Reviewer 1" />
-                <Avatar src="https://i.pravatar.cc/40?img=22" alt="Reviewer 2" />
-                <Avatar src="https://i.pravatar.cc/40?img=32" alt="Reviewer 3" />
-                <Avatar src="https://i.pravatar.cc/40?img=18" alt="Reviewer 4" />
-              </div>
-              <div className="text-center xs:text-left">
-                <p className="flex items-center justify-center xs:justify-start gap-0.5">
-                  <StarIcon />
-                  <StarIcon />
-                  <StarIcon />
-                  <StarIcon />
-                  <StarIcon />
-                </p>
-                <p className="text-xs text-slate-500">From {reviewCount}+ reviews</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* -- OUR SERVICES SECTION -- */}
-      <section className="relative w-full py-16 sm:py-20 lg:py-24 bg-white overflow-hidden">
-        {/* Subtle background pattern */}
-        <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgb(0 0 0) 1px, transparent 0)', backgroundSize: '24px 24px' }} />
-        
-        <div className="section-container relative z-10">
-          {/* Section Header */}
-          <div className="text-center mb-12 sm:mb-16">
-            <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white shadow-sm px-4 py-2 mb-5 text-xs font-semibold uppercase tracking-[0.12em] text-slate-600">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-              Our Services
-            </span>
-            
-            <h2 className="text-[clamp(1.75rem,5vw,2.5rem)] font-extrabold tracking-tight text-[#0b0f19] leading-[1.15] mb-4 px-4 max-w-3xl mx-auto">
-              Built to Simplify Franchise Growth and Investment
-            </h2>
-            
-            <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto px-4">
-              iFranchise is more than a listing platform. We help investors discover the right businesses and support brands in building scalable franchise networks.
-            </p>
-          </div>
-
-          {/* Service Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
-            
-            {/* Service Card 1 - Franchise Discovery */}
-            <Reveal delay={0} className="h-full">
-              <div className="group h-full flex flex-col bg-white rounded-2xl border border-slate-200/60 p-6 sm:p-7 transition-all duration-300 hover:shadow-xl hover:shadow-slate-200/50 hover:-translate-y-1 hover:border-slate-300/60">
-                {/* Icon */}
-                <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-50 to-blue-100/50 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-blue-200/40">
-                  <svg className="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                </div>
-                
-                {/* Title */}
-                <h3 className="text-lg font-bold text-[#0b0f19] mb-3 leading-tight">
-                  Franchise Discovery
-                </h3>
-                
-                {/* Description */}
-                <p className="text-sm text-slate-600 leading-relaxed flex-1">
-                  Find franchise opportunities that match your investment goals, industry interests, and budget.
-                </p>
-              </div>
-            </Reveal>
-
-            {/* Service Card 2 - Franchise Expansion */}
-            <Reveal delay={0.1} className="h-full">
-              <div className="group h-full flex flex-col bg-white rounded-2xl border border-slate-200/60 p-6 sm:p-7 transition-all duration-300 hover:shadow-xl hover:shadow-slate-200/50 hover:-translate-y-1 hover:border-slate-300/60">
-                {/* Icon */}
-                <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-50 to-emerald-100/50 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-emerald-200/40">
-                  <svg className="h-6 w-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                  </svg>
-                </div>
-                
-                {/* Title */}
-                <h3 className="text-lg font-bold text-[#0b0f19] mb-3 leading-tight">
-                  Franchise Expansion
-                </h3>
-                
-                {/* Description */}
-                <p className="text-sm text-slate-600 leading-relaxed flex-1">
-                  Expand your business into new cities through qualified franchise partnerships and strategic growth support.
-                </p>
-              </div>
-            </Reveal>
-
-            {/* Service Card 3 - Investor Matching */}
-            <Reveal delay={0.2} className="h-full">
-              <div className="group h-full flex flex-col bg-white rounded-2xl border border-slate-200/60 p-6 sm:p-7 transition-all duration-300 hover:shadow-xl hover:shadow-slate-200/50 hover:-translate-y-1 hover:border-slate-300/60">
-                {/* Icon */}
-                <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-violet-50 to-violet-100/50 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-violet-200/40">
-                  <svg className="h-6 w-6 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                </div>
-                
-                {/* Title */}
-                <h3 className="text-lg font-bold text-[#0b0f19] mb-3 leading-tight">
-                  Investor Matching
-                </h3>
-                
-                {/* Description */}
-                <p className="text-sm text-slate-600 leading-relaxed flex-1">
-                  Connect investors with brands that align with their growth vision and investment expectations.
-                </p>
-              </div>
-            </Reveal>
-
-            {/* Service Card 4 - Market Insights */}
-            <Reveal delay={0.3} className="h-full">
-              <div className="group h-full flex flex-col bg-white rounded-2xl border border-slate-200/60 p-6 sm:p-7 transition-all duration-300 hover:shadow-xl hover:shadow-slate-200/50 hover:-translate-y-1 hover:border-slate-300/60">
-                {/* Icon */}
-                <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-orange-50 to-orange-100/50 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-orange-200/40">
-                  <svg className="h-6 w-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                </div>
-                
-                {/* Title */}
-                <h3 className="text-lg font-bold text-[#0b0f19] mb-3 leading-tight">
-                  Market Insights & Consulting
-                </h3>
-                
-                {/* Description */}
-                <p className="text-sm text-slate-600 leading-relaxed flex-1">
-                  Access industry insights, market trends, and franchise guidance to make informed business decisions.
-                </p>
-              </div>
-            </Reveal>
-
-          </div>
-        </div>
-      </section>
-
-      <div
-        className="pointer-events-none absolute left-0 right-0 top-[calc(100vh+60px)] h-20 bg-gradient-to-b from-slate-50/0 to-slate-50/70"
-        aria-hidden="true"
-      />
-
-      {/* -- AUDIENCE SPLIT SECTION -- */}
-      <section className="relative w-full py-16 sm:py-20 lg:py-24 bg-white overflow-hidden">
-        {/* Subtle background pattern */}
-        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgb(0 0 0) 1px, transparent 0)', backgroundSize: '32px 32px' }} />
-        
-        {/* Ambient glow effects */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-200/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-violet-200/20 rounded-full blur-3xl pointer-events-none" />
-        
-        <div className="section-container relative z-10">
-          {/* Section Header */}
-          <div className="text-center mb-12 sm:mb-16">
-            <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white shadow-sm px-4 py-2 mb-5 text-xs font-semibold uppercase tracking-[0.12em] text-slate-600">
-              <span className="w-1.5 h-1.5 rounded-full bg-violet-500" />
-              Who We Serve
-            </span>
-            
-            <h2 className="text-[clamp(1.75rem,5vw,2.5rem)] font-extrabold tracking-tight text-[#0b0f19] leading-[1.15] mb-4 px-4 max-w-3xl mx-auto">
-              Built for Investors and Growing Brands
-            </h2>
-            
-            <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto px-4">
-              Whether you're looking to invest in scalable franchise businesses or expand your brand across new markets, iFranchise provides the infrastructure to support long-term growth.
-            </p>
-          </div>
-
-          {/* Two-Column Cards */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 max-w-6xl mx-auto">
-            
-            {/* Card 1 - FOR INVESTORS */}
-            <Reveal delay={0} className="h-full">
-              <div className="group relative h-full flex flex-col bg-white rounded-3xl border border-slate-200/60 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-slate-300/30 hover:-translate-y-2 hover:border-slate-300/80">
-                {/* Ambient glow behind card */}
-                <div className="absolute -inset-1 bg-gradient-to-br from-blue-100/40 via-transparent to-violet-100/40 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
-                
-                {/* Image Section - Fixed for desktop to show full face */}
-                <div className="relative h-72 sm:h-80 overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
-                  <img
-                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1200&q=85"
-                    alt="Professional investor reviewing business opportunities"
-                    className="w-full h-full object-cover object-[center_20%] sm:object-center transition-transform duration-700 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                  {/* Dark overlay for readability */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
-                  
-                  {/* Label Badge - Top Right */}
-                  <div className="absolute top-4 right-4">
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-white/90 backdrop-blur-md border border-white/60 shadow-xl px-3.5 py-2 text-[10px] font-bold uppercase tracking-wider text-blue-700">
-                      <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-sm" />
-                      For Investors
-                    </span>
-                  </div>
-                </div>
-
-                {/* Content Section */}
-                <div className="flex-1 flex flex-col p-6 sm:p-8">
-                  <h3 className="text-xl sm:text-2xl font-extrabold text-[#0b0f19] leading-tight mb-4">
-                    Invest in Businesses Built for Long-Term Growth
-                  </h3>
-                  
-                  <ul className="space-y-3 mb-6 flex-1">
-                    <li className="flex items-start gap-3 text-sm text-slate-600">
-                      <svg className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                      </svg>
-                      <span>Explore verified franchise opportunities</span>
-                    </li>
-                    <li className="flex items-start gap-3 text-sm text-slate-600">
-                      <svg className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                      </svg>
-                      <span>Compare business models and investment requirements</span>
-                    </li>
-                    <li className="flex items-start gap-3 text-sm text-slate-600">
-                      <svg className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                      </svg>
-                      <span>Discover opportunities across multiple industries</span>
-                    </li>
-                    <li className="flex items-start gap-3 text-sm text-slate-600">
-                      <svg className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                      </svg>
-                      <span>Connect directly with franchise brands</span>
-                    </li>
-                  </ul>
-
-                  {/* CTA Button - Black with premium animation */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      window.history.pushState({}, '', '/franchise-opportunities');
-                      window.dispatchEvent(new PopStateEvent('popstate'));
-                    }}
-                    className="group/btn relative overflow-hidden w-full inline-flex items-center justify-center gap-2 rounded-2xl btn-wave bg-[#0B1220] text-white px-6 py-3.5 text-sm font-bold transition-all duration-300 hover:bg-[#1a2332] hover:shadow-[0_8px_32px_rgba(11,15,25,0.3)] hover:-translate-y-0.5"
-                    style={{
-                      boxShadow: '0 4px 20px rgba(11,15,25,0.25)',
-                    }}
-                  >
-                    <span className="relative z-10 flex items-center gap-2">
-                      Explore Opportunities
-                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 transition-all duration-300 group-hover/btn:bg-white/30 group-hover/btn:translate-x-1">
-                        <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
-                        </svg>
-                      </span>
-                    </span>
-                    <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/12 to-transparent transition-transform duration-600 group-hover/btn:translate-x-full" />
-                  </button>
-                </div>
-              </div>
-            </Reveal>
-
-            {/* Card 2 - FOR BRANDS */}
-            <Reveal delay={0.15} className="h-full">
-              <div className="group relative h-full flex flex-col bg-white rounded-3xl border border-slate-200/60 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-slate-300/30 hover:-translate-y-2 hover:border-slate-300/80">
-                {/* Ambient glow behind card */}
-                <div className="absolute -inset-1 bg-gradient-to-br from-emerald-100/40 via-transparent to-blue-100/40 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
-                
-                {/* Image Section - Fixed for desktop to show full faces */}
-                <div className="relative h-72 sm:h-80 overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
-                  <img
-                    src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=85"
-                    alt="Business team celebrating franchise expansion success"
-                    className="w-full h-full object-cover object-[center_30%] sm:object-center transition-transform duration-700 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                  {/* Dark overlay for readability */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
-                  
-                  {/* Label Badge - Top Right */}
-                  <div className="absolute top-4 right-4">
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-white/90 backdrop-blur-md border border-white/60 shadow-xl px-3.5 py-2 text-[10px] font-bold uppercase tracking-wider text-emerald-700">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-sm" />
-                      For Brands
-                    </span>
-                  </div>
-                </div>
-
-                {/* Content Section */}
-                <div className="flex-1 flex flex-col p-6 sm:p-8">
-                  <h3 className="text-xl sm:text-2xl font-extrabold text-[#0b0f19] leading-tight mb-4">
-                    Turn Your Brand Into a Scalable Franchise Network
-                  </h3>
-                  
-                  <ul className="space-y-3 mb-6 flex-1">
-                    <li className="flex items-start gap-3 text-sm text-slate-600">
-                      <svg className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                      </svg>
-                      <span>Reach serious investors actively looking for opportunities</span>
-                    </li>
-                    <li className="flex items-start gap-3 text-sm text-slate-600">
-                      <svg className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                      </svg>
-                      <span>Expand into new markets and cities</span>
-                    </li>
-                    <li className="flex items-start gap-3 text-sm text-slate-600">
-                      <svg className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                      </svg>
-                      <span>Generate qualified franchise leads</span>
-                    </li>
-                    <li className="flex items-start gap-3 text-sm text-slate-600">
-                      <svg className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                      </svg>
-                      <span>Build a stronger brand presence</span>
-                    </li>
-                  </ul>
-
-                  {/* CTA Button - Black with premium animation */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      window.history.pushState({}, '', '/list-your-brand');
-                      window.dispatchEvent(new PopStateEvent('popstate'));
-                    }}
-                    className="group/btn relative overflow-hidden w-full inline-flex items-center justify-center gap-2 rounded-2xl btn-wave bg-[#0B1220] text-white px-6 py-3.5 text-sm font-bold transition-all duration-300 hover:bg-[#1a2332] hover:shadow-[0_8px_32px_rgba(11,15,25,0.3)] hover:-translate-y-0.5"
-                    style={{
-                      boxShadow: '0 4px 20px rgba(11,15,25,0.25)',
-                    }}
-                  >
-                    <span className="relative z-10 flex items-center gap-2">
-                      List Your Brand
-                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 transition-all duration-300 group-hover/btn:bg-white/30 group-hover/btn:translate-x-1">
-                        <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
-                        </svg>
-                      </span>
-                    </span>
-                    <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/12 to-transparent transition-transform duration-600 group-hover/btn:translate-x-full" />
-                  </button>
-                </div>
-              </div>
-            </Reveal>
-
-          </div>
-        </div>
-      </section>
-
-      <div id="about" ref={processRef} className="mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-
-        {/* -- Centered section header -- */}
-        <div className="text-center mb-10 sm:mb-12">
-          <div className="inline-flex items-center gap-2 bg-white border border-slate-200 shadow-sm rounded-full px-4 py-1.5 mb-4">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-violet-500" />
-            </span>
-            <span className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">
-              iFRANCHISE PROCESS
-            </span>
-          </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-[2.2rem] font-extrabold tracking-tight text-[#0b0f19] leading-tight mb-2">
-            Two Strategic Paths. One Growth Engine.
-          </h2>
-          <p className="text-sm text-slate-500 max-w-xl mx-auto leading-relaxed">
-            Whether you&apos;re scaling a franchise brand or investing in the right opportunity, iFranchise simplifies every critical step.
-          </p>
-        </div>
-
-        {/* -- Two-column layout -- */}
-        <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-8 lg:gap-12 items-start">
-
-          {/* LEFT — Living Visual with Growth Signal */}
-          <div className="lg:sticky lg:top-28 self-start flex flex-col items-center gap-6">
-
-            {/* Living Process Visual */}
-            <div className="relative w-full flex items-center justify-center">
-              {/* Soft ambient glow */}
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-16 bg-violet-300/15 blur-3xl rounded-full pointer-events-none animate-pulse" />
-              
-              {/* Growth Signal Pill - Top Left */}
-              <div 
-                className="absolute top-2 left-4 flex items-center gap-1.5 bg-white/90 backdrop-blur-md border border-emerald-200/60 rounded-full px-3 py-1.5 shadow-lg z-10"
-                style={{ 
-                  animation: 'float 4s ease-in-out infinite',
-                  animationDelay: '0.5s'
-                }}
-              >
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                </span>
-                <span className="text-[10px] font-bold text-emerald-700 tracking-wide">Growth Signal</span>
-              </div>
-
-              {/* Main Process Image with Premium Animation */}
-              <div className="relative group">
-                {/* Background glow that responds to image */}
-                <div 
-                  className="absolute inset-0 bg-gradient-to-br from-violet-200/20 via-emerald-200/15 to-blue-200/20 rounded-3xl blur-2xl"
-                  style={{ 
-                    animation: 'breathingGlow 8s ease-in-out infinite',
-                    transform: 'scale(1.1)'
-                  }}
-                />
-                
-                {/* Main image with sophisticated animation */}
-                <img
-                  src={processImg}
-                  alt="iFranchise Process"
-                  className="relative w-full max-w-sm object-contain drop-shadow-[0_24px_48px_rgba(15,23,42,0.12)] transition-all duration-700 group-hover:drop-shadow-[0_32px_64px_rgba(139,92,246,0.15)]"
-                  loading="eager"
-                  style={{ 
-                    animation: 'premiumFloat 10s ease-in-out infinite',
-                    transformOrigin: 'center center'
-                  }}
-                />
-                
-                {/* Subtle rotating accent ring */}
-                <div 
-                  className="absolute inset-0 pointer-events-none"
-                  style={{
-                    background: 'conic-gradient(from 0deg, transparent 0deg, rgba(139, 92, 246, 0.1) 60deg, transparent 120deg, rgba(16, 185, 129, 0.08) 180deg, transparent 240deg, rgba(59, 130, 246, 0.06) 300deg, transparent 360deg)',
-                    animation: 'slowRotate 20s linear infinite',
-                    borderRadius: '50%',
-                    filter: 'blur(1px)'
-                  }}
-                />
-                
-                {/* Energy particles */}
-                <div className="absolute inset-0 pointer-events-none">
-                  <div 
-                    className="absolute top-1/4 left-1/4 w-1 h-1 bg-violet-400 rounded-full opacity-60"
-                    style={{ animation: 'particleFloat1 12s ease-in-out infinite' }}
-                  />
-                  <div 
-                    className="absolute top-3/4 right-1/3 w-0.5 h-0.5 bg-emerald-400 rounded-full opacity-70"
-                    style={{ animation: 'particleFloat2 15s ease-in-out infinite' }}
-                  />
-                  <div 
-                    className="absolute bottom-1/4 left-2/3 w-0.5 h-0.5 bg-blue-400 rounded-full opacity-50"
-                    style={{ animation: 'particleFloat3 18s ease-in-out infinite' }}
-                  />
-                </div>
-                
-                {/* Hover enhancement */}
-                <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-              </div>
-
-              {/* Floating Micro Elements */}
-              <div 
-                className="absolute top-8 right-8 w-2 h-2 bg-violet-400/60 rounded-full"
-                style={{ animation: 'microFloat 5s ease-in-out infinite' }}
-              />
-              <div 
-                className="absolute bottom-12 left-8 w-1.5 h-1.5 bg-emerald-400/50 rounded-full"
-                style={{ animation: 'microFloat 7s ease-in-out infinite', animationDelay: '2s' }}
-              />
-            </div>
-
-            {/* Interactive Bottom Pills */}
-            <div className="flex items-center gap-2 flex-wrap justify-center">
-              {[
-                { label: 'Discover', d: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z', color: 'violet' },
-                { label: 'Structure', d: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2', color: 'emerald' },
-                { label: 'Expand', d: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6', color: 'blue' },
-              ].map((p, i) => (
-                <div
-                  key={p.label}
-                  className={`group flex items-center gap-1.5 bg-white/80 backdrop-blur-sm border border-slate-200/60 rounded-full px-3 py-1.5 shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300 cursor-pointer`}
-                >
-                  <svg className={`w-3 h-3 text-${p.color}-500 group-hover:text-${p.color}-600 transition-colors duration-200`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d={p.d} />
-                  </svg>
-                  <span className="text-[11px] font-bold text-slate-700 group-hover:text-slate-800 transition-colors duration-200">{p.label}</span>
-                  <div className={`absolute inset-0 rounded-full bg-${p.color}-100/0 group-hover:bg-${p.color}-100/30 transition-all duration-300 -z-10`} />
-                </div>
-              ))}
-            </div>
-
-          </div>
-
-          {/* RIGHT — toggle + timeline */}
-          <ProcessTimeline />
-
-        </div>
-      </div>
-
-      {/* -- INDUSTRIES SECTION -- */}
-      <section className="relative w-full py-16 sm:py-20 lg:py-24 bg-white overflow-hidden">
-        {/* Subtle background pattern */}
-        <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgb(0 0 0) 1px, transparent 0)', backgroundSize: '24px 24px' }} />
-        
-        {/* Ambient glow effects */}
-        <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-violet-200/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-1/3 right-1/3 w-96 h-96 bg-blue-200/15 rounded-full blur-3xl pointer-events-none" />
-        
-        <div className="section-container relative z-10">
-          {/* Section Header */}
-          <div className="text-center mb-12 sm:mb-16">
-            <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white shadow-sm px-4 py-2 mb-5 text-xs font-semibold uppercase tracking-[0.12em] text-slate-600">
-              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
-              Industries
-            </span>
-            
-            <h2 className="text-[clamp(1.75rem,5vw,2.5rem)] font-extrabold tracking-tight text-[#0b0f19] leading-[1.15] mb-4 px-4 max-w-3xl mx-auto">
-              Opportunities Across High-Growth Industries
-            </h2>
-            
-            <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto px-4">
-              Discover franchise opportunities across industries with growing demand and long-term business potential.
-            </p>
-          </div>
-
-          {/* Industry Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7 max-w-6xl mx-auto">
-            
-            {/* Industry Card 1 - Retail & Jewelry */}
-            <Reveal delay={0} className="h-full">
-              <div className="group relative h-full flex flex-col bg-white rounded-3xl border border-slate-200/60 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-slate-300/30 hover:-translate-y-2 hover:border-slate-300/80 cursor-pointer">
-                {/* Ambient glow behind card */}
-                <div className="absolute -inset-1 bg-gradient-to-br from-amber-100/40 via-transparent to-orange-100/40 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
-                
-                {/* Image Section */}
-                <div className="relative h-56 overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
-                  <img
-                    src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=85"
-                    alt="Retail & Jewelry"
-                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
-                    loading="lazy"
-                  />
-                  {/* Overlay gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
-                  
-                  {/* Icon Badge */}
-                  <div className="absolute top-4 left-4">
-                    <div className="w-10 h-10 rounded-xl bg-white/95 backdrop-blur-sm border border-white/60 shadow-lg flex items-center justify-center">
-                      <svg className="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Content Section */}
-                <div className="flex-1 flex flex-col p-6">
-                  <h3 className="text-xl font-extrabold text-[#0b0f19] leading-tight mb-2">
-                    Retail & Jewelry
-                  </h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    Growing consumer demand and scalable business models.
-                  </p>
-                </div>
-              </div>
-            </Reveal>
-
-            {/* Industry Card 2 - Food & Beverage */}
-            <Reveal delay={0.1} className="h-full">
-              <div className="group relative h-full flex flex-col bg-white rounded-3xl border border-slate-200/60 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-slate-300/30 hover:-translate-y-2 hover:border-slate-300/80 cursor-pointer">
-                {/* Ambient glow behind card */}
-                <div className="absolute -inset-1 bg-gradient-to-br from-orange-100/40 via-transparent to-red-100/40 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
-                
-                {/* Image Section */}
-                <div className="relative h-56 overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
-                  <img
-                    src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=85"
-                    alt="Food & Beverage"
-                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
-                    loading="lazy"
-                  />
-                  {/* Overlay gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
-                  
-                  {/* Icon Badge */}
-                  <div className="absolute top-4 left-4">
-                    <div className="w-10 h-10 rounded-xl bg-white/95 backdrop-blur-sm border border-white/60 shadow-lg flex items-center justify-center">
-                      <svg className="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Content Section */}
-                <div className="flex-1 flex flex-col p-6">
-                  <h3 className="text-xl font-extrabold text-[#0b0f19] leading-tight mb-2">
-                    Food & Beverage
-                  </h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    Proven concepts with strong customer loyalty and repeat business.
-                  </p>
-                </div>
-              </div>
-            </Reveal>
-
-            {/* Industry Card 3 - Healthcare & Wellness */}
-            <Reveal delay={0.2} className="h-full">
-              <div className="group relative h-full flex flex-col bg-white rounded-3xl border border-slate-200/60 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-slate-300/30 hover:-translate-y-2 hover:border-slate-300/80 cursor-pointer">
-                {/* Ambient glow behind card */}
-                <div className="absolute -inset-1 bg-gradient-to-br from-emerald-100/40 via-transparent to-teal-100/40 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
-                
-                {/* Image Section */}
-                <div className="relative h-56 overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
-                  <img
-                    src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=800&q=85"
-                    alt="Healthcare & Wellness"
-                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
-                    loading="lazy"
-                  />
-                  {/* Overlay gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
-                  
-                  {/* Icon Badge */}
-                  <div className="absolute top-4 left-4">
-                    <div className="w-10 h-10 rounded-xl bg-white/95 backdrop-blur-sm border border-white/60 shadow-lg flex items-center justify-center">
-                      <svg className="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Content Section */}
-                <div className="flex-1 flex flex-col p-6">
-                  <h3 className="text-xl font-extrabold text-[#0b0f19] leading-tight mb-2">
-                    Healthcare & Wellness
-                  </h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    Rising health consciousness driving sustainable growth.
-                  </p>
-                </div>
-              </div>
-            </Reveal>
-
-            {/* Industry Card 4 - Education & Training */}
-            <Reveal delay={0.3} className="h-full">
-              <div className="group relative h-full flex flex-col bg-white rounded-3xl border border-slate-200/60 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-slate-300/30 hover:-translate-y-2 hover:border-slate-300/80 cursor-pointer">
-                {/* Ambient glow behind card */}
-                <div className="absolute -inset-1 bg-gradient-to-br from-blue-100/40 via-transparent to-indigo-100/40 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
-                
-                {/* Image Section */}
-                <div className="relative h-56 overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
-                  <img
-                    src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=85"
-                    alt="Education & Training"
-                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
-                    loading="lazy"
-                  />
-                  {/* Overlay gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
-                  
-                  {/* Icon Badge */}
-                  <div className="absolute top-4 left-4">
-                    <div className="w-10 h-10 rounded-xl bg-white/95 backdrop-blur-sm border border-white/60 shadow-lg flex items-center justify-center">
-                      <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Content Section */}
-                <div className="flex-1 flex flex-col p-6">
-                  <h3 className="text-xl font-extrabold text-[#0b0f19] leading-tight mb-2">
-                    Education & Training
-                  </h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    Lifelong learning trends creating consistent demand.
-                  </p>
-                </div>
-              </div>
-            </Reveal>
-
-            {/* Industry Card 5 - Logistics & Infrastructure */}
-            <Reveal delay={0.4} className="h-full">
-              <div className="group relative h-full flex flex-col bg-white rounded-3xl border border-slate-200/60 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-slate-300/30 hover:-translate-y-2 hover:border-slate-300/80 cursor-pointer">
-                {/* Ambient glow behind card */}
-                <div className="absolute -inset-1 bg-gradient-to-br from-slate-100/40 via-transparent to-gray-100/40 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
-                
-                {/* Image Section */}
-                <div className="relative h-56 overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
-                  <img
-                    src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=85"
-                    alt="Logistics & Infrastructure"
-                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
-                    loading="lazy"
-                  />
-                  {/* Overlay gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
-                  
-                  {/* Icon Badge */}
-                  <div className="absolute top-4 left-4">
-                    <div className="w-10 h-10 rounded-xl bg-white/95 backdrop-blur-sm border border-white/60 shadow-lg flex items-center justify-center">
-                      <svg className="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Content Section */}
-                <div className="flex-1 flex flex-col p-6">
-                  <h3 className="text-xl font-extrabold text-[#0b0f19] leading-tight mb-2">
-                    Logistics & Infrastructure
-                  </h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    E-commerce boom fueling supply chain opportunities.
-                  </p>
-                </div>
-              </div>
-            </Reveal>
-
-            {/* Industry Card 6 - Beauty & Lifestyle */}
-            <Reveal delay={0.5} className="h-full">
-              <div className="group relative h-full flex flex-col bg-white rounded-3xl border border-slate-200/60 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-slate-300/30 hover:-translate-y-2 hover:border-slate-300/80 cursor-pointer">
-                {/* Ambient glow behind card */}
-                <div className="absolute -inset-1 bg-gradient-to-br from-pink-100/40 via-transparent to-rose-100/40 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
-                
-                {/* Image Section */}
-                <div className="relative h-56 overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
-                  <img
-                    src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=800&q=85"
-                    alt="Beauty & Lifestyle"
-                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
-                    loading="lazy"
-                  />
-                  {/* Overlay gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
-                  
-                  {/* Icon Badge */}
-                  <div className="absolute top-4 left-4">
-                    <div className="w-10 h-10 rounded-xl bg-white/95 backdrop-blur-sm border border-white/60 shadow-lg flex items-center justify-center">
-                      <svg className="w-5 h-5 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Content Section */}
-                <div className="flex-1 flex flex-col p-6">
-                  <h3 className="text-xl font-extrabold text-[#0b0f19] leading-tight mb-2">
-                    Beauty & Lifestyle
-                  </h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    Premium services with high customer retention rates.
-                  </p>
-                </div>
-              </div>
-            </Reveal>
-
-          </div>
-
-          {/* Bottom CTA */}
-          <div className="mt-12 sm:mt-16 text-center">
-            <button
-              type="button"
-              onClick={() => {
-                window.history.pushState({}, '', '/franchise-opportunities');
-                window.dispatchEvent(new PopStateEvent('popstate'));
+            {/* Animated pill badge */}
+            <div
+              className="mb-5 inline-flex items-center gap-2.5 rounded-full px-5 py-2"
+              style={{
+                background: 'rgba(88,28,135,0.6)',
+                border: '1px solid rgba(192,132,252,0.65)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                animation: 'heroPillPulse 1.5s ease-in-out infinite',
               }}
-              className="group inline-flex items-center justify-center gap-2 rounded-full btn-wave bg-[#0B1220] text-white px-8 py-4 text-base font-semibold transition-all duration-300 hover:bg-[#1a2332] hover:scale-[1.02] hover:shadow-xl hover:shadow-[#0B1220]/30"
             >
-              Explore Industries
-              <svg className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* -- FEATURED FRANCHISES SECTION -- */}
-      <section className="relative w-full py-12 sm:py-16 lg:py-20 section-reveal">
-        <div className="section-container">
-          <div className="section-header">
-            <div className="section-pill">
-              <span className="w-2 h-2 rounded-full bg-blue-500" />
-              <span className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-600">
-                OPPORTUNITIES
+              <span
+                className="h-2 w-2 rounded-full flex-shrink-0"
+                style={{
+                  backgroundColor: '#c084fc',
+                  boxShadow: '0 0 6px rgba(192,132,252,0.9)',
+                  animation: 'heroDotBlink 1.4s ease-in-out infinite',
+                }}
+              />
+              <span style={{ color: '#f3e8ff', fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase' }}>
+                Built for Ambitious Growth
               </span>
             </div>
-            <h2 className="section-title">
-              Featured Franchises
+
+            {/* Headline — exactly 2 lines */}
+            <h1
+              className="mb-4 font-extrabold leading-[1.18] tracking-tight"
+              style={{
+                fontSize: '2.2rem',
+                color: '#ffffff',
+                letterSpacing: '-0.01em',
+                textShadow: '0 2px 20px rgba(0,0,0,0.7), 0 1px 4px rgba(0,0,0,0.5)',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              Where <span style={{ color: '#c084fc' }}>Brands</span> Expand
+              <br />
+              and <span style={{ color: '#c084fc' }}>Investors</span> Discover What&apos;s Next
+            </h1>
+
+            {/* Sub-copy — 2 lines */}
+            <p
+              className="mb-7 text-[14px] leading-relaxed"
+              style={{
+                color: 'rgba(255,255,255,0.92)',
+                textShadow: '0 1px 8px rgba(0,0,0,0.65)',
+                maxWidth: '420px',
+              }}
+            >
+              iFranchise connects growing businesses with serious investors
+              <br />
+              through a smarter ecosystem built for long-term growth.
+            </p>
+
+            {/* CTA buttons */}
+            <div className="flex flex-row justify-center gap-3">
+              {[
+                { label: 'Explore Opportunities', path: '/franchise-opportunities' },
+                { label: 'List Your Brand', path: '/list-your-brand' },
+              ].map(({ label, path }) => (
+                <HeroCtaButton key={label} label={label} path={path} />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Keyframe styles */}
+        <style>{`
+          @keyframes heroPillPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(168,85,247,0.5), 0 0 12px rgba(168,85,247,0.25); }
+            50% { box-shadow: 0 0 0 8px rgba(168,85,247,0), 0 0 22px rgba(168,85,247,0.4); }
+          }
+          @keyframes heroDotBlink {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.35; transform: scale(0.65); }
+          }
+        `}</style>
+
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          CONTINUOUS DARK SECTION: Services → Who We Serve → Process
+          One living animated background, no dividers, no gaps
+      ═══════════════════════════════════════════════════════════════ */}
+      <div className="relative w-full overflow-hidden" style={{ background: 'linear-gradient(180deg, #0a0618 0%, #0f0a1e 30%, #130a2e 60%, #0a0618 100%)' }}>
+
+        {/* ── Shared living animated orbs ── */}
+        <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
+          <div className="absolute" style={{ top: '-5%', left: '-8%', width: '65vw', height: '65vw', background: 'radial-gradient(circle, rgba(139,92,246,0.5) 0%, rgba(109,40,217,0.2) 40%, transparent 70%)', filter: 'blur(90px)', animation: 'sharedOrb1 16s ease-in-out infinite' }} />
+          <div className="absolute" style={{ top: '10%', right: '-10%', width: '55vw', height: '55vw', background: 'radial-gradient(circle, rgba(99,102,241,0.45) 0%, rgba(67,56,202,0.18) 45%, transparent 70%)', filter: 'blur(100px)', animation: 'sharedOrb2 20s ease-in-out infinite' }} />
+          <div className="absolute" style={{ top: '40%', left: '20%', width: '60vw', height: '50vw', background: 'radial-gradient(ellipse, rgba(168,85,247,0.4) 0%, rgba(124,58,237,0.15) 45%, transparent 70%)', filter: 'blur(110px)', animation: 'sharedOrb3 24s ease-in-out infinite' }} />
+          <div className="absolute" style={{ bottom: '5%', right: '5%', width: '50vw', height: '50vw', background: 'radial-gradient(circle, rgba(79,70,229,0.38) 0%, rgba(37,99,235,0.12) 50%, transparent 70%)', filter: 'blur(80px)', animation: 'sharedOrb1 18s ease-in-out infinite reverse' }} />
+          <div className="absolute" style={{ bottom: '30%', left: '-5%', width: '45vw', height: '45vw', background: 'radial-gradient(circle, rgba(192,132,252,0.3) 0%, rgba(139,92,246,0.1) 50%, transparent 70%)', filter: 'blur(85px)', animation: 'sharedOrb2 22s ease-in-out infinite reverse' }} />
+        </div>
+
+        <style>{`
+          @keyframes sharedOrb1 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(4%,7%) scale(1.1)} 66%{transform:translate(-3%,3%) scale(0.93)} }
+          @keyframes sharedOrb2 { 0%,100%{transform:translate(0,0) scale(1)} 40%{transform:translate(-6%,4%) scale(1.12)} 70%{transform:translate(4%,-4%) scale(0.9)} }
+          @keyframes sharedOrb3 { 0%,100%{transform:translate(0,0) scale(1)} 30%{transform:translate(3%,-6%) scale(1.08)} 65%{transform:translate(-5%,4%) scale(0.95)} }
+          @keyframes cardReveal { to{opacity:1;transform:translateY(0)} } @keyframes iconPulse { 0%,100%{box-shadow:0 0 0 0 rgba(139,92,246,0.4)} 50%{box-shadow:0 0 0 6px rgba(139,92,246,0)} }          @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+          @keyframes stepPulse { 0%,100%{box-shadow:0 0 0 0 rgba(139,92,246,0.4)} 50%{box-shadow:0 0 0 8px rgba(139,92,246,0)} }
+        `}</style>
+
+        {/* ── SERVICES ── */}
+        <div className="relative z-10 mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8 pt-16 pb-12">
+          <div className="text-center mb-14">
+            <span className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-violet-300 mb-5" style={{ background: 'rgba(139,92,246,0.15)', border: '1px solid rgba(139,92,246,0.3)', backdropFilter: 'blur(8px)' }}>
+              <span className="w-1.5 h-1.5 rounded-full bg-violet-400" />
+              Our Services
+            </span>
+            <h2 className="text-3xl font-extrabold text-white sm:text-4xl lg:text-5xl mb-4">
+              Complete Franchise Growth &amp; Expansion Services
             </h2>
-            <p className="section-subtitle">
-              Curated, high-performing brands ready for expansion and investment
+            <p className="mx-auto max-w-2xl text-sm leading-relaxed text-white/55 sm:text-base">
+              End-to-end franchise services — from strategy and documentation to investor onboarding and brand positioning.
             </p>
           </div>
 
-          <div className="mt-8 sm:mt-10 md:mt-12 grid gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {featuredFranchises.slice(0, 3).map((franchise) => (
-              <FranchiseCard key={franchise.id} franchise={franchise} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {[
+              {
+                title: 'Franchise Onboarding',
+                desc: 'End-to-end onboarding systems that set every franchisee up for success from day one.',
+                points: ['Franchise business evaluation', 'Franchise model setup', 'Operational guidance', 'Franchise readiness support'],
+                icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.7}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>,
+              },
+              {
+                title: 'Franchise Documentation',
+                desc: 'Legal-grade franchise agreements, disclosure documents, and compliance frameworks.',
+                points: ['Franchise agreements', 'Business documentation', 'Investor presentations', 'Brand process documentation'],
+                icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.7}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>,
+              },
+              {
+                title: 'Investor Acquisition',
+                desc: 'Structured funnels that attract, qualify, and convert high-intent franchise investors.',
+                points: ['Investor lead generation', 'Franchise investor outreach', 'Qualified investor matching', 'Investor onboarding support'],
+                icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.7}><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-5-3.87M9 20H4v-2a4 4 0 015-3.87m6-4.13a4 4 0 11-8 0 4 4 0 018 0zm6 0a3 3 0 11-6 0 3 3 0 016 0z"/></svg>,
+              },
+              {
+                title: 'Franchise Branding & Positioning',
+                desc: 'Investor-grade brand identity and positioning that makes your franchise irresistible.',
+                points: ['Brand positioning', 'Franchise marketing strategy', 'Investor-focused branding', 'Expansion communication strategy'],
+                icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.7}><path strokeLinecap="round" strokeLinejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>,
+              },
+              {
+                title: 'Franchise Expansion Strategy',
+                desc: 'Data-driven territory planning and phased rollout maps for controlled, scalable growth.',
+                points: ['Market expansion planning', 'Territory analysis', 'Location targeting', 'Expansion roadmap'],
+                icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.7}><path strokeLinecap="round" strokeLinejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>,
+              },
+              {
+                title: 'Investor Onboarding Support',
+                desc: 'Structured post-match support that turns signed investors into successful operators.',
+                points: ['Investor qualification', 'Opportunity presentations', 'Initial consultation support', 'Investor journey management'],
+                icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.7}><path strokeLinecap="round" strokeLinejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg>,
+              },
+            ].map((s, i) => (
+              <div key={s.title} className="group relative overflow-hidden rounded-2xl flex flex-col"
+                style={{
+                  background: 'linear-gradient(145deg, #12082a 0%, #0e0620 50%, #0a0618 100%)',
+                  border: '1px solid rgba(139,92,246,0.18)',
+                  boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
+                  transition: 'transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease, border-color 0.35s ease',
+                  opacity: 0,
+                  transform: 'translateY(24px)',
+                  animation: `cardReveal 0.45s cubic-bezier(0.22,1,0.36,1) ${i * 0.07 + 0.1}s forwards`,
+                  minHeight: '260px',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.transform = 'translateY(-6px)';
+                  e.currentTarget.style.boxShadow = '0 20px 50px rgba(109,40,217,0.3)';
+                  e.currentTarget.style.borderColor = 'rgba(139,92,246,0.45)';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.4)';
+                  e.currentTarget.style.borderColor = 'rgba(139,92,246,0.18)';
+                }}
+              >
+                                {/* Top glow line on hover */}
+                <div className="absolute top-0 left-0 right-0 h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                  style={{ background: 'linear-gradient(90deg, transparent, rgba(139,92,246,0.7), transparent)' }} />
+
+                {/* Shine sweep */}
+                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full pointer-events-none rounded-2xl"
+                  style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent)', transition: 'transform 0.7s ease' }} />
+
+                <div className="relative z-10 p-7 flex flex-col h-full">
+                  {/* Icon — top left, animated */}
+                  <div className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-xl"
+                    style={{
+                      background: 'rgba(139,92,246,0.15)',
+                      border: '1px solid rgba(139,92,246,0.3)',
+                      color: '#c4b5fd',
+                      transition: 'transform 0.35s cubic-bezier(0.22,1,0.36,1), background 0.3s ease, box-shadow 0.3s ease',
+                      animation: `iconPulse 3s ease-in-out infinite ${i * 0.4}s`,
+                    }}
+                    ref={el => {
+                      if (!el) return;
+                      const c = el.closest('.group');
+                      c.addEventListener('mouseenter', () => { el.style.transform = 'scale(1.15) rotate(6deg)'; el.style.background = 'rgba(139,92,246,0.35)'; el.style.boxShadow = '0 0 20px rgba(139,92,246,0.4)'; });
+                      c.addEventListener('mouseleave', () => { el.style.transform = 'scale(1) rotate(0deg)'; el.style.background = 'rgba(139,92,246,0.15)'; el.style.boxShadow = 'none'; });
+                    }}
+                  >
+                    {s.icon}
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="text-[1rem] font-bold text-white mb-2 leading-snug tracking-[-0.01em]">{s.title}</h3>
+
+                  {/* Description */}
+                  <p className="text-[0.78rem] text-white/75 leading-relaxed mb-5">{s.desc}</p>
+
+                  {/* Points */}
+                  <ul className="space-y-2 flex-1 mt-auto">
+                    {s.points.map((p, j) => (
+                      <li key={j} className="flex items-center gap-2.5 text-[0.76rem] text-white/80 font-medium leading-snug">
+                        <span className="flex-shrink-0 w-1 h-1 rounded-full bg-violet-400/60" />{p}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
             ))}
           </div>
 
-          <div className="mt-12 sm:mt-14 md:mt-16 text-center">
+          {/* Premium CTA */}
+          <div className="text-center mt-12">
             <button
               type="button"
-              onClick={() => {
-                window.history.pushState({}, '', '/franchise-opportunities');
-                window.dispatchEvent(new PopStateEvent('popstate'));
-              }}
-              className="cta-button"
+              onClick={() => { window.history.pushState({}, '', '/services'); window.dispatchEvent(new PopStateEvent('popstate')); }}
+              className="group/btn relative overflow-hidden inline-flex items-center gap-3 rounded-full px-9 py-4 text-sm font-bold text-white"
+              style={{ background: 'linear-gradient(135deg, #6d28d9 0%, #4f46e5 100%)', boxShadow: '0 4px 24px rgba(109,40,217,0.4)', transition: 'transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease' }}
+              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 12px 40px rgba(109,40,217,0.6)'; }}
+              onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(109,40,217,0.4)'; }}
             >
-              View More
-              <span className="transition duration-200 group-hover:translate-x-1">{"\u2192"}</span>
+              <div className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700 pointer-events-none"
+                style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)' }} />
+              <span className="relative z-10">View All Services</span>
+              <span className="relative z-10 inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/20 transition-transform duration-300 group-hover/btn:translate-x-1">
+                <FiArrowRight className="h-3.5 w-3.5" />
+              </span>
             </button>
           </div>
         </div>
-      </section>
+
+        {/* ── thin divider line replaced by gradient fade ── */}
+        <div className="relative z-10 mx-auto max-w-[1280px] px-8"><div style={{ height: '1px', background: 'linear-gradient(90deg,transparent,rgba(139,92,246,0.3),transparent)' }} /></div>
+
+        {/* ── WHO WE SERVE ── */}
+        <div className="relative z-10 mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8 py-14">
+          <div className="text-center mb-12">
+            <span className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-violet-300 mb-4" style={{ background: 'rgba(139,92,246,0.15)', border: '1px solid rgba(139,92,246,0.3)', backdropFilter: 'blur(8px)' }}>
+              <span className="w-1.5 h-1.5 rounded-full bg-violet-400" />
+              Who We Serve
+            </span>
+            <h2 className="text-3xl font-extrabold text-white sm:text-4xl mb-3">Built for Investors and Growing Brands</h2>
+            <p className="mx-auto max-w-xl text-sm text-white/55 sm:text-base leading-relaxed">
+              Whether investing in franchise businesses or expanding your brand — iFranchise provides the infrastructure for long-term growth.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {[
+              {
+                tag: 'For Investors',
+                img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1200&q=80',
+                imgPos: 'object-[center_20%]',
+                heading: 'Invest in Businesses Built for Long-Term Growth',
+                points: ['Explore verified franchise opportunities', 'Compare business models & investment requirements', 'Discover opportunities across multiple industries', 'Connect directly with franchise brands'],
+                cta: 'Explore Opportunities',
+                path: '/franchise-opportunities',
+                delay: '0.1s',
+              },
+              {
+                tag: 'For Brands',
+                img: 'https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80',
+                imgPos: 'object-[center_30%]',
+                heading: 'Turn Your Brand Into a Scalable Franchise Network',
+                points: ['Reach serious investors actively looking for opportunities', 'Expand into new markets and cities', 'Generate qualified franchise leads', 'Build a stronger brand presence'],
+                cta: 'List Your Brand',
+                path: '/list-your-brand',
+                delay: '0.18s',
+              },
+            ].map((card, ci) => (
+              <div key={card.tag} className="group relative overflow-hidden rounded-2xl flex flex-col"
+                style={{ background: 'linear-gradient(145deg, #12082a 0%, #0e0620 50%, #0a0618 100%)', border: '1px solid rgba(139,92,246,0.18)', boxShadow: '0 4px 24px rgba(0,0,0,0.4)', transition: 'transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease, border-color 0.35s ease', animation: `fadeUp 0.4s ease ${card.delay} both` }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-6px)'; e.currentTarget.style.boxShadow = '0 24px 60px rgba(109,40,217,0.3)'; e.currentTarget.style.borderColor = 'rgba(139,92,246,0.45)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.4)'; e.currentTarget.style.borderColor = 'rgba(139,92,246,0.18)'; }}
+              >
+                {/* Hover top glow line */}
+                <div className="absolute top-0 left-0 right-0 h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                  style={{ background: 'linear-gradient(90deg, transparent, rgba(139,92,246,0.8), transparent)' }} />
+
+                {/* Image */}
+                <div className="relative h-56 overflow-hidden">
+                  <img src={card.img} alt={card.tag}
+                    className={`w-full h-full object-cover ${card.imgPos}`}
+                    style={{ transition: 'transform 0.5s cubic-bezier(0.22,1,0.36,1)' }}
+                    ref={el => { if (!el) return; const p = el.closest('.group'); p.addEventListener('mouseenter', () => { el.style.transform = 'scale(1.06)'; }); p.addEventListener('mouseleave', () => { el.style.transform = 'scale(1)'; }); }}
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(10,6,24,0.15) 0%, rgba(10,6,24,0.75) 100%)' }} />
+                  {/* Tag badge */}
+                  <span className="absolute top-4 right-4 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white"
+                    style={{ background: 'rgba(109,40,217,0.75)', backdropFilter: 'blur(10px)', border: '1px solid rgba(167,139,250,0.3)' }}>
+                    <span className="w-1.5 h-1.5 rounded-full bg-violet-300" />{card.tag}
+                  </span>
+                </div>
+
+                {/* Content */}
+                <div className="flex-1 flex flex-col p-6">
+                  <h3 className="text-[1.05rem] font-extrabold text-white mb-4 leading-snug">{card.heading}</h3>
+                  <ul className="space-y-2.5 mb-6 flex-1">
+                    {card.points.map((item, i) => (
+                      <li key={i} className="flex items-start gap-2.5 text-[0.8rem] text-white/65 leading-snug">
+                        <svg className="w-3.5 h-3.5 text-violet-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Premium CTA button */}
+                  <button
+                    type="button"
+                    onClick={() => { window.history.pushState({}, '', card.path); window.dispatchEvent(new PopStateEvent('popstate')); }}
+                    className="group/btn relative w-full overflow-hidden rounded-xl py-3.5 text-sm font-bold text-white"
+                    style={{ background: 'linear-gradient(135deg, #6d28d9 0%, #4f46e5 100%)', boxShadow: '0 4px 20px rgba(109,40,217,0.35)', transition: 'box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.22,1,0.36,1)' }}
+                    onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 10px 35px rgba(109,40,217,0.55)'; }}
+                    onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 20px rgba(109,40,217,0.35)'; }}
+                  >
+                    {/* Shine sweep */}
+                    <div className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700 pointer-events-none"
+                      style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)' }} />
+                    <span className="relative z-10 inline-flex items-center justify-center gap-2.5">
+                      {card.cta}
+                      <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/20 transition-transform duration-300 group-hover/btn:translate-x-1">
+                        <FiArrowRight className="h-3 w-3" />
+                      </span>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── thin gradient divider ── */}
+        <div className="relative z-10 mx-auto max-w-[1280px] px-8"><div style={{ height: '1px', background: 'linear-gradient(90deg,transparent,rgba(139,92,246,0.3),transparent)' }} /></div>
+
+        {/* ── PROCESS ── */}
+        <div id="about" ref={processRef} className="relative z-10 mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8 py-14">
+          <div className="text-center mb-14">
+            <span className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-violet-300 mb-4" style={{ background: 'rgba(139,92,246,0.15)', border: '1px solid rgba(139,92,246,0.3)', backdropFilter: 'blur(8px)' }}>
+              <span className="relative flex h-2 w-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75" /><span className="relative inline-flex rounded-full h-2 w-2 bg-violet-400" /></span>
+              iFranchise Process
+            </span>
+            <h2 className="text-3xl font-extrabold text-white sm:text-4xl mb-3">Two Strategic Paths. One Growth Engine.</h2>
+            <p className="mx-auto max-w-xl text-sm text-white/55 sm:text-base leading-relaxed">
+              Whether scaling a franchise brand or investing in the right opportunity — iFranchise simplifies every critical step.
+            </p>
+          </div>
+
+          {/* Full ProcessTimeline — free scroll, no viewport constraint */}
+          <ProcessTimeline />
+
+          {/* Outcome metrics */}
+          <div className="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {[
+              { value: '30 Days', label: 'To Franchise-Ready' },
+              { value: '90 Days', label: 'First Investor Matched' },
+              { value: '6 Months', label: 'First Unit Live' },
+              { value: '12 Months', label: 'Multi-City Expansion' },
+            ].map((m, i) => (
+              <div key={i} className="flex flex-col items-center py-5 px-4 rounded-2xl text-center" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(139,92,246,0.2)', backdropFilter: 'blur(8px)' }}>
+                <p className="text-xl font-extrabold text-white mb-1">{m.value}</p>
+                <p className="text-[0.7rem] text-white/50 font-medium">{m.label}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-10">
+            <button type="button" onClick={() => window.open('https://cal.com/ifranchise/30min', '_blank')}
+              className="group inline-flex items-center gap-2.5 rounded-full px-8 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5"
+              style={{ background: 'linear-gradient(135deg,#7c3aed,#4f46e5)', boxShadow: '0 4px 20px rgba(124,58,237,0.45)' }}
+              onMouseEnter={e => e.currentTarget.style.boxShadow = '0 8px 30px rgba(124,58,237,0.6)'}
+              onMouseLeave={e => e.currentTarget.style.boxShadow = '0 4px 20px rgba(124,58,237,0.45)'}>
+              Start Your Expansion Journey
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 transition-transform duration-200 group-hover:translate-x-1"><FiArrowRight className="h-3 w-3" /></span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          CONTINUOUS DARK SECTION: Industries → Featured Opportunities
+          Same living animated background, seamless flow
+      ═══════════════════════════════════════════════════════════════ */}
+      <div className="relative w-full overflow-hidden" style={{ background: 'linear-gradient(180deg, #0a0618 0%, #0f0a1e 35%, #130a2e 65%, #0a0618 100%)' }}>
+
+        {/* Shared animated orbs */}
+        <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
+          <div className="absolute" style={{ top: '-8%', right: '-5%', width: '60vw', height: '60vw', background: 'radial-gradient(circle, rgba(139,92,246,0.48) 0%, rgba(109,40,217,0.18) 42%, transparent 70%)', filter: 'blur(90px)', animation: 'sharedOrb2 18s ease-in-out infinite' }} />
+          <div className="absolute" style={{ top: '30%', left: '-8%', width: '55vw', height: '55vw', background: 'radial-gradient(circle, rgba(99,102,241,0.42) 0%, rgba(67,56,202,0.15) 45%, transparent 70%)', filter: 'blur(100px)', animation: 'sharedOrb1 22s ease-in-out infinite' }} />
+          <div className="absolute" style={{ bottom: '10%', right: '15%', width: '50vw', height: '50vw', background: 'radial-gradient(ellipse, rgba(168,85,247,0.38) 0%, rgba(124,58,237,0.12) 45%, transparent 70%)', filter: 'blur(110px)', animation: 'sharedOrb3 26s ease-in-out infinite' }} />
+          <div className="absolute" style={{ bottom: '-5%', left: '30%', width: '45vw', height: '40vw', background: 'radial-gradient(circle, rgba(79,70,229,0.35) 0%, rgba(37,99,235,0.1) 50%, transparent 70%)', filter: 'blur(80px)', animation: 'sharedOrb2 20s ease-in-out infinite reverse' }} />
+        </div>
+
+        {/* ── INDUSTRIES ── */}
+        <div className="relative z-10 mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8 pt-14 pb-10">
+          <div className="text-center mb-10">
+            <span className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-violet-300 mb-4"
+              style={{ background: 'rgba(139,92,246,0.15)', border: '1px solid rgba(139,92,246,0.3)', backdropFilter: 'blur(8px)' }}>
+              <span className="w-1.5 h-1.5 rounded-full bg-violet-400" />
+              Industries
+            </span>
+            <h2 className="text-3xl font-extrabold text-white sm:text-4xl mb-3">
+              Opportunities Across High-Growth Industries
+            </h2>
+            <p className="mx-auto max-w-xl text-sm text-white/55 sm:text-base leading-relaxed">
+              Franchise opportunities across India's most dynamic sectors — each with proven models and qualified investors.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {[
+              {
+                label: 'Retail & Jewelry', accent: '#f59e0b',
+                desc: 'Growing consumer demand and scalable business models.',
+                img: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80',
+                icon: <svg className="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>,
+              },
+              {
+                label: 'Food & Beverage', accent: '#f97316',
+                desc: 'Proven concepts with strong customer loyalty and repeat business.',
+                img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80',
+                icon: <svg className="w-5 h-5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>,
+              },
+              {
+                label: 'Healthcare & Wellness', accent: '#10b981',
+                desc: 'Rising health consciousness driving sustainable growth.',
+                img: 'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=800&q=80',
+                icon: <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>,
+              },
+              {
+                label: 'Education & Training', accent: '#3b82f6',
+                desc: 'Lifelong learning trends creating consistent demand.',
+                img: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80',
+                icon: <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>,
+              },
+              {
+                label: 'Logistics & Infrastructure', accent: '#94a3b8',
+                desc: 'E-commerce boom fueling supply chain opportunities.',
+                img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80',
+                icon: <svg className="w-5 h-5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>,
+              },
+              {
+                label: 'Beauty & Lifestyle', accent: '#ec4899',
+                desc: 'Premium services with high customer retention rates.',
+                img: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=800&q=80',
+                icon: <svg className="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>,
+              },
+            ].map((ind, i) => (
+              <div key={ind.label} className="group relative overflow-hidden rounded-2xl cursor-pointer flex flex-col"
+                style={{ animation: `cardReveal 0.4s ease ${i*0.07+0.1}s both`, transition: 'transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease, border-color 0.3s ease', background: 'linear-gradient(145deg, #12082a 0%, #0e0620 50%, #0a0618 100%)', border: '1px solid rgba(139,92,246,0.18)', boxShadow: '0 4px 24px rgba(0,0,0,0.4)' }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-6px)'; e.currentTarget.style.boxShadow = `0 20px 50px rgba(109,40,217,0.3)`; e.currentTarget.style.borderColor = 'rgba(139,92,246,0.45)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.4)'; e.currentTarget.style.borderColor = 'rgba(139,92,246,0.18)'; }}
+                onClick={() => { window.history.pushState({}, '', '/franchise-opportunities'); window.dispatchEvent(new PopStateEvent('popstate')); }}
+              >
+                <div className="relative h-52 overflow-hidden">
+                  <img src={ind.img} alt={ind.label} className="w-full h-full object-cover" loading="lazy"
+                    style={{ transition: 'transform 0.4s cubic-bezier(0.22,1,0.36,1)' }}
+                    ref={el => { if (!el) return; const c = el.closest('.group'); c.addEventListener('mouseenter', () => { el.style.transform = 'scale(1.08)'; }); c.addEventListener('mouseleave', () => { el.style.transform = 'scale(1)'; }); }}
+                  />
+                  <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(10,6,24,0.85) 0%, rgba(10,6,24,0.3) 60%, transparent 100%)' }} />
+                  <div className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: `linear-gradient(90deg, transparent, ${ind.accent}, transparent)` }} />
+                  <div className="absolute top-4 left-4 w-10 h-10 rounded-xl flex items-center justify-center"
+                    style={{ background: 'rgba(139,92,246,0.2)', backdropFilter: 'blur(8px)', border: '1px solid rgba(139,92,246,0.35)', color: '#c4b5fd' }}>
+                    {ind.icon}
+                  </div>
+                </div>
+                <div className="p-5 flex flex-col flex-1">
+                  <h3 className="text-base font-bold text-white mb-1.5 leading-snug">{ind.label}</h3>
+                  <p className="text-[0.78rem] text-white/75 leading-relaxed flex-1">{ind.desc}</p>
+                  <div className="mt-3 flex items-center gap-1.5 text-[0.72rem] font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-200" style={{ color: '#c4b5fd' }}>
+                    Explore opportunities <FiArrowRight className="h-3 w-3" />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-8">
+            <button type="button"
+              onClick={() => { window.history.pushState({}, '', '/franchise-opportunities'); window.dispatchEvent(new PopStateEvent('popstate')); }}
+              className="group inline-flex items-center gap-2.5 rounded-full px-7 py-3 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5"
+              style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.22)', backdropFilter: 'blur(8px)' }}
+              onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.18)'}
+              onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}>
+              Explore All Industries
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 transition-transform duration-200 group-hover:translate-x-1"><FiArrowRight className="h-3 w-3" /></span>
+            </button>
+          </div>
+        </div>
+
+        {/* thin gradient divider */}
+        <div className="relative z-10 mx-auto max-w-[1280px] px-8"><div style={{ height: '1px', background: 'linear-gradient(90deg,transparent,rgba(139,92,246,0.3),transparent)' }} /></div>
+
+        {/* ── FEATURED OPPORTUNITIES ── */}
+        <div className="relative z-10 mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8 py-12">
+          <div className="text-center mb-10">
+            <span className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-violet-300 mb-4"
+              style={{ background: 'rgba(139,92,246,0.15)', border: '1px solid rgba(139,92,246,0.3)', backdropFilter: 'blur(8px)' }}>
+              <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
+              Opportunities
+            </span>
+            <h2 className="text-3xl font-extrabold text-white sm:text-4xl mb-3">Featured Franchises</h2>
+            <p className="mx-auto max-w-xl text-sm text-white/55 sm:text-base leading-relaxed">
+              Curated, high-performing brands ready for expansion and investment.
+            </p>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {featuredFranchises.slice(0, 3).map((franchise, i) => (
+              <div key={franchise.id} className="group relative overflow-hidden rounded-2xl flex flex-col"
+                style={{ background: 'linear-gradient(145deg, #12082a 0%, #0e0620 50%, #0a0618 100%)', border: '1px solid rgba(139,92,246,0.18)', boxShadow: '0 4px 24px rgba(0,0,0,0.4)', transition: 'transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease, border-color 0.3s ease', animation: `cardReveal 0.4s ease ${i*0.08+0.1}s both` }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-5px)'; e.currentTarget.style.boxShadow = '0 20px 50px rgba(109,40,217,0.3)'; e.currentTarget.style.borderColor = 'rgba(139,92,246,0.45)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.4)'; e.currentTarget.style.borderColor = 'rgba(139,92,246,0.18)'; }}>
+                <FranchiseCard franchise={franchise} darkMode />
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-8">
+            <button type="button"
+              onClick={() => { window.history.pushState({}, '', '/franchise-opportunities'); window.dispatchEvent(new PopStateEvent('popstate')); }}
+              className="group inline-flex items-center gap-2.5 rounded-full px-8 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5"
+              style={{ background: 'linear-gradient(135deg,#7c3aed,#4f46e5)', boxShadow: '0 4px 20px rgba(124,58,237,0.4)' }}
+              onMouseEnter={e => e.currentTarget.style.boxShadow = '0 8px 30px rgba(124,58,237,0.6)'}
+              onMouseLeave={e => e.currentTarget.style.boxShadow = '0 4px 20px rgba(124,58,237,0.4)'}>
+              View All Opportunities
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 transition-transform duration-200 group-hover:translate-x-1"><FiArrowRight className="h-3 w-3" /></span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          CONTINUOUS DARK SECTION: Why iFranchise → Testimonials → Market Intelligence → FAQ
+      ═══════════════════════════════════════════════════════════════ */}
+      <div className="relative w-full overflow-hidden" style={{ background: 'linear-gradient(180deg, #0a0618 0%, #0f0a1e 30%, #130a2e 65%, #0a0618 100%)' }}>
+
+        {/* Shared animated orbs */}
+        <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
+          <div className="absolute" style={{ top: '-5%', left: '-8%', width: '60vw', height: '60vw', background: 'radial-gradient(circle, rgba(139,92,246,0.45) 0%, rgba(109,40,217,0.18) 42%, transparent 70%)', filter: 'blur(90px)', animation: 'sharedOrb1 18s ease-in-out infinite' }} />
+          <div className="absolute" style={{ top: '20%', right: '-8%', width: '55vw', height: '55vw', background: 'radial-gradient(circle, rgba(99,102,241,0.4) 0%, rgba(67,56,202,0.15) 45%, transparent 70%)', filter: 'blur(100px)', animation: 'sharedOrb2 22s ease-in-out infinite' }} />
+          <div className="absolute" style={{ top: '55%', left: '15%', width: '60vw', height: '50vw', background: 'radial-gradient(ellipse, rgba(168,85,247,0.35) 0%, rgba(124,58,237,0.12) 45%, transparent 70%)', filter: 'blur(110px)', animation: 'sharedOrb3 26s ease-in-out infinite' }} />
+          <div className="absolute" style={{ bottom: '5%', right: '10%', width: '50vw', height: '50vw', background: 'radial-gradient(circle, rgba(79,70,229,0.32) 0%, rgba(37,99,235,0.1) 50%, transparent 70%)', filter: 'blur(80px)', animation: 'sharedOrb1 20s ease-in-out infinite reverse' }} />
+        </div>
 
       {/* -- WHY iFRANCHISE SECTION -- */}
-      <section className="relative w-full py-12 sm:py-16 lg:py-20 bg-white overflow-hidden">
-        {/* Subtle background pattern */}
-        <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgb(0 0 0) 1px, transparent 0)', backgroundSize: '24px 24px' }} />
-        
-        {/* Ambient glow effects */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-200/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-violet-200/15 rounded-full blur-3xl pointer-events-none" />
-        
+      <section className="relative w-full py-12 sm:py-16 lg:py-20 overflow-hidden">
         <div className="section-container relative z-10">
           {/* Section Header */}
           <div className="text-center mb-8 sm:mb-10">
-            <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white shadow-sm px-4 py-2 mb-4 text-xs font-semibold uppercase tracking-[0.12em] text-slate-600">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+            <span className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-violet-300 mb-4"
+              style={{ background: 'rgba(139,92,246,0.15)', border: '1px solid rgba(139,92,246,0.3)', backdropFilter: 'blur(8px)' }}>
+              <span className="w-1.5 h-1.5 rounded-full bg-violet-400" />
               Why iFranchise
             </span>
-            
-            <h2 className="text-[clamp(1.5rem,4.5vw,2.25rem)] font-extrabold tracking-tight text-[#0b0f19] leading-[1.15] mb-3 px-4 max-w-3xl mx-auto">
+            <h2 className="text-[clamp(1.5rem,4.5vw,2.25rem)] font-extrabold tracking-tight text-white leading-[1.15] mb-3 px-4 max-w-3xl mx-auto">
               Why Investors and Brands Choose iFranchise
             </h2>
-            
-            <p className="text-sm text-slate-600 leading-relaxed max-w-2xl mx-auto px-4">
+            <p className="text-sm text-white/55 leading-relaxed max-w-2xl mx-auto px-4">
               Built to simplify franchise discovery, expansion, and investment through structured business intelligence.
             </p>
           </div>
 
           {/* Feature Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-            
-            {/* Block 1 - Verified Opportunities */}
-            <Reveal delay={0} className="h-full">
-              <div className="group relative h-full flex flex-col bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-700 rounded-3xl overflow-hidden transition-all duration-500 hover:scale-[1.03] hover:shadow-2xl hover:shadow-blue-500/40">
-                {/* Glow effect */}
-                <div className="absolute -inset-1 bg-gradient-to-br from-blue-400 to-indigo-600 rounded-3xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-500 -z-10" />
-                
-                {/* 3D Icon Container */}
-                <div className="relative h-48 flex items-center justify-center overflow-hidden">
-                  {/* Background decorative elements */}
-                  <div className="absolute top-4 right-4 w-24 h-24 bg-white/10 rounded-full blur-2xl" />
-                  <div className="absolute bottom-6 left-6 w-32 h-32 bg-blue-300/20 rounded-full blur-3xl" />
-                  
-                  {/* 3D Icon - Shield with Checkmark */}
-                  <div className="relative z-10 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
-                    {/* Shadow layer */}
-                    <div className="absolute inset-0 translate-y-2 translate-x-1">
-                      <svg className="w-20 h-20 text-blue-900/40 blur-sm" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
-                      </svg>
-                    </div>
-                    {/* Main icon */}
-                    <svg className="w-20 h-20 text-white drop-shadow-2xl" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
-                    </svg>
-                    {/* Highlight layer */}
-                    <div className="absolute top-0 left-0 w-full h-full">
-                      <div className="w-6 h-6 bg-white/40 rounded-full blur-md absolute top-2 left-4" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-7xl mx-auto">
+            {[
+              {
+                title: 'Verified Opportunities',
+                desc: 'Every opportunity is reviewed and structured to provide clarity and transparency.',
+                delay: 0,
+                icon: <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.6}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>,
+              },
+              {
+                title: 'Faster Brand Expansion',
+                desc: 'We help brands connect with the right investors to scale faster across markets.',
+                delay: 0.07,
+                icon: <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.6}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>,
+              },
+              {
+                title: 'Investor-Focused Discovery',
+                desc: 'Simplified franchise discovery experience designed around business goals and investment intent.',
+                delay: 0.14,
+                icon: <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.6}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>,
+              },
+              {
+                title: 'Data-Driven Marketplace',
+                desc: 'Industry-focused insights and structured business information help users make better decisions.',
+                delay: 0.21,
+                icon: <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.6}><path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>,
+              },
+            ].map((card, i) => (
+              <Reveal key={card.title} delay={card.delay} className="h-full">
+                <div className="group relative h-full flex flex-col overflow-hidden rounded-2xl"
+                  style={{ background: 'linear-gradient(145deg, #12082a 0%, #0e0620 50%, #0a0618 100%)', border: '1px solid rgba(139,92,246,0.18)', boxShadow: '0 4px 24px rgba(0,0,0,0.4)', transition: 'transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease, border-color 0.35s ease' }}
+                  onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-6px)'; e.currentTarget.style.boxShadow = '0 20px 50px rgba(109,40,217,0.3)'; e.currentTarget.style.borderColor = 'rgba(139,92,246,0.45)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.4)'; e.currentTarget.style.borderColor = 'rgba(139,92,246,0.18)'; }}
+                >
+                  {/* Top glow line */}
+                  <div className="absolute top-0 left-0 right-0 h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                    style={{ background: 'linear-gradient(90deg, transparent, rgba(139,92,246,0.7), transparent)' }} />
+                  {/* Shine sweep */}
+                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full pointer-events-none rounded-2xl"
+                    style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent)', transition: 'transform 0.7s ease' }} />
+
+                  {/* Icon area */}
+                  <div className="relative flex items-center justify-center h-44 overflow-hidden">
+                    <div className="absolute inset-0 pointer-events-none"
+                      style={{ background: 'radial-gradient(ellipse at 50% 60%, rgba(139,92,246,0.18) 0%, transparent 70%)' }} />
+                    <div className="relative z-10 flex items-center justify-center w-20 h-20 rounded-2xl transition-all duration-300 group-hover:scale-110"
+                      style={{ background: 'rgba(139,92,246,0.15)', border: '1px solid rgba(139,92,246,0.3)', color: '#c4b5fd', boxShadow: '0 0 0 0 rgba(139,92,246,0.4)', animation: `iconPulse 3s ease-in-out infinite ${i * 0.5}s` }}
+                      ref={el => { if (!el) return; const c = el.closest('.group'); c.addEventListener('mouseenter', () => { el.style.background = 'rgba(139,92,246,0.3)'; el.style.boxShadow = '0 0 24px rgba(139,92,246,0.5)'; }); c.addEventListener('mouseleave', () => { el.style.background = 'rgba(139,92,246,0.15)'; el.style.boxShadow = 'none'; }); }}
+                    >
+                      {card.icon}
                     </div>
                   </div>
-                </div>
-                
-                {/* Content */}
-                <div className="p-6 pt-2">
-                  <h3 className="text-xl font-bold text-white leading-tight mb-2">
-                    Verified Opportunities
-                  </h3>
-                  <p className="text-sm text-blue-50/90 leading-relaxed">
-                    Every opportunity is reviewed and structured to provide clarity and transparency.
-                  </p>
-                </div>
-              </div>
-            </Reveal>
 
-            {/* Block 2 - Faster Brand Expansion */}
-            <Reveal delay={0.1} className="h-full">
-              <div className="group relative h-full flex flex-col bg-gradient-to-br from-emerald-500 via-green-600 to-teal-700 rounded-3xl overflow-hidden transition-all duration-500 hover:scale-[1.03] hover:shadow-2xl hover:shadow-emerald-500/40">
-                {/* Glow effect */}
-                <div className="absolute -inset-1 bg-gradient-to-br from-emerald-400 to-teal-600 rounded-3xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-500 -z-10" />
-                
-                {/* 3D Icon Container */}
-                <div className="relative h-48 flex items-center justify-center overflow-hidden">
-                  {/* Background decorative elements */}
-                  <div className="absolute top-4 left-4 w-28 h-28 bg-white/10 rounded-full blur-2xl" />
-                  <div className="absolute bottom-4 right-4 w-32 h-32 bg-emerald-300/20 rounded-full blur-3xl" />
-                  
-                  {/* 3D Icon - Rocket */}
-                  <div className="relative z-10 transition-transform duration-500 group-hover:scale-110 group-hover:-translate-y-2">
-                    {/* Shadow layer */}
-                    <div className="absolute inset-0 translate-y-2 translate-x-1">
-                      <svg className="w-20 h-20 text-green-900/40 blur-sm" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2C12 2 4 6 4 12c0 2.5 1 4.5 2 6l2-2c-1-1-2-2.5-2-4 0-4 5-7 6-7.5V2zm0 0c0 0 8 4 8 10 0 2.5-1 4.5-2 6l-2-2c1-1 2-2.5 2-4 0-4-5-7-6-7.5V2zM9 17l3 5 3-5-3-1-3 1z"/>
-                      </svg>
-                    </div>
-                    {/* Main icon */}
-                    <svg className="w-20 h-20 text-white drop-shadow-2xl" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 2C12 2 4 6 4 12c0 2.5 1 4.5 2 6l2-2c-1-1-2-2.5-2-4 0-4 5-7 6-7.5V2zm0 0c0 0 8 4 8 10 0 2.5-1 4.5-2 6l-2-2c1-1 2-2.5 2-4 0-4-5-7-6-7.5V2zM9 17l3 5 3-5-3-1-3 1z"/>
-                    </svg>
-                    {/* Highlight layer */}
-                    <div className="absolute top-0 left-0 w-full h-full">
-                      <div className="w-5 h-5 bg-white/50 rounded-full blur-md absolute top-3 left-5" />
-                    </div>
-                    {/* Flame effect */}
-                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-8 h-8 bg-yellow-300/60 rounded-full blur-lg animate-pulse" />
+                  {/* Content */}
+                  <div className="p-6 pt-2 flex flex-col flex-1">
+                    <h3 className="text-[1rem] font-bold text-white leading-snug mb-2">{card.title}</h3>
+                    <p className="text-[0.8rem] text-white/65 leading-relaxed">{card.desc}</p>
                   </div>
                 </div>
-                
-                {/* Content */}
-                <div className="p-6 pt-2">
-                  <h3 className="text-xl font-bold text-white leading-tight mb-2">
-                    Faster Brand Expansion
-                  </h3>
-                  <p className="text-sm text-emerald-50/90 leading-relaxed">
-                    We help brands connect with the right investors to scale faster across markets.
-                  </p>
-                </div>
-              </div>
-            </Reveal>
-
-            {/* Block 3 - Investor-Focused Discovery */}
-            <Reveal delay={0.2} className="h-full">
-              <div className="group relative h-full flex flex-col bg-gradient-to-br from-violet-500 via-purple-600 to-fuchsia-700 rounded-3xl overflow-hidden transition-all duration-500 hover:scale-[1.03] hover:shadow-2xl hover:shadow-violet-500/40">
-                {/* Glow effect */}
-                <div className="absolute -inset-1 bg-gradient-to-br from-violet-400 to-fuchsia-600 rounded-3xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-500 -z-10" />
-                
-                {/* 3D Icon Container */}
-                <div className="relative h-48 flex items-center justify-center overflow-hidden">
-                  {/* Background decorative elements */}
-                  <div className="absolute top-6 right-6 w-24 h-24 bg-white/10 rounded-full blur-2xl" />
-                  <div className="absolute bottom-4 left-4 w-28 h-28 bg-purple-300/20 rounded-full blur-3xl" />
-                  
-                  {/* 3D Icon - Compass/Target */}
-                  <div className="relative z-10 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-12">
-                    {/* Shadow layer */}
-                    <div className="absolute inset-0 translate-y-2 translate-x-1">
-                      <svg className="w-20 h-20 text-purple-900/40 blur-sm" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z"/>
-                        <circle cx="12" cy="12" r="3"/>
-                      </svg>
-                    </div>
-                    {/* Main icon */}
-                    <svg className="w-20 h-20 text-white drop-shadow-2xl" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
-                      <circle cx="12" cy="12" r="3" fill="currentColor"/>
-                      <path d="M12 8l-1.5 4h3L12 8zm0 8l1.5-4h-3L12 16z"/>
-                    </svg>
-                    {/* Highlight layer */}
-                    <div className="absolute top-0 left-0 w-full h-full">
-                      <div className="w-6 h-6 bg-white/40 rounded-full blur-md absolute top-2 left-3" />
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Content */}
-                <div className="p-6 pt-2">
-                  <h3 className="text-xl font-bold text-white leading-tight mb-2">
-                    Investor-Focused Discovery
-                  </h3>
-                  <p className="text-sm text-violet-50/90 leading-relaxed">
-                    Simplified franchise discovery experience designed around business goals and investment intent.
-                  </p>
-                </div>
-              </div>
-            </Reveal>
-
-            {/* Block 4 - Data-Driven Marketplace */}
-            <Reveal delay={0.3} className="h-full">
-              <div className="group relative h-full flex flex-col bg-gradient-to-br from-orange-500 via-amber-600 to-yellow-600 rounded-3xl overflow-hidden transition-all duration-500 hover:scale-[1.03] hover:shadow-2xl hover:shadow-orange-500/40">
-                {/* Glow effect */}
-                <div className="absolute -inset-1 bg-gradient-to-br from-orange-400 to-yellow-600 rounded-3xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-500 -z-10" />
-                
-                {/* 3D Icon Container */}
-                <div className="relative h-48 flex items-center justify-center overflow-hidden">
-                  {/* Background decorative elements */}
-                  <div className="absolute top-4 left-6 w-28 h-28 bg-white/10 rounded-full blur-2xl" />
-                  <div className="absolute bottom-6 right-4 w-32 h-32 bg-orange-300/20 rounded-full blur-3xl" />
-                  
-                  {/* 3D Icon - Chart/Analytics */}
-                  <div className="relative z-10 transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6">
-                    {/* Shadow layer */}
-                    <div className="absolute inset-0 translate-y-2 translate-x-1">
-                      <svg className="w-20 h-20 text-orange-900/40 blur-sm" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M3 13h2v8H3v-8zm4-6h2v14H7V7zm4-4h2v18h-2V3zm4 9h2v9h-2v-9zm4-5h2v14h-2V7z"/>
-                      </svg>
-                    </div>
-                    {/* Main icon */}
-                    <svg className="w-20 h-20 text-white drop-shadow-2xl" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M3 13h2v8H3v-8zm4-6h2v14H7V7zm4-4h2v18h-2V3zm4 9h2v9h-2v-9zm4-5h2v14h-2V7z"/>
-                    </svg>
-                    {/* Highlight layer */}
-                    <div className="absolute top-0 left-0 w-full h-full">
-                      <div className="w-5 h-5 bg-white/50 rounded-full blur-md absolute top-2 left-4" />
-                    </div>
-                    {/* Sparkle effects */}
-                    <div className="absolute top-1 right-2 w-2 h-2 bg-white rounded-full animate-pulse" />
-                    <div className="absolute bottom-3 left-1 w-1.5 h-1.5 bg-white/80 rounded-full animate-pulse delay-150" />
-                  </div>
-                </div>
-                
-                {/* Content */}
-                <div className="p-6 pt-2">
-                  <h3 className="text-xl font-bold text-white leading-tight mb-2">
-                    Data-Driven Marketplace
-                  </h3>
-                  <p className="text-sm text-orange-50/90 leading-relaxed">
-                    Industry-focused insights and structured business information help users make better decisions.
-                  </p>
-                </div>
-              </div>
-            </Reveal>
-
+              </Reveal>
+            ))}
           </div>
 
           {/* Bottom CTA */}
           <div className="mt-10 sm:mt-12 text-center">
-            <button
-              type="button"
-              onClick={() => {
-                window.history.pushState({}, '', '/franchise-opportunities');
-                window.dispatchEvent(new PopStateEvent('popstate'));
-              }}
-              className="group inline-flex items-center justify-center gap-2 rounded-full btn-wave bg-[#0B1220] text-white px-7 py-3.5 text-sm font-semibold transition-all duration-300 hover:bg-[#1a2332] hover:scale-[1.02] hover:shadow-xl hover:shadow-[#0B1220]/30"
-            >
+            <button type="button"
+              onClick={() => { window.history.pushState({}, '', '/franchise-opportunities'); window.dispatchEvent(new PopStateEvent('popstate')); }}
+              className="group inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5"
+              style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.22)', backdropFilter: 'blur(8px)' }}
+              onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.18)'}
+              onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}>
               Explore Franchise Opportunities
-              <svg className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
-              </svg>
+              <svg className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" /></svg>
             </button>
           </div>
         </div>
@@ -3967,19 +3625,19 @@ function Hero() {
           
           {/* Section Header */}
           <div className="section-header">
-            <div className="section-pill">
+            <div className="section-pill" style={{ background: 'rgba(139,92,246,0.15)', border: '1px solid rgba(139,92,246,0.3)', backdropFilter: 'blur(8px)' }}>
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
               </span>
-              <span className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">
+              <span className="text-xs font-semibold uppercase tracking-[0.12em] text-violet-300">
                 Testimonials
               </span>
             </div>
-            <h2 className="section-title">
+            <h2 className="section-title" style={{ color: '#ffffff' }}>
               Trusted by brands. Backed by outcomes.
             </h2>
-            <p className="section-subtitle">
+            <p className="section-subtitle" style={{ color: 'rgba(255,255,255,0.55)' }}>
               From franchise structuring to investor conversion, iFranchise has helped brands scale smarter and franchisees choose with confidence.
             </p>
           </div>
@@ -4026,109 +3684,77 @@ function Hero() {
             </div>
           </div>
 
-          {/* Clean Stats Row - No Card Background */}
+          {/* Stats — premium glassmorphism cards */}
           <div ref={statsRef} className="mb-16 sm:mb-20">
-            {/* Subtle background pattern */}
-            <div className="relative">
-              <div className="absolute inset-0 opacity-[0.02]" style={{
-                backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(15,23,42,0.15) 1px, transparent 0)',
-                backgroundSize: '24px 24px'
-              }} />
-              
-              <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 py-8">
-                {statsCards.map((stat, index) => (
-                  <div key={stat.title} className="group relative flex flex-col items-center text-center">
-                    {/* Vertical divider - hidden on mobile, shown on lg+ */}
-                    {index < statsCards.length - 1 && (
-                      <div className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 w-px h-20 bg-gradient-to-b from-transparent via-slate-200 to-transparent" />
-                    )}
-                    
-                    {/* Stat content */}
-                    <div className="relative z-10">
-                      <div className="flex items-center gap-2 mb-3 justify-center">
-                        <div className="w-2 h-2 rounded-full bg-gradient-to-r from-violet-500 to-emerald-500" />
-                        <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400">
-                          {stat.title}
-                        </p>
-                      </div>
-                      
-                      <div className="mb-3">
-                        <StatCard stat={stat} active={statsInView} />
-                      </div>
-                      
-                      <p className="text-sm text-slate-500 leading-relaxed max-w-[200px] mx-auto">
-                        {stat.description}
-                      </p>
-                    </div>
-                    
-                    {/* Hover glow effect */}
-                    <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-violet-50/0 via-emerald-50/0 to-blue-50/0 group-hover:from-violet-50/30 group-hover:via-emerald-50/20 group-hover:to-blue-50/30 transition-all duration-500 -z-10" />
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              {[
+                { ...statsCards[0], accent: '#a78bfa', glow: 'rgba(167,139,250,0.2)', icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg> },
+                { ...statsCards[1], accent: '#34d399', glow: 'rgba(52,211,153,0.2)', icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg> },
+                { ...statsCards[2], accent: '#60a5fa', glow: 'rgba(96,165,250,0.2)', icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> },
+                { ...statsCards[3], accent: '#fb923c', glow: 'rgba(251,146,60,0.2)', icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg> },
+              ].map((stat, index) => (
+                <div key={stat.title} className="group relative overflow-hidden rounded-2xl p-6 flex flex-col"
+                  style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(12px)', transition: 'transform 0.3s ease, box-shadow 0.3s ease' }}
+                  onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = `0 16px 40px ${stat.glow}`; e.currentTarget.style.borderColor = `${stat.accent}40`; }}
+                  onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; }}
+                >
+                  {/* Top accent line */}
+                  <div className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: `linear-gradient(90deg, transparent, ${stat.accent}, transparent)` }} />
+
+                  {/* Icon */}
+                  <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl" style={{ background: `${stat.accent}20`, color: stat.accent }}>
+                    {stat.icon}
                   </div>
-                ))}
-              </div>
-              
-              {/* Success Stories Pills */}
-              <div className="mt-12 pt-8 border-t border-slate-100/60 flex flex-wrap items-center justify-center gap-3">
-                {[
-                  {
-                    label: '500+ franchise launches',
-                    icon: (
-                      <svg className="w-3.5 h-3.5 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                      </svg>
-                    ),
-                  },
-                  {
-                    label: '₹800Cr+ ecosystem influenced',
-                    icon: (
-                      <svg className="w-3.5 h-3.5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    ),
-                  },
-                  {
-                    label: '72% investor preference',
-                    icon: (
-                      <svg className="w-3.5 h-3.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                      </svg>
-                    ),
-                  },
-                  {
-                    label: '30% CAGR aligned',
-                    icon: (
-                      <svg className="w-3.5 h-3.5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                      </svg>
-                    ),
-                  },
-                ].map((item, i) => (
-                  <Reveal key={item.label} delay={i * 0.05}>
-                    <div className="inline-flex items-center gap-2 bg-gradient-to-r from-slate-50 to-white border border-slate-200/60 rounded-full px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300">
-                      {item.icon}
-                      <span>{item.label}</span>
-                    </div>
-                  </Reveal>
-                ))}
-              </div>
+
+                  {/* Number */}
+                  <div className="mb-1">
+                    <StatCard stat={stat} active={statsInView} />
+                  </div>
+
+                  {/* Title */}
+                  <p className="text-[0.7rem] font-bold uppercase tracking-[0.12em] mb-2" style={{ color: stat.accent }}>
+                    {stat.title}
+                  </p>
+
+                  {/* Description */}
+                  <p className="text-[0.75rem] text-white/50 leading-relaxed flex-1">
+                    {stat.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {/* Success pills */}
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+              {[
+                { label: '500+ franchise launches', color: '#a78bfa' },
+                { label: '₹800Cr+ ecosystem influenced', color: '#34d399' },
+                { label: '72% investor preference', color: '#60a5fa' },
+                { label: '30% CAGR aligned', color: '#fb923c' },
+              ].map((item) => (
+                <div key={item.label} className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold text-white/70"
+                  style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)' }}>
+                  <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: item.color }} />
+                  {item.label}
+                </div>
+              ))}
             </div>
           </div>
-
           {/* Brand Trust Rail */}
           <div className="text-center">
-            <p className="text-sm font-medium text-slate-600 mb-6 sm:mb-8">
+            <p className="text-sm font-medium text-white/50 mb-6 sm:mb-8">
               Trusted across franchise, strategy & enterprise ecosystems
             </p>
             
             {/* Logo Marquee */}
-            <div className="overflow-hidden rounded-2xl py-4">
+            <div className="overflow-hidden rounded-2xl py-4" style={{ background: "rgba(255,255,255,0.03)" }}>
               <div className="animate-marquee-right flex w-max items-center gap-12 sm:gap-16 md:gap-20 will-change-transform">
                 {['Tata', 'Reliance', 'Infosys', 'Shopify', 'Stripe', 'Microsoft', 'Google', 'Amazon', 'Tata', 'Reliance', 'Infosys', 'Shopify', 'Stripe', 'Microsoft', 'Google', 'Amazon'].map((brand, idx) => (
                   <div
                     key={`${brand}-${idx}`}
-                    className="group inline-flex items-center gap-2 whitespace-nowrap text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-slate-300 hover:text-slate-600 transition-colors duration-300"
+                    className="group inline-flex items-center gap-2 whitespace-nowrap text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-white/25 hover:text-white/70 transition-colors duration-300"
                   >
-                    <span className="text-lg sm:text-xl md:text-2xl leading-none opacity-40 group-hover:opacity-60 transition-opacity duration-300">*</span>
+                    <span className="text-lg sm:text-xl md:text-2xl leading-none opacity-30 group-hover:opacity-60 transition-opacity duration-300">*</span>
                     <span className="group-hover:bg-gradient-to-r group-hover:from-violet-600 group-hover:to-emerald-600 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">{brand}</span>
                   </div>
                 ))}
@@ -4147,7 +3773,7 @@ function Hero() {
         <div className="section-container">
           {/* Subtle background pattern */}
           <div className="absolute inset-0 opacity-[0.015]" style={{
-            backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(15,23,42,0.15) 1px, transparent 0)',
+            backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(139,92,246,0.3) 1px, transparent 0)',
             backgroundSize: '48px 48px'
           }} />
           
@@ -4179,10 +3805,10 @@ function Hero() {
               animationDelay: '0.1s'
             }}
           >
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#0b0f19] leading-tight mb-4">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight mb-4">
               Helpful Franchise Questions & Answers
             </h2>
-            <p className="text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
+            <p className="text-base text-white/55 leading-relaxed max-w-2xl mx-auto">
               Everything founders, investors, and franchise buyers need to know before making expansion decisions.
             </p>
           </div>
@@ -4296,9 +3922,14 @@ function Hero() {
       </section>
 
       {/* Smooth transition to footer */}
-      <div className="h-16 sm:h-20 bg-gradient-to-b from-slate-50 to-slate-100"></div>
+      </div>
     </main>
   );
 }
 
 export default Hero;
+
+
+
+
+

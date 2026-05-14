@@ -16,7 +16,6 @@ export default function FloatingContactCTA({ franchiseName = 'this opportunity' 
     city: '',
     website: '',
     message: '',
-    contactMethod: 'email',
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -64,7 +63,6 @@ export default function FloatingContactCTA({ franchiseName = 'this opportunity' 
         city: '',
         website: '',
         message: '',
-        contactMethod: 'email',
       });
     }, 3000);
   };
@@ -227,24 +225,25 @@ export default function FloatingContactCTA({ franchiseName = 'this opportunity' 
                   {!isSubmitted ? (
                     <>
                       {/* Header */}
-                      <div className="mb-8 text-center">
-                        <div className="mb-4 inline-flex rounded-full bg-gradient-to-br from-violet-100 to-purple-100 p-4">
-                          <FiPhoneCall className="h-9 w-9 text-violet-600" strokeWidth={2} />
+                      <div className="mb-6 text-center">
+                        <div className="mb-4 inline-flex rounded-2xl bg-violet-50 p-3.5 border border-violet-100">
+                          <FiPhoneCall className="h-7 w-7 text-violet-600" strokeWidth={2} />
                         </div>
-                        <h3 className="text-3xl font-bold tracking-tight text-slate-900">
-                          Talk to Franchise Strategist
+                        <h3 className="text-2xl font-bold tracking-tight text-slate-900">
+                          Talk to a Franchise Strategist
                         </h3>
-                        <p className="mt-3 text-base text-slate-600">
-                          Get personalized guidance about {franchiseName}
+                        <p className="mt-2 text-sm text-slate-500">
+                          Get personalised guidance about {franchiseName}
                         </p>
                       </div>
 
                       {/* Form */}
-                      <form onSubmit={handleSubmit} className="space-y-5">
-                        <div className="grid gap-5 sm:grid-cols-2">
+                      <form onSubmit={handleSubmit} className="space-y-4">
+                        {/* Name row */}
+                        <div className="grid gap-4 sm:grid-cols-2">
                           <div>
-                            <label htmlFor="firstName" className="mb-2 block text-sm font-semibold text-slate-800">
-                              First Name <span className="text-red-600">*</span>
+                            <label htmlFor="firstName" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">
+                              First Name <span className="text-red-500">*</span>
                             </label>
                             <input
                               id="firstName"
@@ -253,13 +252,13 @@ export default function FloatingContactCTA({ franchiseName = 'this opportunity' 
                               required
                               value={formData.firstName}
                               onChange={handleInputChange}
-                              placeholder="John"
-                              className="w-full rounded-xl border-2 border-slate-300 bg-white px-4 py-3.5 text-sm font-medium text-slate-900 placeholder-slate-400 outline-none transition-all focus:border-violet-500 focus:ring-4 focus:ring-violet-100"
+                              placeholder="Rahul"
+                              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-900 placeholder-slate-400 outline-none transition-all focus:border-violet-400 focus:bg-white focus:ring-3 focus:ring-violet-100"
                             />
                           </div>
                           <div>
-                            <label htmlFor="lastName" className="mb-2 block text-sm font-semibold text-slate-800">
-                              Last Name <span className="text-red-600">*</span>
+                            <label htmlFor="lastName" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">
+                              Last Name <span className="text-red-500">*</span>
                             </label>
                             <input
                               id="lastName"
@@ -268,16 +267,17 @@ export default function FloatingContactCTA({ franchiseName = 'this opportunity' 
                               required
                               value={formData.lastName}
                               onChange={handleInputChange}
-                              placeholder="Doe"
-                              className="w-full rounded-xl border-2 border-slate-300 bg-white px-4 py-3.5 text-sm font-medium text-slate-900 placeholder-slate-400 outline-none transition-all focus:border-violet-500 focus:ring-4 focus:ring-violet-100"
+                              placeholder="Sharma"
+                              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-900 placeholder-slate-400 outline-none transition-all focus:border-violet-400 focus:bg-white focus:ring-3 focus:ring-violet-100"
                             />
                           </div>
                         </div>
 
-                        <div className="grid gap-5 sm:grid-cols-2">
+                        {/* Phone + Email row */}
+                        <div className="grid gap-4 sm:grid-cols-2">
                           <div>
-                            <label htmlFor="phone" className="mb-2 block text-sm font-semibold text-slate-800">
-                              Phone Number <span className="text-red-600">*</span>
+                            <label htmlFor="phone" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">
+                              Phone Number <span className="text-red-500">*</span>
                             </label>
                             <input
                               id="phone"
@@ -286,13 +286,13 @@ export default function FloatingContactCTA({ franchiseName = 'this opportunity' 
                               required
                               value={formData.phone}
                               onChange={handleInputChange}
-                              placeholder="+1 (555) 000-0000"
-                              className="w-full rounded-xl border-2 border-slate-300 bg-white px-4 py-3.5 text-sm font-medium text-slate-900 placeholder-slate-400 outline-none transition-all focus:border-violet-500 focus:ring-4 focus:ring-violet-100"
+                              placeholder="+91 98765 43210"
+                              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-900 placeholder-slate-400 outline-none transition-all focus:border-violet-400 focus:bg-white focus:ring-3 focus:ring-violet-100"
                             />
                           </div>
                           <div>
-                            <label htmlFor="email" className="mb-2 block text-sm font-semibold text-slate-800">
-                              Email Address <span className="text-red-600">*</span>
+                            <label htmlFor="email" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">
+                              Email Address <span className="text-red-500">*</span>
                             </label>
                             <input
                               id="email"
@@ -301,15 +301,16 @@ export default function FloatingContactCTA({ franchiseName = 'this opportunity' 
                               required
                               value={formData.email}
                               onChange={handleInputChange}
-                              placeholder="john@example.com"
-                              className="w-full rounded-xl border-2 border-slate-300 bg-white px-4 py-3.5 text-sm font-medium text-slate-900 placeholder-slate-400 outline-none transition-all focus:border-violet-500 focus:ring-4 focus:ring-violet-100"
+                              placeholder="rahul@example.com"
+                              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-900 placeholder-slate-400 outline-none transition-all focus:border-violet-400 focus:bg-white focus:ring-3 focus:ring-violet-100"
                             />
                           </div>
                         </div>
 
+                        {/* Investment Range */}
                         <div>
-                          <label htmlFor="investmentRange" className="mb-2 block text-sm font-semibold text-slate-800">
-                            Investment Range <span className="text-red-600">*</span>
+                          <label htmlFor="investmentRange" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">
+                            Investment Range <span className="text-red-500">*</span>
                           </label>
                           <select
                             id="investmentRange"
@@ -317,20 +318,22 @@ export default function FloatingContactCTA({ franchiseName = 'this opportunity' 
                             required
                             value={formData.investmentRange}
                             onChange={handleInputChange}
-                            className="w-full rounded-xl border-2 border-slate-300 bg-white px-4 py-3.5 text-sm font-medium text-slate-900 outline-none transition-all focus:border-violet-500 focus:ring-4 focus:ring-violet-100"
+                            className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-900 outline-none transition-all focus:border-violet-400 focus:bg-white focus:ring-3 focus:ring-violet-100"
                           >
                             <option value="">Select investment range</option>
-                            <option value="30k-80k">$30K - $80K</option>
-                            <option value="80k-150k">$80K - $150K</option>
-                            <option value="150k-300k">$150K - $300K</option>
-                            <option value="300k+">$300K+</option>
+                            <option value="under-25l">Under ₹25 Lakhs</option>
+                            <option value="25l-50l">₹25L – ₹50 Lakhs</option>
+                            <option value="50l-1cr">₹50L – ₹1 Crore</option>
+                            <option value="1cr-5cr">₹1 Crore – ₹5 Crore</option>
+                            <option value="5cr+">₹5 Crore+</option>
                           </select>
                         </div>
 
-                        <div className="grid gap-5 sm:grid-cols-2">
+                        {/* State + City row */}
+                        <div className="grid gap-4 sm:grid-cols-2">
                           <div>
-                            <label htmlFor="state" className="mb-2 block text-sm font-semibold text-slate-800">
-                              State <span className="text-red-600">*</span>
+                            <label htmlFor="state" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">
+                              State <span className="text-red-500">*</span>
                             </label>
                             <input
                               id="state"
@@ -339,13 +342,13 @@ export default function FloatingContactCTA({ franchiseName = 'this opportunity' 
                               required
                               value={formData.state}
                               onChange={handleInputChange}
-                              placeholder="California"
-                              className="w-full rounded-xl border-2 border-slate-300 bg-white px-4 py-3.5 text-sm font-medium text-slate-900 placeholder-slate-400 outline-none transition-all focus:border-violet-500 focus:ring-4 focus:ring-violet-100"
+                              placeholder="Maharashtra"
+                              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-900 placeholder-slate-400 outline-none transition-all focus:border-violet-400 focus:bg-white focus:ring-3 focus:ring-violet-100"
                             />
                           </div>
                           <div>
-                            <label htmlFor="city" className="mb-2 block text-sm font-semibold text-slate-800">
-                              City <span className="text-red-600">*</span>
+                            <label htmlFor="city" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">
+                              City <span className="text-red-500">*</span>
                             </label>
                             <input
                               id="city"
@@ -354,15 +357,16 @@ export default function FloatingContactCTA({ franchiseName = 'this opportunity' 
                               required
                               value={formData.city}
                               onChange={handleInputChange}
-                              placeholder="Los Angeles"
-                              className="w-full rounded-xl border-2 border-slate-300 bg-white px-4 py-3.5 text-sm font-medium text-slate-900 placeholder-slate-400 outline-none transition-all focus:border-violet-500 focus:ring-4 focus:ring-violet-100"
+                              placeholder="Mumbai"
+                              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-900 placeholder-slate-400 outline-none transition-all focus:border-violet-400 focus:bg-white focus:ring-3 focus:ring-violet-100"
                             />
                           </div>
                         </div>
 
+                        {/* Website (optional) */}
                         <div>
-                          <label htmlFor="website" className="mb-2 block text-sm font-semibold text-slate-800">
-                            Website URL <span className="text-slate-500">(Optional)</span>
+                          <label htmlFor="website" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">
+                            Website <span className="text-slate-400 normal-case tracking-normal font-normal">(Optional)</span>
                           </label>
                           <input
                             id="website"
@@ -371,49 +375,36 @@ export default function FloatingContactCTA({ franchiseName = 'this opportunity' 
                             value={formData.website}
                             onChange={handleInputChange}
                             placeholder="https://yourwebsite.com"
-                            className="w-full rounded-xl border-2 border-slate-300 bg-white px-4 py-3.5 text-sm font-medium text-slate-900 placeholder-slate-400 outline-none transition-all focus:border-violet-500 focus:ring-4 focus:ring-violet-100"
+                            className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-900 placeholder-slate-400 outline-none transition-all focus:border-violet-400 focus:bg-white focus:ring-3 focus:ring-violet-100"
                           />
                         </div>
 
+                        {/* Message */}
                         <div>
-                          <label htmlFor="contactMethod" className="mb-2 block text-sm font-semibold text-slate-800">
-                            Preferred Contact Method <span className="text-red-600">*</span>
-                          </label>
-                          <select
-                            id="contactMethod"
-                            name="contactMethod"
-                            required
-                            value={formData.contactMethod}
-                            onChange={handleInputChange}
-                            className="w-full rounded-xl border-2 border-slate-300 bg-white px-4 py-3.5 text-sm font-medium text-slate-900 outline-none transition-all focus:border-violet-500 focus:ring-4 focus:ring-violet-100"
-                          >
-                            <option value="email">Email</option>
-                            <option value="phone">Phone</option>
-                            <option value="both">Both</option>
-                          </select>
-                        </div>
-
-                        <div>
-                          <label htmlFor="message" className="mb-2 block text-sm font-semibold text-slate-800">
-                            Message / Interest
+                          <label htmlFor="message" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">
+                            Message <span className="text-slate-400 normal-case tracking-normal font-normal">(Optional)</span>
                           </label>
                           <textarea
                             id="message"
                             name="message"
-                            rows={4}
+                            rows={3}
                             value={formData.message}
                             onChange={handleInputChange}
                             placeholder="Tell us about your interest in this franchise opportunity..."
-                            className="w-full rounded-xl border-2 border-slate-300 bg-white px-4 py-3.5 text-sm font-medium text-slate-900 placeholder-slate-400 outline-none transition-all focus:border-violet-500 focus:ring-4 focus:ring-violet-100"
+                            className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-900 placeholder-slate-400 outline-none transition-all focus:border-violet-400 focus:bg-white focus:ring-3 focus:ring-violet-100 resize-none"
                           />
                         </div>
 
                         <button
                           type="submit"
-                          className="w-full rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-8 py-4 text-base font-bold text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/30"
+                          className="w-full rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 px-8 py-3.5 text-sm font-bold text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/25"
                         >
                           Submit Request
                         </button>
+
+                        <p className="text-center text-xs text-slate-400">
+                          Our franchise strategist will reach out within 24 hours.
+                        </p>
                       </form>
                     </>
                   ) : (

@@ -106,12 +106,12 @@ function PremiumTeamCard({ member }) {
 
   // DEFAULT VIEW - Normal card
   return (
-    <div className={`group relative ${CARD_HEIGHT} w-full overflow-hidden rounded-3xl border-2 border-slate-200 bg-white shadow-lg transition-all duration-500 hover:border-purple-300 hover:shadow-2xl flex flex-col`}>
+    <div className={`group relative ${CARD_HEIGHT} w-full overflow-hidden rounded-3xl border-2 border-slate-200 bg-white shadow-lg transition-all duration-200 hover:border-purple-300 hover:shadow-2xl flex flex-col`}>
       <div className="relative h-[320px] w-full flex-shrink-0 overflow-hidden">
         <img
           src={member.image}
           alt={member.name}
-          className="h-full w-full object-cover transition-all duration-700 group-hover:scale-105"
+          className="h-full w-full object-cover transition-all duration-200 group-hover:scale-105"
           loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
@@ -280,7 +280,7 @@ function AboutPage() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: 'easeOut' }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
               className="flex flex-col gap-8 text-center lg:text-left"
             >
               <h1 className="text-[clamp(36px,7vw,64px)] font-black leading-[1.08] tracking-tight text-slate-900">
@@ -314,7 +314,7 @@ function AboutPage() {
                       </svg>
                     </span>
                   </span>
-                  <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+                  <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-200 group-hover:translate-x-full" />
                 </button>
                 
                 <button
@@ -330,7 +330,7 @@ function AboutPage() {
                       </svg>
                     </span>
                   </span>
-                  <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+                  <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-200 group-hover:translate-x-full" />
                 </button>
               </div>
             </motion.div>
@@ -338,13 +338,13 @@ function AboutPage() {
             <motion.div
               initial={{ opacity: 0, scale: 0.92 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.9, ease: 'easeOut', delay: 0.2 }}
+              transition={{ duration: 0.3, ease: 'easeOut', delay: 0.1 }}
               className="relative flex items-center justify-center"
             >
               <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
                 <motion.div
                   animate={{ scale: [1, 1.15, 1], opacity: [0.18, 0.28, 0.18], rotate: [0, 90, 0] }}
-                  transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+                  transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
                   className="absolute h-[420px] w-[420px] rounded-full bg-gradient-to-br from-violet-400/30 via-purple-300/20 to-indigo-400/25 blur-[100px]"
                 />
               </div>
@@ -353,7 +353,7 @@ function AboutPage() {
                 <motion.img
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1, ease: 'easeOut', delay: 0.4 }}
+                  transition={{ duration: 0.3, ease: 'easeOut', delay: 0.15 }}
                   src={AboutHeroImage}
                   alt="iFranchise Intelligence Engine"
                   className="w-full h-auto object-contain drop-shadow-2xl"
@@ -373,7 +373,7 @@ function AboutPage() {
               initial={{ opacity: 0, x: -40 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: 'easeOut' }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
               className="relative"
             >
               <div className="absolute -inset-6 bg-gradient-to-br from-violet-200/40 via-purple-100/30 to-indigo-200/40 blur-3xl opacity-70" />
@@ -391,7 +391,7 @@ function AboutPage() {
               initial={{ opacity: 0, x: 40 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
+              transition={{ duration: 0.3, ease: 'easeOut', delay: 0.1 }}
               className="space-y-6"
             >
               <div className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white px-4 py-1.5">
@@ -429,7 +429,7 @@ function AboutPage() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                transition={{ duration: 0.25, delay: idx * 0.05 }}
                 className="group relative overflow-hidden rounded-2xl border-2 border-slate-200 bg-white p-6 transition-all duration-300 hover:border-violet-300 hover:shadow-lg hover:-translate-y-1"
               >
                 <div className={`mb-4 flex h-12 w-12 items-center justify-center rounded-xl ${card.bgColor} text-lg font-bold ${card.textColor}`}>
@@ -453,7 +453,7 @@ function AboutPage() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 0.3 }}
             className="mb-10 text-center"
           >
             <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-4 py-1.5 shadow-sm backdrop-blur-sm">
@@ -477,7 +477,7 @@ function AboutPage() {
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                transition={{ duration: 0.25, delay: idx * 0.05 }}
               >
                 <PremiumTeamCard member={member} />
               </motion.div>
@@ -494,7 +494,7 @@ function AboutPage() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.3 }}
               className="inline-flex items-center gap-2 rounded-full border border-purple-200 bg-white px-4 py-1.5 shadow-sm"
             >
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-purple-600" />
@@ -505,7 +505,7 @@ function AboutPage() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.1 }}
+              transition={{ duration: 0.3, delay: 0.05 }}
               className="mt-6 text-4xl font-black tracking-tight text-slate-900 sm:text-5xl lg:text-6xl"
             >
               Benefits That Define the
@@ -517,7 +517,7 @@ function AboutPage() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.2 }}
+              transition={{ duration: 0.3, delay: 0.1 }}
               className="mt-6 text-lg leading-relaxed text-slate-600 sm:text-xl"
             >
               We don't just connect brands and investors — we deliver intelligence, systems, and strategic infrastructure that accelerate franchise expansion.
@@ -536,7 +536,7 @@ function AboutPage() {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                transition={{ duration: 0.25, delay: idx * 0.05 }}
                 whileHover={{ y: -8, transition: { duration: 0.3 } }}
                 className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-8 shadow-lg transition-all duration-300 hover:border-purple-300 hover:shadow-2xl"
               >
@@ -557,7 +557,7 @@ function AboutPage() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.5 }}
+            transition={{ duration: 0.3, delay: 0.15 }}
             className="mt-16 text-center"
           >
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
@@ -619,3 +619,4 @@ function AboutPage() {
 }
 
 export default AboutPage;
+

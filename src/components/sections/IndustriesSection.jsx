@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { franchiseOpportunities } from '../../data/franchiseData';
+import industriesBg from '../../assets/Industries.png';
 
 const INDUSTRIES = [
   {
@@ -241,12 +242,18 @@ function IndustryCard({ ind, index }) {
 
 export default function IndustriesSection() {
   return (
-    <section className="relative overflow-hidden bg-white py-20 lg:py-28">
+    <section className="relative overflow-hidden py-20 lg:py-28">
 
-      {/* background */}
+      {/* Industries.png background */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-white via-slate-50/40 to-white" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[900px] rounded-full bg-violet-50/60 blur-[120px]" />
+        <img
+          src={industriesBg}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
+        {/* light overlay to keep text readable */}
+        <div className="absolute inset-0 bg-white/60" />
       </div>
 
       <div className="relative z-10 max-w-[1280px] mx-auto px-6 lg:px-10">

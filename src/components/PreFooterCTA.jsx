@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
-import FooterBg from '../assets/Footer.png';
+﻿import { useEffect, useRef, useState } from 'react';
 
-// ── Navigation helper ─────────────────────────────────────────────────────────
+// â”€â”€ Navigation helper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function navigateTo(path) {
   // Save scroll position before navigating away from home
   if (window.location.pathname === '/') {
@@ -11,7 +10,7 @@ function navigateTo(path) {
   window.dispatchEvent(new PopStateEvent('popstate'));
 }
 
-// ── Inline SVG logos ──────────────────────────────────────────────────────────
+// â”€â”€ Inline SVG logos â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const LOGOS = [
   {
     name: 'Quantum',
@@ -74,7 +73,7 @@ const LOGOS = [
 
 const LOGO_TRACK = [...LOGOS, ...LOGOS, ...LOGOS];
 
-// ── Link dot indicator ────────────────────────────────────────────────────────
+// â”€â”€ Link dot indicator â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function LinkDot({ type, color }) {
   if (!type || type === 'none') return null;
   return (
@@ -92,7 +91,7 @@ function LinkDot({ type, color }) {
   );
 }
 
-// ── Hiring badge ──────────────────────────────────────────────────────────────
+// â”€â”€ Hiring badge â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function HiringBadge() {
   return (
     <span
@@ -116,7 +115,7 @@ function HiringBadge() {
   );
 }
 
-// ── Footer link columns ───────────────────────────────────────────────────────
+// â”€â”€ Footer link columns â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const FOOTER_COLS = [
   {
     heading: 'Company',
@@ -153,7 +152,7 @@ const FOOTER_COLS = [
   },
 ];
 
-// ── Social icons ──────────────────────────────────────────────────────────────
+// â”€â”€ Social icons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const SOCIALS = [
   {
     label: 'LinkedIn',
@@ -193,7 +192,7 @@ const SOCIALS = [
   },
 ];
 
-// ── Quick Connect ─────────────────────────────────────────────────────────────
+// â”€â”€ Quick Connect â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const QUICK_CONNECT = [
   {
     icon: (
@@ -203,11 +202,11 @@ const QUICK_CONNECT = [
       </svg>
     ),
     label: 'Head Office',
-    value: '12th Floor, Prestige Tower, MG Road, Bengaluru – 560001',
+    value: '12th Floor, Prestige Tower, MG Road, Bengaluru â€“ 560001',
   },
 ];
 
-// ── Main component ────────────────────────────────────────────────────────────
+// â”€â”€ Main component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export default function PreFooterCTA() {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -241,61 +240,38 @@ export default function PreFooterCTA() {
   });
 
   return (
-    <div style={{ padding: '80px 16px 0', backgroundColor: '#f8f8f6', position: 'relative' }}>
+    <div style={{ position: 'relative', overflow: 'hidden', background: 'linear-gradient(180deg, #0a0618 0%, #0f0a1e 40%, #130a2e 100%)' }}>
 
-      {/* ── Floating blobs — OUTSIDE card so overflow:hidden doesn't clip them ── */}
-      <div aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden', zIndex: 0 }}>
-        <div style={{
-          position: 'absolute', top: '4%', left: '4%',
-          width: '340px', height: '340px', borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(124,58,237,0.09) 0%, transparent 70%)',
-          filter: 'blur(48px)',
-          animation: 'footerBlob1 12s ease-in-out infinite',
-        }} />
-        <div style={{
-          position: 'absolute', top: '2%', right: '5%',
-          width: '260px', height: '260px', borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(16,185,129,0.08) 0%, transparent 70%)',
-          filter: 'blur(40px)',
-          animation: 'footerBlob2 10s ease-in-out infinite',
-        }} />
-        <div style={{
-          position: 'absolute', bottom: '8%', left: '40%',
-          width: '240px', height: '240px', borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(59,130,246,0.07) 0%, transparent 70%)',
-          filter: 'blur(36px)',
-          animation: 'footerBlob3 14s ease-in-out infinite',
-        }} />
+      {/* Living animated orbs â€” same as page sections */}
+      <div aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 0 }}>
+        <div style={{ position: 'absolute', top: '-10%', left: '-5%', width: '55vw', height: '55vw', background: 'radial-gradient(circle, rgba(139,92,246,0.45) 0%, rgba(109,40,217,0.18) 42%, transparent 70%)', filter: 'blur(90px)', animation: 'footerBlob1 16s ease-in-out infinite' }} />
+        <div style={{ position: 'absolute', top: '10%', right: '-8%', width: '50vw', height: '50vw', background: 'radial-gradient(circle, rgba(99,102,241,0.4) 0%, rgba(67,56,202,0.15) 45%, transparent 70%)', filter: 'blur(100px)', animation: 'footerBlob2 20s ease-in-out infinite' }} />
+        <div style={{ position: 'absolute', bottom: '5%', left: '25%', width: '50vw', height: '40vw', background: 'radial-gradient(ellipse, rgba(168,85,247,0.35) 0%, rgba(124,58,237,0.12) 45%, transparent 70%)', filter: 'blur(110px)', animation: 'footerBlob3 24s ease-in-out infinite' }} />
       </div>
 
-      {/* ── Unified card ── */}
+      {/* â”€â”€ Unified card â”€â”€ */}
       <div
         ref={ref}
         style={{
           maxWidth: '1200px',
           margin: '0 auto',
+          padding: '0 16px',
           borderRadius: '28px',
-          background: '#ffffff',
-          boxShadow: '0 4px 48px rgba(11,15,25,0.08), 0 0 0 1px rgba(11,15,25,0.05)',
+          background: 'rgba(255,255,255,0.05)',
+          border: '1px solid rgba(139,92,246,0.2)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
           overflow: 'hidden',
           position: 'relative',
           zIndex: 1,
         }}
       >
-        {/* ── Animated gradient drift inside card ── */}
-        <div
-          aria-hidden="true"
-          style={{
-            position: 'absolute', inset: 0,
-            background: 'radial-gradient(ellipse 70% 50% at 30% 20%, rgba(99,102,241,0.04) 0%, transparent 60%), radial-gradient(ellipse 60% 40% at 75% 70%, rgba(16,185,129,0.03) 0%, transparent 55%)',
-            animation: 'footerGradientDrift 18s ease-in-out infinite',
-            pointerEvents: 'none', zIndex: 0,
-          }}
-        />
+        {/* Inner gradient shimmer */}
+        <div aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(139,92,246,0.08) 0%, transparent 50%, rgba(99,102,241,0.06) 100%)', pointerEvents: 'none', zIndex: 0 }} />
 
-        {/* ══════════════════════════════════════════
-            TOP — CTA
-        ══════════════════════════════════════════ */}
+        {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+            TOP â€” CTA
+        â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
         <div
           style={{
             padding: 'clamp(56px, 8vw, 96px) clamp(24px, 6vw, 80px) 60px',
@@ -304,27 +280,27 @@ export default function PreFooterCTA() {
             zIndex: 1,
           }}
         >
-          {/* Heading — staggered transition reveal */}
+          {/* Heading â€” staggered transition reveal */}
           <div style={{ marginBottom: '20px' }}>
-            <h2 style={{ fontSize: 'clamp(30px, 5vw, 54px)', fontWeight: 700, lineHeight: 1.15, letterSpacing: '-0.025em', color: '#0b0f19', margin: '0 0 6px', ...reveal(0.05) }}>
+            <h2 style={{ fontSize: 'clamp(30px, 5vw, 54px)', fontWeight: 700, lineHeight: 1.15, letterSpacing: '-0.025em', color: '#ffffff', margin: '0 0 6px', ...reveal(0.05) }}>
               Ready to Build, Invest, or Expand?
             </h2>
           </div>
 
           {/* Description */}
-          <p style={{ maxWidth: '620px', margin: '0 auto 28px', fontSize: '16px', lineHeight: 1.65, color: '#64748b', ...reveal(0.28) }}>
+          <p style={{ maxWidth: '620px', margin: '0 auto 28px', fontSize: '16px', lineHeight: 1.65, color: 'rgba(255,255,255,0.8)', ...reveal(0.28) }}>
             Whether you are exploring franchise investment opportunities or planning to scale your business, iFranchise helps you move forward with clarity, confidence, and the right connections.
           </p>
 
           {/* Status */}
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', fontSize: '13px', fontWeight: 500, color: '#475569', marginBottom: '28px', ...reveal(0.36) }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', fontSize: '13px', fontWeight: 500, color: 'rgba(255,255,255,0.8)', marginBottom: '28px', ...reveal(0.36) }}>
             <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#22c55e', boxShadow: '0 0 0 3px rgba(34,197,94,0.2)', display: 'inline-block', flexShrink: 0 }} />
             Trusted by 1,200+ founders.
           </div>
 
           {/* Buttons - Both Black with Premium Animations */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '14px', flexWrap: 'wrap', marginBottom: '44px', ...reveal(0.44) }}>
-            {/* Primary — Explore Opportunities */}
+            {/* Primary â€” Explore Opportunities */}
             <button
               onClick={() => navigateTo('/franchise-opportunities')}
               className="cta-button-primary"
@@ -364,7 +340,7 @@ export default function PreFooterCTA() {
               </span>
             </button>
 
-            {/* Secondary — Book Strategic Call (Changed from List Your Brand) */}
+            {/* Secondary â€” Book Strategic Call (Changed from List Your Brand) */}
             <button
               onClick={() => window.open('https://cal.com/ifranchise/30min', '_blank')}
               className="cta-button-secondary"
@@ -411,9 +387,9 @@ export default function PreFooterCTA() {
               {LOGO_TRACK.map((logo, i) => (
                 <div
                   key={`${logo.name}-${i}`}
-                  style={{ color: '#94a3b8', opacity: 0.5, flexShrink: 0, transition: 'opacity 0.22s ease, color 0.22s ease, transform 0.22s ease', cursor: 'default', userSelect: 'none' }}
-                  onMouseEnter={(e) => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.color = '#0b0f19'; e.currentTarget.style.transform = 'scale(1.08)'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.5'; e.currentTarget.style.color = '#94a3b8'; e.currentTarget.style.transform = 'scale(1)'; }}
+                  style={{ color: 'rgba(255,255,255,0.5)', opacity: 1, flexShrink: 0, transition: 'opacity 0.22s ease, color 0.22s ease, transform 0.22s ease', cursor: 'default', userSelect: 'none' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.transform = 'scale(1.08)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.5'; e.currentTarget.style.color = 'rgba(255,255,255,0.5)'; e.currentTarget.style.transform = 'scale(1)'; }}
                 >
                   {logo.svg}
                 </div>
@@ -422,12 +398,12 @@ export default function PreFooterCTA() {
           </div>
         </div>
 
-        {/* ══════════════════════════════════════════
-            BOTTOM — FOOTER CONTENT
-        ══════════════════════════════════════════ */}
+        {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+            BOTTOM â€” FOOTER CONTENT
+        â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
         <div
           style={{
-            borderTop: '1px solid rgba(11,15,25,0.06)',
+            borderTop: '1px solid rgba(139,92,246,0.2)',
             padding: 'clamp(36px, 5vw, 52px) clamp(24px, 6vw, 80px) 0',
             position: 'relative', 
             zIndex: 1,
@@ -435,37 +411,37 @@ export default function PreFooterCTA() {
         >
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '40px 32px', marginBottom: '48px', position: 'relative', zIndex: 1 }}>
 
-            {/* ── Col 1: Brand + Address ── */}
+            {/* â”€â”€ Col 1: Brand + Address â”€â”€ */}
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
                 <div style={{ width: '34px', height: '34px', borderRadius: '9px', backgroundColor: '#0b0f19', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <span style={{ color: '#fff', fontWeight: 800, fontSize: '14px' }}>iF</span>
                 </div>
-                <span style={{ fontWeight: 800, fontSize: '17px', color: '#0b0f19', letterSpacing: '-0.02em' }}>iFranchise</span>
+                <span style={{ fontWeight: 800, fontSize: '17px', color: '#ffffff', letterSpacing: '-0.02em', fontWeight: 800 }}>iFranchise</span>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {QUICK_CONNECT.map((item) => (
                   <div key={item.label} style={{ display: 'flex', alignItems: 'flex-start', gap: '9px' }}>
-                    <span style={{ color: '#94a3b8', flexShrink: 0, marginTop: '1px' }}>{item.icon}</span>
+                    <span style={{ color: 'rgba(255,255,255,0.8)', flexShrink: 0, marginTop: '1px' }}>{item.icon}</span>
                     <div>
-                      <p style={{ fontSize: '13px', color: '#475569', margin: 0, lineHeight: 1.5 }}>{item.value}</p>
+                      <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.8)', margin: 0, lineHeight: 1.5 }}>{item.value}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* ── Cols 2 & 3: Link columns ── */}
+            {/* â”€â”€ Cols 2 & 3: Link columns â”€â”€ */}
             {FOOTER_COLS.map((col) => (
               <div key={col.heading}>
-                <p style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#94a3b8', marginBottom: '16px' }}>{col.heading}</p>
+                <p style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(255,255,255,0.55)', marginBottom: '16px' }}>{col.heading}</p>
                 <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '11px' }}>
                   {col.links.map((link) => (
                     <li key={link.label} style={{ display: 'inline-flex' }}>
                       <a
                         href={link.path}
                         onClick={(e) => { e.preventDefault(); navigateTo(link.path); }}
-                        style={{ fontSize: '14px', color: '#475569', textDecoration: 'none', transition: 'color 0.3s ease', display: 'inline-flex', alignItems: 'center', gap: '7px' }}
+                        style={{ fontSize: '14px', color: '#ffffff', textDecoration: 'none', transition: 'color 0.3s ease', display: 'inline-flex', alignItems: 'center', gap: '7px' }}
                         onMouseEnter={(e) => {
                           e.currentTarget.style.color = '#8b5cf6';
                         }}
@@ -483,26 +459,26 @@ export default function PreFooterCTA() {
               </div>
             ))}
 
-            {/* ── Col 4: Socials ── */}
+            {/* â”€â”€ Col 4: Socials â”€â”€ */}
             <div style={{ position: 'relative', zIndex: 1 }}>
-              <p style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#94a3b8', marginBottom: '16px', textAlign: 'center' }}>Follow Us</p>
+              <p style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(255,255,255,0.55)', marginBottom: '16px', textAlign: 'center' }}>Follow Us</p>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
                 {SOCIALS.map((s) => (
                   <a
                     key={s.label}
                     href={s.href}
                     aria-label={s.label}
-                    style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '40px', height: '40px', borderRadius: '10px', backgroundColor: 'rgba(11,15,25,0.05)', color: '#475569', textDecoration: 'none', transition: 'all 0.3s cubic-bezier(0.22,1,0.36,1)', flexShrink: 0 }}
+                    style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '40px', height: '40px', borderRadius: '10px', backgroundColor: 'rgba(255,255,255,0.1)', color: '#ffffff', textDecoration: 'none', transition: 'all 0.3s cubic-bezier(0.22,1,0.36,1)', flexShrink: 0 }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.transform = 'translateY(-4px) scale(1.1)';
-                      e.currentTarget.style.backgroundColor = '#0b0f19';
+                      e.currentTarget.style.backgroundColor = 'rgba(139,92,246,0.8)';
                       e.currentTarget.style.color = '#fff';
                       e.currentTarget.style.boxShadow = '0 8px 20px rgba(11,15,25,0.15)';
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                      e.currentTarget.style.backgroundColor = 'rgba(11,15,25,0.05)';
-                      e.currentTarget.style.color = '#475569';
+                      e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.08)';
+                      e.currentTarget.style.color = '#ffffff';
                       e.currentTarget.style.boxShadow = 'none';
                     }}
                   >
@@ -513,69 +489,10 @@ export default function PreFooterCTA() {
             </div>
           </div>
 
-          {/* ── Footer.png Background - Starts from Follow Us section downward ── */}
-          <div
-            aria-hidden="true"
-            style={{
-              position: 'absolute',
-              left: 0,
-              right: 0,
-              bottom: 0,
-              height: '280px',
-              zIndex: 0,
-              pointerEvents: 'none',
-              overflow: 'hidden',
-            }}
-          >
-            {/* Base Image - Anchored bottom, softly faded upward */}
-            <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                backgroundImage: `url(${FooterBg})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center bottom',
-                filter: 'brightness(1.1)',
-                opacity: 0.7,
-              }}
-            />
-            
-            {/* Upward fade mask - image emerges from bottom */}
-            <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                background: 'linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,0.8) 20%, rgba(255,255,255,0.4) 50%, transparent 100%)',
-              }}
-            />
-            
-            {/* Radial overlay for soft atmospheric blend */}
-            <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                background: 'radial-gradient(ellipse at center bottom, transparent 0%, rgba(255,255,255,0.3) 40%, rgba(255,255,255,0.6) 80%)',
-              }}
-            />
-            
-            {/* Subtle atmospheric glow */}
-            <div
-              style={{
-                position: 'absolute',
-                bottom: 0,
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '600px',
-                height: '200px',
-                background: 'radial-gradient(ellipse, rgba(99,102,241,0.04) 0%, transparent 70%)',
-                filter: 'blur(50px)',
-              }}
-            />
-          </div>
 
-          {/* ── Bottom bar ── */}
+          {/* â”€â”€ Bottom bar â”€â”€ */}
           <div style={{ 
-            borderTop: '1px solid rgba(11,15,25,0.06)', 
+            borderTop: '1px solid rgba(139,92,246,0.2)', 
             padding: '18px 0 24px', 
             display: 'flex', 
             alignItems: 'center', 
@@ -587,7 +504,7 @@ export default function PreFooterCTA() {
           }}
           className="footer-bottom-bar"
           >
-            <p style={{ fontSize: '13px', color: '#94a3b8', margin: 0 }} className="footer-copyright">@ 2026 iFranchise. All rights reserved.</p>
+            <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)', margin: 0 }} className="footer-copyright">@ 2026 iFranchise. All rights reserved.</p>
             <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }} className="footer-links">
               {[
                 { label: 'Privacy Policy',   path: '/privacy-policy' },
@@ -597,9 +514,9 @@ export default function PreFooterCTA() {
                   key={item.label}
                   href={item.path}
                   onClick={(e) => { e.preventDefault(); navigateTo(item.path); }}
-                  style={{ fontSize: '13px', color: '#94a3b8', textDecoration: 'none', transition: 'color 0.3s ease' }}
+                  style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color 0.3s ease' }}
                   onMouseEnter={(e) => { e.currentTarget.style.color = '#8b5cf6'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = '#94a3b8'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; }}
                 >
                   {item.label}
                 </a>
@@ -613,3 +530,6 @@ export default function PreFooterCTA() {
     </div>
   );
 }
+
+
+

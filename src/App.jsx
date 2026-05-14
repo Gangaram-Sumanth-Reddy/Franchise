@@ -121,7 +121,7 @@ function App() {
             if (window.__lenis) window.__lenis.scrollTo(window.scrollY, { immediate: true });
           }
         }, 0);
-      }, 80); // reduced from 150ms — snappier page transitions
+      }, 30); // snappy page transitions
     };
     window.addEventListener('popstate', onRouteChange);
     return () => {
