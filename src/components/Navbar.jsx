@@ -1,5 +1,6 @@
 ﻿import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import brandLogo from '../assets/BrandNav.png';
 
 // Premium Icon Components
 function ChevronIcon({ className = '' }) {
@@ -265,13 +266,9 @@ function Navbar() {
         <div className="flex flex-col mr-auto">
           <a href="/" onClick={handleLogoClick} className="inline-flex items-center gap-2 sm:gap-3">
             <img 
-              src="/logo.png" 
+              src={brandLogo} 
               alt="iFranchise" 
-              className="h-8 w-auto sm:h-10"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iOCIgZmlsbD0iIzBiMTIyMCIvPgo8dGV4dCB4PSIyMCIgeT0iMjQiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5pPC90ZXh0Pgo8L3N2Zz4K';
-              }}
+              className="h-8 w-8 sm:h-10 sm:w-10 rounded-xl"
             />
             <div className="flex flex-col">
               <span className="text-lg sm:text-2xl font-extrabold tracking-tight leading-tight text-[#0b0f19]">
@@ -318,9 +315,11 @@ function Navbar() {
                   {/* Header Section */}
                   <div className="border-b border-slate-100 p-4">
                     <a href="/" onClick={handleLogoClick} className="flex items-center gap-3">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0b0f19] shadow-lg">
-                        <span className="text-xl font-bold text-white">i</span>
-                      </div>
+                      <img 
+                        src={brandLogo} 
+                        alt="iFranchise" 
+                        className="h-12 w-12 rounded-xl"
+                      />
                       <div>
                         <span className="text-xl font-bold text-[#0b0f19]">iFranchise</span>
                         <p className="text-xs text-slate-500 mt-0.5">India's Trusted Franchise Growth Platform</p>
@@ -565,9 +564,11 @@ function Navbar() {
               {/* Mobile Header */}
               <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#0b0f19]">
-                    <span className="text-base font-bold text-white">i</span>
-                  </div>
+                  <img 
+                    src={brandLogo} 
+                    alt="iFranchise" 
+                    className="h-9 w-9 rounded-xl"
+                  />
                   <span className="text-lg font-bold text-[#0b0f19]">iFranchise</span>
                 </div>
                 <button

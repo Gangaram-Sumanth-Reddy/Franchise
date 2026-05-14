@@ -1,6 +1,7 @@
 ﻿import { useState } from 'react';
 import { motion } from 'framer-motion';
 import contactImage2 from '../assets/contact2.png';
+import { submitContactForm } from '@/lib';
 
 function ContactPage() {
   const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ function ContactPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState('');
   const [openFaq, setOpenFaq] = useState(0);
 
   const handleInputChange = (field, value) => {
@@ -21,24 +23,36 @@ function ContactPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Prevent duplicate submissions while one is in flight
+    if (isSubmitting) return;
+
     setIsSubmitting(true);
-    
+    setSubmitError('');
+
+    const result = await submitContactForm(formData);
+
+    setIsSubmitting(false);
+
+    if (!result.success) {
+      setSubmitError(result.error || 'Something went wrong. Please try again.');
+      return;
+    }
+
+    // Success — show the existing success UI then reset
+    setIsSubmitted(true);
     setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      
-      setTimeout(() => {
-        setIsSubmitted(false);
-        setFormData({
-          fullName: '',
-          contactNumber: '',
-          email: '',
-          website: '',
-          company: '',
-          message: ''
-        });
-      }, 3000);
-    }, 1500);
+      setIsSubmitted(false);
+      setSubmitError('');
+      setFormData({
+        fullName: '',
+        contactNumber: '',
+        email: '',
+        website: '',
+        company: '',
+        message: ''
+      });
+    }, 3000);
   };
 
   const FAQ_ITEMS = [
@@ -445,6 +459,11 @@ function ContactPage() {
                         'Send Message'
                       )}
                     </motion.button>
+
+                    {/* Error message — only shown on submission failure, uses existing text styles */}
+                    {submitError && (
+                      <p className="text-sm text-red-600 text-center pt-1">{submitError}</p>
+                    )}
                   </form>
                 )}
               </div>

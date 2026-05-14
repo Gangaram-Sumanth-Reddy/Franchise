@@ -3210,6 +3210,47 @@ function Hero() {
         {/* ── thin divider line replaced by gradient fade ── */}
         <div className="relative z-10 mx-auto max-w-[1280px] px-8"><div style={{ height: '1px', background: 'linear-gradient(90deg,transparent,rgba(139,92,246,0.3),transparent)' }} /></div>
 
+        {/* ── FEATURED OPPORTUNITIES ── */}
+        <div className="relative z-10 mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8 py-12">
+          <div className="text-center mb-10">
+            <span className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-violet-300 mb-4"
+              style={{ background: 'rgba(139,92,246,0.15)', border: '1px solid rgba(139,92,246,0.3)', backdropFilter: 'blur(8px)' }}>
+              <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
+              Opportunities
+            </span>
+            <h2 className="text-3xl font-extrabold text-white sm:text-4xl mb-3">Featured Franchises</h2>
+            <p className="mx-auto max-w-xl text-sm text-white/55 sm:text-base leading-relaxed">
+              Curated, high-performing brands ready for expansion and investment.
+            </p>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {featuredFranchises.slice(0, 3).map((franchise, i) => (
+              <div key={franchise.id} className="group relative overflow-hidden rounded-2xl flex flex-col"
+                style={{ background: 'linear-gradient(145deg, #12082a 0%, #0e0620 50%, #0a0618 100%)', border: '1px solid rgba(139,92,246,0.18)', boxShadow: '0 4px 24px rgba(0,0,0,0.4)', transition: 'transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease, border-color 0.3s ease', animation: `cardReveal 0.4s ease ${i*0.08+0.1}s both` }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-5px)'; e.currentTarget.style.boxShadow = '0 20px 50px rgba(109,40,217,0.3)'; e.currentTarget.style.borderColor = 'rgba(139,92,246,0.45)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.4)'; e.currentTarget.style.borderColor = 'rgba(139,92,246,0.18)'; }}>
+                <FranchiseCard franchise={franchise} darkMode />
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-8">
+            <button type="button"
+              onClick={() => { window.history.pushState({}, '', '/franchise-opportunities'); window.dispatchEvent(new PopStateEvent('popstate')); }}
+              className="group inline-flex items-center gap-2.5 rounded-full px-8 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5"
+              style={{ background: 'linear-gradient(135deg,#7c3aed,#4f46e5)', boxShadow: '0 4px 20px rgba(124,58,237,0.4)' }}
+              onMouseEnter={e => e.currentTarget.style.boxShadow = '0 8px 30px rgba(124,58,237,0.6)'}
+              onMouseLeave={e => e.currentTarget.style.boxShadow = '0 4px 20px rgba(124,58,237,0.4)'}>
+              View All Opportunities
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 transition-transform duration-200 group-hover:translate-x-1"><FiArrowRight className="h-3 w-3" /></span>
+            </button>
+          </div>
+        </div>
+
+        {/* ── thin divider line replaced by gradient fade ── */}
+        <div className="relative z-10 mx-auto max-w-[1280px] px-8"><div style={{ height: '1px', background: 'linear-gradient(90deg,transparent,rgba(139,92,246,0.3),transparent)' }} /></div>
+
         {/* ── WHO WE SERVE ── */}
         <div className="relative z-10 mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8 py-14">
           <div className="text-center mb-12">
@@ -3469,44 +3510,6 @@ function Hero() {
 
         {/* thin gradient divider */}
         <div className="relative z-10 mx-auto max-w-[1280px] px-8"><div style={{ height: '1px', background: 'linear-gradient(90deg,transparent,rgba(139,92,246,0.3),transparent)' }} /></div>
-
-        {/* ── FEATURED OPPORTUNITIES ── */}
-        <div className="relative z-10 mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-center mb-10">
-            <span className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-violet-300 mb-4"
-              style={{ background: 'rgba(139,92,246,0.15)', border: '1px solid rgba(139,92,246,0.3)', backdropFilter: 'blur(8px)' }}>
-              <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
-              Opportunities
-            </span>
-            <h2 className="text-3xl font-extrabold text-white sm:text-4xl mb-3">Featured Franchises</h2>
-            <p className="mx-auto max-w-xl text-sm text-white/55 sm:text-base leading-relaxed">
-              Curated, high-performing brands ready for expansion and investment.
-            </p>
-          </div>
-
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {featuredFranchises.slice(0, 3).map((franchise, i) => (
-              <div key={franchise.id} className="group relative overflow-hidden rounded-2xl flex flex-col"
-                style={{ background: 'linear-gradient(145deg, #12082a 0%, #0e0620 50%, #0a0618 100%)', border: '1px solid rgba(139,92,246,0.18)', boxShadow: '0 4px 24px rgba(0,0,0,0.4)', transition: 'transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease, border-color 0.3s ease', animation: `cardReveal 0.4s ease ${i*0.08+0.1}s both` }}
-                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-5px)'; e.currentTarget.style.boxShadow = '0 20px 50px rgba(109,40,217,0.3)'; e.currentTarget.style.borderColor = 'rgba(139,92,246,0.45)'; }}
-                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.4)'; e.currentTarget.style.borderColor = 'rgba(139,92,246,0.18)'; }}>
-                <FranchiseCard franchise={franchise} darkMode />
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center mt-8">
-            <button type="button"
-              onClick={() => { window.history.pushState({}, '', '/franchise-opportunities'); window.dispatchEvent(new PopStateEvent('popstate')); }}
-              className="group inline-flex items-center gap-2.5 rounded-full px-8 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5"
-              style={{ background: 'linear-gradient(135deg,#7c3aed,#4f46e5)', boxShadow: '0 4px 20px rgba(124,58,237,0.4)' }}
-              onMouseEnter={e => e.currentTarget.style.boxShadow = '0 8px 30px rgba(124,58,237,0.6)'}
-              onMouseLeave={e => e.currentTarget.style.boxShadow = '0 4px 20px rgba(124,58,237,0.4)'}>
-              View All Opportunities
-              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 transition-transform duration-200 group-hover:translate-x-1"><FiArrowRight className="h-3 w-3" /></span>
-            </button>
-          </div>
-        </div>
 
       </div>
 

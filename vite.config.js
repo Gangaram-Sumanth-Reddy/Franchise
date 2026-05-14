@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { resolve } from 'path'
 
 export default defineConfig({
   plugins: [
@@ -7,10 +8,22 @@ export default defineConfig({
       fastRefresh: true,
     }),
   ],
+  resolve: {
+    alias: {
+      // Allows: import { submitContactForm } from '@/lib'
+      '@': resolve(__dirname, 'src'),
+    },
+  },
   build: {
     rollupOptions: {
       output: {
         manualChunks(id) {
+          if (id.includes('node_modules/@supabase') || id.includes('node_modules/ws')) {
+            return 'supabase';
+          }
+          if (id.includes('node_modules/zod')) {
+            return 'zod';
+          }
           if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
             return 'react-core';
           }

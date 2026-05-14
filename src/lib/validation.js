@@ -38,8 +38,11 @@ const phoneField = z
 
 const urlField = z
   .string()
-  .url('Please enter a valid URL (include https://)')
   .max(500, 'URL is too long')
+  .refine(
+    (v) => !v || v.startsWith('http://') || v.startsWith('https://'),
+    'Please enter a valid URL (include https://)'
+  )
   .optional()
   .or(z.literal(''));
 

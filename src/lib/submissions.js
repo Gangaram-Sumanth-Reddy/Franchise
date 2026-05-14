@@ -44,11 +44,13 @@ function cleanPayload(obj) {
 
 /**
  * Shared insert wrapper — handles the Supabase call and maps errors.
+ * Logs the full Supabase error object so the exact failure is visible
+ * in the browser console during debugging.
  */
 async function insertRow(table, payload) {
   if (!isSupabaseConfigured()) {
-    // Dev mode: log the payload and return a mock success so the UI works
-    // without a real Supabase project during development.
+    // Dev/misconfigured mode: log the payload so you can verify the shape
+    // without a real Supabase project.
     console.info(`[iFranchise DEV] Would insert into "${table}":`, payload);
     return { success: true, data: { id: 'dev-mock-id', ...payload } };
   }
@@ -60,7 +62,14 @@ async function insertRow(table, payload) {
     .single();
 
   if (error) {
-    console.error(`[iFranchise] Supabase insert error (${table}):`, error);
+    // Log every field of the Supabase error for precise debugging
+    console.error(`[iFranchise] Supabase insert failed — table: "${table}"`, {
+      code:    error.code,
+      message: error.message,
+      details: error.details,
+      hint:    error.hint,
+      payload,
+    });
     return {
       success: false,
       error: 'Something went wrong. Please try again or contact us directly.',
@@ -86,7 +95,10 @@ export async function submitContactForm(formData) {
 
   // 2. Validate
   const validation = validate(contactFormSchema, formData);
-  if (!validation.success) return { success: false, error: 'Please fix the errors below.', errors: validation.errors };
+  if (!validation.success) {
+    console.error('[iFranchise] Contact form validation failed:', validation.errors);
+    return { success: false, error: 'Please fix the errors below.', errors: validation.errors };
+  }
 
   // 3. Build payload
   const payload = {
@@ -96,8 +108,6 @@ export async function submitContactForm(formData) {
     website:        validation.data.website || null,
     company:        validation.data.company || null,
     message:        validation.data.message,
-    source_page:    'contact',
-    status:         'new',
   };
 
   // 4. Insert

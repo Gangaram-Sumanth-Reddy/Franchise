@@ -1,6 +1,6 @@
-﻿import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-// â”€â”€ Navigation helper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Navigation helper ─────────────────────────────────────────────────────────
 function navigateTo(path) {
   // Save scroll position before navigating away from home
   if (window.location.pathname === '/') {
@@ -10,7 +10,7 @@ function navigateTo(path) {
   window.dispatchEvent(new PopStateEvent('popstate'));
 }
 
-// â”€â”€ Inline SVG logos â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Inline SVG logos ──────────────────────────────────────────────────────────
 const LOGOS = [
   {
     name: 'Quantum',
@@ -73,7 +73,7 @@ const LOGOS = [
 
 const LOGO_TRACK = [...LOGOS, ...LOGOS, ...LOGOS];
 
-// â”€â”€ Link dot indicator â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Link dot indicator ────────────────────────────────────────────────────────
 function LinkDot({ type, color }) {
   if (!type || type === 'none') return null;
   return (
@@ -91,7 +91,7 @@ function LinkDot({ type, color }) {
   );
 }
 
-// â”€â”€ Hiring badge â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Hiring badge ──────────────────────────────────────────────────────────────
 function HiringBadge() {
   return (
     <span
@@ -115,7 +115,7 @@ function HiringBadge() {
   );
 }
 
-// â”€â”€ Footer link columns â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Footer link columns ───────────────────────────────────────────────────────
 const FOOTER_COLS = [
   {
     heading: 'Company',
@@ -152,7 +152,7 @@ const FOOTER_COLS = [
   },
 ];
 
-// â”€â”€ Social icons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Social icons ──────────────────────────────────────────────────────────────
 const SOCIALS = [
   {
     label: 'LinkedIn',
@@ -192,7 +192,7 @@ const SOCIALS = [
   },
 ];
 
-// â”€â”€ Quick Connect â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Quick Connect ─────────────────────────────────────────────────────────────
 const QUICK_CONNECT = [
   {
     icon: (
@@ -202,11 +202,11 @@ const QUICK_CONNECT = [
       </svg>
     ),
     label: 'Head Office',
-    value: '12th Floor, Prestige Tower, MG Road, Bengaluru â€“ 560001',
+    value: '12th Floor, Prestige Tower, MG Road, Bengaluru – 560001',
   },
 ];
 
-// â”€â”€ Main component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Main component ────────────────────────────────────────────────────────────
 export default function PreFooterCTA() {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -242,14 +242,14 @@ export default function PreFooterCTA() {
   return (
     <div style={{ position: 'relative', overflow: 'hidden', background: 'linear-gradient(180deg, #0a0618 0%, #0f0a1e 40%, #130a2e 100%)' }}>
 
-      {/* Living animated orbs â€” same as page sections */}
+      {/* Living animated orbs — same as page sections */}
       <div aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 0 }}>
         <div style={{ position: 'absolute', top: '-10%', left: '-5%', width: '55vw', height: '55vw', background: 'radial-gradient(circle, rgba(139,92,246,0.45) 0%, rgba(109,40,217,0.18) 42%, transparent 70%)', filter: 'blur(90px)', animation: 'footerBlob1 16s ease-in-out infinite' }} />
         <div style={{ position: 'absolute', top: '10%', right: '-8%', width: '50vw', height: '50vw', background: 'radial-gradient(circle, rgba(99,102,241,0.4) 0%, rgba(67,56,202,0.15) 45%, transparent 70%)', filter: 'blur(100px)', animation: 'footerBlob2 20s ease-in-out infinite' }} />
         <div style={{ position: 'absolute', bottom: '5%', left: '25%', width: '50vw', height: '40vw', background: 'radial-gradient(ellipse, rgba(168,85,247,0.35) 0%, rgba(124,58,237,0.12) 45%, transparent 70%)', filter: 'blur(110px)', animation: 'footerBlob3 24s ease-in-out infinite' }} />
       </div>
 
-      {/* â”€â”€ Unified card â”€â”€ */}
+      {/* ── Unified card ── */}
       <div
         ref={ref}
         style={{
@@ -269,9 +269,9 @@ export default function PreFooterCTA() {
         {/* Inner gradient shimmer */}
         <div aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(139,92,246,0.08) 0%, transparent 50%, rgba(99,102,241,0.06) 100%)', pointerEvents: 'none', zIndex: 0 }} />
 
-        {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-            TOP â€” CTA
-        â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+        {/* ══════════════════════════════════════════
+            TOP — CTA
+        ══════════════════════════════════════════ */}
         <div
           style={{
             padding: 'clamp(56px, 8vw, 96px) clamp(24px, 6vw, 80px) 60px',
@@ -280,7 +280,7 @@ export default function PreFooterCTA() {
             zIndex: 1,
           }}
         >
-          {/* Heading â€” staggered transition reveal */}
+          {/* Heading — staggered transition reveal */}
           <div style={{ marginBottom: '20px' }}>
             <h2 style={{ fontSize: 'clamp(30px, 5vw, 54px)', fontWeight: 700, lineHeight: 1.15, letterSpacing: '-0.025em', color: '#ffffff', margin: '0 0 6px', ...reveal(0.05) }}>
               Ready to Build, Invest, or Expand?
@@ -300,7 +300,7 @@ export default function PreFooterCTA() {
 
           {/* Buttons - Both Black with Premium Animations */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '14px', flexWrap: 'wrap', marginBottom: '44px', ...reveal(0.44) }}>
-            {/* Primary â€” Explore Opportunities */}
+            {/* Primary — Explore Opportunities */}
             <button
               onClick={() => navigateTo('/franchise-opportunities')}
               className="cta-button-primary"
@@ -340,7 +340,7 @@ export default function PreFooterCTA() {
               </span>
             </button>
 
-            {/* Secondary â€” Book Strategic Call (Changed from List Your Brand) */}
+            {/* Secondary — Book Strategic Call (Changed from List Your Brand) */}
             <button
               onClick={() => window.open('https://cal.com/ifranchise/30min', '_blank')}
               className="cta-button-secondary"
@@ -398,9 +398,9 @@ export default function PreFooterCTA() {
           </div>
         </div>
 
-        {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-            BOTTOM â€” FOOTER CONTENT
-        â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+        {/* ══════════════════════════════════════════
+            BOTTOM — FOOTER CONTENT
+        ══════════════════════════════════════════ */}
         <div
           style={{
             borderTop: '1px solid rgba(139,92,246,0.2)',
@@ -411,13 +411,13 @@ export default function PreFooterCTA() {
         >
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '40px 32px', marginBottom: '48px', position: 'relative', zIndex: 1 }}>
 
-            {/* â”€â”€ Col 1: Brand + Address â”€â”€ */}
+            {/* ── Col 1: Brand + Address ── */}
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
                 <div style={{ width: '34px', height: '34px', borderRadius: '9px', backgroundColor: '#0b0f19', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <span style={{ color: '#fff', fontWeight: 800, fontSize: '14px' }}>iF</span>
                 </div>
-                <span style={{ fontWeight: 800, fontSize: '17px', color: '#ffffff', letterSpacing: '-0.02em', fontWeight: 800 }}>iFranchise</span>
+                <span style={{ fontWeight: 800, fontSize: '17px', color: '#ffffff', letterSpacing: '-0.02em' }}>iFranchise</span>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {QUICK_CONNECT.map((item) => (
@@ -431,7 +431,7 @@ export default function PreFooterCTA() {
               </div>
             </div>
 
-            {/* â”€â”€ Cols 2 & 3: Link columns â”€â”€ */}
+            {/* ── Cols 2 & 3: Link columns ── */}
             {FOOTER_COLS.map((col) => (
               <div key={col.heading}>
                 <p style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(255,255,255,0.55)', marginBottom: '16px' }}>{col.heading}</p>
@@ -459,7 +459,7 @@ export default function PreFooterCTA() {
               </div>
             ))}
 
-            {/* â”€â”€ Col 4: Socials â”€â”€ */}
+            {/* ── Col 4: Socials ── */}
             <div style={{ position: 'relative', zIndex: 1 }}>
               <p style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'rgba(255,255,255,0.55)', marginBottom: '16px', textAlign: 'center' }}>Follow Us</p>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
@@ -490,7 +490,7 @@ export default function PreFooterCTA() {
           </div>
 
 
-          {/* â”€â”€ Bottom bar â”€â”€ */}
+          {/* ── Bottom bar ── */}
           <div style={{ 
             borderTop: '1px solid rgba(139,92,246,0.2)', 
             padding: '18px 0 24px', 
